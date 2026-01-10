@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RoomGlowUp | Luxury Interior Design</title>
+<style>
+/* Loading the elegant 'Pinyon Script' and 'Montserrat' for the sub-text */
+@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Montserrat:wght@300&display=swap');
+
+body, html {
+margin: 0;
+padding: 0;
+width: 100%;
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+/* Using your new dark blue/midnight wallpaper */
+background: #051622 url('wallpaper.jpg') no-repeat center center fixed;
+background-size: cover;
+font-family: 'Montserrat', sans-serif;
+overflow: hidden;
+}
+
+.hero-section {
+text-align: center;
+padding: 20px;
+/* This adds a slight dark fade behind the text to make it pop even more */
+background: rgba(0, 0, 0, 0.1);
+border-radius: 20px;
+}
+
+h1 {
+font-family: 'Pinyon Script', cursive;
+font-size: clamp(70px, 12vw, 150px);
+margin: 0;
+line-height: 1.1;
+
+/* COOL CHAMPAGNE GOLD GRADIENT */
+background: linear-gradient(
+to bottom,
+#fcf3cf 0%, /* Very pale highlight */
+#d4af37 45%, /* Classic Gold */
+#c5a028 55%, /* Brushed texture midpoint */
+#8a6d1a 100% /* Deep bronze shadow */
+);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+
+/* SHARPNESS & SHINE */
+/* The black drop-shadow makes the thin gold lines visible against the blue */
+filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.8)) drop-shadow(0px 0px 15px rgba(212, 175, 55, 0.3));
+}
+
+p {
+color: #d4af37; /* Matching the gold leaves in your wallpaper */
+font-size: clamp(12px, 2vw, 18px);
+text-transform: uppercase;
+letter-spacing: 10px; /* Modern, spaced-out luxury look */
+margin-top: 5px;
+font-weight: 300;
+text-shadow: 1px 1px 3px black;
+}
+
+</style>
+</head>
+<body>
+
+<div class="hero-section">
+<h1>RoomGlowUp</h1>
+<p>Your Dream Space Come To Life</p>
+</div>
+
+</body>
+</html>
