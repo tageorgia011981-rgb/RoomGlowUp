@@ -7,120 +7,98 @@
     <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Hollywood Studio Palette - Chrome & Deep Slate */
-            --chrome-light: #ffffff;
-            --chrome-mid: #a0a0a0;
-            --chrome-dark: #222222;
-            --studio-white: #ffffff;
+            --chrome-top: #ffffff;
+            --chrome-mid: #b0b0b0;
+            --chrome-dark: #333333;
             --heavy-glide: cubic-bezier(0.7, 0, 0.3, 1);
         }
 
         html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000; /* Framing sides */
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            background-color: #000;
             font-family: 'Limelight', cursive;
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        /* THE BACKGROUND LAYER */
+        /* DARK PLUM BACKGROUND */
         .site-stage {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             background: url('Assets/mainbackground3.jpg') no-repeat center center;
-            background-size: contain; 
+            background-size: cover; 
             z-index: -10;
         }
 
         section {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            width: 100vw; height: 100vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: flex-start;
+            padding-top: 60px;
             background: transparent;
         }
 
-        /* --- POLISHED CHROME HEADERS (MODERN NOIR) --- */
+        /* MASSIVE CHROME HEADER */
         .main-header {
-            font-size: 140px;
-            margin: 0;
-            text-transform: uppercase;
-            background: linear-gradient(to bottom, var(--chrome-light) 0%, var(--chrome-mid) 45%, var(--chrome-dark) 50%, var(--chrome-mid) 55%, var(--chrome-light) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.9));
-            letter-spacing: 6px;
+            font-size: 180px; margin: 0;
+            text-transform: uppercase; text-align: center;
+            line-height: 1;
+            background: linear-gradient(to bottom, var(--chrome-top) 0%, var(--chrome-mid) 48%, var(--chrome-dark) 52%, var(--chrome-mid) 100%);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            filter: drop-shadow(0 25px 35px rgba(0,0,0,0.9));
+            letter-spacing: 10px;
         }
 
         .sub-header {
-            font-size: 45px;
-            max-width: 1000px;
-            margin: 10px auto 40px auto;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 14px; /* Editorial spacing */
-            opacity: 0.8;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.7));
+            font-size: 42px; max-width: 1200px;
+            margin: 20px auto 60px auto;
+            color: #ffffff; text-transform: uppercase;
+            letter-spacing: 15px; text-align: center;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.8));
         }
 
-        /* --- THE PULL TAB CARDS (SHARP ARCHITECTURAL STYLE) --- */
+        /* CHROME HOLDERS WITH WHITE INSETS FOR BLACK TEXT */
         #pull-tabs-row {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            gap: 35px;
-            width: 100%;
+            display: flex; gap: 40px;
         }
 
         .pull-tab {
             cursor: pointer;
-            width: 220px;
-            height: 320px; 
-            background-color: var(--studio-white); 
-            border: 1px solid #ddd;
-            border-radius: 0; /* Sharp corners for a serious, high-end look */
-            box-shadow: 0 40px 70px rgba(0,0,0,0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 220px; height: 320px; 
+            /* Chrome Metallic Frame */
+            background: linear-gradient(145deg, var(--chrome-mid), var(--chrome-dark)); 
+            border: 2px solid var(--chrome-top);
+            box-shadow: 0 45px 80px rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center;
             transition: transform 0.6s var(--heavy-glide), box-shadow 0.6s ease;
+            position: relative;
+            padding: 12px; /* This defines the thickness of the Chrome Frame */
         }
 
         .pull-tab img {
-            width: 90%;
-            height: 90%;
+            width: 100%; height: 100%;
             object-fit: contain;
+            /* Put white back inside so the black text pops */
+            background-color: #ffffff; 
+            z-index: 1;
+            /* Crisp shadow for the white insert */
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
         }
 
         .pull-tab:hover {
-            transform: translateY(-30px);
-            box-shadow: 0 60px 100px rgba(0,0,0,1);
+            transform: translateY(-45px);
+            box-shadow: 0 75px 120px rgba(0,0,0,1);
         }
 
-        /* --- DESIGN ZONE ASSETS --- */
         #rooms-cabinet {
-            position: fixed;
-            left: -800px; 
-            top: 50%; 
-            transform: translateY(-50%);
-            width: 750px; 
+            position: fixed; left: -850px; top: 50%; 
+            transform: translateY(-50%); width: 800px; 
             transition: left 1.2s var(--heavy-glide);
             z-index: 1000;
         }
-
-        #rooms-cabinet.active {
-            left: 40px;
-        }
+        #rooms-cabinet.active { left: 40px; }
     </style>
 </head>
 <body>
@@ -128,25 +106,15 @@
     <div class="site-stage"></div>
 
     <section id="hero-entrance">
-        <h1 class="main-header">Studio</h1>
-        <div class="sub-header">Room Glow Up</div>
+        <h1 class="main-header">Room Glow Up</h1>
+        <div class="sub-header">Where Your Dream Space Comes To Life</div>
 
         <div id="pull-tabs-row">
-            <div class="pull-tab" onclick="actionRooms()">
-                <img src="Assets/pulltabs_rooms.png" alt="Rooms">
-            </div>
-            <div class="pull-tab">
-                <img src="Assets/pulltabs_furniturecatalog.png" alt="Furniture">
-            </div>
-            <div class="pull-tab">
-                <img src="Assets/pulltabs_decorcloset.png" alt="Decor">
-            </div>
-            <div class="pull-tab">
-                <img src="Assets/pulltabs_inspogallery.png" alt="Inspo">
-            </div>
-            <div class="pull-tab">
-                <img src="Assets/pulltabs_savecheckout.png" alt="Checkout">
-            </div>
+            <div class="pull-tab" onclick="actionRooms()"><img src="Assets/pulltabs_rooms.png"></div>
+            <div class="pull-tab"><img src="Assets/pulltabs_furniturecatalog.png"></div>
+            <div class="pull-tab"><img src="Assets/pulltabs_decorcloset.png"></div>
+            <div class="pull-tab"><img src="Assets/pulltabs_inspogallery.png"></div>
+            <div class="pull-tab"><img src="Assets/pulltabs_savecheckout.png"></div>
         </div>
     </section>
 
@@ -158,10 +126,7 @@
 
     <script>
         function actionRooms() {
-            // Smoothly move the camera down
             document.getElementById('design-zone').scrollIntoView({ behavior: 'smooth' });
-            
-            // Wait for scroll to finish, then slide in the cabinet
             setTimeout(() => {
                 document.getElementById('rooms-cabinet').classList.add('active');
             }, 800);
