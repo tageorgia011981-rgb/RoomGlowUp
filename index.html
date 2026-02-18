@@ -46,7 +46,9 @@
             text-transform: uppercase; text-align: center;
             line-height: 1;
             background: linear-gradient(to bottom, var(--chrome-top) 0%, var(--chrome-mid) 48%, var(--chrome-dark) 52%, var(--chrome-mid) 100%);
-            -webkit-background-clip: text; background-clip: text; color: transparent;
+            -webkit-background-clip: text; 
+            background-clip: text; 
+            color: transparent;
             filter: drop-shadow(0 25px 35px rgba(0,0,0,0.9));
             letter-spacing: 10px;
         }
@@ -59,7 +61,7 @@
             filter: drop-shadow(0 10px 15px rgba(0,0,0,0.8));
         }
 
-        /* CHROME HOLDERS WITH WHITE INSETS FOR BLACK TEXT */
+        /* --- THE BOX KILLER SECTION --- */
         #pull-tabs-row {
             display: flex; gap: 40px;
         }
@@ -67,29 +69,27 @@
         .pull-tab {
             cursor: pointer;
             width: 220px; height: 320px; 
-            /* Chrome Metallic Frame */
-            background: linear-gradient(145deg, var(--chrome-mid), var(--chrome-dark)); 
-            border: 2px solid var(--chrome-top);
-            box-shadow: 0 45px 80px rgba(0,0,0,0.9);
+            /* REMOVED: All background, borders, and padding that caused the boxes */
+            background: transparent !important; 
+            border: none !important;
             display: flex; align-items: center; justify-content: center;
-            transition: transform 0.6s var(--heavy-glide), box-shadow 0.6s ease;
+            transition: transform 0.6s var(--heavy-glide);
             position: relative;
-            padding: 12px; /* This defines the thickness of the Chrome Frame */
         }
 
         .pull-tab img {
             width: 100%; height: 100%;
             object-fit: contain;
-            /* Put white back inside so the black text pops */
-            background-color: #ffffff; 
+            /* REMOVED: background-color: #ffffff; (This was the white box) */
+            background-color: transparent !important;
             z-index: 1;
-            /* Crisp shadow for the white insert */
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+            /* Shadow now hugs the shape of your image only */
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8));
         }
 
         .pull-tab:hover {
             transform: translateY(-45px);
-            box-shadow: 0 75px 120px rgba(0,0,0,1);
+            filter: brightness(1.1);
         }
 
         #rooms-cabinet {
