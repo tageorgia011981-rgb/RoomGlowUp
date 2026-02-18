@@ -9,7 +9,7 @@
         :root {
             --chrome-top: #ffffff;
             --chrome-mid: #b0b0b0;
-            --chrome-dark: #333333;
+            --chrome-dark: #444444;
             --heavy-glide: cubic-bezier(0.7, 0, 0.3, 1);
         }
 
@@ -22,7 +22,7 @@
             scroll-behavior: smooth;
         }
 
-        /* DARK PLUM BACKGROUND */
+        /* --- THE STAGE (PLUM RAINDROPS) --- */
         .site-stage {
             position: fixed;
             top: 0; left: 0;
@@ -36,40 +36,57 @@
             width: 100vw; height: 100vh;
             display: flex; flex-direction: column;
             align-items: center; justify-content: flex-start;
-            padding-top: 60px;
+            padding-top: 60px; 
             background: transparent;
         }
 
-        /* MASSIVE CHROME HEADER */
+        /* --- REFINED CHROME HEADER --- */
         .main-header {
-            font-size: 180px; margin: 0;
-            text-transform: uppercase; text-align: center;
-            line-height: 1;
-            background: linear-gradient(to bottom, var(--chrome-top) 0%, var(--chrome-mid) 48%, var(--chrome-dark) 52%, var(--chrome-mid) 100%);
+            font-size: 45px;
+            margin: 0;
+            text-transform: uppercase; 
+            text-align: center;
+            line-height: 1.2;
+            letter-spacing: 12px;
+            white-space: nowrap;
+            background: linear-gradient(90deg, 
+                var(--chrome-dark) 0%, 
+                var(--chrome-mid) 25%, 
+                var(--chrome-top) 50%, 
+                var(--chrome-mid) 75%, 
+                var(--chrome-dark) 100%);
+            background-size: 200% auto;
             -webkit-background-clip: text; 
             background-clip: text; 
             color: transparent;
-            filter: drop-shadow(0 25px 35px rgba(0,0,0,0.9));
-            letter-spacing: 10px;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.9));
+            animation: chromeSweep 6s linear infinite;
+        }
+
+        @keyframes chromeSweep {
+            to { background-position: 200% center; }
         }
 
         .sub-header {
-            font-size: 42px; max-width: 1200px;
-            margin: 20px auto 60px auto;
-            color: #ffffff; text-transform: uppercase;
-            letter-spacing: 15px; text-align: center;
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.8));
+            font-size: 18px;
+            max-width: 800px;
+            margin: 5px auto 60px auto;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            text-align: center;
+            opacity: 0.7;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8));
         }
 
-        /* --- THE BOX KILLER SECTION --- */
+        /* --- PULL TABS: WHITE INSET + DEPTH + GLOW --- */
         #pull-tabs-row {
-            display: flex; gap: 40px;
+            display: flex; gap: 30px;
         }
 
         .pull-tab {
             cursor: pointer;
-            width: 220px; height: 320px; 
-            /* REMOVED: All background, borders, and padding that caused the boxes */
+            width: 180px; height: 280px; 
             background: transparent !important; 
             border: none !important;
             display: flex; align-items: center; justify-content: center;
@@ -80,18 +97,27 @@
         .pull-tab img {
             width: 100%; height: 100%;
             object-fit: contain;
-            /* REMOVED: background-color: #ffffff; (This was the white box) */
-            background-color: transparent !important;
-            z-index: 1;
-            /* Shadow now hugs the shape of your image only */
-            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8));
+            /* FORCES WHITE INSIDE THE CHROME FRAME */
+            background-color: #ffffff !important; 
+            border-radius: 4px; /* Keeps white tucked behind metal edges */
+            /* DEPTH: Heavy shadow for that 3D lift */
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.9));
+            transition: all 0.4s ease;
         }
 
+        /* LIFT & GLOW ON HOVER */
         .pull-tab:hover {
-            transform: translateY(-45px);
-            filter: brightness(1.1);
+            transform: translateY(-35px); /* Lift */
         }
 
+        .pull-tab:hover img {
+            /* GLOW: Spotlight effect */
+            filter: brightness(1.2) 
+                    drop-shadow(0 0 20px rgba(255,255,255,0.4)) 
+                    drop-shadow(0 25px 35px rgba(0,0,0,1));
+        }
+
+        /* --- ROOMS CABINET --- */
         #rooms-cabinet {
             position: fixed; left: -850px; top: 50%; 
             transform: translateY(-50%); width: 800px; 
