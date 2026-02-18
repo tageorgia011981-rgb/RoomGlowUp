@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Glow Up | Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Hollywood Studio Palette - Chrome & Deep Slate */
+            --chrome-light: #ffffff;
+            --chrome-mid: #a0a0a0;
+            --chrome-dark: #222222;
+            --studio-white: #ffffff;
+            --heavy-glide: cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000; /* Framing sides */
+            font-family: 'Limelight', cursive;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* THE BACKGROUND LAYER */
+        .site-stage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: url('Assets/mainbackground3.jpg') no-repeat center center;
+            background-size: contain; 
+            z-index: -10;
+        }
+
+        section {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+        }
+
+        /* --- POLISHED CHROME HEADERS (MODERN NOIR) --- */
+        .main-header {
+            font-size: 140px;
+            margin: 0;
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, var(--chrome-light) 0%, var(--chrome-mid) 45%, var(--chrome-dark) 50%, var(--chrome-mid) 55%, var(--chrome-light) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.9));
+            letter-spacing: 6px;
+        }
+
+        .sub-header {
+            font-size: 45px;
+            max-width: 1000px;
+            margin: 10px auto 40px auto;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 14px; /* Editorial spacing */
+            opacity: 0.8;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.7));
+        }
+
+        /* --- THE PULL TAB CARDS (SHARP ARCHITECTURAL STYLE) --- */
+        #pull-tabs-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 35px;
+            width: 100%;
+        }
+
+        .pull-tab {
+            cursor: pointer;
+            width: 220px;
+            height: 320px; 
+            background-color: var(--studio-white); 
+            border: 1px solid #ddd;
+            border-radius: 0; /* Sharp corners for a serious, high-end look */
+            box-shadow: 0 40px 70px rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.6s var(--heavy-glide), box-shadow 0.6s ease;
+        }
+
+        .pull-tab img {
+            width: 90%;
+            height: 90%;
+            object-fit: contain;
+        }
+
+        .pull-tab:hover {
+            transform: translateY(-30px);
+            box-shadow: 0 60px 100px rgba(0,0,0,1);
+        }
+
+        /* --- DESIGN ZONE ASSETS --- */
+        #rooms-cabinet {
+            position: fixed;
+            left: -800px; 
+            top: 50%; 
+            transform: translateY(-50%);
+            width: 750px; 
+            transition: left 1.2s var(--heavy-glide);
+            z-index: 1000;
+        }
+
+        #rooms-cabinet.active {
+            left: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="site-stage"></div>
+
+    <section id="hero-entrance">
+        <h1 class="main-header">Studio</h1>
+        <div class="sub-header">Room Glow Up</div>
+
+        <div id="pull-tabs-row">
+            <div class="pull-tab" onclick="actionRooms()">
+                <img src="Assets/pulltabs_rooms.png" alt="Rooms">
+            </div>
+            <div class="pull-tab">
+                <img src="Assets/pulltabs_furniturecatalog.png" alt="Furniture">
+            </div>
+            <div class="pull-tab">
+                <img src="Assets/pulltabs_decorcloset.png" alt="Decor">
+            </div>
+            <div class="pull-tab">
+                <img src="Assets/pulltabs_inspogallery.png" alt="Inspo">
+            </div>
+            <div class="pull-tab">
+                <img src="Assets/pulltabs_savecheckout.png" alt="Checkout">
+            </div>
+        </div>
+    </section>
+
+    <section id="design-zone">
+        <div id="rooms-cabinet">
+            <img src="Assets/roomscabinet.png" style="width:100%;">
+        </div>
+    </section>
+
+    <script>
+        function actionRooms() {
+            // Smoothly move the camera down
+            document.getElementById('design-zone').scrollIntoView({ behavior: 'smooth' });
+            
+            // Wait for scroll to finish, then slide in the cabinet
+            setTimeout(() => {
+                document.getElementById('rooms-cabinet').classList.add('active');
+            }, 800);
+        }
+    </script>
+</body>
+</html>
