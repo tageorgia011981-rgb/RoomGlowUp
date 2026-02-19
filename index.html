@@ -29,6 +29,8 @@
         #header-section {
             text-align: center;
             padding: 50px 0;
+            position: relative;
+            z-index: 10;
         }
 
         h1 { font-size: 5rem; margin: 0; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
@@ -86,6 +88,22 @@
         .label-holder:hover {
             transform: translateY(-12px);
             box-shadow: 0 0 15px var(--glow-color);
+        }
+
+        /* FURNITURE CATALOG STYLING */
+        #furniture-catalog {
+            position: fixed;
+            top: -120%; /* Hidden off-screen */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 800px;
+            transition: top 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000; /* Above everything */
+        }
+
+        #furniture-catalog.active {
+            top: 20px; /* Glides down */
         }
 
         /* Main Interaction Stage */
@@ -149,7 +167,7 @@
             <div class="label-holder" onclick="toggleRooms()">
                 <div class="label-window">Rooms</div>
             </div>
-            <div class="label-holder" onclick="openCatalog()">
+            <div class="label-holder" onclick="toggleCatalog()">
                 <div class="label-window">Furniture Catalog</div>
             </div>
             <div class="label-holder" onclick="toggleCloset()">
@@ -162,6 +180,10 @@
                 <div class="label-window">Save / Check Out</div>
             </div>
         </div>
+    </div>
+
+    <div id="furniture-catalog" onclick="toggleCatalog()">
+        <img src="Assets/furniturecatalog.png" style="width:100%; filter: drop-shadow(0 10px 30px #000);" alt="Catalog">
     </div>
 
     <div id="main-stage">
@@ -184,16 +206,20 @@
             }
         }
 
+        // Fixed toggle function for the catalog
+        function toggleCatalog() {
+            const catalog = document.getElementById('furniture-catalog');
+            catalog.classList.toggle('active');
+        }
+
         function toggleCloset() {
             const container = document.getElementById('closet-container');
             container.classList.toggle('active');
-            // Reset to closed door when pulling tab
             document.getElementById('closet-image').src = 'Assets/decor_closedclosetdoors.png';
             window.scrollTo(0, document.body.scrollHeight);
         }
 
         function openCloset() {
-            // Change image to opened state per manifest update
             document.getElementById('closet-image').src = 'Assets/openedclosetdoors.png';
         }
 
