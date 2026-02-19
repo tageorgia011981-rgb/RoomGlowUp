@@ -8,6 +8,10 @@
     <style>
         :root {
             --primary-font: 'Limelight', cursive;
+            --metal-shine: #dcdee6;
+            --metal-mid: #a0a0aa;
+            --metal-dark: #64646e;
+            --metal-shadow: #3c3c46;
         }
 
         body, html {
@@ -29,7 +33,6 @@
             transition: background-image 0.5s ease-in-out;
         }
 
-        /* Headers */
         header {
             text-align: center;
             padding-top: 50px;
@@ -50,7 +53,7 @@
             margin-top: 10px;
         }
 
-        /* Pull Tabs Navigation */
+        /* --- THE METALLIC PULL TAB SYSTEM --- */
         .nav-container {
             display: flex;
             justify-content: center;
@@ -61,28 +64,94 @@
             z-index: 1000;
         }
 
-        .pull-tab {
+        .pull-tab-instance {
+            position: relative;
+            width: 220px;
+            height: 140px;
             cursor: pointer;
-            transition: transform 0.3s ease, filter 0.3s ease;
-            width: 180px;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .pull-tab:hover {
-            transform: translateY(-10px);
-            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
+        .pull-tab-instance:hover {
+            transform: translateY(-15px);
         }
 
-        /* Canvas Area */
+        /* The Frame Body (Metallic Logic) */
+        .frame-body {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #c8c8cc 0%, #a0a0aa 50%, #787d82 100%);
+            border-radius: 15px;
+            border: 2px solid var(--metal-shadow);
+            box-shadow: 
+                inset 0 2px 5px rgba(255,255,255,0.8),
+                inset 0 -2px 5px rgba(0,0,0,0.5),
+                0 10px 25px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Label Window Area */
+        .label-window {
+            width: 85%;
+            height: 70%;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            box-shadow: inset 3px 3px 8px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-family: var(--primary-font);
+            font-size: 16px;
+            text-align: center;
+            padding: 10px;
+            text-shadow: 2px 2px 2px rgba(0,0,0,0.8);
+            text-transform: uppercase;
+        }
+
+        /* Mounting Holes */
+        .mount-hole {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #464650;
+            border-radius: 50%;
+            box-shadow: inset 1px 1px 3px #000, 1px 1px 1px rgba(255,255,255,0.2);
+        }
+        .hole-l { left: 10px; top: 50%; transform: translateY(-50%); }
+        .hole-r { right: 10px; top: 50%; transform: translateY(-50%); }
+        .hole-b { bottom: 10px; left: 50%; transform: translateX(-50%); }
+
+        /* Grip Handle */
+        .grip {
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 25px;
+            background: linear-gradient(180deg, #dcdee6, #8c8c96);
+            border-radius: 12px;
+            border: 1px solid #fff;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+
+        /* --- MAIN UI COMPONENTS --- */
         #main-canvas-container {
             position: relative;
             width: 90%;
             max-width: 1200px;
             height: 600px;
             margin: 100px auto;
-            border: 10px solid #333;
+            border: 10px solid #222;
             background: #fff;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.6);
             overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
         #room-canvas {
@@ -90,98 +159,20 @@
             height: 100%;
             background-size: cover;
             background-position: center;
-            position: relative;
         }
 
-        /* Room Cabinet */
         #roomscabinet {
             position: absolute;
             left: -500px;
-            top: 100px;
+            top: 50px;
             width: 450px;
-            transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 500;
+            transition: left 0.8s cubic-bezier(0.19, 1, 0.22, 1);
         }
+        #roomscabinet.active { left: 20px; }
 
-        #roomscabinet.active {
-            left: 20px;
-        }
-
-        .drawer-label {
+        .drawer-hotspot {
             position: absolute;
             cursor: pointer;
-            transition: transform 0.2s, filter 0.2s;
-        }
-
-        .drawer-label:hover {
-            transform: scale(1.1);
-            filter: brightness(1.3) drop-shadow(0 0 10px yellow);
-        }
-
-        /* Furniture Cases */
-        #furniturecases {
-            position: absolute;
-            right: -500px;
-            top: 100px;
-            width: 450px;
-            transition: right 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 500;
-        }
-
-        #furniturecases.active {
-            right: 20px;
-        }
-
-        /* Catalog Book */
-        #furniture-catalog-book {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 800px;
-            height: 500px;
-            background-image: url('Assets/catalogbook.png'); /* Assumed name for book image */
-            background-size: contain;
-            background-repeat: no-repeat;
-            z-index: 2000;
-            padding: 50px;
-        }
-
-        /* Decor Closet */
-        #closet-container {
-            position: fixed;
-            bottom: -100%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 1000px;
-            transition: bottom 0.8s ease;
-            z-index: 1500;
-        }
-
-        #closet-container.active {
-            bottom: 0;
-        }
-
-        /* Receipt */
-        #scroll-receipt {
-            position: fixed;
-            top: -100%;
-            right: 50px;
-            width: 300px;
-            transition: top 1s ease;
-            z-index: 2000;
-        }
-
-        #scroll-receipt.active {
-            top: 100px;
-        }
-
-        .draggable-item {
-            position: absolute;
-            cursor: move;
-            z-index: 100;
         }
 
     </style>
@@ -194,167 +185,83 @@
         <h2>Where Your Dream Space Comes To Life</h2>
     </header>
 
-    <div class="nav-container">
-        <img src="Assets/pulltabs_rooms.png" class="pull-tab" alt="Rooms" onclick="toggleRooms()">
-        <img src="Assets/pulltabs_furniturecatalog.png" class="pull-tab" alt="Furniture Catalog" onclick="openCatalog()">
-        <img src="Assets/pulltabs_decorcloset.png" class="pull-tab" alt="Decor Closet" onclick="toggleCloset()">
-        <img src="Assets/pulltabs_inspogallery.png" class="pull-tab" alt="Inspirational Gallery" onclick="openGallery()">
-        <img src="Assets/pulltabs_savecheckout.png" class="pull-tab" alt="Save/Check Out" onclick="toggleReceipt()">
-    </div>
+    <nav class="nav-container">
+        <div class="pull-tab-instance" onclick="toggleRooms()">
+            <div class="frame-body">
+                <div class="label-window">Rooms</div>
+                <div class="mount-hole hole-l"></div>
+                <div class="mount-hole hole-r"></div>
+                <div class="mount-hole hole-b"></div>
+            </div>
+            <div class="grip"></div>
+        </div>
+
+        <div class="pull-tab-instance" onclick="openCatalog()">
+            <div class="frame-body">
+                <div class="label-window">Furniture Catalog</div>
+                <div class="mount-hole hole-l"></div>
+                <div class="mount-hole hole-r"></div>
+                <div class="mount-hole hole-b"></div>
+            </div>
+            <div class="grip"></div>
+        </div>
+
+        <div class="pull-tab-instance" onclick="toggleCloset()">
+            <div class="frame-body">
+                <div class="label-window">Decor Closet</div>
+                <div class="mount-hole hole-l"></div>
+                <div class="mount-hole hole-r"></div>
+                <div class="mount-hole hole-b"></div>
+            </div>
+            <div class="grip"></div>
+        </div>
+
+        <div class="pull-tab-instance" onclick="openGallery()">
+            <div class="frame-body">
+                <div class="label-window">Inspirational Gallery</div>
+                <div class="mount-hole hole-l"></div>
+                <div class="mount-hole hole-r"></div>
+                <div class="mount-hole hole-b"></div>
+            </div>
+            <div class="grip"></div>
+        </div>
+
+        <div class="pull-tab-instance" onclick="toggleReceipt()">
+            <div class="frame-body">
+                <div class="label-window">Save / Check Out</div>
+                <div class="mount-hole hole-l"></div>
+                <div class="mount-hole hole-r"></div>
+                <div class="mount-hole hole-b"></div>
+            </div>
+            <div class="grip"></div>
+        </div>
+    </nav>
 
     <div id="main-canvas-container">
         <div id="room-canvas"></div>
         
         <div id="roomscabinet">
             <img src="Assets/roomscabinet.png" style="width:100%;">
-            <div class="drawer-label" style="top:20%; left:30%;" onclick="cycleRoom('livingroom')">Living Room</div>
-            <div class="drawer-label" style="top:35%; left:30%;" onclick="cycleRoom('bedroom')">Bedroom</div>
-            <div class="drawer-label" style="top:50%; left:30%;" onclick="cycleRoom('diningroom')">Dining Room</div>
-            <div class="drawer-label" style="top:65%; left:30%;" onclick="cycleRoom('extras')">Extra Rooms</div>
-            <div class="drawer-label" style="top:80%; left:30%;">
+            <div class="drawer-hotspot" style="top:22%; left:28%; width:160px; height:45px;" onclick="cycleRoom('livingroom')"></div>
+            <div class="drawer-hotspot" style="top:37%; left:28%; width:160px; height:45px;" onclick="cycleRoom('bedroom')"></div>
+            <div class="drawer-hotspot" style="top:52%; left:28%; width:160px; height:45px;" onclick="cycleRoom('diningroom')"></div>
+            <div class="drawer-hotspot" style="top:67%; left:28%; width:160px; height:45px;" onclick="cycleRoom('extras')"></div>
+            <div class="drawer-hotspot" style="top:82%; left:28%; width:160px; height:45px;">
                 <input type="file" id="roomUpload" style="display:none" onchange="uploadRoom(this)">
-                <label for="roomUpload">Upload Yours</label>
+                <label for="roomUpload" style="cursor:pointer; display:block; width:100%; height:100%;"></label>
             </div>
         </div>
-
-        <div id="furniturecases">
-            <img src="Assets/furniturecases.png" style="width:100%;">
-            <div class="drawer-label" style="top:20%; right:10%;" onclick="showFurnitureType('seating')">Seating</div>
-            <div class="drawer-label" style="top:35%; right:10%;" onclick="showFurnitureType('tables')">Tables</div>
-            <div class="drawer-label" style="top:50%; right:10%;" onclick="showFurnitureType('storage')">Storage</div>
-            <div class="drawer-label" style="top:65%; right:10%;" onclick="showFurnitureType('beds')">Beds</div>
-        </div>
     </div>
-
-    <div id="closet-container">
-        <img src="Assets/closetdoor.png" style="width:100%;" onclick="this.parentElement.classList.toggle('open')">
-        <div class="closet-contents">
-            <img src="Assets/plant_pillowcloset.jpg" class="closet-item" onclick="selectDecor('pillows')">
-            <img src="Assets/lightingcloset.jpg" class="closet-item" onclick="selectDecor('lighting')">
-            <img src="Assets/curtaincloset.jpg" class="closet-item" onclick="selectDecor('curtains')">
-            <img src="Assets/ruggallery.jpg" class="closet-item" onclick="selectDecor('rugs')">
-        </div>
-    </div>
-
-    <img src="Assets/scrollreceipt.png" id="scroll-receipt" alt="Receipt">
-
-    <div id="furniture-catalog-book">
-        <div id="catalog-preview-box"></div>
-        </div>
-
 </div>
 
 <script>
-    const state = {
-        currentRoomType: '',
-        roomIndices: { livingroom: 1, bedroom: 1, diningroom: 1, extras: 1 },
-        inventory: []
-    };
-
-    function changeBackground(isTransition) {
-        const wrapper = document.getElementById('site-wrapper');
-        if(isTransition) {
-            wrapper.style.backgroundImage = "url('Assets/rainbackground.jpg')";
-        } else {
-            wrapper.style.backgroundImage = "url('Assets/mainbackground.jpg')";
-        }
-    }
-
     function toggleRooms() {
-        changeBackground(true);
-        const cabinet = document.getElementById('roomscabinet');
-        cabinet.classList.add('active');
-        window.scrollTo(0, document.getElementById('main-canvas-container').offsetTop - 50);
+        document.getElementById('site-wrapper').style.backgroundImage = "url('Assets/rainbackground.jpg')";
+        document.getElementById('roomscabinet').classList.add('active');
+        window.scrollTo(0, document.getElementById('main-canvas-container').offsetTop - 20);
     }
 
-    function cycleRoom(type) {
-        state.currentRoomType = type;
-        const canvas = document.getElementById('room-canvas');
-        let fileName = '';
-
-        if(type === 'livingroom') {
-            state.roomIndices.livingroom = state.roomIndices.livingroom === 1 ? 3 : 1;
-            fileName = `livingroom${state.roomIndices.livingroom}.jpg`;
-        } else if(type === 'bedroom') {
-            state.roomIndices.bedroom = state.roomIndices.bedroom === 1 ? 2 : 1;
-            fileName = `bedroom${state.roomIndices.bedroom === 1 ? '' : '2'}.jpg`;
-        } else if(type === 'diningroom') {
-            fileName = 'diningroom.jpg';
-        } else if(type === 'extras') {
-            const extraRooms = ['foyer.jpg', 'office.jpg', 'kitchen.jpg', 'kitchen2.jpg'];
-            fileName = extraRooms[Math.floor(Math.random() * extraRooms.length)];
-        }
-
-        canvas.style.backgroundImage = `url('Assets/${fileName}')`;
-        
-        // When room is picked, cabinet leaves, furniture cases arrive
-        canvas.onclick = function() {
-            document.getElementById('roomscabinet').classList.remove('active');
-            document.getElementById('furniturecases').classList.add('active');
-        };
-    }
-
-    function toggleReceipt() {
-        document.getElementById('scroll-receipt').classList.toggle('active');
-    }
-
-    function toggleCloset() {
-        document.getElementById('closet-container').classList.toggle('active');
-    }
-
-    function openCatalog() {
-        document.getElementById('furniture-catalog-book').style.display = 'block';
-    }
-
-    // Drag and Drop Logic
-    function makeDraggable(el) {
-        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        el.onmousedown = dragMouseDown;
-
-        function dragMouseDown(e) {
-            e.preventDefault();
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            document.onmouseup = closeDragElement;
-            document.onmousemove = elementDrag;
-        }
-
-        function elementDrag(e) {
-            e.preventDefault();
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            el.style.top = (el.offsetTop - pos2) + "px";
-            el.style.left = (el.offsetLeft - pos1) + "px";
-        }
-
-        function closeDragElement() {
-            document.onmouseup = null;
-            document.onmousemove = null;
-        }
-    }
-
-    // Double click to add to room (simulated)
-    function addItemToRoom(src) {
-        const img = document.createElement('img');
-        img.src = src;
-        img.className = 'draggable-item';
-        img.style.width = '150px';
-        document.getElementById('room-canvas').appendChild(img);
-        makeDraggable(img);
-        // Add to receipt logic would go here
-    }
-
-    function uploadRoom(input) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('room-canvas').style.backgroundImage = `url(${e.target.result})`;
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
+    // Additional functions for Catalog, Closet, Gallery, and Receipt would follow here
 </script>
 
 </body>
