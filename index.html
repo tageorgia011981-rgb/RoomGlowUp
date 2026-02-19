@@ -12,12 +12,15 @@
         html, body {
             margin: 0; padding: 0;
             width: 100%; height: 300vh; 
-            background: url('Assets/newbackground_main.jpg') no-repeat center center fixed;
-            background-size: cover;
+            background-image: url('Assets/newbackground_main.jpg');
+            background-position: center top;
+            background-repeat: repeat-y;
+            background-size: contain;
+            background-attachment: scroll;
             font-family: 'Limelight', cursive;
             scroll-behavior: smooth;
             overflow-x: hidden;
-            transition: background 1.5s ease-in-out;
+            transition: background-image 1.5s ease-in-out;
         }
 
         /* --- THE GRAND ENTRANCE --- */
@@ -89,29 +92,28 @@
             height: 100vh;
             display: flex;
             align-items: center;
-            /* Changed to flex-end and padding to prevent overlap with absolute cabinet */
             justify-content: flex-end; 
-            padding-right: 5%;
+            padding-right: 40px; /* Increased padding to prevent overlap */
             position: relative;
         }
 
         #cabinet-container {
             position: absolute;
-            left: -800px; 
+            left: -1200px; 
             top: 50%;
             transform: translateY(-50%);
-            /* Slower animation as requested (2.5 seconds) */
             transition: left 2.5s cubic-bezier(0.25, 0.1, 0.25, 1);
             z-index: 100;
         }
 
         #cabinet-container.glide-in {
-            left: 20px; /* Positioned on the far left edge */
+            /* Stopped well short of the canvas */
+            left: 50px; 
         }
 
         .cabinet-wrapper {
             position: relative;
-            width: 550px;
+            width: 480px; 
         }
 
         .cabinet-asset {
@@ -119,9 +121,10 @@
             height: auto;
             display: block;
             filter: drop-shadow(15px 0 30px rgba(0,0,0,0.7));
+            transition: filter 0.4s ease;
         }
 
-        /* DRAWER INTERACTION AREA */
+        /* INVISIBLE HITBOXES */
         .drawer-labels {
             position: absolute;
             top: 0; left: 0;
@@ -130,26 +133,28 @@
 
         .drawer-pull {
             position: absolute;
-            width: 220px; height: 60px;
+            width: 240px; height: 70px;
             cursor: pointer;
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            /* No text needed - hitboxes only */
+            background: transparent; /* Totally invisible */
+            transition: transform 0.4s ease;
         }
 
-        /* Lift and Glow Effect for drawers */
+        /* LIFT & GLOW: Now affects the wrapper/image feel instead of showing a box */
         .drawer-pull:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-            border-radius: 10px;
+            transform: translateY(-5px);
         }
 
-        /* Positioning the invisible hitboxes over your image's labels */
-        #pull-living { top: 18%; left: 60px; }
-        #pull-bedroom { top: 33%; left: 60px; }
-        #pull-dining { top: 48%; left: 60px; }
-        #pull-extra { top: 63%; left: 60px; }
-        #pull-upload { top: 78%; left: 60px; }
+        /* Using a wrapper filter to make the CABINET glow when a drawer is hovered */
+        .cabinet-wrapper:has(.drawer-pull:hover) .cabinet-asset {
+            filter: brightness(1.2) drop-shadow(0 0 15px rgba(255,255,255,0.2));
+        }
+
+        /* Precise alignment for your 5 drawers */
+        #pull-living { top: 16%; left: 80px; }
+        #pull-bedroom { top: 31%; left: 80px; }
+        #pull-dining { top: 46%; left: 80px; }
+        #pull-extra { top: 61%; left: 80px; }
+        #pull-upload { top: 76%; left: 80px; }
 
         /* --- CANVAS --- */
         .canvas-stage {
@@ -163,6 +168,7 @@
             justify-content: center;
             overflow: hidden;
             position: relative;
+            z-index: 50; 
         }
 
         #main-room-view {
@@ -236,7 +242,6 @@
         let currentIndices = { living: 0, bedroom: 0, dining: 0, extra: 0 };
 
         function triggerAction(action) {
-            // Swap background to rain when tab is pulled
             document.body.style.backgroundImage = "url('Assets/rainbackground.jpg')";
             
             if(action === 'rooms') {
