@@ -11,22 +11,13 @@
         
         html, body {
             margin: 0; padding: 0;
-            width: 100%; height: 300vh; /* Extra room for Closet gliding up */
-            background-color: #2e081d; 
+            width: 100%; height: 300vh; 
+            background: url('Assets/newbackground_main.jpg') no-repeat center center fixed;
+            background-size: cover;
             font-family: 'Limelight', cursive;
             scroll-behavior: smooth;
             overflow-x: hidden;
-        }
-
-        /* MAIN BACKGROUND SYSTEM */
-        #site-stage {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: url('Assets/newbackground_main.jpg') no-repeat center center;
-            background-size: cover;
-            z-index: -10;
-            transition: background 1s ease-in-out;
+            transition: background 1.5s ease-in-out;
         }
 
         /* --- THE GRAND ENTRANCE --- */
@@ -38,7 +29,7 @@
             align-items: center;
             justify-content: flex-start;
             padding-top: 80px;
-            background: rgba(0, 0, 0, 0.2); 
+            background: rgba(0, 0, 0, 0.1); 
             text-align: center;
         }
 
@@ -89,7 +80,7 @@
 
         .pull-tab:hover {
             transform: translateY(-25px);
-            filter: brightness(1.2) drop-shadow(0 0 15px #fff);
+            filter: brightness(1.1);
         }
 
         /* --- DESIGN ZONE & CABINET --- */
@@ -98,7 +89,9 @@
             height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
+            /* Changed to flex-end and padding to prevent overlap with absolute cabinet */
+            justify-content: flex-end; 
+            padding-right: 5%;
             position: relative;
         }
 
@@ -107,12 +100,13 @@
             left: -800px; 
             top: 50%;
             transform: translateY(-50%);
-            transition: left 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+            /* Slower animation as requested (2.5 seconds) */
+            transition: left 2.5s cubic-bezier(0.25, 0.1, 0.25, 1);
             z-index: 100;
         }
 
         #cabinet-container.glide-in {
-            left: 20px;
+            left: 20px; /* Positioned on the far left edge */
         }
 
         .cabinet-wrapper {
@@ -136,35 +130,32 @@
 
         .drawer-pull {
             position: absolute;
-            width: 150px; height: 40px;
+            width: 220px; height: 60px;
             cursor: pointer;
-            transition: all 0.4s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-            text-shadow: 2px 2px 4px black;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            /* No text needed - hitboxes only */
         }
 
+        /* Lift and Glow Effect for drawers */
         .drawer-pull:hover {
-            transform: translateY(-5px);
-            text-shadow: 0 0 15px #fff, 0 0 20px #fff;
-            filter: brightness(1.5);
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            border-radius: 10px;
         }
 
-        /* Specific positions for your cabinet drawers */
-        #pull-living { top: 20%; left: 50px; }
-        #pull-bedroom { top: 35%; left: 50px; }
-        #pull-dining { top: 50%; left: 50px; }
-        #pull-extra { top: 65%; left: 50px; }
-        #pull-upload { top: 80%; left: 50px; }
+        /* Positioning the invisible hitboxes over your image's labels */
+        #pull-living { top: 18%; left: 60px; }
+        #pull-bedroom { top: 33%; left: 60px; }
+        #pull-dining { top: 48%; left: 60px; }
+        #pull-extra { top: 63%; left: 60px; }
+        #pull-upload { top: 78%; left: 60px; }
 
         /* --- CANVAS --- */
         .canvas-stage {
             width: 1100px;
             height: 600px;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.4);
             border: 15px solid #1a1a1a;
             box-shadow: 0 0 50px rgba(0,0,0,1);
             display: flex;
@@ -180,7 +171,7 @@
             object-fit: cover;
         }
 
-        /* --- DECOR CLOSET (Glides from bottom) --- */
+        /* --- DECOR CLOSET --- */
         #closet-container {
             position: fixed;
             bottom: -100%;
@@ -197,8 +188,6 @@
     </style>
 </head>
 <body>
-
-    <div id="site-stage"></div>
 
     <header>
         <h1>Room Glow Up</h1>
@@ -218,11 +207,11 @@
             <div class="cabinet-wrapper">
                 <img src="Assets/roomscabinet.png" class="cabinet-asset">
                 <div class="drawer-labels">
-                    <div id="pull-living" class="drawer-pull" onclick="cycleRoom('living')">Living Room</div>
-                    <div id="pull-bedroom" class="drawer-pull" onclick="cycleRoom('bedroom')">Bedroom</div>
-                    <div id="pull-dining" class="drawer-pull" onclick="cycleRoom('dining')">Dining Room</div>
-                    <div id="pull-extra" class="drawer-pull" onclick="cycleRoom('extra')">Extra Rooms</div>
-                    <div id="pull-upload" class="drawer-pull">Upload Yours</div>
+                    <div id="pull-living" class="drawer-pull" onclick="cycleRoom('living')"></div>
+                    <div id="pull-bedroom" class="drawer-pull" onclick="cycleRoom('bedroom')"></div>
+                    <div id="pull-dining" class="drawer-pull" onclick="cycleRoom('dining')"></div>
+                    <div id="pull-extra" class="drawer-pull" onclick="cycleRoom('extra')"></div>
+                    <div id="pull-upload" class="drawer-pull"></div>
                 </div>
             </div>
         </div>
@@ -247,8 +236,8 @@
         let currentIndices = { living: 0, bedroom: 0, dining: 0, extra: 0 };
 
         function triggerAction(action) {
-            // Change background when interacting
-            document.getElementById('site-stage').style.backgroundImage = "url('Assets/rainbackground.jpg')";
+            // Swap background to rain when tab is pulled
+            document.body.style.backgroundImage = "url('Assets/rainbackground.jpg')";
             
             if(action === 'rooms') {
                 window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
@@ -265,16 +254,14 @@
         function cycleRoom(type) {
             const index = currentIndices[type];
             const images = roomData[type];
-            document.getElementById('main-room-view').src = images[index];
-            
-            // Cycle index
-            currentIndices[type] = (index + 1) % images.length;
+            if (images) {
+                document.getElementById('main-room-view').src = images[index];
+                currentIndices[type] = (index + 1) % images.length;
+            }
         }
 
-        // Double-click image to lock it and send cabinet away
         document.getElementById('main-room-view').ondblclick = function() {
             document.getElementById('cabinet-container').classList.remove('glide-in');
-            // Logic for Furniture Cases would trigger here
         };
     </script>
 </body>
