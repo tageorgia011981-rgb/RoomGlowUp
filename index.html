@@ -9,9 +9,6 @@
         :root {
             --primary-font: 'Limelight', cursive;
             --metal-shine: #dcdee6;
-            --metal-mid: #a0a0aa;
-            --metal-dark: #64646e;
-            --metal-shadow: #3c3c46;
         }
 
         body, html {
@@ -29,31 +26,10 @@
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            min-height: 200vh;
-            transition: background-image 0.5s ease-in-out;
+            min-height: 250vh;
         }
 
-        header {
-            text-align: center;
-            padding-top: 50px;
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-        }
-
-        h1 {
-            font-family: var(--primary-font);
-            font-size: 80px;
-            margin: 0;
-            text-transform: uppercase;
-        }
-
-        h2 {
-            font-family: var(--primary-font);
-            font-size: 30px;
-            margin-top: 10px;
-        }
-
-        /* --- THE METALLIC PULL TAB SYSTEM --- */
+        /* --- METALLIC PULL TAB SYSTEM --- */
         .nav-container {
             display: flex;
             justify-content: center;
@@ -64,84 +40,128 @@
             z-index: 1000;
         }
 
-        .pull-tab-instance {
+        .pull-tab-container {
             position: relative;
             width: 220px;
-            height: 140px;
+            height: 150px;
             cursor: pointer;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .pull-tab-instance:hover {
-            transform: translateY(-15px);
-        }
+        .pull-tab-container:hover { transform: translateY(-15px); }
 
-        /* The Frame Body (Metallic Logic) */
-        .frame-body {
+        .metal-frame {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(180deg, #c8c8cc 0%, #a0a0aa 50%, #787d82 100%);
+            background: linear-gradient(180deg, #c8c8cc 0%, #8c9196 50%, #787d82 100%);
             border-radius: 15px;
-            border: 2px solid var(--metal-shadow);
-            box-shadow: 
-                inset 0 2px 5px rgba(255,255,255,0.8),
-                inset 0 -2px 5px rgba(0,0,0,0.5),
-                0 10px 25px rgba(0,0,0,0.4);
+            border: 2px solid #3c3c46;
+            box-shadow: inset 0 8px 10px rgba(220, 220, 230, 0.7), 0 15px 30px rgba(0,0,0,0.5);
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .window-cutout {
+            width: 82%;
+            height: 68%;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: inset 4px 4px 10px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .window-cutout img { max-width: 85%; max-height: 85%; pointer-events: none; }
+
+        .mount-hole { position: absolute; width: 12px; height: 12px; background: #50505a; border-radius: 50%; border: 2px solid #787882; }
+        .hole-l { left: 15px; top: 50%; transform: translateY(-50%); }
+        .hole-r { right: 15px; top: 50%; transform: translateY(-50%); }
+        .hole-b { bottom: 15px; left: 50%; transform: translateX(-50%); }
+
+        .tab-grip {
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 35px;
+            background: linear-gradient(180deg, #c8c8d2 0%, #aaadb4 50%, #787882 100%);
+            border-radius: 12px;
+            border: 2px solid #c8c8d2;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        /* --- DECOR CLOSET: DUAL DOOR ASSETS --- */
+        #decor-closet-system {
+            position: fixed;
+            bottom: -800px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1000px;
+            height: 700px;
+            transition: bottom 1s cubic-bezier(0.19, 1, 0.22, 1);
+            z-index: 1500;
+        }
+
+        #decor-closet-system.active { bottom: 0; }
+
+        .closet-base {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            border: 6px solid var(--metal-shine);
+            border-radius: 15px 15px 0 0;
             overflow: hidden;
         }
 
-        /* Label Window Area */
-        .label-window {
-            width: 85%;
-            height: 70%;
-            background: rgba(0, 0, 0, 0.15);
-            border-radius: 8px;
-            box-shadow: inset 3px 3px 8px rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-family: var(--primary-font);
-            font-size: 16px;
-            text-align: center;
-            padding: 10px;
-            text-shadow: 2px 2px 2px rgba(0,0,0,0.8);
-            text-transform: uppercase;
-        }
-
-        /* Mounting Holes */
-        .mount-hole {
+        /* Door logic */
+        #closet-door-trigger {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #464650;
-            border-radius: 50%;
-            box-shadow: inset 1px 1px 3px #000, 1px 1px 1px rgba(255,255,255,0.2);
-        }
-        .hole-l { left: 10px; top: 50%; transform: translateY(-50%); }
-        .hole-r { right: 10px; top: 50%; transform: translateY(-50%); }
-        .hole-b { bottom: 10px; left: 50%; transform: translateX(-50%); }
-
-        /* Grip Handle */
-        .grip {
-            position: absolute;
-            bottom: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90px;
-            height: 25px;
-            background: linear-gradient(180deg, #dcdee6, #8c8c96);
-            border-radius: 12px;
-            border: 1px solid #fff;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.5);
-            z-index: 10;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 200;
+            cursor: pointer;
         }
 
-        /* --- MAIN UI COMPONENTS --- */
+        #door-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.4s ease;
+        }
+
+        /* The Hidden Interior */
+        .closet-interior {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 40px;
+            box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 0.5s ease 0.2s;
+        }
+
+        #decor-closet-system.open .closet-interior { opacity: 1; }
+        /* Shift door image opacity or move it to show 'open' state */
+        #decor-closet-system.open #door-img { opacity: 0.2; pointer-events: none; }
+
+        .closet-room {
+            width: 100%;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            border: 3px solid var(--metal-shine);
+        }
+
+        /* --- CANVAS --- */
         #main-canvas-container {
             position: relative;
             width: 90%;
@@ -150,30 +170,9 @@
             margin: 100px auto;
             border: 10px solid #222;
             background: #fff;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.6);
-            overflow: hidden;
         }
 
-        #room-canvas {
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-        }
-
-        #roomscabinet {
-            position: absolute;
-            left: -500px;
-            top: 50px;
-            width: 450px;
-            transition: left 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        #roomscabinet.active { left: 20px; }
-
-        .drawer-hotspot {
-            position: absolute;
-            cursor: pointer;
-        }
+        #room-canvas { width: 100%; height: 100%; background-size: cover; background-position: center; }
 
     </style>
 </head>
@@ -181,87 +180,57 @@
 
 <div id="site-wrapper">
     <header>
-        <h1>Room Glow Up</h1>
-        <h2>Where Your Dream Space Comes To Life</h2>
+        <h1 style="text-align: center; color: white; font-family: 'Limelight'; font-size: 80px;">Room Glow Up</h1>
     </header>
 
     <nav class="nav-container">
-        <div class="pull-tab-instance" onclick="toggleRooms()">
-            <div class="frame-body">
-                <div class="label-window">Rooms</div>
-                <div class="mount-hole hole-l"></div>
-                <div class="mount-hole hole-r"></div>
-                <div class="mount-hole hole-b"></div>
-            </div>
-            <div class="grip"></div>
-        </div>
-
-        <div class="pull-tab-instance" onclick="openCatalog()">
-            <div class="frame-body">
-                <div class="label-window">Furniture Catalog</div>
-                <div class="mount-hole hole-l"></div>
-                <div class="mount-hole hole-r"></div>
-                <div class="mount-hole hole-b"></div>
-            </div>
-            <div class="grip"></div>
-        </div>
-
-        <div class="pull-tab-instance" onclick="toggleCloset()">
-            <div class="frame-body">
-                <div class="label-window">Decor Closet</div>
-                <div class="mount-hole hole-l"></div>
-                <div class="mount-hole hole-r"></div>
-                <div class="mount-hole hole-b"></div>
-            </div>
-            <div class="grip"></div>
-        </div>
-
-        <div class="pull-tab-instance" onclick="openGallery()">
-            <div class="frame-body">
-                <div class="label-window">Inspirational Gallery</div>
-                <div class="mount-hole hole-l"></div>
-                <div class="mount-hole hole-r"></div>
-                <div class="mount-hole hole-b"></div>
-            </div>
-            <div class="grip"></div>
-        </div>
-
-        <div class="pull-tab-instance" onclick="toggleReceipt()">
-            <div class="frame-body">
-                <div class="label-window">Save / Check Out</div>
-                <div class="mount-hole hole-l"></div>
-                <div class="mount-hole hole-r"></div>
-                <div class="mount-hole hole-b"></div>
-            </div>
-            <div class="grip"></div>
+        <div class="pull-tab-container" onclick="toggleCloset()">
+            <div class="metal-frame">
+                <div class="window-cutout"><img src="Assets/pulltabs_decorcloset.png" alt="Decor Closet"></div>
+                <div class="mount-hole hole-l"></div><div class="mount-hole hole-r"></div><div class="mount-hole hole-b"></div>
+            </div><div class="tab-grip"></div>
         </div>
     </nav>
 
     <div id="main-canvas-container">
         <div id="room-canvas"></div>
-        
-        <div id="roomscabinet">
-            <img src="Assets/roomscabinet.png" style="width:100%;">
-            <div class="drawer-hotspot" style="top:22%; left:28%; width:160px; height:45px;" onclick="cycleRoom('livingroom')"></div>
-            <div class="drawer-hotspot" style="top:37%; left:28%; width:160px; height:45px;" onclick="cycleRoom('bedroom')"></div>
-            <div class="drawer-hotspot" style="top:52%; left:28%; width:160px; height:45px;" onclick="cycleRoom('diningroom')"></div>
-            <div class="drawer-hotspot" style="top:67%; left:28%; width:160px; height:45px;" onclick="cycleRoom('extras')"></div>
-            <div class="drawer-hotspot" style="top:82%; left:28%; width:160px; height:45px;">
-                <input type="file" id="roomUpload" style="display:none" onchange="uploadRoom(this)">
-                <label for="roomUpload" style="cursor:pointer; display:block; width:100%; height:100%;"></label>
+    </div>
+
+    <div id="decor-closet-system">
+        <div class="closet-base">
+            <div id="closet-door-trigger" onclick="handleDoorOpen()">
+                <img src="Assets/decor_closedclosetdoors.png" id="door-img" alt="Closet Doors">
+            </div>
+            
+            <div class="closet-interior">
+                <div class="closet-room" style="background-image: url('Assets/plant_pillowcloset.jpg');"></div>
+                <div class="closet-room" style="background-image: url('Assets/lightingcloset.jpg');"></div>
+                <div class="closet-room" style="background-image: url('Assets/curtaincloset.jpg');"></div>
+                <div class="closet-room" style="background-image: url('Assets/ruggallery.jpg');"></div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    function toggleRooms() {
-        document.getElementById('site-wrapper').style.backgroundImage = "url('Assets/rainbackground.jpg')";
-        document.getElementById('roomscabinet').classList.add('active');
-        window.scrollTo(0, document.getElementById('main-canvas-container').offsetTop - 20);
+    function toggleCloset() {
+        const closet = document.getElementById('decor-closet-system');
+        closet.classList.toggle('active');
+        // Reset to closed if we hide the closet
+        if(!closet.classList.contains('active')) {
+            closet.classList.remove('open');
+            document.getElementById('door-img').src = "Assets/decor_closedclosetdoors.png";
+        }
     }
 
-    // Additional functions for Catalog, Closet, Gallery, and Receipt would follow here
+    function handleDoorOpen() {
+        const closet = document.getElementById('decor-closet-system');
+        const door = document.getElementById('door-img');
+        
+        closet.classList.add('open');
+        // Swap to your open doors asset
+        door.src = "Assets/decor_openclosetdoors.png";
+    }
 </script>
 
 </body>
