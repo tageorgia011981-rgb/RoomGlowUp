@@ -7,8 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-font: 'Limelight', cursive;
-            --metal-shine: #dcdee6;
+            --metallic-light: #dadada;
+            --metallic-mid: #9b9ea5;
+            --metallic-dark: #65684b;
+            --glow-color: rgba(0, 255, 0, 0.6);
         }
 
         body, html {
@@ -16,255 +18,195 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow-x: hidden;
-            font-family: Arial, sans-serif;
-            scroll-behavior: smooth;
-        }
-
-        #site-wrapper {
-            background-image: url('Assets/newbackground_main.jpg');
+            font-family: 'Limelight', cursive;
+            background: url('Assets/mainbackground.jpg') no-repeat center center fixed;
             background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            min-height: 250vh;
-            transition: background-image 0.5s ease-in-out;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            color: white;
         }
 
-        header {
-            text-align: center;
-            padding-top: 50px;
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-        }
-
-        h1 {
-            font-family: var(--primary-font);
-            font-size: 80px;
-            margin: 0;
-            text-transform: uppercase;
-        }
-
-        h2 {
-            font-family: var(--primary-font);
-            font-size: 30px;
-            margin-top: 10px;
-        }
-
-        /* --- THE MASTER METALLIC PULL TABS --- */
-        .nav-container {
+        /* Pull Tab Label Holder CSS */
+        .pull-tab-container {
             display: flex;
             justify-content: center;
             gap: 20px;
-            margin-top: 40px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            padding-top: 40px;
         }
 
-        .pull-tab {
+        .label-holder {
+            width: 180px;
+            height: 100px;
+            background: linear-gradient(to bottom, #e0e0e0 0%, #9b9ea5 20%, #65684b 100%);
+            border-radius: 6px;
             position: relative;
-            width: 220px;
-            height: 150px;
             cursor: pointer;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            border: 2px solid #bdbdbd;
         }
 
-        .pull-tab:hover { transform: translateY(-15px); }
-
-        .metal-frame {
+        /* The "Window" for the text */
+        .label-window {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #c8c8cc 0%, #a0a0aa 50%, #787d82 100%);
-            border-radius: 15px;
-            border: 2px solid #3c3c46;
-            box-shadow: inset 0 8px 10px rgba(255,255,255,0.5), 0 10px 25px rgba(0,0,0,0.4);
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 30px;
+            background: #f0f0f0;
+            border-inner: 2px inset rgba(0,0,0,0.2);
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #222;
+            font-size: 0.9rem;
+            text-align: center;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
         }
 
-        .tab-window {
-            width: 85%;
-            height: 70%;
-            background: rgba(0, 0, 0, 0.15);
-            border-radius: 8px;
-            box-shadow: inset 3px 3px 8px rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* The Curved Pull Tab at bottom */
+        .label-holder::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 25px;
+            background: linear-gradient(to bottom, #9b9ea5, #65684b);
+            border-radius: 0 0 30px 30px;
+            border: 1px solid #bdbdbd;
         }
 
-        .tab-window img { max-width: 90%; max-height: 90%; }
+        /* Lift and Glow effect from manifest */
+        .label-holder:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 0 20px var(--glow-color);
+        }
 
-        /* --- MAIN WORKSPACE --- */
-        #main-canvas-container {
-            position: relative;
+        /* Main Headers */
+        #header-section {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        h1 { font-size: 5rem; margin: 0; text-transform: uppercase; }
+        h2 { font-size: 1.8rem; margin-top: 10px; font-weight: normal; }
+
+        /* Stage and Canvas */
+        #main-stage {
             width: 90%;
             max-width: 1200px;
-            height: 600px;
-            margin: 80px auto 40px auto;
-            border: 10px solid #222;
-            background: #fff;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.6);
-            z-index: 10;
-        }
-
-        #room-canvas { width: 100%; height: 100%; background-size: cover; background-position: center; position: relative; }
-
-        /* --- ROOMS CABINET (LEFT GLIDE) --- */
-        #roomscabinet {
-            position: absolute;
-            left: -500px;
-            top: 50px;
-            width: 450px;
-            transition: left 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-            z-index: 20;
-        }
-        #roomscabinet.active { left: 20px; }
-
-        /* --- DECOR CLOSET (BOTTOM GLIDE - UNDER CANVAS) --- */
-        #decor-closet-glide {
+            height: 70vh;
+            margin: 40px auto;
+            border: 10px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.3);
             position: relative;
-            width: 1000px;
-            height: 700px;
-            margin: 0 auto;
-            transform: translateY(100%); /* Start hidden below bottom of page */
-            transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
-            z-index: 5;
-        }
-
-        #decor-closet-glide.active { transform: translateY(0); }
-
-        .closet-base {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            border: 10px solid var(--metal-shine);
-            border-bottom: none;
-            border-radius: 30px 30px 0 0;
             overflow: hidden;
         }
 
-        #door-trigger {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 100;
-            cursor: pointer;
-        }
-
-        #door-img { width: 100%; height: 100%; object-fit: contain; }
-
-        .interior-rooms {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            padding: 50px;
-            box-sizing: border-box;
+        #room-canvas {
             width: 100%;
             height: 100%;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        #decor-closet-glide.open .interior-rooms { opacity: 1; }
-        #decor-closet-glide.open #door-trigger { pointer-events: none; opacity: 0.2; }
-
-        .closet-thumb {
-            width: 100%;
-            height: 280px;
             background-size: cover;
             background-position: center;
-            border: 5px solid #fff;
-            cursor: pointer;
         }
 
+        /* Cabinet Slide-in (From Left) */
+        #roomscabinet {
+            position: absolute;
+            left: -100%;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+        }
+
+        #roomscabinet.active { left: 0; }
+
+        /* Decor Closet (From Bottom) */
+        #closetdoor {
+            position: fixed;
+            bottom: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: bottom 0.8s ease;
+            z-index: 200;
+        }
+
+        #closetdoor.active { bottom: 0; }
+
+        /* Scroll Receipt */
+        #scroll-receipt {
+            position: fixed;
+            top: -100%;
+            right: 5%;
+            transition: top 1s ease;
+            z-index: 300;
+        }
+
+        #scroll-receipt.active { top: 0; }
     </style>
 </head>
 <body>
 
-<div id="site-wrapper">
-    <header>
-        <h1>Room Glow Up</h1>
-        <h2>Where Your Dream Space Comes To Life</h2>
-    </header>
+<div id="header-section">
+    <h1>Room Glow Up</h1>
+    <h2>Where Your Dream Space Comes To Life</h2>
 
-    <nav class="nav-container">
-        <div class="pull-tab" onclick="toggleRooms()">
-            <div class="metal-frame">
-                <div class="tab-window"><img src="Assets/pulltabs_rooms.png" alt="Rooms"></div>
-            </div>
+    <div class="pull-tab-container">
+        <div class="label-holder" onclick="toggleCabinet()">
+            <div class="label-window">Rooms</div>
         </div>
-
-        <div class="pull-tab" onclick="toggleCloset()">
-            <div class="metal-frame">
-                <div class="tab-window"><img src="Assets/pulltabs_decorcloset.png" alt="Decor Closet"></div>
-            </div>
+        <div class="label-holder" onclick="openCatalog()">
+            <div class="label-window">Furniture Catalog</div>
         </div>
-
-        <div class="pull-tab" onclick="showReceipt()">
-            <div class="metal-frame">
-                <div class="tab-window"><img src="Assets/pulltabs_savecheckout.png" alt="Save"></div>
-            </div>
+        <div class="label-holder" onclick="toggleCloset()">
+            <div class="label-window">Decor Closet</div>
         </div>
-    </nav>
-
-    <div id="main-canvas-container">
-        <div id="room-canvas"></div>
-
-        <div id="roomscabinet">
-            <img src="Assets/roomscabinet.png" style="width:100%;">
+        <div class="label-holder" onclick="changeBG('Assets/rainbackground.jpg')">
+            <div class="label-window">Inspirational Gallery</div>
         </div>
-    </div>
-
-    <div id="decor-closet-glide">
-        <div class="closet-base">
-            <div id="door-trigger" onclick="openClosetDoor()">
-                <img src="Assets/decor_closedclosetdoors.png" id="door-img" alt="Closed Doors">
-            </div>
-
-            <div class="interior-rooms">
-                <div class="closet-thumb" style="background-image: url('Assets/plant_pillowcloset.jpg');"></div>
-                <div class="closet-thumb" style="background-image: url('Assets/lightingcloset.jpg');"></div>
-                <div class="closet-thumb" style="background-image: url('Assets/curtaincloset.jpg');"></div>
-                <div class="closet-thumb" style="background-image: url('Assets/ruggallery.jpg');"></div>
-            </div>
+        <div class="label-holder" onclick="toggleReceipt()">
+            <div class="label-window">Save / Check Out</div>
         </div>
     </div>
 </div>
 
+<div id="main-stage">
+    <img src="Assets/roomscabinet.png" id="roomscabinet" alt="Rooms Cabinet">
+    <div id="room-canvas"></div>
+</div>
+
+<img src="Assets/closetdoor.png" id="closetdoor" alt="Decor Closet">
+<img src="Assets/scrollreceipt.png" id="scroll-receipt" alt="Receipt">
+
 <script>
-    function toggleRooms() {
-        document.getElementById('site-wrapper').style.backgroundImage = "url('Assets/rainbackground.jpg')";
-        document.getElementById('roomscabinet').classList.toggle('active');
-        window.scrollTo(0, document.getElementById('main-canvas-container').offsetTop - 20);
+    function toggleCabinet() {
+        const cab = document.getElementById('roomscabinet');
+        cab.classList.toggle('active');
+        if(cab.classList.contains('active')) {
+            window.scrollTo(0, document.getElementById('main-stage').offsetTop);
+        }
     }
 
     function toggleCloset() {
-        const glide = document.getElementById('decor-closet-glide');
-        glide.classList.add('active');
-        
-        // Manifest logic: Pull tab causes scroll to the bottom
-        setTimeout(() => {
-            window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: 'smooth'
-            });
-        }, 100);
+        document.getElementById('closetdoor').classList.toggle('active');
+        window.scrollTo(0, document.body.scrollHeight);
     }
 
-    function openClosetDoor() {
-        const glide = document.getElementById('decor-closet-glide');
-        const img = document.getElementById('door-img');
-        
-        glide.classList.add('open');
-        // Swapping to your open door asset
-        img.src = "Assets/decor_openclosetdoors.png";
+    function toggleReceipt() {
+        document.getElementById('scroll-receipt').classList.toggle('active');
     }
 
-    function showReceipt() {
-        console.log("Scroll receipt rolling out...");
+    function changeBG(url) {
+        document.body.style.backgroundImage = `url('${url}')`;
+    }
+
+    // Canvas update logic for room choices
+    function setRoom(imgName) {
+        document.getElementById('room-canvas').style.backgroundImage = `url('Assets/${imgName}')`;
+        document.getElementById('roomscabinet').classList.remove('active');
     }
 </script>
 
