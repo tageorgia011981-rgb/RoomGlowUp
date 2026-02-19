@@ -13,25 +13,26 @@
             --heavy-glide: cubic-bezier(0.7, 0, 0.3, 1);
         }
 
+        /* --- FOUNDATION --- */
         html, body {
             margin: 0; padding: 0;
             width: 100%; height: 100%;
-            background-color: #000; /* Pitch black base */
+            background-color: #000; /* Deep black fallback */
             font-family: 'Limelight', cursive;
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        /* --- THE STAGE (FIXED BACKGROUND) --- */
+        /* --- THE STAGE --- */
         #site-stage {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            /* Ensure Assets is capitalized if your folder is capitalized */
-            background: url('Assets/backgroundmain.jpg') no-repeat center center;
-            background-size: cover; 
+            background-image: url('Assets/backgroundmain.jpg');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
             z-index: -10;
-            transition: background 1.5s ease-in-out;
         }
 
         section {
@@ -42,14 +43,13 @@
             background: transparent;
         }
 
-        /* --- CHROME HEADERS --- */
+        /* --- HEADERS --- */
         .main-header {
-            font-size: 45px;
+            font-size: 55px;
             margin: 0;
             text-transform: uppercase;
             letter-spacing: 12px;
-            white-space: nowrap;
-            background: linear-gradient(90deg, var(--chrome-dark) 0%, var(--chrome-mid) 25%, var(--chrome-top) 50%, var(--chrome-mid) 75%, var(--chrome-dark) 100%);
+            background: linear-gradient(90deg, var(--chrome-dark), var(--chrome-top), var(--chrome-dark));
             background-size: 200% auto;
             -webkit-background-clip: text;
             background-clip: text;
@@ -61,64 +61,75 @@
         @keyframes chromeSweep { to { background-position: 200% center; } }
 
         .sub-header {
-            font-size: 18px;
+            font-size: 20px;
             color: #ffffff;
             text-transform: uppercase;
             letter-spacing: 6px;
-            margin: 10px 0 50px 0;
-            opacity: 0.7;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8));
+            margin: 10px 0 60px 0;
+            opacity: 0.8;
+            text-align: center;
         }
 
-        /* --- PULL TABS: KILLING THE WHITE BOXES --- */
-        #pull-tabs-row { display: flex; gap: 30px; }
+        /* --- PULL TABS (BOX-FREE) --- */
+        #pull-tabs-row {
+            display: flex;
+            gap: 35px;
+        }
 
         .pull-tab {
             cursor: pointer;
-            width: 180px; height: 280px;
-            /* Force transparency on the container to kill the box */
-            background: none !important;
-            background-color: transparent !important;
-            border: none !important;
-            display: flex; align-items: center; justify-content: center;
+            width: 180px;
             transition: transform 0.6s var(--heavy-glide);
+            /* These kill the white boxes around the tab containers */
+            background: transparent !important;
+            border: none !important;
+            outline: none !important;
         }
 
         .pull-tab img {
-            width: 100%; height: 100%;
+            width: 100%;
+            height: auto;
             object-fit: contain;
-            /* Put white inside the chrome holder only */
-            background-color: #ffffff !important; 
-            border-radius: 4px;
-            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.9));
+            /* White is ONLY inside the chrome label holder */
+            background-color: #ffffff; 
+            border-radius: 5px;
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.8));
             transition: filter 0.4s ease;
         }
 
-        /* Lift and Glow */
-        .pull-tab:hover { transform: translateY(-35px); }
-        .pull-tab:hover img {
-            filter: brightness(1.2) drop-shadow(0 0 20px rgba(255,255,255,0.4)) drop-shadow(0 25px 35px rgba(0,0,0,1));
+        .pull-tab:hover {
+            transform: translateY(-30px);
         }
 
-        /* --- CABINET AREA --- */
-        #rooms-cabinet {
+        .pull-tab:hover img {
+            filter: brightness(1.2) drop-shadow(0 0 25px rgba(255,255,255,0.3));
+        }
+
+        /* --- ROOMS CABINET (CRISP & SHARP) --- */
+        #rooms-cabinet-container {
             position: fixed;
-            left: -850px;
+            left: -800px; /* Start hidden */
             top: 50%;
             transform: translateY(-50%);
-            width: 800px;
+            width: 500px; /* Set a specific width to prevent stretching */
             transition: left 1.2s var(--heavy-glide);
-            z-index: 1000;
+            z-index: 100;
         }
-        #rooms-cabinet.active { left: 40px; }
 
-        #design-canvas {
-            width: 80vw; height: 60vh;
-            margin-top: 100vh;
-            background: rgba(255,255,255,0.05);
-            border: 2px dashed rgba(255,255,255,0.2);
-            display: flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 24px;
+        #rooms-cabinet-container.active {
+            left: 50px;
+        }
+
+        .cabinet-img {
+            width: 100%;
+            height: auto; /* Keeps the original proportions crisp */
+            display: block;
+            filter: drop-shadow(20px 0 40px rgba(0,0,0,0.6));
+        }
+
+        /* --- DESIGN AREA --- */
+        #design-zone {
+            position: relative;
         }
     </style>
 </head>
@@ -131,32 +142,31 @@
         <div class="sub-header">Where Your Dream Space Comes To Life</div>
 
         <div id="pull-tabs-row">
-            <div class="pull-tab" onclick="actionRooms()"><img src="Assets/pulltabs_rooms.png" alt="Rooms"></div>
-            <div class="pull-tab"><img src="Assets/pulltabs_furniturecatalog.png" alt="Furniture Catalog"></div>
-            <div class="pull-tab"><img src="Assets/pulltabs_decorcloset.png" alt="Decor Closet"></div>
-            <div class="pull-tab" onclick="actionInspo()"><img src="Assets/pulltabs_inspogallery.png" alt="Inspirational Gallery"></div>
-            <div class="pull-tab"><img src="Assets/pulltabs_savecheckout.png" alt="Save/Check Out"></div>
+            <div class="pull-tab" onclick="actionRooms()"><img src="Assets/pulltabs_rooms.png"></div>
+            <div class="pull-tab"><img src="Assets/pulltabs_furniturecatalog.png"></div>
+            <div class="pull-tab"><img src="Assets/pulltabs_decorcloset.png"></div>
+            <div class="pull-tab"><img src="Assets/pulltabs_inspogallery.png"></div>
+            <div class="pull-tab"><img src="Assets/pulltabs_savecheckout.png"></div>
         </div>
     </section>
 
     <section id="design-zone">
-        <div id="rooms-cabinet">
-            <img src="Assets/roomscabinet.png" style="width:100%;">
+        <div id="rooms-cabinet-container">
+            <img src="Assets/roomscabinet.png" class="cabinet-img">
         </div>
-        <div id="design-canvas">Design Canvas Preview Area</div>
     </section>
 
     <script>
         function actionRooms() {
+            // Scroll down to the Design Zone
             document.getElementById('design-zone').scrollIntoView({ behavior: 'smooth' });
+            
+            // Glide in the Cabinet after a short delay
             setTimeout(() => {
-                document.getElementById('rooms-cabinet').classList.add('active');
+                document.getElementById('rooms-cabinet-container').classList.add('active');
             }, 800);
-        }
-
-        function actionInspo() {
-            document.getElementById('site-stage').style.backgroundImage = "url('Assets/rainbackground.jpg')";
         }
     </script>
 </body>
 </html>
+
