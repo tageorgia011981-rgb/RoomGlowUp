@@ -12,14 +12,22 @@
         html, body {
             margin: 0; padding: 0;
             width: 100%; height: 300vh; 
-            background-image: url('Assets/newbackground_main.jpg');
-            background-position: center top;
-            background-repeat: repeat-y;
-            background-size: contain;
-            background-attachment: scroll;
             font-family: 'Limelight', cursive;
             scroll-behavior: smooth;
             overflow-x: hidden;
+            background-color: #000; /* Deep base */
+        }
+
+        /* FIXED BACKGROUND CONTAINER - Prevents Stretching */
+        #bg-layer {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-image: url('Assets/newbackground_main.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain; /* Keeps image proportions perfect */
+            z-index: -10;
             transition: background-image 1.5s ease-in-out;
         }
 
@@ -32,7 +40,6 @@
             align-items: center;
             justify-content: flex-start;
             padding-top: 80px;
-            background: rgba(0, 0, 0, 0.1); 
             text-align: center;
         }
 
@@ -69,10 +76,8 @@
 
         .pull-tab {
             cursor: pointer;
-            width: 200px;
+            width: 180px;
             transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            background: transparent !important;
-            border: none !important;
         }
 
         .pull-tab img {
@@ -83,7 +88,7 @@
 
         .pull-tab:hover {
             transform: translateY(-25px);
-            filter: brightness(1.1);
+            filter: brightness(1.2);
         }
 
         /* --- DESIGN ZONE & CABINET --- */
@@ -92,8 +97,7 @@
             height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: flex-end; 
-            padding-right: 40px; /* Increased padding to prevent overlap */
+            justify-content: center; /* Centered layout */
             position: relative;
         }
 
@@ -107,13 +111,12 @@
         }
 
         #cabinet-container.glide-in {
-            /* Stopped well short of the canvas */
-            left: 50px; 
+            left: 20px; /* Locked to far left */
         }
 
         .cabinet-wrapper {
             position: relative;
-            width: 480px; 
+            width: 450px; /* Narrowed to ensure no overlap */
         }
 
         .cabinet-asset {
@@ -124,7 +127,7 @@
             transition: filter 0.4s ease;
         }
 
-        /* INVISIBLE HITBOXES */
+        /* INVISIBLE HITBOXES OVER YOUR LABELS */
         .drawer-labels {
             position: absolute;
             top: 0; left: 0;
@@ -133,23 +136,17 @@
 
         .drawer-pull {
             position: absolute;
-            width: 240px; height: 70px;
+            width: 260px; height: 75px;
             cursor: pointer;
-            background: transparent; /* Totally invisible */
+            background: transparent;
             transition: transform 0.4s ease;
         }
 
-        /* LIFT & GLOW: Now affects the wrapper/image feel instead of showing a box */
-        .drawer-pull:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Using a wrapper filter to make the CABINET glow when a drawer is hovered */
+        /* Glow effect targets the whole cabinet image on hover */
         .cabinet-wrapper:has(.drawer-pull:hover) .cabinet-asset {
-            filter: brightness(1.2) drop-shadow(0 0 15px rgba(255,255,255,0.2));
+            filter: brightness(1.3) drop-shadow(0 0 20px rgba(255,255,255,0.3));
         }
 
-        /* Precise alignment for your 5 drawers */
         #pull-living { top: 16%; left: 80px; }
         #pull-bedroom { top: 31%; left: 80px; }
         #pull-dining { top: 46%; left: 80px; }
@@ -158,16 +155,16 @@
 
         /* --- CANVAS --- */
         .canvas-stage {
-            width: 1100px;
-            height: 600px;
-            background: rgba(0,0,0,0.4);
-            border: 15px solid #1a1a1a;
+            width: 1000px; /* Slightly smaller canvas for better clearance */
+            height: 550px;
+            background: rgba(0,0,0,0.6);
+            border: 12px solid #1a1a1a;
             box-shadow: 0 0 50px rgba(0,0,0,1);
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            position: relative;
+            margin-left: 480px; /* Hard margin to keep it away from the cabinet area */
             z-index: 50; 
         }
 
@@ -183,7 +180,7 @@
             bottom: -100%;
             left: 50%;
             transform: translateX(-50%);
-            width: 80%;
+            width: 70%;
             transition: bottom 1.5s ease;
             z-index: 200;
         }
@@ -194,6 +191,8 @@
     </style>
 </head>
 <body>
+
+    <div id="bg-layer"></div>
 
     <header>
         <h1>Room Glow Up</h1>
@@ -242,7 +241,8 @@
         let currentIndices = { living: 0, bedroom: 0, dining: 0, extra: 0 };
 
         function triggerAction(action) {
-            document.body.style.backgroundImage = "url('Assets/rainbackground.jpg')";
+            // Update the fixed background layer specifically
+            document.getElementById('bg-layer').style.backgroundImage = "url('Assets/rainbackground.jpg')";
             
             if(action === 'rooms') {
                 window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
@@ -265,6 +265,7 @@
             }
         }
 
+        // Logic to send cabinet back out on double click
         document.getElementById('main-room-view').ondblclick = function() {
             document.getElementById('cabinet-container').classList.remove('glide-in');
         };
