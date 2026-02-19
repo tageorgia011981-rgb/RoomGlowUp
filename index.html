@@ -8,69 +8,116 @@
         :root {
             --glide-speed: 1s;
             --pop-timing: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            /* Adjust this hex to match your specific Teal or Orange */
-            --side-fill: #008080; 
+            --side-fill: #008080; /* Your teal/orange side color */
         }
 
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
-            min-height: 100vh;
-            /* Restore the natural scroll of the page */
-            overflow-y: auto;
-            overflow-x: hidden;
-            /* Background containment to stop blurriness */
+            height: 100%;
+            overflow-x: hidden; /* Controlled by the wrapper */
             background-color: var(--side-fill);
-            background-image: url('Assets/newbackground_main.jpg');
-            background-repeat: no-repeat;
-            background-position: center top;
-            background-size: contain;
             font-family: Arial, sans-serif;
         }
 
-        /* Top Navigation Pull Tabs */
+        /* Background stays contained and sharp */
+        #bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('Assets/newbackground_main.jpg') no-repeat center top;
+            background-size: contain;
+            z-index: -1;
+        }
+
         #top-nav {
-            position: sticky;
+            position: fixed;
             top: 0;
             width: 100%;
             display: flex;
             justify-content: center;
             gap: 20px;
-            padding: 15px 0;
+            padding: 20px 0;
             z-index: 1000;
         }
 
         .pull-tab {
-            width: 140px;
+            width: 150px;
             cursor: pointer;
             transition: transform 0.3s var(--pop-timing);
-            transform: translateY(-12px);
+            transform: translateY(-15px);
         }
 
         .pull-tab:hover {
             transform: translateY(0px) scale(1.05);
         }
 
-        /* Main Container */
-        #main-container {
+        /* The Glide and Scroll Container from your baseline */
+        #scroll-wrapper {
             display: flex;
-            align-items: flex-start;
-            justify-content: flex-end;
-            padding: 80px 5% 50px 0;
-            min-height: 150vh; /* Extra height to demonstrate the scroll */
+            width: 160vw; /* Wide enough for the cabinet and stage to sit side-by-side */
+            height: 100vh;
+            transition: transform var(--glide-speed) ease-in-out;
+            transform: translateX(-40vw); /* Initial state: Stage centered, Cabinet hidden left */
+            will-change: transform;
         }
 
-        /* Canvas Area - Sharp and Weighted */
-        #canvas-stage {
-            width: 60%;
-            height: 75vh;
-            border: 12px solid #1a1a1a;
-            background-color: #333;
+        #scroll-wrapper.shift-active {
+            transform: translateX(0); /* Glides the cabinet in and shifts stage right */
+        }
+
+        /* Cabinet Section */
+        #cabinet-section {
+            width: 60vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             position: relative;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+        }
+
+        #room-cabinet {
+            width: 550px; /* Scaled up per your preference */
+            position: relative;
+        }
+
+        #room-cabinet img {
+            width: 100%;
+            display: block;
+        }
+
+        /* Hotspots over brass labels */
+        .drawer-trigger {
+            position: absolute;
+            left: 20%;
+            width: 60%;
+            height: 10%;
             cursor: pointer;
-            z-index: 5;
+            z-index: 15;
+        }
+        #trigger-living { top: 5%; }
+        #trigger-bed    { top: 24%; }
+        #trigger-dining { top: 43%; }
+        #trigger-extra  { top: 62%; }
+
+        /* Stage Section */
+        #stage-section {
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #canvas-stage {
+            width: 65%;
+            height: 75vh;
+            border: 15px solid #1a1a1a;
+            background-color: #222;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+            cursor: pointer;
+            overflow: hidden;
         }
 
         #canvas-image {
@@ -79,88 +126,48 @@
             object-fit: cover;
         }
 
-        /* Side Sliding Panel */
-        .side-panel {
-            position: fixed;
-            left: -650px; 
-            top: 50%;
-            transform: translateY(-50%);
-            transition: left var(--glide-speed) ease-in-out;
-            z-index: 10;
-        }
-
-        .side-panel.active {
-            left: 30px; /* Positioned to avoid overlapping canvas */
-        }
-
-        #room-cabinet, #furniture-trunk {
-            width: 550px; /* Increased scale for impact */
-            position: relative;
-        }
-
-        #room-cabinet img, #furniture-trunk img {
-            width: 100%;
-            display: block;
-        }
-
-        /* Precise Drawer Triggers for roomscabinet.png */
-        .drawer-trigger {
-            position: absolute;
-            left: 20%;
-            width: 60%;
-            height: 9%;
-            cursor: pointer;
-            z-index: 15;
-        }
-
-        #trigger-living { top: 5%; }
-        #trigger-bed    { top: 24%; }
-        #trigger-dining { top: 43%; }
-        #trigger-extra  { top: 62%; }
-        #trigger-upload { top: 81%; }
-
         #furniture-trunk {
             display: none;
+            width: 550px;
         }
-
     </style>
 </head>
 <body>
 
+    <div id="bg-layer"></div>
+
     <div id="top-nav">
-        <img src="Assets/pulltabs_rooms.png" class="pull-tab" onclick="togglePanel()" alt="Rooms">
+        <img src="Assets/pulltabs_rooms.png" class="pull-tab" onclick="toggleGlide()" alt="Rooms">
         <img src="Assets/pulltabs_furniturecatalog.png" class="pull-tab" alt="Catalog">
         <img src="Assets/pulltabs_decorcloset.jpg" class="pull-tab" alt="Decor">
         <img src="Assets/pulltabs_inspogallery.png" class="pull-tab" alt="Gallery">
         <img src="Assets/pulltabs_savecheckout.png" class="pull-tab" alt="Save">
     </div>
 
-    <div id="main-container">
-        <div id="side-panel-container" class="side-panel">
-            
+    <div id="scroll-wrapper">
+        <div id="cabinet-section">
             <div id="room-cabinet">
                 <img src="Assets/roomscabinet.png" alt="Cabinet">
                 <div id="trigger-living" class="drawer-trigger" onmouseover="startCycle('living')" onmouseout="stopCycle()"></div>
                 <div id="trigger-bed" class="drawer-trigger" onmouseover="startCycle('bed')" onmouseout="stopCycle()"></div>
                 <div id="trigger-dining" class="drawer-trigger" onmouseover="startCycle('dining')" onmouseout="stopCycle()"></div>
                 <div id="trigger-extra" class="drawer-trigger" onmouseover="startCycle('extra')" onmouseout="stopCycle()"></div>
-                <div id="trigger-upload" class="drawer-trigger"></div>
             </div>
-
             <div id="furniture-trunk">
-                <img id="trunk-img" src="Assets/furniturecases.png" alt="Furniture Trunks">
+                <img src="Assets/furniturecases.png" alt="Furniture Cases">
             </div>
-
         </div>
 
-        <div id="canvas-stage" onclick="lockAndSwap()">
-            <img id="canvas-image" src="Assets/livingroom.jpg" alt="Preview">
+        <div id="stage-section">
+            <div id="canvas-stage" onclick="lockAndSwap()">
+                <img id="canvas-image" src="Assets/livingroom.jpg" alt="Preview">
+            </div>
         </div>
     </div>
 
     <script>
+        const wrapper = document.getElementById('scroll-wrapper');
         const canvasImg = document.getElementById('canvas-image');
-        const sidePanel = document.getElementById('side-panel-container');
         const cabinet = document.getElementById('room-cabinet');
         const trunk = document.getElementById('furniture-trunk');
 
@@ -174,8 +181,8 @@
             extra: ['extra.jpg']
         };
 
-        function togglePanel() {
-            if (!isLocked) sidePanel.classList.toggle('active');
+        function toggleGlide() {
+            if (!isLocked) wrapper.classList.toggle('shift-active');
         }
 
         function startCycle(type) {
@@ -188,22 +195,21 @@
             }, 850);
         }
 
-        function stopCycle() {
-            clearInterval(cycleInterval);
-        }
+        function stopCycle() { clearInterval(cycleInterval); }
 
         function lockAndSwap() {
             if (isLocked) return;
             isLocked = true;
             stopCycle();
 
-            // Slide out, switch content, slide back in
-            sidePanel.classList.remove('active');
+            // Unified Glide Out
+            wrapper.classList.remove('shift-active');
 
             setTimeout(() => {
                 cabinet.style.display = 'none';
                 trunk.style.display = 'block';
-                sidePanel.classList.add('active');
+                // Unified Glide In
+                wrapper.classList.add('shift-active');
             }, 1000);
         }
     </script>
