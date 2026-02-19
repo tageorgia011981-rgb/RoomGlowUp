@@ -10,7 +10,7 @@
             --metallic-light: #dadada;
             --metallic-mid: #9b9ea5;
             --metallic-dark: #65684b;
-            --glow-color: rgba(0, 255, 0, 0.6);
+            --glow-color: rgba(0, 255, 0, 0.7);
         }
 
         body, html {
@@ -26,82 +26,76 @@
             color: white;
         }
 
-        /* Pull Tab Label Holder CSS */
+        #header-section {
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        h1 { font-size: 5rem; margin: 0; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        h2 { font-size: 2rem; margin: 10px 0; font-weight: normal; }
+
+        /* CSS Metallic Pull Tabs */
         .pull-tab-container {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            padding-top: 40px;
+            gap: 15px;
+            margin-top: 30px;
         }
 
         .label-holder {
-            width: 180px;
-            height: 100px;
-            background: linear-gradient(to bottom, #e0e0e0 0%, #9b9ea5 20%, #65684b 100%);
-            border-radius: 6px;
+            width: 160px;
+            height: 90px;
+            background: linear-gradient(to bottom, var(--metallic-light), var(--metallic-mid), var(--metallic-dark));
+            border-radius: 5px;
             position: relative;
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-            border: 2px solid #bdbdbd;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
         }
 
-        /* The "Window" for the text */
         .label-window {
             position: absolute;
-            top: 15px;
-            left: 15px;
-            right: 15px;
-            bottom: 30px;
-            background: #f0f0f0;
-            border-inner: 2px inset rgba(0,0,0,0.2);
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 25px;
+            background: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #222;
-            font-size: 0.9rem;
+            color: #333;
+            font-size: 0.85rem;
             text-align: center;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        /* The Curved Pull Tab at bottom */
         .label-holder::after {
             content: '';
             position: absolute;
-            bottom: -15px;
+            bottom: -12px;
             left: 50%;
             transform: translateX(-50%);
-            width: 60px;
-            height: 25px;
-            background: linear-gradient(to bottom, #9b9ea5, #65684b);
-            border-radius: 0 0 30px 30px;
-            border: 1px solid #bdbdbd;
+            width: 50px;
+            height: 20px;
+            background: var(--metallic-mid);
+            border-radius: 0 0 25px 25px;
+            border: 1px solid #fff;
         }
 
-        /* Lift and Glow effect from manifest */
         .label-holder:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 0 20px var(--glow-color);
+            transform: translateY(-12px);
+            box-shadow: 0 0 15px var(--glow-color);
         }
 
-        /* Main Headers */
-        #header-section {
-            text-align: center;
-            padding: 60px 20px;
-        }
-
-        h1 { font-size: 5rem; margin: 0; text-transform: uppercase; }
-        h2 { font-size: 1.8rem; margin-top: 10px; font-weight: normal; }
-
-        /* Stage and Canvas */
+        /* Main Interaction Stage */
         #main-stage {
             width: 90%;
-            max-width: 1200px;
-            height: 70vh;
+            height: 75vh;
             margin: 40px auto;
-            border: 10px solid rgba(255,255,255,0.1);
-            background: rgba(0,0,0,0.3);
             position: relative;
+            background: rgba(0,0,0,0.2);
+            border: 5px solid white;
             overflow: hidden;
         }
 
@@ -112,103 +106,109 @@
             background-position: center;
         }
 
-        /* Cabinet Slide-in (From Left) */
+        /* Gliding Cabinets & Doors */
         #roomscabinet {
             position: absolute;
             left: -100%;
-            top: 50%;
-            transform: translateY(-50%);
-            transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 100;
+            top: 10%;
+            transition: left 0.8s ease-in-out;
+            z-index: 10;
         }
 
         #roomscabinet.active { left: 0; }
 
-        /* Decor Closet (From Bottom) */
-        #closetdoor {
+        #closet-container {
             position: fixed;
             bottom: -100%;
             left: 50%;
             transform: translateX(-50%);
             transition: bottom 0.8s ease;
-            z-index: 200;
+            z-index: 20;
         }
 
-        #closetdoor.active { bottom: 0; }
+        #closet-container.active { bottom: 0; }
 
-        /* Scroll Receipt */
         #scroll-receipt {
             position: fixed;
             top: -100%;
             right: 5%;
             transition: top 1s ease;
-            z-index: 300;
+            z-index: 30;
         }
 
-        #scroll-receipt.active { top: 0; }
+        #scroll-receipt.active { top: 20px; }
     </style>
 </head>
 <body>
 
-<div id="header-section">
-    <h1>Room Glow Up</h1>
-    <h2>Where Your Dream Space Comes To Life</h2>
+    <div id="header-section">
+        <h1>Room Glow Up</h1>
+        <h2>Where Your Dream Space Comes To Life</h2>
 
-    <div class="pull-tab-container">
-        <div class="label-holder" onclick="toggleCabinet()">
-            <div class="label-window">Rooms</div>
-        </div>
-        <div class="label-holder" onclick="openCatalog()">
-            <div class="label-window">Furniture Catalog</div>
-        </div>
-        <div class="label-holder" onclick="toggleCloset()">
-            <div class="label-window">Decor Closet</div>
-        </div>
-        <div class="label-holder" onclick="changeBG('Assets/rainbackground.jpg')">
-            <div class="label-window">Inspirational Gallery</div>
-        </div>
-        <div class="label-holder" onclick="toggleReceipt()">
-            <div class="label-window">Save / Check Out</div>
+        <div class="pull-tab-container">
+            <div class="label-holder" onclick="toggleRooms()">
+                <div class="label-window">Rooms</div>
+            </div>
+            <div class="label-holder" onclick="openCatalog()">
+                <div class="label-window">Furniture Catalog</div>
+            </div>
+            <div class="label-holder" onclick="toggleCloset()">
+                <div class="label-window">Decor Closet</div>
+            </div>
+            <div class="label-holder" onclick="openGallery()">
+                <div class="label-window">Inspirational Gallery</div>
+            </div>
+            <div class="label-holder" onclick="toggleReceipt()">
+                <div class="label-window">Save / Check Out</div>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="main-stage">
-    <img src="Assets/roomscabinet.png" id="roomscabinet" alt="Rooms Cabinet">
-    <div id="room-canvas"></div>
-</div>
+    <div id="main-stage">
+        <img src="Assets/roomscabinet.png" id="roomscabinet" alt="Cabinet">
+        <div id="room-canvas"></div>
+    </div>
 
-<img src="Assets/closetdoor.png" id="closetdoor" alt="Decor Closet">
-<img src="Assets/scrollreceipt.png" id="scroll-receipt" alt="Receipt">
+    <div id="closet-container">
+        <img src="Assets/decor_closedclosetdoors.png" id="closet-image" onclick="openCloset()" alt="Closet Door">
+    </div>
 
-<script>
-    function toggleCabinet() {
-        const cab = document.getElementById('roomscabinet');
-        cab.classList.toggle('active');
-        if(cab.classList.contains('active')) {
-            window.scrollTo(0, document.getElementById('main-stage').offsetTop);
+    <img src="Assets/scrollreceipt.png" id="scroll-receipt" alt="Receipt">
+
+    <script>
+        function toggleRooms() {
+            const cab = document.getElementById('roomscabinet');
+            cab.classList.toggle('active');
+            if(cab.classList.contains('active')) {
+                window.scrollTo(0, document.getElementById('main-stage').offsetTop);
+            }
         }
-    }
 
-    function toggleCloset() {
-        document.getElementById('closetdoor').classList.toggle('active');
-        window.scrollTo(0, document.body.scrollHeight);
-    }
+        function toggleCloset() {
+            const container = document.getElementById('closet-container');
+            container.classList.toggle('active');
+            // Reset to closed door when pulling tab
+            document.getElementById('closet-image').src = 'Assets/decor_closedclosetdoors.png';
+            window.scrollTo(0, document.body.scrollHeight);
+        }
 
-    function toggleReceipt() {
-        document.getElementById('scroll-receipt').classList.toggle('active');
-    }
+        function openCloset() {
+            // Change image to opened state per manifest update
+            document.getElementById('closet-image').src = 'Assets/openedclosetdoors.png';
+        }
 
-    function changeBG(url) {
-        document.body.style.backgroundImage = `url('${url}')`;
-    }
+        function toggleReceipt() {
+            document.getElementById('scroll-receipt').classList.toggle('active');
+        }
 
-    // Canvas update logic for room choices
-    function setRoom(imgName) {
-        document.getElementById('room-canvas').style.backgroundImage = `url('Assets/${imgName}')`;
-        document.getElementById('roomscabinet').classList.remove('active');
-    }
-</script>
+        function openGallery() {
+            document.body.style.backgroundImage = "url('Assets/rainbackground.jpg')";
+        }
 
+        function selectRoom(image) {
+            document.getElementById('room-canvas').style.backgroundImage = `url('Assets/${image}')`;
+            document.getElementById('roomscabinet').classList.remove('active');
+        }
+    </script>
 </body>
 </html>
