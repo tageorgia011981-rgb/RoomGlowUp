@@ -13,7 +13,7 @@
 
         body, html {
             margin: 0; padding: 0; min-height: 100vh;
-            background: url('Assets/mainbackground.jpg') no-repeat center center fixed;
+            background: url('Assets/newbackground_main.jpg') no-repeat center center fixed;
             background-size: cover; font-family: 'Limelight', cursive;
             overflow: hidden;
         }
@@ -25,15 +25,16 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             text-transform: uppercase; letter-spacing: 4px;
         }
+        .subheader { font-size: 24px; color: #fff; margin-top: -10px; font-family: 'Limelight', cursive; }
 
         .nav-container { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; }
-        .label-holder {
+        .pull-tab {
             width: 190px; height: 90px; background: var(--metal-shine);
             border: 2px solid #000; display: flex; justify-content: center; align-items: center;
             cursor: pointer; box-shadow: 5px 5px 15px rgba(0,0,0,0.7);
         }
         .white-card { width: 85%; height: 60%; background: #fff; display: flex; justify-content: center; align-items: center; }
-        .label-text { font-family: 'Courier New', monospace; font-weight: 900; font-size: 14px; color: #000; }
+        .label-text { font-family: 'Courier New', monospace; font-weight: 900; font-size: 13px; color: #000; text-align: center; }
 
         #interaction-zone { display: flex; justify-content: center; align-items: flex-start; width: 100%; position: relative; }
         
@@ -41,57 +42,62 @@
             width: 950px; height: 600px; border: 20px solid #000;
             background: #222; box-shadow: 0 0 50px #000;
             position: relative; margin-left: 100px;
+            overflow: hidden;
         }
 
         .asset-side-container { position: absolute; left: -550px; top: 0; width: 450px; transition: left 0.8s ease; z-index: 100; }
         .glided-in { left: 20px !important; }
 
-        /* SMALLER CLOSET OVERLAY */
         #closet-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 3000;
             display: none; justify-content: flex-end; align-items: center;
-            padding-right: 20px;
         }
         #closet-vault {
-            width: 380px; height: 65vh; background: #000;
-            border: 5px solid #333; position: relative;
-            display: flex; flex-direction: column; box-shadow: -5px 0 30px #000;
+            width: 450px; height: 80vh; background: #000;
+            border: 8px solid #444; margin-right: 60px;
+            position: relative; box-shadow: -15px 0 50px #000;
         }
         #closet-img { width: 100%; height: 100%; object-fit: contain; cursor: pointer; }
 
         #exit-sign {
-            position: absolute; top: 5px; right: 5px;
-            background: #3e2723; color: gold; border: 1px solid gold;
-            padding: 5px 12px; cursor: pointer; z-index: 4000;
-            font-size: 12px;
+            position: absolute; top: 15px; right: 15px;
+            background: #3e2723; color: gold; border: 2px solid gold;
+            padding: 8px 15px; cursor: pointer; z-index: 4001; font-size: 14px;
         }
+
+        .decor-item { position: absolute; cursor: move; max-width: 150px; z-index: 500; }
     </style>
 </head>
 <body>
 
-<header><h1>Room Glow Up</h1></header>
+<header>
+    <h1>Room Glow Up</h1>
+    <div class="subheader">Where Your Dream Space Comes To Life</div>
+</header>
 
 <nav class="nav-container">
-    <div class="label-holder" onclick="openRooms()"><div class="white-card"><span class="label-text">Rooms</span></div></div>
-    <div class="label-holder" onclick="openCloset()"><div class="white-card"><span class="label-text">Decor Closet</span></div></div>
+    <div class="pull-tab" onclick="openRooms()"><div class="white-card"><span class="label-text">Rooms</span></div></div>
+    <div class="pull-tab"><div class="white-card"><span class="label-text">Furniture Catalog</span></div></div>
+    <div class="pull-tab" onclick="openCloset()"><div class="white-card"><span class="label-text">Decor Closet</span></div></div>
+    <div class="pull-tab"><div class="white-card"><span class="label-text">Inspirational Gallery</span></div></div>
+    <div class="pull-tab"><div class="white-card"><span class="label-text">Save/Check Out</span></div></div>
 </nav>
 
 <div id="interaction-zone">
     <div id="rooms-cabinet-container" class="asset-side-container">
-        <img src="Assets/cabinet.png" style="width:100%" onclick="relayToFurniture()">
+        <img src="Assets/roomscabinet.png" style="width:100%" onclick="relayToFurniture()">
     </div>
     <div id="furniture-cases-container" class="asset-side-container">
         <img src="Assets/furniturecases.png" style="width:100%">
     </div>
-    
     <div id="theater-container"></div>
 </div>
 
 <div id="closet-overlay">
     <div id="closet-vault">
         <div id="exit-sign" onclick="closeCloset()">EXIT</div>
-        <img src="Assets/decorcloset_entryway.jpg" id="closet-img" onclick="cycleCloset()">
+        <img src="Assets/decorcloset_entryway.jpg" id="closet-img" onclick="cycleCloset()" ondblclick="spawnItem()">
     </div>
 </div>
 
@@ -114,19 +120,36 @@
         setTimeout(() => { document.getElementById('furniture-cases-container').classList.add('glided-in'); }, 900);
     }
 
-    function openCloset() { 
-        document.getElementById('closet-overlay').style.display = 'flex'; 
-    }
-
-    function closeCloset() { 
-        document.getElementById('closet-overlay').style.display = 'none'; 
-        closetStep = 0;
-        document.getElementById('closet-img').src = closetImages[0];
-    }
+    function openCloset() { document.getElementById('closet-overlay').style.display = 'flex'; }
+    function closeCloset() { document.getElementById('closet-overlay').style.display = 'none'; }
 
     function cycleCloset() {
         closetStep = (closetStep + 1) % closetImages.length;
         document.getElementById('closet-img').src = closetImages[closetStep];
+    }
+
+    function spawnItem() {
+        const theater = document.getElementById('theater-container');
+        const newItem = document.createElement('img');
+        newItem.src = 'Assets/temp_item.png'; 
+        newItem.className = 'decor-item';
+        newItem.style.left = '400px';
+        newItem.style.top = '250px';
+
+        newItem.onmousedown = function(event) {
+            let shiftX = event.clientX - newItem.getBoundingClientRect().left;
+            let shiftY = event.clientY - newItem.getBoundingClientRect().top;
+            function moveAt(pageX, pageY) {
+                let rect = theater.getBoundingClientRect();
+                newItem.style.left = (pageX - rect.left - shiftX) + 'px';
+                newItem.style.top = (pageY - rect.top - shiftY) + 'px';
+            }
+            function onMouseMove(event) { moveAt(event.pageX, event.pageY); }
+            document.addEventListener('mousemove', onMouseMove);
+            newItem.onmouseup = () => document.removeEventListener('mousemove', onMouseMove);
+        };
+        newItem.ondragstart = () => false;
+        theater.appendChild(newItem);
     }
 </script>
 
