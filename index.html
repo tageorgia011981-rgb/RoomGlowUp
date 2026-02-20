@@ -1,49 +1,27 @@
 <style>
-    /* THE OVERLAY - NO BACKGROUND AROUND THE VAULT */
+    /* THE OVERLAY - FULL SCREEN DIMMING */
     #closet-overlay {
-        position: fixed; 
-        top: 0; left: 0; 
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.5); /* Dim the main site slightly */
-        z-index: 3000;
-        display: none; 
-        justify-content: flex-end; 
-        align-items: center;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.85); z-index: 9999;
+        display: none; justify-content: flex-end; align-items: center;
     }
 
-    /* THE VAULT - COMPLETELY BORDERLESS */
+    /* THE VAULT - NO BORDERS TO CUT OFF THE VIEW */
     #closet-vault {
-        width: auto; /* Let the image define the width */
-        height: 100vh; /* Floor to ceiling */
-        background: transparent; 
-        border: none; /* Removed the 10px border */
-        margin: 0; 
-        padding: 0;
-        position: relative; 
-        display: flex;
-        overflow: hidden;
+        height: 100vh; width: auto; background: transparent; 
+        margin-right: 50px; position: relative; display: flex;
     }
 
-    /* THE IMAGE - RAW AND UNTOUCHED */
+    /* THE IMAGE - ENSURES FULL VERTICAL VIEW */
     #closet-img { 
-        height: 100%; 
-        width: auto; /* Keeps it from stretching wide and looking weird */
-        display: block;
-        cursor: pointer;
-        padding: 0;
-        margin: 0;
+        height: 100%; width: auto; object-fit: contain; 
+        display: block; cursor: pointer;
     }
 
     #exit-sign {
-        position: absolute; 
-        top: 20px; 
-        right: 20px;
-        background: rgba(62, 39, 35, 0.8); /* Semi-transparent so it blends in */
-        color: gold; 
-        border: 1px solid gold;
-        padding: 10px 20px; 
-        cursor: pointer; 
-        z-index: 4001; 
+        position: absolute; top: 30px; right: 30px;
+        background: #3e2723; color: gold; border: 2px solid gold;
+        padding: 10px 20px; cursor: pointer; z-index: 10000;
         font-family: 'Limelight', cursive;
     }
 </style>
@@ -54,3 +32,32 @@
         <img src="Assets/decorcloset_entryway.jpg" id="closet-img" onclick="cycleCloset()" ondblclick="spawnItem()">
     </div>
 </div>
+
+<script>
+    let closetStep = 0;
+    // Updated to match your exact manifest filenames
+    const closetImages = [
+        'Assets/decorcloset_entryway.jpg',
+        'Assets/lightingcloset.jpg',
+        'Assets/plant_pillowcloset.jpg',
+        'Assets/curtaincloset.jpg',
+        'Assets/ruggallery.jpg'
+    ];
+
+    function openCloset() { 
+        document.getElementById('closet-overlay').style.display = 'flex'; 
+    }
+
+    function closeCloset() { 
+        document.getElementById('closet-overlay').style.display = 'none'; 
+        // Reset to entryway when closed
+        closetStep = 0;
+        document.getElementById('closet-img').src = closetImages[0];
+    }
+
+    function cycleCloset() {
+        // Clicking the image (the sign) cycles to the next room
+        closetStep = (closetStep + 1) % closetImages.length;
+        document.getElementById('closet-img').src = closetImages[closetStep];
+    }
+</script>
