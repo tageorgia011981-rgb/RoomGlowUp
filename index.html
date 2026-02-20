@@ -9,7 +9,7 @@
         body, html {
             margin: 0;
             padding: 0;
-            height: 200%; /* Extra height for scrolling */
+            height: 2800px; /* Space for the scroll-down effect */
             font-family: 'Limelight', cursive;
             background: url('Assets/mainbackground.jpg') no-repeat center center fixed;
             background-size: cover;
@@ -17,125 +17,100 @@
             overflow-x: hidden;
         }
 
-        /* Header Section */
+        /* Header & Navigation */
         #header-container {
             text-align: center;
-            padding: 50px 0;
+            padding: 40px 0;
             color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
         }
 
         h1 { font-size: 5rem; margin: 0; }
-        h2 { font-size: 2rem; font-weight: normal; }
+        h2 { font-size: 1.8rem; font-weight: normal; margin-top: 5px; }
 
-        /* Navigation Pull Tabs */
         #nav-tabs {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 20px;
+            margin-top: 30px;
         }
 
         .pull-tab {
             cursor: pointer;
-            transition: transform 0.3s ease, filter 0.3s;
+            width: 160px;
+            transition: transform 0.3s ease;
+            z-index: 200;
         }
 
-        .pull-tab:hover {
-            transform: translateY(-10px);
-            filter: drop-shadow(0 0 10px lime);
-        }
+        .pull-tab:hover { transform: translateY(-15px); }
 
-        /* Main Canvas Area - Sacred Zone */
+        /* The Sacred Canvas - 950x600 Fixed */
         #main-canvas {
-            width: 800px;
-            height: 500px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 5px solid #fff;
-            margin: 40px auto;
+            width: 950px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 10px solid #fff;
+            margin: 20px auto;
             position: relative;
-            z-index: 10;
-            overflow: hidden;
+            z-index: 50; /* Above the gliding elements if they ever touch */
+            box-shadow: 0 0 40px rgba(0,0,0,0.6);
         }
 
-        /* The Decor Closet - Hidden off-screen bottom */
+        /* Side Elements: Rooms Cabinet (Left) and Furniture Cases (Right) */
+        .side-unit {
+            position: fixed;
+            bottom: -1000px; /* Start off-screen */
+            width: 450px; /* Much bigger size */
+            transition: bottom 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), left 1s, right 1s;
+            z-index: 40;
+        }
+
+        #rooms-cabinet { left: 20px; }
+        #furniture-cases { right: 20px; }
+
+        /* The Decor Closet - Bottom Center */
         #decor-closet-container {
             position: fixed;
-            bottom: -600px; /* Hidden initially */
+            bottom: -1000px;
             left: 50%;
             transform: translateX(-50%);
-            width: 700px;
-            transition: bottom 0.8s ease-out;
-            z-index: 20;
-        }
-
-        #closet-door-frame {
-            position: relative;
-            width: 100%;
-        }
-
-        #door-image {
-            width: 100%;
-            display: block;
-            cursor: pointer;
-        }
-
-        /* Interior Closet - Masked and hidden */
-        #closet-interior {
-            display: none; 
-            position: absolute;
-            top: 10%;
-            left: 10%;
-            width: 80%;
-            height: 80%;
-            z-index: -1; /* Behind the frame */
+            width: 850px;
+            transition: bottom 1.2s ease-out;
+            z-index: 100;
             text-align: center;
         }
 
-        #interior-content {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+        #exit-sign {
+            display: inline-block;
+            cursor: pointer;
+            background: #3e2723;
+            color: #fff9c4;
+            padding: 12px 30px;
+            border: 4px solid #fff9c4;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            visibility: hidden;
+            text-transform: uppercase;
         }
 
-        /* Navigation Arrows for Looping */
+        #closet-frame { position: relative; width: 100%; }
+        #closet-doors { width: 100%; height: auto; cursor: pointer; position: relative; z-index: 102; }
+
+        #interior-view {
+            position: absolute;
+            top: 10%; left: 10%; width: 80%; height: 80%;
+            z-index: 101; display: none; overflow: hidden;
+        }
+        #interior-img { width: 100%; height: 100%; object-fit: contain; }
+
         .nav-arrow {
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.5);
-            color: white;
-            padding: 10px;
-            cursor: pointer;
-            display: none;
-            border: none;
-            font-size: 24px;
+            top: 50%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.8); color: #fff; border: 2px solid #fff;
+            padding: 20px; cursor: pointer; z-index: 110; display: none;
         }
-        #next-arrow { right: -50px; }
-        #prev-arrow { left: -50px; }
-
-        /* Exit Sign */
-        #exit-sign {
-            position: absolute;
-            top: -60px;
-            right: 0;
-            cursor: pointer;
-            background: #442211;
-            color: white;
-            padding: 10px 20px;
-            border: 2px solid #fff;
-            display: none;
-        }
-
-        /* Rooms Cabinet - Glide from left */
-        #rooms-cabinet {
-            position: fixed;
-            left: -400px;
-            top: 200px;
-            width: 300px;
-            transition: left 0.8s ease-out;
-            z-index: 15;
-        }
+        #prev-arrow { left: -80px; }
+        #next-arrow { right: -80px; }
     </style>
 </head>
 <body>
@@ -145,80 +120,75 @@
         <h2>Where Your Dream Space Comes To Life</h2>
         
         <div id="nav-tabs">
-            <img src="Assets/pulltabs_rooms.png" class="pull-tab" onclick="toggleRooms()" alt="Rooms">
-            <img src="Assets/pulltabs_furniturecatalog.png" class="pull-tab" alt="Furniture Catalog">
-            <img src="Assets/pulltabs_decorcloset.png" class="pull-tab" onclick="openDecorCloset()" alt="Decor Closet">
-            <img src="Assets/pulltabs_inspogallery.png" class="pull-tab" alt="Inspirational Gallery">
-            <img src="Assets/pulltabs_savecheckout.png" class="pull-tab" alt="Save/Check Out">
+            <img src="Assets/pulltabs_rooms.png" class="pull-tab" onclick="triggerSideUnits()" alt="Rooms">
+            <img src="Assets/pulltabs_furniturecatalog.png" class="pull-tab" onclick="triggerSideUnits()" alt="Furniture">
+            <img src="Assets/pulltabs_decorcloset.png" class="pull-tab" onclick="openClosetSequence()" alt="Decor Closet">
+            <img src="Assets/pulltabs_inspogallery.png" class="pull-tab" alt="Inspo">
+            <img src="Assets/pulltabs_savecheckout.png" class="pull-tab" alt="Checkout">
         </div>
     </div>
 
-    <div id="main-canvas">
-        </div>
+    <div id="main-canvas"></div>
 
-    <img src="Assets/roomscabinet.png" id="rooms-cabinet" alt="Cabinet">
+    <img src="Assets/roomscabinet.png" id="rooms-cabinet" class="side-unit" alt="Rooms Cabinet">
+    <img src="Assets/furniturecases.png" id="furniture-cases" class="side-unit" alt="Furniture Cases">
 
     <div id="decor-closet-container">
-        <div id="exit-sign" onclick="closeCloset()">EXIT</div>
-        
-        <div id="closet-door-frame">
-            <img src="Assets/decor_closeddoors.png" id="door-image" onclick="revealInterior()" alt="Closet Doors">
-            
-            <div id="closet-interior">
-                <img src="Assets/plant_pillowcloset.jpg" id="interior-content" alt="Closet Interior">
-                <button id="prev-arrow" class="nav-arrow" onclick="cycleInterior(-1)">&#10094;</button>
-                <button id="next-arrow" class="nav-arrow" onclick="cycleInterior(1)">&#10095;</button>
+        <div id="exit-sign" onclick="exitSequence()">Exit</div>
+        <div id="closet-frame">
+            <button id="prev-arrow" class="nav-arrow" onclick="cycleCloset(-1)">&#10094;</button>
+            <button id="next-arrow" class="nav-arrow" onclick="cycleCloset(1)">&#10095;</button>
+            <img src="Assets/decor_closedclosetdoors.png" id="closet-doors" onclick="revealInterior()" alt="Closed Doors">
+            <div id="interior-view">
+                <img src="Assets/plant_pillowcloset.jpg" id="interior-img" alt="Content">
             </div>
         </div>
     </div>
 
     <script>
-        const interiorImages = [
-            'Assets/plant_pillowcloset.jpg',
-            'Assets/lightingcloset.jpg',
-            'Assets/curtaincloset.jpg',
-            'Assets/ruggallery.jpg'
-        ];
-        let currentIdx = 0;
+        const closetItems = ['Assets/plant_pillowcloset.jpg', 'Assets/lightingcloset.jpg', 'Assets/curtaincloset.jpg', 'Assets/ruggallery.jpg'];
+        let currentItem = 0;
 
-        function openDecorCloset() {
-            // Dual Action: Scroll down and Glide up
-            window.scrollTo(0, document.body.scrollHeight);
-            document.getElementById('decor-closet-container').style.bottom = '0px';
-            document.getElementById('exit-sign').style.display = 'block';
+        function triggerSideUnits() {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            document.getElementById('rooms-cabinet').style.bottom = '20px';
+            document.getElementById('furniture-cases').style.bottom = '20px';
+            document.getElementById('exit-sign').style.visibility = 'visible';
+        }
+
+        function openClosetSequence() {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            document.getElementById('decor-closet-container').style.bottom = '40px';
+            document.getElementById('exit-sign').style.visibility = 'visible';
         }
 
         function revealInterior() {
-            // Swap Doors
-            const doorImg = document.getElementById('door-image');
-            doorImg.src = 'Assets/openeddoors.png';
+            document.getElementById('closet-doors').src = 'Assets/decor_openedclosetdoors.png';
+            document.getElementById('interior-view').style.display = 'block';
+            document.getElementById('prev-arrow').style.display = 'block';
+            document.getElementById('next-arrow').style.display = 'block';
+        }
+
+        function cycleCloset(dir) {
+            currentItem += dir;
+            if (currentItem >= closetItems.length) currentItem = 0;
+            if (currentItem < 0) currentItem = closetItems.length - 1;
+            document.getElementById('interior-img').src = closetItems[currentItem];
+        }
+
+        function exitSequence() {
+            document.getElementById('decor-closet-container').style.bottom = '-1000px';
+            document.getElementById('rooms-cabinet').style.bottom = '-1000px';
+            document.getElementById('furniture-cases').style.bottom = '-1000px';
             
-            // Show Interior Loop
-            document.getElementById('closet-interior').style.display = 'block';
-            document.querySelectorAll('.nav-arrow').forEach(arrow => arrow.style.display = 'block');
-        }
-
-        function cycleInterior(direction) {
-            currentIdx += direction;
-            // Never-ending loop logic
-            if (currentIdx >= interiorImages.length) currentIdx = 0;
-            if (currentIdx < 0) currentIdx = interiorImages.length - 1;
-            
-            document.getElementById('interior-content').src = interiorImages[currentIdx];
-        }
-
-        function toggleRooms() {
-            const cab = document.getElementById('rooms-cabinet');
-            cab.style.left = cab.style.left === '0px' ? '-400px' : '0px';
-            window.scrollTo(0, 400); // Scroll to see cabinet better
-        }
-
-        function closeCloset() {
-            document.getElementById('decor-closet-container').style.bottom = '-600px';
-            // Reset doors for next time
-            document.getElementById('door-image').src = 'Assets/decor_closeddoors.png';
-            document.getElementById('closet-interior').style.display = 'none';
-            document.querySelectorAll('.nav-arrow').forEach(arrow => arrow.style.display = 'none');
+            setTimeout(() => {
+                document.getElementById('closet-doors').src = 'Assets/decor_closedclosetdoors.png';
+                document.getElementById('interior-view').style.display = 'none';
+                document.getElementById('prev-arrow').style.display = 'none';
+                document.getElementById('next-arrow').style.display = 'none';
+                document.getElementById('exit-sign').style.visibility = 'hidden';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 1000);
         }
     </script>
 </body>
