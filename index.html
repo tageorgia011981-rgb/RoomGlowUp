@@ -1,98 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Room Glow Up</title>
-    <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --metal-shine: linear-gradient(145deg, #bdc3c7, #2c3e50, #95a5a6, #000);
-            --silver-header: linear-gradient(to bottom, #ffffff 0%, #a6a6a6 45%, #4d4d4d 50%, #ffffff 55%, #808080 100%);
-        }
+<style>
+    /* THE OVERLAY - NO BACKGROUND AROUND THE VAULT */
+    #closet-overlay {
+        position: fixed; 
+        top: 0; left: 0; 
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.5); /* Dim the main site slightly */
+        z-index: 3000;
+        display: none; 
+        justify-content: flex-end; 
+        align-items: center;
+    }
 
-        body, html {
-            margin: 0; padding: 0; min-height: 100vh;
-            background: url('Assets/newbackground_main.jpg') no-repeat center center fixed;
-            background-size: cover; font-family: 'Limelight', cursive;
-            overflow: hidden;
-        }
+    /* THE VAULT - COMPLETELY BORDERLESS */
+    #closet-vault {
+        width: auto; /* Let the image define the width */
+        height: 100vh; /* Floor to ceiling */
+        background: transparent; 
+        border: none; /* Removed the 10px border */
+        margin: 0; 
+        padding: 0;
+        position: relative; 
+        display: flex;
+        overflow: hidden;
+    }
 
-        header { text-align: center; padding: 50px 0 20px 0; }
-        h1 {
-            font-size: 90px; margin: 0;
-            background: var(--silver-header);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-transform: uppercase; letter-spacing: 4px;
-        }
-        .subheader { font-size: 24px; color: #fff; margin-top: -10px; font-family: 'Limelight', cursive; }
+    /* THE IMAGE - RAW AND UNTOUCHED */
+    #closet-img { 
+        height: 100%; 
+        width: auto; /* Keeps it from stretching wide and looking weird */
+        display: block;
+        cursor: pointer;
+        padding: 0;
+        margin: 0;
+    }
 
-        .nav-container { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; }
-        .pull-tab {
-            width: 190px; height: 90px; background: var(--metal-shine);
-            border: 2px solid #000; display: flex; justify-content: center; align-items: center;
-            cursor: pointer; box-shadow: 5px 5px 15px rgba(0,0,0,0.7);
-        }
-        .white-card { width: 85%; height: 60%; background: #fff; display: flex; justify-content: center; align-items: center; }
-        .label-text { font-family: 'Courier New', monospace; font-weight: 900; font-size: 13px; color: #000; text-align: center; }
-
-        #interaction-zone { display: flex; justify-content: center; align-items: flex-start; width: 100%; position: relative; }
-        
-        #theater-container {
-            width: 950px; height: 600px; border: 20px solid #000;
-            background: #222; box-shadow: 0 0 50px #000;
-            position: relative; margin-left: 100px;
-            overflow: hidden;
-        }
-
-        .asset-side-container { position: absolute; left: -550px; top: 0; width: 450px; transition: left 0.8s ease; z-index: 100; }
-        .glided-in { left: 20px !important; }
-
-        #closet-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 3000;
-            display: none; justify-content: flex-end; align-items: center;
-        }
-        #closet-vault {
-            width: 450px; height: 80vh; background: #000;
-            border: 8px solid #444; margin-right: 60px;
-            position: relative; box-shadow: -15px 0 50px #000;
-        }
-        #closet-img { width: 100%; height: 100%; object-fit: contain; cursor: pointer; }
-
-        #exit-sign {
-            position: absolute; top: 15px; right: 15px;
-            background: #3e2723; color: gold; border: 2px solid gold;
-            padding: 8px 15px; cursor: pointer; z-index: 4001; font-size: 14px;
-        }
-
-        .decor-item { position: absolute; cursor: move; max-width: 150px; z-index: 500; }
-    </style>
-</head>
-<body>
-
-<header>
-    <h1>Room Glow Up</h1>
-    <div class="subheader">Where Your Dream Space Comes To Life</div>
-</header>
-
-<nav class="nav-container">
-    <div class="pull-tab" onclick="openRooms()"><div class="white-card"><span class="label-text">Rooms</span></div></div>
-    <div class="pull-tab"><div class="white-card"><span class="label-text">Furniture Catalog</span></div></div>
-    <div class="pull-tab" onclick="openCloset()"><div class="white-card"><span class="label-text">Decor Closet</span></div></div>
-    <div class="pull-tab"><div class="white-card"><span class="label-text">Inspirational Gallery</span></div></div>
-    <div class="pull-tab"><div class="white-card"><span class="label-text">Save/Check Out</span></div></div>
-</nav>
-
-<div id="interaction-zone">
-    <div id="rooms-cabinet-container" class="asset-side-container">
-        <img src="Assets/roomscabinet.png" style="width:100%" onclick="relayToFurniture()">
-    </div>
-    <div id="furniture-cases-container" class="asset-side-container">
-        <img src="Assets/furniturecases.png" style="width:100%">
-    </div>
-    <div id="theater-container"></div>
-</div>
+    #exit-sign {
+        position: absolute; 
+        top: 20px; 
+        right: 20px;
+        background: rgba(62, 39, 35, 0.8); /* Semi-transparent so it blends in */
+        color: gold; 
+        border: 1px solid gold;
+        padding: 10px 20px; 
+        cursor: pointer; 
+        z-index: 4001; 
+        font-family: 'Limelight', cursive;
+    }
+</style>
 
 <div id="closet-overlay">
     <div id="closet-vault">
@@ -100,58 +54,3 @@
         <img src="Assets/decorcloset_entryway.jpg" id="closet-img" onclick="cycleCloset()" ondblclick="spawnItem()">
     </div>
 </div>
-
-<script>
-    let closetStep = 0;
-    const closetImages = [
-        'Assets/decorcloset_entryway.jpg',
-        'Assets/lightingcloset.jpg',
-        'Assets/plant_pillowcloset.jpg',
-        'Assets/curtaincloset.jpg',
-        'Assets/ruggallery.jpg'
-    ];
-
-    function openRooms() {
-        document.getElementById('rooms-cabinet-container').classList.add('glided-in');
-    }
-
-    function relayToFurniture() {
-        document.getElementById('rooms-cabinet-container').classList.remove('glided-in');
-        setTimeout(() => { document.getElementById('furniture-cases-container').classList.add('glided-in'); }, 900);
-    }
-
-    function openCloset() { document.getElementById('closet-overlay').style.display = 'flex'; }
-    function closeCloset() { document.getElementById('closet-overlay').style.display = 'none'; }
-
-    function cycleCloset() {
-        closetStep = (closetStep + 1) % closetImages.length;
-        document.getElementById('closet-img').src = closetImages[closetStep];
-    }
-
-    function spawnItem() {
-        const theater = document.getElementById('theater-container');
-        const newItem = document.createElement('img');
-        newItem.src = 'Assets/temp_item.png'; 
-        newItem.className = 'decor-item';
-        newItem.style.left = '400px';
-        newItem.style.top = '250px';
-
-        newItem.onmousedown = function(event) {
-            let shiftX = event.clientX - newItem.getBoundingClientRect().left;
-            let shiftY = event.clientY - newItem.getBoundingClientRect().top;
-            function moveAt(pageX, pageY) {
-                let rect = theater.getBoundingClientRect();
-                newItem.style.left = (pageX - rect.left - shiftX) + 'px';
-                newItem.style.top = (pageY - rect.top - shiftY) + 'px';
-            }
-            function onMouseMove(event) { moveAt(event.pageX, event.pageY); }
-            document.addEventListener('mousemove', onMouseMove);
-            newItem.onmouseup = () => document.removeEventListener('mousemove', onMouseMove);
-        };
-        newItem.ondragstart = () => false;
-        theater.appendChild(newItem);
-    }
-</script>
-
-</body>
-</html>
