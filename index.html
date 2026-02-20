@@ -9,135 +9,128 @@
         :root {
             --metal-shine: linear-gradient(145deg, #bdc3c7, #2c3e50, #95a5a6, #000);
             --silver-header: linear-gradient(to bottom, #ffffff 0%, #a6a6a6 45%, #4d4d4d 50%, #ffffff 55%, #808080 100%);
-            --glow-teal: #00f2ff;
         }
 
         body, html {
-            margin: 0; padding: 0; height: 100vh;
+            margin: 0; padding: 0; min-height: 100vh;
             background: url('Assets/mainbackground.jpg') no-repeat center center fixed;
-            background-size: cover; overflow: hidden; font-family: 'Limelight', cursive;
+            background-size: cover; font-family: 'Limelight', cursive;
+            overflow: hidden;
         }
 
-        /* FIXED HEADER */
-        #fixed-header {
-            position: fixed; top: 0; left: 0; width: 100%;
-            z-index: 2000; text-align: center; background: rgba(0,0,0,0.6);
-            padding: 15px 0;
+        header { text-align: center; padding: 50px 0 20px 0; }
+        h1 {
+            font-size: 90px; margin: 0;
+            background: var(--silver-header);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-transform: uppercase; letter-spacing: 4px;
         }
 
-        h1 { font-size: 60px; margin: 0; background: var(--silver-header); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
-
-        .nav-container { display: flex; justify-content: center; gap: 15px; margin-top: 10px; }
-
+        .nav-container { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; }
         .label-holder {
-            width: 170px; height: 75px; background: var(--metal-shine);
-            border: 2px solid #000; position: relative; cursor: pointer;
-            display: flex; justify-content: center; align-items: center;
+            width: 190px; height: 90px; background: var(--metal-shine);
+            border: 2px solid #000; display: flex; justify-content: center; align-items: center;
+            cursor: pointer; box-shadow: 5px 5px 15px rgba(0,0,0,0.7);
         }
+        .white-card { width: 85%; height: 60%; background: #fff; display: flex; justify-content: center; align-items: center; }
+        .label-text { font-family: 'Courier New', monospace; font-weight: 900; font-size: 14px; color: #000; }
 
-        .white-card { width: 85%; height: 65%; background: #fff; display: flex; justify-content: center; align-items: center; }
-        .label-text { font-family: 'Courier New', monospace; font-weight: 900; font-size: 13px; color: #000; text-transform: uppercase; }
-
-        /* DESIGN ZONE - ROOM AT TOP */
-        #interaction-zone {
-            position: absolute; top: 200px; left: 50%;
-            transform: translateX(-50%);
-            display: flex; align-items: flex-start;
-            gap: 20px; width: 1500px;
-        }
-
+        #interaction-zone { display: flex; justify-content: center; align-items: flex-start; width: 100%; position: relative; }
+        
+        /* THE CANVAS - LEFT-ALIGNED TO MAKE ROOM FOR RIGHT POP-UP */
         #theater-container {
-            width: 950px; height: 600px; border: 15px solid #000;
+            width: 950px; height: 600px; border: 20px solid #000;
             background: #222; box-shadow: 0 0 50px #000;
-            position: relative; z-index: 5;
+            position: relative; margin-left: 100px;
         }
 
-        #room-display { width: 100%; height: 100%; background-size: cover; background-position: center; }
-
-        /* LEFT SIDE RELAY */
-        .asset-side-container {
-            position: fixed; left: -650px; top: 220px;
-            width: 500px; transition: left 1s ease-in-out;
-            z-index: 100;
-        }
+        /* LEFT SIDE CABINETS */
+        .asset-side-container { position: absolute; left: -550px; top: 0; width: 450px; transition: left 0.8s ease; z-index: 100; }
         .glided-in { left: 20px !important; }
 
-        /* CLOSET AT BOTTOM - LARGE SIZE */
-        #decor-closet-container {
-            position: fixed; bottom: -800px; left: 50%;
-            transform: translateX(-50%); width: 900px; /* Big enough to see inside */
-            transition: bottom 1s ease-in-out; z-index: 1500;
+        /* DECOR CLOSET - PINNED TO THE RIGHT */
+        #closet-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 3000;
+            display: none; justify-content: flex-end; align-items: center;
+            padding-right: 50px;
+        }
+        #closet-vault {
+            width: 600px; height: 800px; background: #1a1a1a;
+            border: 8px solid #444; box-shadow: -10px 0 40px #000;
+            position: relative; overflow: hidden;
+        }
+        #closet-img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
+
+        .back-btn {
+            position: absolute; top: 20px; right: 20px;
+            background: #000; color: gold; border: 2px solid gold;
+            padding: 10px 20px; cursor: pointer; z-index: 4000;
         }
 
-        #closet-doors { width: 100%; cursor: pointer; display: block; filter: drop-shadow(0 -10px 20px rgba(0,0,0,0.5)); }
-
-        #exit-sign {
-            position: fixed; top: 200px; right: 30px;
-            background: #3e2723; color: #fff9c4; padding: 12px 25px;
-            border: 3px solid #fff9c4; cursor: pointer; display: none; z-index: 2500;
-        }
+        #exit-sign { position: fixed; top: 120px; left: 50px; background: #3e2723; color: gold; padding: 10px 20px; border: 2px solid gold; cursor: pointer; display: none; z-index: 2000; }
     </style>
 </head>
 <body>
 
-<div id="fixed-header">
-    <h1>Room Glow Up</h1>
-    <nav class="nav-container">
-        <div class="label-holder" onclick="roomsAction()"><div class="white-card"><span class="label-text">Rooms</span></div></div>
-        <div class="label-holder"><div class="white-card"><span class="label-text">Furniture Catalog</span></div></div>
-        <div class="label-holder" onclick="openCloset()"><div class="white-card"><span class="label-text">Decor Closet</span></div></div>
-    </nav>
-</div>
+<header><h1>Room Glow Up</h1></header>
 
-<div id="exit-sign" onclick="resetStage()">EXIT</div>
+<nav class="nav-container">
+    <div class="label-holder" onclick="openRooms()"><div class="white-card"><span class="label-text">Rooms</span></div></div>
+    <div class="label-holder" onclick="openCloset()"><div class="white-card"><span class="label-text">Decor Closet</span></div></div>
+</nav>
+
+<div id="exit-sign" onclick="resetAll()">EXIT</div>
 
 <div id="interaction-zone">
     <div id="rooms-cabinet-container" class="asset-side-container">
         <img src="Assets/cabinet.png" style="width:100%" onclick="relayToFurniture()">
     </div>
-
     <div id="furniture-cases-container" class="asset-side-container">
         <img src="Assets/furniturecases.png" style="width:100%">
     </div>
+    <div id="theater-container"></div>
+</div>
 
-    <div id="theater-container" style="margin-left: 520px;">
-        <div id="room-display"></div>
+<div id="closet-overlay">
+    <div id="closet-vault">
+        <div class="back-btn" onclick="closeCloset()">BACK TO ROOM</div>
+        <img src="Assets/decorcloset_entryway.jpg" id="closet-img" onclick="cycleCloset()">
     </div>
 </div>
 
-<div id="decor-closet-container">
-    <img src="Assets/decor_closedclosetdoors.png" id="closet-doors" onclick="revealCloset()">
-</div>
-
 <script>
-    function roomsAction() {
-        resetStage(false);
+    let closetStep = 0;
+    const closetImages = [
+        'Assets/decorcloset_entryway.jpg',
+        'Assets/lightingcloset.jpg',
+        'Assets/plant_pillowcloset.jpg',
+        'Assets/curtaincloset.jpg',
+        'Assets/ruggallery.jpg'
+    ];
+
+    function openRooms() {
+        resetAll(false);
         document.getElementById('rooms-cabinet-container').classList.add('glided-in');
         document.getElementById('exit-sign').style.display = 'block';
     }
 
     function relayToFurniture() {
         document.getElementById('rooms-cabinet-container').classList.remove('glided-in');
-        setTimeout(() => {
-            document.getElementById('furniture-cases-container').classList.add('glided-in');
-        }, 1100);
+        setTimeout(() => { document.getElementById('furniture-cases-container').classList.add('glided-in'); }, 900);
     }
 
-    function openCloset() {
-        resetStage(false);
-        document.getElementById('decor-closet-container').style.bottom = '0px';
-        document.getElementById('exit-sign').style.display = 'block';
+    function openCloset() { document.getElementById('closet-overlay').style.display = 'flex'; }
+    function closeCloset() { document.getElementById('closet-overlay').style.display = 'none'; }
+
+    function cycleCloset() {
+        closetStep = (closetStep + 1) % closetImages.length;
+        document.getElementById('closet-img').src = closetImages[closetStep];
     }
 
-    function revealCloset() {
-        document.getElementById('closet-doors').src = 'Assets/decor_openedclosetdoors.png';
-    }
-
-    function resetStage(fullReset = true) {
+    function resetAll(fullReset = true) {
         document.getElementById('rooms-cabinet-container').classList.remove('glided-in');
         document.getElementById('furniture-cases-container').classList.remove('glided-in');
-        document.getElementById('decor-closet-container').style.bottom = '-800px';
-        document.getElementById('closet-doors').src = 'Assets/decor_closedclosetdoors.png';
         if(fullReset) document.getElementById('exit-sign').style.display = 'none';
     }
 </script>
