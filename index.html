@@ -37,38 +37,35 @@
 
         #interaction-zone { display: flex; justify-content: center; align-items: flex-start; width: 100%; position: relative; }
         
-        /* THE CANVAS - LEFT-ALIGNED TO MAKE ROOM FOR RIGHT POP-UP */
         #theater-container {
             width: 950px; height: 600px; border: 20px solid #000;
             background: #222; box-shadow: 0 0 50px #000;
             position: relative; margin-left: 100px;
         }
 
-        /* LEFT SIDE CABINETS */
         .asset-side-container { position: absolute; left: -550px; top: 0; width: 450px; transition: left 0.8s ease; z-index: 100; }
         .glided-in { left: 20px !important; }
 
-        /* DECOR CLOSET - PINNED TO THE RIGHT */
+        /* SMALLER CLOSET OVERLAY */
         #closet-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 3000;
+            background: rgba(0,0,0,0.6); z-index: 3000;
             display: none; justify-content: flex-end; align-items: center;
-            padding-right: 50px;
+            padding-right: 20px;
         }
         #closet-vault {
-            width: 600px; height: 800px; background: #1a1a1a;
-            border: 8px solid #444; box-shadow: -10px 0 40px #000;
-            position: relative; overflow: hidden;
+            width: 380px; height: 65vh; background: #000;
+            border: 5px solid #333; position: relative;
+            display: flex; flex-direction: column; box-shadow: -5px 0 30px #000;
         }
-        #closet-img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
+        #closet-img { width: 100%; height: 100%; object-fit: contain; cursor: pointer; }
 
-        .back-btn {
-            position: absolute; top: 20px; right: 20px;
-            background: #000; color: gold; border: 2px solid gold;
-            padding: 10px 20px; cursor: pointer; z-index: 4000;
+        #exit-sign {
+            position: absolute; top: 5px; right: 5px;
+            background: #3e2723; color: gold; border: 1px solid gold;
+            padding: 5px 12px; cursor: pointer; z-index: 4000;
+            font-size: 12px;
         }
-
-        #exit-sign { position: fixed; top: 120px; left: 50px; background: #3e2723; color: gold; padding: 10px 20px; border: 2px solid gold; cursor: pointer; display: none; z-index: 2000; }
     </style>
 </head>
 <body>
@@ -80,8 +77,6 @@
     <div class="label-holder" onclick="openCloset()"><div class="white-card"><span class="label-text">Decor Closet</span></div></div>
 </nav>
 
-<div id="exit-sign" onclick="resetAll()">EXIT</div>
-
 <div id="interaction-zone">
     <div id="rooms-cabinet-container" class="asset-side-container">
         <img src="Assets/cabinet.png" style="width:100%" onclick="relayToFurniture()">
@@ -89,12 +84,13 @@
     <div id="furniture-cases-container" class="asset-side-container">
         <img src="Assets/furniturecases.png" style="width:100%">
     </div>
+    
     <div id="theater-container"></div>
 </div>
 
 <div id="closet-overlay">
     <div id="closet-vault">
-        <div class="back-btn" onclick="closeCloset()">BACK TO ROOM</div>
+        <div id="exit-sign" onclick="closeCloset()">EXIT</div>
         <img src="Assets/decorcloset_entryway.jpg" id="closet-img" onclick="cycleCloset()">
     </div>
 </div>
@@ -110,9 +106,7 @@
     ];
 
     function openRooms() {
-        resetAll(false);
         document.getElementById('rooms-cabinet-container').classList.add('glided-in');
-        document.getElementById('exit-sign').style.display = 'block';
     }
 
     function relayToFurniture() {
@@ -120,18 +114,19 @@
         setTimeout(() => { document.getElementById('furniture-cases-container').classList.add('glided-in'); }, 900);
     }
 
-    function openCloset() { document.getElementById('closet-overlay').style.display = 'flex'; }
-    function closeCloset() { document.getElementById('closet-overlay').style.display = 'none'; }
+    function openCloset() { 
+        document.getElementById('closet-overlay').style.display = 'flex'; 
+    }
+
+    function closeCloset() { 
+        document.getElementById('closet-overlay').style.display = 'none'; 
+        closetStep = 0;
+        document.getElementById('closet-img').src = closetImages[0];
+    }
 
     function cycleCloset() {
         closetStep = (closetStep + 1) % closetImages.length;
         document.getElementById('closet-img').src = closetImages[closetStep];
-    }
-
-    function resetAll(fullReset = true) {
-        document.getElementById('rooms-cabinet-container').classList.remove('glided-in');
-        document.getElementById('furniture-cases-container').classList.remove('glided-in');
-        if(fullReset) document.getElementById('exit-sign').style.display = 'none';
     }
 </script>
 
