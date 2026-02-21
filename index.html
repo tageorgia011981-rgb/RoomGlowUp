@@ -87,6 +87,31 @@ overflow: hidden;
 box-shadow: 0 0 60px rgba(0,0,0,1);
 }
 
+/* ===== FURNITURE BOOK ===== */
+
+#bookWrapper {
+position: absolute;
+inset: 0;
+display: flex;
+justify-content: center;
+align-items: flex-start;
+perspective: 1200px;
+z-index: 5;
+}
+
+#bookImage {
+width: 95%;
+margin-top: 10px;
+transform-origin: top center;
+transform: rotateX(-90deg);
+transition: transform 1s ease;
+filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6));
+}
+
+#bookWrapper.open #bookImage {
+transform: rotateX(8deg);
+}
+
 </style>
 </head>
 
@@ -98,11 +123,38 @@ box-shadow: 0 0 60px rgba(0,0,0,1);
 </header>
 
 <div class="nav-container">
-<div class="tab">Furniture Catalog</div>
+<div class="tab" id="furnitureTab">Furniture Catalog</div>
 <div class="tab">Decor Closet</div>
 </div>
 
 <div id="stage"></div>
+
+<script>
+
+const stage = document.getElementById("stage");
+const furnitureTab = document.getElementById("furnitureTab");
+
+let bookOpen = false;
+
+furnitureTab.addEventListener("click", () => {
+
+if (bookOpen) return;
+
+bookOpen = true;
+
+stage.innerHTML = `
+<div id="bookWrapper">
+<img src="Assets/furniturecatalog.png" id="bookImage">
+</div>
+`;
+
+setTimeout(() => {
+document.getElementById("bookWrapper").classList.add("open");
+}, 50);
+
+});
+
+</script>
 
 </body>
 </html>
