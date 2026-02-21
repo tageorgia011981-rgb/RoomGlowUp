@@ -27,19 +27,16 @@ padding: 60px 0 30px 0;
 }
 
 h1 {
-font-family: 'Limelight', cursive;
 font-size: 100px;
 margin: 0;
 background: linear-gradient(to bottom, #ffffff 0%, #a6a6a6 45%, #4d4d4d 50%, #ffffff 55%, #808080 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 filter: drop-shadow(5px 5px 8px rgba(0,0,0,0.8));
-text-transform: uppercase;
 letter-spacing: 4px;
 }
 
 h2 {
-font-family: 'Limelight', cursive;
 font-size: 36px;
 margin-top: 5px;
 color: #e0e0e0;
@@ -79,7 +76,7 @@ box-shadow: 0 0 25px #00f2ff;
 #stage {
 width: 1000px;
 height: 650px;
-margin: 50px auto;
+margin: 180px auto 80px auto;
 background: rgba(0,0,0,0.6);
 border: 20px solid #000;
 position: relative;
@@ -87,7 +84,7 @@ overflow: hidden;
 box-shadow: 0 0 60px rgba(0,0,0,1);
 }
 
-/* ===== FURNITURE BOOK ===== */
+/* ===== BOOK OPENING ANIMATION ===== */
 
 #bookWrapper {
 position: absolute;
@@ -95,21 +92,25 @@ inset: 0;
 display: flex;
 justify-content: center;
 align-items: flex-start;
-perspective: 1200px;
+perspective: 1400px;
 z-index: 5;
 }
 
 #bookImage {
-width: 95%;
+width: 85%;
 margin-top: 10px;
-transform-origin: top center;
-transform: rotateX(-90deg);
-transition: transform 1s ease;
+transform-origin: center bottom;
+transform: rotateX(90deg);
+transition: transform 0.8s ease;
 filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6));
 }
 
 #bookWrapper.open #bookImage {
-transform: rotateX(8deg);
+transform: rotateX(0deg);
+}
+
+#bookWrapper.tilt #bookImage {
+transform: rotateX(10deg);
 }
 
 </style>
@@ -131,15 +132,16 @@ transform: rotateX(8deg);
 
 <script>
 
+document.addEventListener("DOMContentLoaded", function() {
+
 const stage = document.getElementById("stage");
 const furnitureTab = document.getElementById("furnitureTab");
 
 let bookOpen = false;
 
-furnitureTab.addEventListener("click", () => {
+furnitureTab.addEventListener("click", function() {
 
 if (bookOpen) return;
-
 bookOpen = true;
 
 stage.innerHTML = `
@@ -148,9 +150,19 @@ stage.innerHTML = `
 </div>
 `;
 
-setTimeout(() => {
-document.getElementById("bookWrapper").classList.add("open");
+const wrapper = document.getElementById("bookWrapper");
+
+/* Stage 1: open upward */
+setTimeout(function() {
+wrapper.classList.add("open");
 }, 50);
+
+/* Stage 2: tilt toward viewer */
+setTimeout(function() {
+wrapper.classList.add("tilt");
+}, 900);
+
+});
 
 });
 
@@ -158,4 +170,3 @@ document.getElementById("bookWrapper").classList.add("open");
 
 </body>
 </html>
-
