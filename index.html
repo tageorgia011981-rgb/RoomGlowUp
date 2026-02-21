@@ -9,7 +9,6 @@
 <style>
 
 /* ===== BACKGROUND ===== */
-
 body {
 margin: 0;
 min-height: 100vh;
@@ -20,7 +19,6 @@ color: white;
 }
 
 /* ===== HEADER ===== */
-
 header {
 text-align: center;
 padding: 60px 0 30px 0;
@@ -45,7 +43,6 @@ text-shadow: 3px 3px 6px #000;
 }
 
 /* ===== TABS ===== */
-
 .nav-container {
 display: flex;
 justify-content: center;
@@ -72,11 +69,10 @@ box-shadow: 0 0 25px #00f2ff;
 }
 
 /* ===== STAGE ===== */
-
 #stage {
 width: 1000px;
 height: 650px;
-margin: 180px auto 80px auto;
+margin: 200px auto 80px auto;
 background: rgba(0,0,0,0.6);
 border: 20px solid #000;
 position: relative;
@@ -84,25 +80,24 @@ overflow: hidden;
 box-shadow: 0 0 60px rgba(0,0,0,1);
 }
 
-/* ===== BOOK OPENING ANIMATION ===== */
-
+/* ===== BOOK ANIMATION ===== */
 #bookWrapper {
 position: absolute;
 inset: 0;
 display: flex;
 justify-content: center;
 align-items: flex-start;
-perspective: 1400px;
+perspective: 2000px;
 z-index: 5;
 }
 
 #bookImage {
-width: 85%;
+width: 75%;
 margin-top: 10px;
 transform-origin: center bottom;
-transform: rotateX(90deg);
-transition: transform 0.8s ease;
-filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6));
+transform: rotateX(95deg);
+transition: transform 1.2s cubic-bezier(.2,.8,.2,1);
+filter: drop-shadow(0 40px 50px rgba(0,0,0,0.8));
 }
 
 #bookWrapper.open #bookImage {
@@ -110,7 +105,7 @@ transform: rotateX(0deg);
 }
 
 #bookWrapper.tilt #bookImage {
-transform: rotateX(10deg);
+transform: rotateX(18deg);
 }
 
 </style>
@@ -131,7 +126,6 @@ transform: rotateX(10deg);
 <div id="stage"></div>
 
 <script>
-
 document.addEventListener("DOMContentLoaded", function() {
 
 const stage = document.getElementById("stage");
@@ -152,22 +146,18 @@ stage.innerHTML = `
 
 const wrapper = document.getElementById("bookWrapper");
 
-/* Stage 1: open upward */
 setTimeout(function() {
 wrapper.classList.add("open");
 }, 50);
 
-/* Stage 2: tilt toward viewer */
 setTimeout(function() {
 wrapper.classList.add("tilt");
-}, 900);
+}, 1300);
 
 });
 
 });
-
 </script>
 
 </body>
 </html>
-
