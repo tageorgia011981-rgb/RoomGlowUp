@@ -5,42 +5,43 @@
 <title>Room Glow Up</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 
 <style>
 
 /* ===== BACKGROUND ===== */
-body {
+html, body {
 margin: 0;
+padding: 0;
 min-height: 100vh;
 background: url('Assets/mainbackground.jpg') no-repeat center center fixed;
 background-size: cover;
-color: white;
+font-family: 'Limelight', cursive;
+overflow-x: hidden;
 }
 
 /* ===== HEADER ===== */
 header {
 text-align: center;
-padding: 90px 0 30px 0;
+padding: 80px 0 30px 0;
 }
 
 h1 {
-font-family: 'Limelight', cursive;
 font-size: 110px;
 margin: 0;
 background: linear-gradient(to bottom,#ffffff 0%,#a6a6a6 45%,#4d4d4d 50%,#ffffff 55%,#808080 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 filter: drop-shadow(6px 6px 14px rgba(0,0,0,0.9));
+text-transform: uppercase;
 letter-spacing: 6px;
 }
 
 h2 {
-font-family: 'Limelight', cursive;
-font-size: 20px;
+font-size: 22px;
 letter-spacing: 8px;
 margin-top: 20px;
-opacity: 0.85;
+color: rgba(224,224,224,0.85);
+text-shadow: 2px 2px 4px #000;
 }
 
 /* ===== NAVIGATION ===== */
@@ -54,9 +55,7 @@ flex-wrap: wrap;
 }
 
 .pulltab {
-position: relative;
 width: 260px;
-cursor: pointer;
 transition: transform 0.25s ease;
 }
 
@@ -66,29 +65,6 @@ display: block;
 filter: drop-shadow(0 12px 20px rgba(0,0,0,0.85));
 }
 
-/* Paper insert */
-.insert {
-position: absolute;
-top: 28%;
-left: 50%;
-transform: translateX(-50%);
-width: 72%;
-height: 38%;
-background: #f4f1e8;  /* subtle aged paper */
-display: flex;
-align-items: center;
-justify-content: center;
-}
-
-/* Typewriter text */
-.insert span {
-font-family: 'Special Elite', monospace;
-font-size: 18px;
-letter-spacing: 2px;
-color: #000;
-}
-
-/* Hover effect */
 .pulltab:hover {
 transform: translateY(-6px);
 }
@@ -118,27 +94,22 @@ box-shadow: 0 0 60px rgba(0,0,0,1);
 
 <div class="pulltab">
 <img src="Assets/pulltabs_holder.png">
-<div class="insert"><span>rooms</span></div>
 </div>
 
 <div class="pulltab">
 <img src="Assets/pulltabs_holder.png">
-<div class="insert"><span>furniture</span></div>
 </div>
 
 <div class="pulltab">
 <img src="Assets/pulltabs_holder.png">
-<div class="insert"><span>decor closet</span></div>
 </div>
 
 <div class="pulltab">
 <img src="Assets/pulltabs_holder.png">
-<div class="insert"><span>inspo gallery</span></div>
 </div>
 
 <div class="pulltab">
 <img src="Assets/pulltabs_holder.png">
-<div class="insert"><span>save/checkout</span></div>
 </div>
 
 </div>
