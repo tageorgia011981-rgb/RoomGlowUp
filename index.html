@@ -15,10 +15,9 @@ padding: 0;
 background: #141416;
 font-family: 'Limelight', cursive;
 overflow-x: hidden;
-scroll-behavior: smooth;
 }
 
-/* ===== HERO PANEL ===== */
+/* ===== HERO ===== */
 .hero-panel {
 width: 1200px;
 height: 420px;
@@ -26,7 +25,6 @@ margin: 80px auto 40px auto;
 background: url('Assets/mainbackground.jpg') center center no-repeat;
 background-size: cover;
 display: flex;
-flex-direction: column;
 justify-content: center;
 align-items: center;
 box-shadow: 0 40px 80px rgba(0,0,0,0.6);
@@ -51,7 +49,6 @@ font-size: 115px;
 margin: 0;
 letter-spacing: 6px;
 text-transform: uppercase;
-
 background: linear-gradient(
 90deg,
 #bfbfbf 0%,
@@ -62,11 +59,9 @@ background: linear-gradient(
 #f7f7f7 80%,
 #bfbfbf 100%
 );
-
 background-size: 250% auto;
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
-
 animation: subtleShine 14s ease-in-out infinite;
 filter: drop-shadow(8px 8px 18px rgba(0,0,0,0.95));
 }
@@ -85,7 +80,7 @@ color: rgba(240,240,240,0.95);
 text-shadow: 3px 3px 10px rgba(0,0,0,0.95);
 }
 
-/* ===== NAVIGATION ===== */
+/* ===== NAV ===== */
 .nav-container {
 display: flex;
 justify-content: center;
@@ -110,12 +105,6 @@ filter: drop-shadow(0 12px 20px rgba(0,0,0,0.9));
 transform: translateY(-6px);
 }
 
-/* ===== WORK AREA ===== */
-.work-area {
-width: 100%;
-position: relative;
-}
-
 /* ===== STAGE ===== */
 #stage {
 width: 1000px;
@@ -127,51 +116,37 @@ position: relative;
 overflow: hidden;
 }
 
-/* workstation background */
+/* workstation */
 .stage-bg {
 position: absolute;
 inset: 0;
 background: url('Assets/workstation.jpg') center center no-repeat;
 background-size: cover;
-animation: slowZoom 40s ease-in-out infinite alternate;
-transition: transform 1.2s ease, opacity 1.2s ease;
+transition: transform 3.5s cubic-bezier(0.22,1,0.36,1), opacity 3.5s ease;
 }
 
-/* slide workstation away */
+/* clearing motion (downward + slight scale) */
 .stage-bg.hide {
-transform: translateX(100%);
+transform: translateY(80px) scale(0.9);
 opacity: 0;
 }
 
-/* subtle dark blend */
-.stage-bg::after {
-content: "";
-position: absolute;
-inset: 0;
-background: rgba(0,0,0,0.25);
-}
-
-@keyframes slowZoom {
-0% { transform: scale(1); }
-100% { transform: scale(1.05); }
-}
-
-/* ===== CABINET ===== */
+/* cabinet */
 #rooms-cabinet {
 position: absolute;
-left: -600px;
-top: 0;
-transition: left 1.2s cubic-bezier(0.23, 1, 0.32, 1);
-z-index: 5;
+left: -800px;
+top: -40px;
+transition: left 3.5s cubic-bezier(0.22,1,0.36,1);
+z-index: 10;
 }
 
 #rooms-cabinet.show {
-left: 40px;
+left: 50px;
 }
 
 .cabinet-img {
-width: 450px;
-filter: drop-shadow(15px 15px 30px black);
+width: 650px;   /* much stronger presence */
+filter: drop-shadow(25px 25px 50px black);
 }
 
 </style>
@@ -196,8 +171,6 @@ filter: drop-shadow(15px 15px 30px black);
 <div class="pulltab"><img src="Assets/pulltabs_holder.png"></div>
 </div>
 
-<div class="work-area">
-
 <div id="rooms-cabinet">
 <img src="Assets/roomscabinet.png" class="cabinet-img">
 </div>
@@ -206,18 +179,40 @@ filter: drop-shadow(15px 15px 30px black);
 <div class="stage-bg" id="workstation"></div>
 </div>
 
-</div>
-
 <script>
+
+function slowScroll(targetY, duration) {
+const startY = window.scrollY;
+const diff = targetY - startY;
+let start;
+
+function step(timestamp) {
+if (!start) start = timestamp;
+const progress = timestamp - start;
+const percent = Math.min(progress / duration, 1);
+window.scrollTo(0, startY + diff * easeInOut(percent));
+if (progress < duration) {
+requestAnimationFrame(step);
+}
+}
+
+function easeInOut(t) {
+return t < 0.5
+? 4 * t * t * t
+: 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
+requestAnimationFrame(step);
+}
 
 function openRooms() {
 
-document.getElementById("stage").scrollIntoView({ behavior: "smooth" });
+slowScroll(document.getElementById("stage").offsetTop - 80, 1800);
 
 setTimeout(() => {
 document.getElementById("workstation").classList.add("hide");
 document.getElementById("rooms-cabinet").classList.add("show");
-}, 400);
+}, 500);
 
 }
 
