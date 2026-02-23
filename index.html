@@ -8,55 +8,76 @@
 
 <style>
 
-/* ===== BACKGROUND ===== */
+/* ===== PAGE BACKGROUND (CONTROLLED) ===== */
 html, body {
 margin: 0;
 padding: 0;
-min-height: 100vh;
-background: url('Assets/mainbackground.jpg') no-repeat center center fixed;
-background-size: cover;
+background: #0f0f12;   /* deep charcoal */
 font-family: 'Limelight', cursive;
+color: white;
 overflow-x: hidden;
 }
 
+/* ===== VELVET HERO PANEL ===== */
+.hero-panel {
+width: 1200px;
+height: 420px;
+margin: 80px auto 40px auto;
+background: url('Assets/mainbackground.jpg') center center no-repeat;
+background-size: cover;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+box-shadow: 0 40px 80px rgba(0,0,0,0.7);
+position: relative;
+}
+
+/* subtle dark overlay for header contrast */
+.hero-panel::after {
+content: "";
+position: absolute;
+inset: 0;
+background: linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.4));
+}
+
 /* ===== HEADER ===== */
-header {
+.hero-content {
+position: relative;
+z-index: 2;
 text-align: center;
-padding: 90px 0 30px 0;
 }
 
 h1 {
-font-size: 110px;
+font-size: 120px;
 margin: 0;
 background: linear-gradient(to bottom,#ffffff 0%,#a6a6a6 45%,#4d4d4d 50%,#ffffff 55%,#808080 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
-filter: drop-shadow(6px 6px 14px rgba(0,0,0,0.9));
-text-transform: uppercase;
+filter: drop-shadow(8px 8px 18px rgba(0,0,0,1));
 letter-spacing: 6px;
+text-transform: uppercase;
 }
 
 h2 {
-font-size: 22px;
+font-size: 20px;
 letter-spacing: 8px;
-margin-top: 20px;
-color: rgba(224,224,224,0.85);
-text-shadow: 2px 2px 4px #000;
+margin-top: 25px;
+color: rgba(230,230,230,0.9);
+text-shadow: 2px 2px 6px #000;
 }
 
 /* ===== NAVIGATION ===== */
-
 .nav-container {
 display: flex;
 justify-content: center;
-align-items: center;
-gap: 12px;          /* tighter spacing */
-margin-top: 80px;
-flex-wrap: nowrap;
+gap: 15px;
+margin: 40px auto 80px auto;
+width: 1200px;
 }
 
 .pulltab {
-width: 235px;       /* slightly larger again */
+width: 230px;
 flex-shrink: 0;
 transition: transform 0.25s ease;
 }
@@ -64,19 +85,18 @@ transition: transform 0.25s ease;
 .pulltab img {
 width: 100%;
 display: block;
-filter: drop-shadow(0 12px 20px rgba(0,0,0,0.85));
+filter: drop-shadow(0 10px 18px rgba(0,0,0,0.9));
 }
 
 .pulltab:hover {
 transform: translateY(-6px);
 }
 
-/* ===== STAGE PLACEHOLDER ===== */
-
+/* ===== STAGE ===== */
 #stage {
 width: 1000px;
 height: 650px;
-margin: 140px auto;
+margin: 0 auto 120px auto;
 background: rgba(0,0,0,0.6);
 border: 20px solid #000;
 box-shadow: 0 0 60px rgba(0,0,0,1);
@@ -87,10 +107,12 @@ box-shadow: 0 0 60px rgba(0,0,0,1);
 
 <body>
 
-<header>
-<h1>Room Glow Up</h1>
-<h2>WHERE YOUR DREAM SPACE COMES TO LIFE</h2>
-</header>
+<div class="hero-panel">
+    <div class="hero-content">
+        <h1>Room Glow Up</h1>
+        <h2>WHERE YOUR DREAM SPACE COMES TO LIFE</h2>
+    </div>
+</div>
 
 <div class="nav-container">
 
