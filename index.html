@@ -5,6 +5,7 @@
 <title>Room Glow Up</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 
 <style>
 
@@ -14,87 +15,93 @@ margin: 0;
 min-height: 100vh;
 background: url('Assets/mainbackground.jpg') no-repeat center center fixed;
 background-size: cover;
-font-family: 'Limelight', cursive;
 color: white;
 }
 
 /* ===== HEADER ===== */
 header {
 text-align: center;
-padding: 60px 0 30px 0;
+padding: 90px 0 30px 0;
 }
 
 h1 {
-font-size: 100px;
+font-family: 'Limelight', cursive;
+font-size: 110px;
 margin: 0;
-background: linear-gradient(to bottom, #ffffff 0%, #a6a6a6 45%, #4d4d4d 50%, #ffffff 55%, #808080 100%);
+background: linear-gradient(to bottom,#ffffff 0%,#a6a6a6 45%,#4d4d4d 50%,#ffffff 55%,#808080 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
-filter: drop-shadow(5px 5px 8px rgba(0,0,0,0.8));
-letter-spacing: 4px;
+filter: drop-shadow(6px 6px 14px rgba(0,0,0,0.9));
+letter-spacing: 6px;
 }
 
 h2 {
-font-size: 36px;
-margin-top: 5px;
-color: #e0e0e0;
-letter-spacing: 3px;
-text-shadow: 3px 3px 6px #000;
+font-family: 'Limelight', cursive;
+font-size: 20px;
+letter-spacing: 8px;
+margin-top: 20px;
+opacity: 0.85;
 }
 
-/* ===== TABS ===== */
+/* ===== NAVIGATION ===== */
+
 .nav-container {
 display: flex;
 justify-content: center;
-gap: 40px;
-margin: 40px 0;
+gap: 70px;
+margin-top: 80px;
+flex-wrap: wrap;
 }
 
-.tab {
-width: 210px;
-height: 105px;
-display: flex;
-justify-content: center;
-align-items: center;
-background: linear-gradient(145deg, #bdc3c7, #2c3e50, #95a5a6, #000);
-border: 2px solid #000;
-box-shadow: inset 0 0 15px #000, 8px 8px 20px rgba(0,0,0,0.9);
+.pulltab {
+position: relative;
+width: 260px;
 cursor: pointer;
-text-transform: uppercase;
-transition: 0.3s;
+transition: transform 0.25s ease;
 }
 
-.tab:hover {
-box-shadow: 0 0 25px #00f2ff;
-}
-
-/* ===== BOOK ===== */
-#bookWrapper {
+.pulltab img {
 width: 100%;
+display: block;
+filter: drop-shadow(0 12px 20px rgba(0,0,0,0.85));
+}
+
+/* Paper insert */
+.insert {
+position: absolute;
+top: 28%;
+left: 50%;
+transform: translateX(-50%);
+width: 72%;
+height: 38%;
+background: #f4f1e8;  /* subtle aged paper */
 display: flex;
+align-items: center;
 justify-content: center;
-margin-top: 40px;
 }
 
-#bookImage {
-width: 75%;
-box-shadow: 0 25px 40px rgba(0,0,0,0.7);
+/* Typewriter text */
+.insert span {
+font-family: 'Special Elite', monospace;
+font-size: 18px;
+letter-spacing: 2px;
+color: #000;
 }
 
-/* ===== STAGE ===== */
+/* Hover effect */
+.pulltab:hover {
+transform: translateY(-6px);
+}
+
+/* ===== STAGE PLACEHOLDER ===== */
+
 #stage {
 width: 1000px;
 height: 650px;
-margin: 200px auto 80px auto;
+margin: 140px auto;
 background: rgba(0,0,0,0.6);
 border: 20px solid #000;
-position: relative;
-overflow: hidden;
 box-shadow: 0 0 60px rgba(0,0,0,1);
-}
-
-html {
-scroll-behavior: smooth;
 }
 
 </style>
@@ -104,51 +111,39 @@ scroll-behavior: smooth;
 
 <header>
 <h1>Room Glow Up</h1>
-<h2>Where Your Dream Space Comes To Life</h2>
+<h2>WHERE YOUR DREAM SPACE COMES TO LIFE</h2>
 </header>
 
 <div class="nav-container">
-<div class="tab" id="furnitureTab">Furniture Catalog</div>
-<div class="tab">Decor Closet</div>
+
+<div class="pulltab">
+<img src="Assets/pulltabs_holder.png">
+<div class="insert"><span>rooms</span></div>
+</div>
+
+<div class="pulltab">
+<img src="Assets/pulltabs_holder.png">
+<div class="insert"><span>furniture</span></div>
+</div>
+
+<div class="pulltab">
+<img src="Assets/pulltabs_holder.png">
+<div class="insert"><span>decor closet</span></div>
+</div>
+
+<div class="pulltab">
+<img src="Assets/pulltabs_holder.png">
+<div class="insert"><span>inspo gallery</span></div>
+</div>
+
+<div class="pulltab">
+<img src="Assets/pulltabs_holder.png">
+<div class="insert"><span>save/checkout</span></div>
+</div>
+
 </div>
 
 <div id="stage"></div>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-
-const stage = document.getElementById("stage");
-const furnitureTab = document.getElementById("furnitureTab");
-
-let bookOpen = false;
-
-furnitureTab.addEventListener("click", function() {
-
-if (bookOpen) return;
-bookOpen = true;
-
-const book = document.createElement("div");
-book.id = "bookWrapper";
-book.innerHTML = `
-<img src="Assets/furniturecatalog1.png" id="bookImage">
-`;
-
-stage.parentNode.insertBefore(book, stage);
-
-stage.style.marginTop = "450px";
-
-setTimeout(function() {
-book.scrollIntoView({ behavior: "smooth", block: "start" });
-}, 50);
-
-});
-
-});
-</script>
-
 </body>
 </html>
-
-
-
-
