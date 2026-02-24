@@ -8,89 +8,53 @@
 
 <style>
 
-/* ===== PAGE ===== */
+/* ===== BODY ===== */
 html, body {
 margin: 0;
 padding: 0;
-background: #141416;
+min-height: 100vh;
 font-family: 'Limelight', cursive;
+background: #1b1b1b;
 overflow-x: hidden;
+color: white;
 }
 
-/* ===== HERO ===== */
-.hero-panel {
-width: 1200px;
-height: 420px;
-margin: 80px auto 40px auto;
-background: url('Assets/mainbackground.jpg') center center no-repeat;
-background-size: cover;
-display: flex;
-justify-content: center;
-align-items: center;
-box-shadow: 0 40px 80px rgba(0,0,0,0.6);
-position: relative;
-}
-
-.hero-panel::after {
-content: "";
-position: absolute;
-inset: 0;
-background: linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(0,0,0,0.18));
-}
-
-.hero-content {
-position: relative;
-z-index: 2;
+/* ===== HEADER ===== */
+header {
 text-align: center;
+padding: 80px 0 30px 0;
 }
 
 h1 {
-font-size: 115px;
+font-size: 110px;
 margin: 0;
-letter-spacing: 6px;
-text-transform: uppercase;
-background: linear-gradient(
-90deg,
-#bfbfbf 0%,
-#f7f7f7 20%,
-#8a8a8a 35%,
-#ffffff 50%,
-#7a7a7a 65%,
-#f7f7f7 80%,
-#bfbfbf 100%
-);
-background-size: 250% auto;
+background: linear-gradient(to bottom,#ffffff 0%,#a6a6a6 45%,#4d4d4d 50%,#ffffff 55%,#808080 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
-animation: subtleShine 14s ease-in-out infinite;
-filter: drop-shadow(8px 8px 18px rgba(0,0,0,0.95));
-}
-
-@keyframes subtleShine {
-0% { background-position: 0% center; }
-50% { background-position: 100% center; }
-100% { background-position: 0% center; }
+filter: drop-shadow(6px 6px 14px rgba(0,0,0,0.9));
+letter-spacing: 6px;
+text-transform: uppercase;
 }
 
 h2 {
-font-size: 28px;
-margin-top: 12px;
-letter-spacing: 4px;
-color: rgba(240,240,240,0.95);
-text-shadow: 3px 3px 10px rgba(0,0,0,0.95);
+font-size: 22px;
+letter-spacing: 8px;
+margin-top: 20px;
+color: rgba(224,224,224,0.85);
+text-shadow: 2px 2px 4px #000;
 }
 
-/* ===== NAV ===== */
+/* ===== NAVIGATION ===== */
 .nav-container {
 display: flex;
 justify-content: center;
-gap: 20px;
-margin: 40px auto 80px auto;
-width: 1200px;
+gap: 40px;
+margin-top: 60px;
+flex-wrap: wrap;
 }
 
 .pulltab {
-width: 250px;
+width: 220px;
 cursor: pointer;
 transition: transform 0.25s ease;
 }
@@ -98,123 +62,131 @@ transition: transform 0.25s ease;
 .pulltab img {
 width: 100%;
 display: block;
-filter: drop-shadow(0 12px 20px rgba(0,0,0,0.9));
 }
 
 .pulltab:hover {
 transform: translateY(-6px);
 }
 
-/* ===== STAGE ===== */
-#stage {
+/* ===== WORKSTATION ===== */
+#workstation {
 width: 1000px;
-height: 650px;
-margin: 0 auto 120px auto;
-border: 20px solid #000;
-box-shadow: 0 0 60px rgba(0,0,0,1);
+height: 600px;
+margin: 120px auto 60px auto;
+background: url('Assets/workstation.jpg') center/cover no-repeat;
+transition: transform 2.8s cubic-bezier(0.22,1,0.36,1), opacity 2.8s ease;
 position: relative;
-overflow: hidden;
 }
 
-/* workstation */
-.stage-bg {
-position: absolute;
-inset: 0;
-background: url('Assets/workstation.jpg') center center no-repeat;
-background-size: cover;
-transition: transform 3.5s cubic-bezier(0.22,1,0.36,1), opacity 3.5s ease;
-}
-
-/* clearing motion (downward + slight scale) */
-.stage-bg.hide {
-transform: translateY(80px) scale(0.9);
-opacity: 0;
-}
-
-/* cabinet */
+/* ===== ROOMS CABINET ===== */
 #rooms-cabinet {
-position: absolute;
-left: -800px;
-top: -40px;
-transition: left 3.5s cubic-bezier(0.22,1,0.36,1);
-z-index: 10;
+width: 600px;
+margin: 0 auto 120px auto;
+transform: translateX(-800px);
+transition: transform 2.8s cubic-bezier(0.22,1,0.36,1);
+position: relative;
 }
 
 #rooms-cabinet.show {
-left: 50px;
+transform: translateX(0);
+}
+
+.cabinet-wrapper {
+position: relative;
+width: 100%;
 }
 
 .cabinet-img {
-width: 650px;   /* much stronger presence */
-filter: drop-shadow(25px 25px 50px black);
+width: 100%;
+display: block;
 }
+
+/* ===== DRAWER LABELS ===== */
+.drawer-label {
+position: absolute;
+width: 170px;
+height: 42px;
+background: #f8f8f6;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: 'Courier New', monospace;
+font-size: 13px;
+letter-spacing: 2px;
+color: #111;
+text-transform: uppercase;
+border-radius: 2px;
+box-shadow: inset 0 0 4px rgba(0,0,0,0.15);
+transform: skewX(-3deg);
+cursor: pointer;
+transition: transform 0.25s ease;
+}
+
+.drawer-label:hover {
+transform: skewX(-3deg) translateY(-3px);
+}
+
+/* Drawer positioning */
+.l1 { top: 18%; left: 35%; }
+.l2 { top: 33%; left: 36%; }
+.l3 { top: 48%; left: 37%; }
+.l4 { top: 63%; left: 38%; }
+.l5 { top: 78%; left: 39%; }
 
 </style>
 </head>
 
 <body>
 
-<div class="hero-panel">
-<div class="hero-content">
+<header>
 <h1>Room Glow Up</h1>
-<h2>Where Your Dream Space Comes To Life</h2>
-</div>
-</div>
+<h2>WHERE YOUR DREAM SPACE COMES TO LIFE</h2>
+</header>
 
 <div class="nav-container">
-<div class="pulltab" onclick="openRooms()">
+<div class="pulltab" id="roomsTab">
 <img src="Assets/pulltabs_holder.png">
 </div>
-<div class="pulltab"><img src="Assets/pulltabs_holder.png"></div>
-<div class="pulltab"><img src="Assets/pulltabs_holder.png"></div>
-<div class="pulltab"><img src="Assets/pulltabs_holder.png"></div>
-<div class="pulltab"><img src="Assets/pulltabs_holder.png"></div>
 </div>
+
+<div id="workstation"></div>
 
 <div id="rooms-cabinet">
-<img src="Assets/roomscabinet.png" class="cabinet-img">
-</div>
+<div class="cabinet-wrapper">
 
-<div id="stage">
-<div class="stage-bg" id="workstation"></div>
+<img src="Assets/rooms_cabinet.png" class="cabinet-img">
+
+<div class="drawer-label l1">Living Room</div>
+<div class="drawer-label l2">Bedroom</div>
+<div class="drawer-label l3">Dining</div>
+<div class="drawer-label l4">Office</div>
+<div class="drawer-label l5">Upload</div>
+
+</div>
 </div>
 
 <script>
 
-function slowScroll(targetY, duration) {
-const startY = window.scrollY;
-const diff = targetY - startY;
-let start;
+document.getElementById("roomsTab").addEventListener("click", function() {
 
-function step(timestamp) {
-if (!start) start = timestamp;
-const progress = timestamp - start;
-const percent = Math.min(progress / duration, 1);
-window.scrollTo(0, startY + diff * easeInOut(percent));
-if (progress < duration) {
-requestAnimationFrame(step);
-}
-}
+const workstation = document.getElementById("workstation");
+const cabinet = document.getElementById("rooms-cabinet");
 
-function easeInOut(t) {
-return t < 0.5
-? 4 * t * t * t
-: 1 - Math.pow(-2 * t + 2, 3) / 2;
-}
+window.scrollTo({
+top: workstation.offsetTop,
+behavior: "smooth"
+});
 
-requestAnimationFrame(step);
-}
+/* Clear workstation smoothly */
+workstation.style.opacity = "0";
+workstation.style.transform = "translateY(-60px)";
 
-function openRooms() {
+/* Slide cabinet in */
+setTimeout(function(){
+cabinet.classList.add("show");
+}, 300);
 
-slowScroll(document.getElementById("stage").offsetTop - 80, 1800);
-
-setTimeout(() => {
-document.getElementById("workstation").classList.add("hide");
-document.getElementById("rooms-cabinet").classList.add("show");
-}, 500);
-
-}
+});
 
 </script>
 
