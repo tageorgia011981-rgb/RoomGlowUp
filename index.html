@@ -8,13 +8,14 @@
 
 <style>
 
-/* ===== BODY ===== */
+/* ===== BACKGROUND ===== */
 html, body {
 margin: 0;
 padding: 0;
 min-height: 100vh;
+background: url('Assets/mainbackground.jpg') center center no-repeat fixed;
+background-size: cover;
 font-family: 'Limelight', cursive;
-background: #1b1b1b;
 overflow-x: hidden;
 color: white;
 }
@@ -40,21 +41,20 @@ h2 {
 font-size: 22px;
 letter-spacing: 8px;
 margin-top: 20px;
-color: rgba(224,224,224,0.85);
-text-shadow: 2px 2px 4px #000;
+color: rgba(224,224,224,0.9);
+text-shadow: 2px 2px 6px #000;
 }
 
-/* ===== NAVIGATION ===== */
+/* ===== NAV ===== */
 .nav-container {
 display: flex;
 justify-content: center;
 gap: 40px;
-margin-top: 60px;
-flex-wrap: wrap;
+margin: 60px 0;
 }
 
 .pulltab {
-width: 220px;
+width: 240px;
 cursor: pointer;
 transition: transform 0.25s ease;
 }
@@ -68,32 +68,34 @@ display: block;
 transform: translateY(-6px);
 }
 
-/* ===== WORKSTATION ===== */
-#workstation {
-width: 1000px;
-height: 600px;
-margin: 120px auto 60px auto;
-background: url('Assets/workstation.jpg') center/cover no-repeat;
-transition: transform 2.8s cubic-bezier(0.22,1,0.36,1), opacity 2.8s ease;
+/* ===== WORK AREA ===== */
+.workspace {
+width: 1200px;
+margin: 100px auto 120px auto;
+display: flex;
+align-items: flex-end;
+gap: 60px;
 position: relative;
 }
 
-/* ===== ROOMS CABINET ===== */
+/* ===== WORKSTATION ===== */
+#workstation {
+width: 800px;
+height: 550px;
+background: url('Assets/workstation.jpg') center/cover no-repeat;
+transition: opacity 2s ease, transform 2s ease;
+}
+
+/* ===== CABINET ===== */
 #rooms-cabinet {
 width: 600px;
-margin: 0 auto 120px auto;
 transform: translateX(-800px);
-transition: transform 2.8s cubic-bezier(0.22,1,0.36,1);
+transition: transform 2s cubic-bezier(0.22,1,0.36,1);
 position: relative;
 }
 
 #rooms-cabinet.show {
 transform: translateX(0);
-}
-
-.cabinet-wrapper {
-position: relative;
-width: 100%;
 }
 
 .cabinet-img {
@@ -105,7 +107,7 @@ display: block;
 .drawer-label {
 position: absolute;
 width: 170px;
-height: 42px;
+height: 40px;
 background: #f8f8f6;
 display: flex;
 align-items: center;
@@ -115,9 +117,8 @@ font-size: 13px;
 letter-spacing: 2px;
 color: #111;
 text-transform: uppercase;
-border-radius: 2px;
-box-shadow: inset 0 0 4px rgba(0,0,0,0.15);
 transform: skewX(-3deg);
+box-shadow: inset 0 0 4px rgba(0,0,0,0.2);
 cursor: pointer;
 transition: transform 0.25s ease;
 }
@@ -126,7 +127,7 @@ transition: transform 0.25s ease;
 transform: skewX(-3deg) translateY(-3px);
 }
 
-/* Drawer positioning */
+/* Adjust if needed */
 .l1 { top: 18%; left: 35%; }
 .l2 { top: 33%; left: 36%; }
 .l3 { top: 48%; left: 37%; }
@@ -149,7 +150,7 @@ transform: skewX(-3deg) translateY(-3px);
 </div>
 </div>
 
-<div id="workstation"></div>
+<div class="workspace">
 
 <div id="rooms-cabinet">
 <div class="cabinet-wrapper">
@@ -165,26 +166,30 @@ transform: skewX(-3deg) translateY(-3px);
 </div>
 </div>
 
+<div id="workstation"></div>
+
+</div>
+
 <script>
 
 document.getElementById("roomsTab").addEventListener("click", function() {
 
-const workstation = document.getElementById("workstation");
 const cabinet = document.getElementById("rooms-cabinet");
+const workstation = document.getElementById("workstation");
 
 window.scrollTo({
-top: workstation.offsetTop,
+top: document.querySelector(".workspace").offsetTop - 60,
 behavior: "smooth"
 });
 
-/* Clear workstation smoothly */
+/* Fade workstation */
 workstation.style.opacity = "0";
-workstation.style.transform = "translateY(-60px)";
+workstation.style.transform = "translateY(-40px)";
 
-/* Slide cabinet in */
+/* Slide cabinet */
 setTimeout(function(){
 cabinet.classList.add("show");
-}, 300);
+}, 400);
 
 });
 
