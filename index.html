@@ -81,7 +81,6 @@ top: 0;
 transform: translateX(-520px);
 transition: transform 2.2s cubic-bezier(0.22,1,0.36,1);
 z-index: 2;
-perspective: 1000px;
 }
 
 #rooms-cabinet.show {
@@ -96,7 +95,7 @@ display: block;
 /* ===== DRAWER LABEL HOLDERS ===== */
 .drawer-label-unit {
 position: absolute;
-left: 50%;
+left: 53%;
 transform: translateX(-50%);
 cursor: pointer;
 transition: transform 0.25s ease, filter 0.25s ease;
@@ -114,7 +113,7 @@ display: block;
 
 .drawer-text {
 position: absolute;
-top: 50%;
+top: 48%;
 left: 50%;
 transform: translate(-50%, -50%);
 font-size: 18px;
@@ -161,31 +160,31 @@ width: 900px;
 <img src="Assets/rooms_cabinet.png" class="cabinet-img">
 
 <!-- Drawer 1 -->
-<div class="drawer-label-unit" style="top: 60px; width: 150px;">
+<div class="drawer-label-unit" style="top: 45px; width: 150px;">
     <img src="Assets/roomscabinet_pulltab.png">
     <div class="drawer-text">LIVINGROOM</div>
 </div>
 
 <!-- Drawer 2 -->
-<div class="drawer-label-unit" style="top: 140px; width: 160px;">
+<div class="drawer-label-unit" style="top: 115px; width: 160px;">
     <img src="Assets/roomscabinet_pulltab.png">
     <div class="drawer-text">BEDROOM</div>
 </div>
 
 <!-- Drawer 3 -->
-<div class="drawer-label-unit" style="top: 235px; width: 170px;">
+<div class="drawer-label-unit" style="top: 200px; width: 170px;">
     <img src="Assets/roomscabinet_pulltab.png">
     <div class="drawer-text">DININGROOM</div>
 </div>
 
 <!-- Drawer 4 -->
-<div class="drawer-label-unit" style="top: 340px; width: 185px;">
+<div class="drawer-label-unit" style="top: 295px; width: 185px;">
     <img src="Assets/roomscabinet_pulltab.png">
     <div class="drawer-text">EXTRA ROOMS</div>
 </div>
 
 <!-- Drawer 5 -->
-<div class="drawer-label-unit" style="top: 455px; width: 205px;">
+<div class="drawer-label-unit" style="top: 395px; width: 205px;">
     <img src="Assets/roomscabinet_pulltab.png">
     <div class="drawer-text">UPLOAD YOURS</div>
 </div>
@@ -197,9 +196,7 @@ width: 900px;
 </div>
 
 <script>
-
 document.getElementById("roomsTab").addEventListener("click", function () {
-
 const wrapper = document.getElementById("workspaceWrapper");
 const cabinet = document.getElementById("rooms-cabinet");
 
@@ -210,9 +207,7 @@ behavior: "smooth"
 
 cabinet.classList.add("show");
 wrapper.classList.add("active");
-
 });
-
 </script>
 
 </body>
