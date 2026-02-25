@@ -69,13 +69,7 @@ transform: translateY(-6px);
 .workspace-wrapper {
 width: 1100px;
 margin: 140px auto;
-transition: width 2.2s cubic-bezier(0.22,1,0.36,1);
-overflow: hidden;
-}
-
-/* expanded state when cabinet appears */
-.workspace-wrapper.expanded {
-width: 1750px;
+position: relative;
 }
 
 /* ===== INNER WORKSPACE ===== */
@@ -83,12 +77,20 @@ width: 1750px;
 display: flex;
 align-items: stretch;
 gap: 60px;
+transition: transform 2.2s cubic-bezier(0.22,1,0.36,1);
+}
+
+/* SHIFT RIGHT WHEN CABINET OPENS */
+.workspace.shifted {
+transform: translateX(550px);
 }
 
 /* ===== CABINET ===== */
 #rooms-cabinet {
 width: 550px;
-flex-shrink: 0;
+position: absolute;
+left: 0;
+top: 0;
 transform: translateX(-110%);
 transition: transform 2.2s cubic-bezier(0.22,1,0.36,1);
 }
@@ -129,20 +131,18 @@ transition: opacity 2.2s ease, transform 2.2s ease;
 
 <div class="workspace-wrapper" id="workspaceWrapper">
 
-<div class="workspace">
-
 <div id="rooms-cabinet">
 <img src="Assets/rooms_cabinet.png" class="cabinet-img">
 </div>
 
+<div class="workspace">
 <div id="work-area"></div>
-
 </div>
+
 </div>
 
 <script>
 
-/* ROOMS TAB ACTION */
 document.getElementById("roomsTab").addEventListener("click", function () {
 
 const wrapper = document.getElementById("workspaceWrapper");
@@ -158,11 +158,8 @@ cabinet.classList.add("show");
 workspace.classList.add("shifted");
 
 });
-});
 
 </script>
 
 </body>
 </html>
-
-
