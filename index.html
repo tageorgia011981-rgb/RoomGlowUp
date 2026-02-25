@@ -92,17 +92,48 @@ width: 100%;
 display: block;
 }
 
+/* ===== DRAWER LABEL HOLDERS ===== */
+.drawer-label-unit {
+position: absolute;
+left: 50%;
+transform: translateX(-50%);
+cursor: pointer;
+transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.drawer-label-unit:hover {
+transform: translateX(-50%) scale(1.08);
+filter: drop-shadow(0 0 8px rgba(255,255,255,0.6));
+}
+
+.drawer-label-unit img {
+width: 100%;
+display: block;
+}
+
+.drawer-text {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+font-size: 18px;
+letter-spacing: 2px;
+color: white;
+text-shadow: 0 0 6px rgba(0,0,0,0.8);
+pointer-events: none;
+white-space: nowrap;
+}
+
 /* ===== WORK AREA ===== */
 #work-area {
 width: 950px;
 height: 650px;
-margin-left: auto; /* anchors to right */
+margin-left: auto;
 background: url('Assets/workstation.jpg') center/cover no-repeat;
 box-shadow: 0 0 60px rgba(0,0,0,0.9);
 transition: width 2.2s cubic-bezier(0.22,1,0.36,1);
 }
 
-/* Shrink from left only */
 .workspace-wrapper.active #work-area {
 width: 900px;
 }
@@ -127,6 +158,37 @@ width: 900px;
 
 <div id="rooms-cabinet">
 <img src="Assets/rooms_cabinet.png" class="cabinet-img">
+
+<!-- Drawer 1 -->
+<div class="drawer-label-unit" style="top: 78px; width: 150px;">
+    <img src="Assets/pulltabs_inspogallery.png">
+    <div class="drawer-text">LIVINGROOM</div>
+</div>
+
+<!-- Drawer 2 -->
+<div class="drawer-label-unit" style="top: 162px; width: 160px;">
+    <img src="Assets/pulltabs_inspogallery.png">
+    <div class="drawer-text">BEDROOM</div>
+</div>
+
+<!-- Drawer 3 -->
+<div class="drawer-label-unit" style="top: 252px; width: 170px;">
+    <img src="Assets/pulltabs_inspogallery.png">
+    <div class="drawer-text">DININGROOM</div>
+</div>
+
+<!-- Drawer 4 -->
+<div class="drawer-label-unit" style="top: 350px; width: 185px;">
+    <img src="Assets/pulltabs_inspogallery.png">
+    <div class="drawer-text">EXTRA ROOMS</div>
+</div>
+
+<!-- Drawer 5 -->
+<div class="drawer-label-unit" style="top: 462px; width: 205px;">
+    <img src="Assets/pulltabs_inspogallery.png">
+    <div class="drawer-text">UPLOAD YOURS</div>
+</div>
+
 </div>
 
 <div id="work-area"></div>
