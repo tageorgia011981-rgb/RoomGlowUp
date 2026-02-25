@@ -147,23 +147,21 @@ document.getElementById("roomsTab").addEventListener("click", function () {
 
 const wrapper = document.getElementById("workspaceWrapper");
 const cabinet = document.getElementById("rooms-cabinet");
+const workspace = document.querySelector(".workspace");
 
 window.scrollTo({
 top: wrapper.offsetTop - 80,
 behavior: "smooth"
 });
 
-/* expand workspace */
-wrapper.classList.add("expanded");
-
-/* slide cabinet in */
-setTimeout(() => {
 cabinet.classList.add("show");
-}, 200);
+workspace.classList.add("shifted");
 
+});
 });
 
 </script>
 
 </body>
 </html>
+
