@@ -95,14 +95,12 @@ display: block;
 /* ===== DRAWER LABEL HOLDERS ===== */
 .drawer-label-unit {
 position: absolute;
-left: 54%;
-transform: translateX(-50%);
 cursor: pointer;
 transition: transform 0.25s ease, filter 0.25s ease;
 }
 
 .drawer-label-unit:hover {
-transform: translateX(-50%) scale(1.08);
+transform: scale(1.08);
 filter: drop-shadow(0 0 8px rgba(255,255,255,0.6));
 }
 
@@ -113,7 +111,7 @@ display: block;
 
 .drawer-text {
 position: absolute;
-top: 48%;
+top: 50%;
 left: 50%;
 transform: translate(-50%, -50%);
 font-size: 18px;
@@ -159,32 +157,29 @@ width: 900px;
 <div id="rooms-cabinet">
 <img src="Assets/rooms_cabinet.png" class="cabinet-img">
 
-<!-- Drawer 1 (moved up + right) -->
-<div class="drawer-label-unit" style="top: 40px; width: 150px;">
+<!-- Drawer 1 (FORCED MOVE TEST) -->
+<div class="drawer-label-unit" style="top: 10px; left: 350px; width: 150px;">
     <img src="Assets/roomscabinet_pulltab.png">
     <div class="drawer-text">LIVINGROOM</div>
 </div>
 
-<!-- Drawer 2 -->
-<div class="drawer-label-unit" style="top: 115px; width: 160px;">
+<!-- Other drawers unchanged -->
+<div class="drawer-label-unit" style="top: 115px; left: 200px; width: 160px;">
     <img src="Assets/roomscabinet_pulltab.png">
     <div class="drawer-text">BEDROOM</div>
 </div>
 
-<!-- Drawer 3 -->
-<div class="drawer-label-unit" style="top: 200px; width: 170px;">
+<div class="drawer-label-unit" style="top: 200px; left: 200px; width: 170px;">
     <img src="Assets/roomscabinet_pulltab.png">
     <div class="drawer-text">DININGROOM</div>
 </div>
 
-<!-- Drawer 4 -->
-<div class="drawer-label-unit" style="top: 295px; width: 185px;">
+<div class="drawer-label-unit" style="top: 295px; left: 200px; width: 185px;">
     <img src="Assets/roomscabinet_pulltab.png">
     <div class="drawer-text">EXTRA ROOMS</div>
 </div>
 
-<!-- Drawer 5 -->
-<div class="drawer-label-unit" style="top: 395px; width: 205px;">
+<div class="drawer-label-unit" style="top: 395px; left: 200px; width: 205px;">
     <img src="Assets/roomscabinet_pulltab.png">
     <div class="drawer-text">UPLOAD YOURS</div>
 </div>
