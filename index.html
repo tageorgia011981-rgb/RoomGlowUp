@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Room Glow Up</title>
@@ -8,22 +8,21 @@
 
 <style>
 
-/* ===== BACKGROUND ===== */
+/* ===== BASE ===== */
 html, body {
 margin: 0;
 padding: 0;
 min-height: 100vh;
-background: url('Assets/mainbackground.jpg') center center no-repeat fixed;
-background-size: cover;
 font-family: 'Limelight', cursive;
-overflow-x: hidden;
+background: url('Assets/mainbackground.jpg') center/cover no-repeat fixed;
 color: white;
+overflow-x: hidden;
 }
 
 /* ===== HEADER ===== */
 header {
 text-align: center;
-padding: 80px 0 30px 0;
+padding: 80px 0 40px 0;
 }
 
 h1 {
@@ -32,9 +31,8 @@ margin: 0;
 background: linear-gradient(to bottom,#ffffff 0%,#a6a6a6 45%,#4d4d4d 50%,#ffffff 55%,#808080 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
-filter: drop-shadow(6px 6px 14px rgba(0,0,0,0.9));
 letter-spacing: 6px;
-text-transform: uppercase;
+filter: drop-shadow(6px 6px 14px rgba(0,0,0,0.9));
 }
 
 h2 {
@@ -49,8 +47,7 @@ text-shadow: 2px 2px 6px #000;
 .nav-container {
 display: flex;
 justify-content: center;
-gap: 40px;
-margin: 60px 0;
+margin-top: 60px;
 }
 
 .pulltab {
@@ -68,30 +65,32 @@ display: block;
 transform: translateY(-6px);
 }
 
-/* ===== WORK AREA ===== */
-.workspace {
-width: 1200px;
-margin: 100px auto 120px auto;
-display: flex;
-align-items: flex-end;
-gap: 60px;
-position: relative;
+/* ===== WORKSPACE WRAPPER ===== */
+.workspace-wrapper {
+width: 1100px;
+margin: 140px auto;
+transition: width 2.2s cubic-bezier(0.22,1,0.36,1);
+overflow: hidden;
 }
 
-/* ===== WORKSTATION ===== */
-#workstation {
-width: 800px;
-height: 550px;
-background: url('Assets/workstation.jpg') center/cover no-repeat;
-transition: opacity 2s ease, transform 2s ease;
+/* expanded state when cabinet appears */
+.workspace-wrapper.expanded {
+width: 1750px;
+}
+
+/* ===== INNER WORKSPACE ===== */
+.workspace {
+display: flex;
+align-items: stretch;
+gap: 60px;
 }
 
 /* ===== CABINET ===== */
 #rooms-cabinet {
-width: 600px;
-transform: translateX(-800px);
-transition: transform 2s cubic-bezier(0.22,1,0.36,1);
-position: relative;
+width: 550px;
+flex-shrink: 0;
+transform: translateX(-110%);
+transition: transform 2.2s cubic-bezier(0.22,1,0.36,1);
 }
 
 #rooms-cabinet.show {
@@ -103,36 +102,14 @@ width: 100%;
 display: block;
 }
 
-/* ===== DRAWER LABELS ===== */
-.drawer-label {
-position: absolute;
-width: 170px;
-height: 40px;
-background: #f8f8f6;
-display: flex;
-align-items: center;
-justify-content: center;
-font-family: 'Courier New', monospace;
-font-size: 13px;
-letter-spacing: 2px;
-color: #111;
-text-transform: uppercase;
-transform: skewX(-3deg);
-box-shadow: inset 0 0 4px rgba(0,0,0,0.2);
-cursor: pointer;
-transition: transform 0.25s ease;
+/* ===== WORK AREA ===== */
+#work-area {
+width: 1100px;
+height: 650px;
+background: url('Assets/workstation.jpg') center/cover no-repeat;
+box-shadow: 0 0 60px rgba(0,0,0,0.9);
+transition: opacity 2.2s ease, transform 2.2s ease;
 }
-
-.drawer-label:hover {
-transform: skewX(-3deg) translateY(-3px);
-}
-
-/* Adjust if needed */
-.l1 { top: 18%; left: 35%; }
-.l2 { top: 33%; left: 36%; }
-.l3 { top: 48%; left: 37%; }
-.l4 { top: 63%; left: 38%; }
-.l5 { top: 78%; left: 39%; }
 
 </style>
 </head>
@@ -146,50 +123,43 @@ transform: skewX(-3deg) translateY(-3px);
 
 <div class="nav-container">
 <div class="pulltab" id="roomsTab">
-<img src="Assets/pulltabs_holder.png">
+<img src="Assets/pulltabs_holder.png" alt="Rooms">
 </div>
 </div>
+
+<div class="workspace-wrapper" id="workspaceWrapper">
 
 <div class="workspace">
 
 <div id="rooms-cabinet">
-<div class="cabinet-wrapper">
-
 <img src="Assets/rooms_cabinet.png" class="cabinet-img">
-
-<div class="drawer-label l1">Living Room</div>
-<div class="drawer-label l2">Bedroom</div>
-<div class="drawer-label l3">Dining</div>
-<div class="drawer-label l4">Office</div>
-<div class="drawer-label l5">Upload</div>
-
-</div>
 </div>
 
-<div id="workstation"></div>
+<div id="work-area"></div>
 
+</div>
 </div>
 
 <script>
 
-document.getElementById("roomsTab").addEventListener("click", function() {
+/* ROOMS TAB ACTION */
+document.getElementById("roomsTab").addEventListener("click", function () {
 
+const wrapper = document.getElementById("workspaceWrapper");
 const cabinet = document.getElementById("rooms-cabinet");
-const workstation = document.getElementById("workstation");
 
 window.scrollTo({
-top: document.querySelector(".workspace").offsetTop - 60,
+top: wrapper.offsetTop - 80,
 behavior: "smooth"
 });
 
-/* Fade workstation */
-workstation.style.opacity = "0";
-workstation.style.transform = "translateY(-40px)";
+/* expand workspace */
+wrapper.classList.add("expanded");
 
-/* Slide cabinet */
-setTimeout(function(){
+/* slide cabinet in */
+setTimeout(() => {
 cabinet.classList.add("show");
-}, 400);
+}, 200);
 
 });
 
