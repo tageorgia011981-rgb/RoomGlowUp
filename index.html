@@ -9,7 +9,7 @@
 
 <style>
 
-/* ===== 3 PANEL BACKGROUND ===== */
+/* ===== 3-PANEL BACKGROUND ===== */
 html, body {
 margin: 0;
 padding: 0;
@@ -18,12 +18,17 @@ font-family: 'Limelight', cursive;
 color: white;
 overflow-x: hidden;
 
+/* Left curtain | Center blue | Right curtain */
 background:
 url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
 url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
 url('Assets/mainbackground_blue.jpg') center top no-repeat;
 
-background-size: 33% 100%, 33% 100%, 34% 100%;
+background-size:
+33% 100%,   /* left curtain */
+33% 100%,   /* right curtain */
+34% 100%;   /* center blue */
+
 background-attachment: fixed;
 }
 
@@ -121,23 +126,25 @@ width: 100%;
 display: block;
 }
 
-/* ===== DRAWER TEXT ===== */
-.drawer-text {
+/* ===== DRAWER LABELS ===== */
+.drawer-label {
 position: absolute;
 left: 50%;
 transform: translateX(-50%);
 font-family: 'Jacques Francois Shadow', serif;
-font-size: 18px;
+font-size: 20px;
 letter-spacing: 2px;
-color: rgba(255,255,255,0.9);
-text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-cursor: pointer;
+color: #ffffff;
+text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+pointer-events: none;
 }
 
-.drawer1 { top: 65px; }
-.drawer2 { top: 145px; }
-.drawer3 { top: 235px; }
-.drawer4 { top: 335px; }
+/* Vertical positioning for each drawer */
+.drawer1 { top: 120px; }
+.drawer2 { top: 210px; }
+.drawer3 { top: 300px; }
+.drawer4 { top: 390px; }
+.drawer5 { top: 480px; }
 
 /* ===== WORK AREA ===== */
 #work-area {
@@ -205,10 +212,11 @@ opacity: 0;
 <div id="rooms-cabinet">
 <img src="Assets/rooms_cabinet.png" class="cabinet-img">
 
-<div class="drawer-text drawer1" onclick="cycleRoom('living')">LIVING ROOM</div>
-<div class="drawer-text drawer2" onclick="cycleRoom('bedroom')">BEDROOM</div>
-<div class="drawer-text drawer3" onclick="cycleRoom('dining')">DINING ROOM</div>
-<div class="drawer-text drawer4" onclick="cycleRoom('extra')">EXTRA ROOMS</div>
+<div class="drawer-label drawer1">LIVINGROOM</div>
+<div class="drawer-label drawer2">BEDROOM</div>
+<div class="drawer-label drawer3">DININGROOM</div>
+<div class="drawer-label drawer4">EXTRA ROOMS</div>
+<div class="drawer-label drawer5">UPLOAD YOURS</div>
 
 </div>
 
@@ -217,70 +225,6 @@ opacity: 0;
 </div>
 
 <script>
-
-/* ===== ROOM IMAGE ENGINE ===== */
-
-const rooms = {
-
-living: [
-"Assets/ROOMS_livingroom1.jpg",
-"Assets/ROOMS_livingroom2.jpg",
-"Assets/ROOMS_livingroom3.jpg"
-],
-
-bedroom: [
-"Assets/ROOMS_bedroom1.jpg",
-"Assets/ROOMS_bedroom2.jpg",
-"Assets/ROOMS_bedroom3.jpg"
-],
-
-dining: [
-"Assets/ROOMS_diningroom1.jpg",
-"Assets/ROOMS_diningroom2.jpg"
-],
-
-extra: [
-"Assets/ROOMS_kitchen1.jpg",
-"Assets/ROOMS_bathroom1.jpg",
-"Assets/ROOMS_office1.jpg"
-]
-
-};
-
-let currentIndex = {
-living: 0,
-bedroom: 0,
-dining: 0,
-extra: 0
-};
-
-function loadRoom(type) {
-
-const workArea = document.getElementById("work-area");
-
-workArea.style.opacity = 0;
-
-setTimeout(() => {
-workArea.style.background =
-`url('${rooms[type][currentIndex[type]]}') center/cover no-repeat`;
-workArea.style.opacity = 1;
-}, 250);
-
-}
-
-function cycleRoom(type) {
-
-currentIndex[type]++;
-
-if (currentIndex[type] >= rooms[type].length) {
-currentIndex[type] = 0;
-}
-
-loadRoom(type);
-
-}
-
-/* ===== CABINET GLIDE ===== */
 
 document.getElementById("roomsTab").addEventListener("click", function () {
 
