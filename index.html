@@ -51,6 +51,49 @@ color: rgba(224,224,224,0.9);
 text-shadow: 2px 2px 6px #000;
 }
 
+/* ===== TOP PULL TABS ===== */
+.nav-container {
+display: flex;
+justify-content: center;
+gap: 50px;
+margin-top: 35px;
+flex-wrap: wrap;
+}
+
+.top-tab {
+position: relative;
+width: 220px;
+cursor: pointer;
+transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.top-tab:hover {
+transform: translateY(-6px);
+filter: drop-shadow(0 8px 18px rgba(0,0,0,0.6));
+}
+
+.top-tab img {
+width: 100%;
+display: block;
+}
+
+.top-tab-text {
+position: absolute;
+top: 39%;
+left: 50%;
+transform: translate(-50%, -50%);
+font-family: 'Jacques Francois Shadow', serif;
+font-size: 20px;
+letter-spacing: 2px;
+color: #f2f2f2;
+text-align: center;
+width: 85%;
+line-height: 1.2;
+pointer-events: none;
+white-space: normal;
+text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
 /* ===== WORKSPACE WRAPPER ===== */
 .workspace-wrapper {
 width: 1450px;
@@ -127,6 +170,35 @@ opacity: 0;
 <h1>Room Glow Up</h1>
 <h2>WHERE YOUR DREAM SPACE COMES TO LIFE</h2>
 </header>
+
+<div class="nav-container">
+
+<div class="top-tab" id="roomsTab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">ROOMS</div>
+</div>
+
+<div class="top-tab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">FURNITURE<br>CATALOG</div>
+</div>
+
+<div class="top-tab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">DECOR<br>CLOSET</div>
+</div>
+
+<div class="top-tab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">GALLERY</div>
+</div>
+
+<div class="top-tab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">SAVE/<br>CHECKOUT</div>
+</div>
+
+</div>
 
 <div class="workspace-wrapper" id="workspaceWrapper">
 
@@ -210,7 +282,7 @@ loadRoom(type);
 
 /* ===== CABINET GLIDE ===== */
 
-document.getElementById("roomsTab")?.addEventListener("click", function () {
+document.getElementById("roomsTab").addEventListener("click", function () {
 
 const wrapper = document.getElementById("workspaceWrapper");
 const cabinet = document.getElementById("rooms-cabinet");
