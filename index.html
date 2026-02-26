@@ -9,16 +9,27 @@
 
 <style>
 
+/* ===== BASE ===== */
 html, body {
 margin: 0;
 padding: 0;
 min-height: 100vh;
 font-family: 'Limelight', cursive;
-background: url('Assets/mainbackground.jpg') center/cover no-repeat fixed;
+background: url('Assets/mainbackground_plaid.jpg') center/cover no-repeat fixed;
 color: white;
 overflow-x: hidden;
 }
 
+/* ===== CENTER STRIPE PANEL ===== */
+.center-panel {
+width: 1200px;
+min-height: 100vh;
+margin: 0 auto;
+background: url('Assets/mainbackground_stripes.jpg') center/cover no-repeat;
+box-shadow: 0 0 60px rgba(0,0,0,0.6);
+}
+
+/* ===== HEADER ===== */
 header {
 text-align: center;
 padding: 70px 0 30px 0;
@@ -68,7 +79,6 @@ width: 100%;
 display: block;
 }
 
-/* Jacques Francois Shadow styling */
 .top-tab-text {
 position: absolute;
 top: 39%;
@@ -83,8 +93,6 @@ width: 85%;
 line-height: 1.2;
 pointer-events: none;
 white-space: normal;
-
-/* very light support shadow only */
 text-shadow: 0 2px 4px rgba(0,0,0,0.6);
 }
 
@@ -132,6 +140,8 @@ width: 900px;
 
 <body>
 
+<div class="center-panel">
+
 <header>
 <h1>Room Glow Up</h1>
 <h2>WHERE YOUR DREAM SPACE COMES TO LIFE</h2>
@@ -173,6 +183,8 @@ width: 900px;
 </div>
 
 <div id="work-area"></div>
+
+</div>
 
 </div>
 
