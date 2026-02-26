@@ -9,24 +9,27 @@
 
 <style>
 
-/* ===== BASE ===== */
+/* ===== 3-PANEL BACKGROUND ===== */
 html, body {
 margin: 0;
 padding: 0;
 min-height: 100vh;
 font-family: 'Limelight', cursive;
-background: url('Assets/mainbackground_plaid.jpg') center/cover no-repeat fixed;
 color: white;
 overflow-x: hidden;
-}
 
-/* ===== CENTER STRIPE PANEL ===== */
-.center-panel {
-width: 1200px;
-min-height: 100vh;
-margin: 0 auto;
-background: url('Assets/mainbackground_stripes.jpg') center/cover no-repeat;
-box-shadow: 0 0 60px rgba(0,0,0,0.6);
+/* Left curtain | Center blue | Right curtain */
+background:
+url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
+url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
+url('Assets/mainbackground_blue.jpg') center top no-repeat;
+
+background-size:
+33% 100%,   /* left curtain */
+33% 100%,   /* right curtain */
+34% 100%;   /* center blue */
+
+background-attachment: fixed;
 }
 
 /* ===== HEADER ===== */
@@ -103,6 +106,7 @@ margin: 130px auto;
 position: relative;
 }
 
+/* ===== CABINET ===== */
 #rooms-cabinet {
 width: 500px;
 position: absolute;
@@ -122,25 +126,32 @@ width: 100%;
 display: block;
 }
 
+/* ===== WORK AREA ===== */
 #work-area {
 width: 950px;
 height: 650px;
 margin-left: auto;
 background: url('Assets/workstation.jpg') center/cover no-repeat;
 box-shadow: 0 0 60px rgba(0,0,0,0.9);
-transition: width 2.2s cubic-bezier(0.22,1,0.36,1);
+transition:
+width 2.2s cubic-bezier(0.22,1,0.36,1),
+transform 0.6s ease,
+opacity 0.4s ease;
 }
 
 .workspace-wrapper.active #work-area {
 width: 900px;
 }
 
+#work-area.sweep {
+transform: translateX(200px);
+opacity: 0;
+}
+
 </style>
 </head>
 
 <body>
-
-<div class="center-panel">
 
 <header>
 <h1>Room Glow Up</h1>
@@ -154,22 +165,22 @@ width: 900px;
 <div class="top-tab-text">ROOMS</div>
 </div>
 
-<div class="top-tab" id="catalogTab">
+<div class="top-tab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">FURNITURE<br>CATALOG</div>
 </div>
 
-<div class="top-tab" id="decorTab">
+<div class="top-tab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">DECOR<br>CLOSET</div>
 </div>
 
-<div class="top-tab" id="galleryTab">
+<div class="top-tab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">GALLERY</div>
 </div>
 
-<div class="top-tab" id="saveTab">
+<div class="top-tab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">SAVE/<br>CHECKOUT</div>
 </div>
@@ -186,7 +197,30 @@ width: 900px;
 
 </div>
 
-</div>
+<script>
+
+document.getElementById("roomsTab").addEventListener("click", function () {
+
+const wrapper = document.getElementById("workspaceWrapper");
+const cabinet = document.getElementById("rooms-cabinet");
+const workArea = document.getElementById("work-area");
+
+window.scrollTo({
+top: wrapper.offsetTop - 80,
+behavior: "smooth"
+});
+
+workArea.classList.add("sweep");
+
+setTimeout(() => {
+cabinet.classList.add("show");
+wrapper.classList.add("active");
+workArea.classList.remove("sweep");
+}, 600);
+
+});
+
+</script>
 
 </body>
 </html>
