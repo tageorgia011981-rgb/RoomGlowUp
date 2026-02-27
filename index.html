@@ -9,14 +9,14 @@
 
 <style>
 
-/* ===== 3-PANEL BACKGROUND ===== */
+/* ===== PAGE ===== */
 html, body {
 margin: 0;
 padding: 0;
-height: 100vh;
+min-height: 200vh;
 font-family: 'Limelight', cursive;
 color: white;
-overflow: hidden;
+overflow-x: hidden;
 
 background:
 url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
@@ -31,10 +31,16 @@ background-size:
 background-attachment: fixed;
 }
 
-/* ===== HEADER ===== */
+/* ===== HEADER FIXED ===== */
 header {
+position: fixed;
+top: 0;
+left: 50%;
+transform: translateX(-50%);
 text-align: center;
-padding: 60px 0 20px 0;
+padding-top: 30px;
+z-index: 10;
+width: 100%;
 }
 
 h1 {
@@ -55,13 +61,15 @@ color: rgba(224,224,224,0.9);
 text-shadow: 2px 2px 6px #000;
 }
 
-/* ===== TOP PULL TABS ===== */
+/* ===== TABS FIXED ===== */
 .nav-container {
+position: fixed;
+top: 200px;
+left: 50%;
+transform: translateX(-50%);
 display: flex;
-justify-content: center;
 gap: 50px;
-margin-top: 25px;
-flex-wrap: wrap;
+z-index: 10;
 }
 
 .top-tab {
@@ -96,20 +104,20 @@ text-align: center;
 width: 85%;
 line-height: 1.2;
 pointer-events: none;
-white-space: normal;
 text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
 }
 
-/* ===== WORKSPACE WRAPPER LOCKED MID-PAGE ===== */
+/* ===== WORKSPACE FIXED LOWER ===== */
 .workspace-wrapper {
-width: 1450px;
 position: fixed;
-top: 52%;
+top: 360px;
 left: 50%;
-transform: translate(-50%, -50%);
+transform: translateX(-50%);
+width: 1450px;
+z-index: 5;
 }
 
-/* ===== CABINET ===== */
+/* CABINET */
 #rooms-cabinet {
 width: 600px;
 position: absolute;
@@ -117,7 +125,7 @@ left: 0;
 top: 0;
 transform: translateX(-620px);
 transition: transform 2.2s cubic-bezier(0.22,1,0.36,1);
-z-index: 2;
+z-index: 6;
 }
 
 #rooms-cabinet.show {
@@ -129,7 +137,7 @@ width: 100%;
 display: block;
 }
 
-/* ===== DRAWER HIT AREAS ===== */
+/* DRAWER HIT AREAS */
 .drawer-hit {
 position: absolute;
 left: 0;
@@ -149,27 +157,19 @@ drop-shadow(0 0 30px rgba(255,255,255,0.6));
 .drawer3 { top: 250px; }
 .drawer4 { top: 335px; }
 
-/* ===== WORK AREA ===== */
+/* WORK AREA */
 #work-area {
 width: 950px;
 height: 650px;
 margin-left: auto;
 background: url('Assets/workstation.jpg') center/cover no-repeat;
 box-shadow: 0 0 60px rgba(0,0,0,0.9);
-transition:
-width 2.2s cubic-bezier(0.22,1,0.36,1),
-transform 0.6s ease,
-opacity 0.4s ease;
 cursor: pointer;
+transition: width 2.2s cubic-bezier(0.22,1,0.36,1);
 }
 
 .workspace-wrapper.active #work-area {
 width: 850px;
-}
-
-#work-area.sweep {
-transform: translateX(200px);
-opacity: 0;
 }
 
 </style>
@@ -183,44 +183,36 @@ opacity: 0;
 </header>
 
 <div class="nav-container">
-
 <div class="top-tab" id="roomsTab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">ROOMS</div>
 </div>
-
 <div class="top-tab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">FURNITURE<br>CATALOG</div>
 </div>
-
 <div class="top-tab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">DECOR<br>CLOSET</div>
 </div>
-
 <div class="top-tab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">GALLERY</div>
 </div>
-
 <div class="top-tab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">SAVE/<br>CHECKOUT</div>
 </div>
-
 </div>
 
 <div class="workspace-wrapper" id="workspaceWrapper">
 
 <div id="rooms-cabinet">
 <img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
-
 <div class="drawer-hit drawer1" data-drawer="living"></div>
 <div class="drawer-hit drawer2" data-drawer="dining"></div>
 <div class="drawer-hit drawer3" data-drawer="bedroom"></div>
 <div class="drawer-hit drawer4" data-drawer="spare"></div>
-
 </div>
 
 <div id="work-area"></div>
@@ -276,31 +268,12 @@ selectedRoom = rooms[drawerType][currentIndex];
 });
 
 document.getElementById("work-area").addEventListener("click", function() {
-
 if (!selectedRoom) return;
-
-const cabinet = document.getElementById("rooms-cabinet");
-const wrapper = document.getElementById("workspaceWrapper");
-
-cabinet.classList.remove("show");
-wrapper.classList.remove("active");
-
+document.getElementById("rooms-cabinet").classList.remove("show");
 });
 
 document.getElementById("roomsTab").addEventListener("click", function () {
-
-const cabinet = document.getElementById("rooms-cabinet");
-const wrapper = document.getElementById("workspaceWrapper");
-const workArea = document.getElementById("work-area");
-
-workArea.classList.add("sweep");
-
-setTimeout(() => {
-cabinet.classList.add("show");
-wrapper.classList.add("active");
-workArea.classList.remove("sweep");
-}, 600);
-
+document.getElementById("rooms-cabinet").classList.add("show");
 });
 
 </script>
