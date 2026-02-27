@@ -127,6 +127,26 @@ width: 100%;
 display: block;
 }
 
+/* ===== DRAWER HIT AREAS ===== */
+.drawer-hit {
+position: absolute;
+left: 0;
+width: 100%;
+height: 85px;
+cursor: pointer;
+}
+
+.drawer-hit:hover {
+filter:
+drop-shadow(0 0 15px rgba(255,255,255,0.9))
+drop-shadow(0 0 30px rgba(255,255,255,0.6));
+}
+
+.drawer1 { top: 80px; }
+.drawer2 { top: 165px; }
+.drawer3 { top: 250px; }
+.drawer4 { top: 335px; }
+
 /* ===== WORK AREA ===== */
 #work-area {
 width: 950px;
@@ -138,6 +158,7 @@ transition:
 width 2.2s cubic-bezier(0.22,1,0.36,1),
 transform 0.6s ease,
 opacity 0.4s ease;
+cursor: pointer;
 }
 
 .workspace-wrapper.active #work-area {
@@ -192,6 +213,12 @@ opacity: 0;
 
 <div id="rooms-cabinet">
 <img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
+
+<div class="drawer-hit drawer1" data-drawer="living"></div>
+<div class="drawer-hit drawer2" data-drawer="dining"></div>
+<div class="drawer-hit drawer3" data-drawer="bedroom"></div>
+<div class="drawer-hit drawer4" data-drawer="spare"></div>
+
 </div>
 
 <div id="work-area"></div>
@@ -199,6 +226,64 @@ opacity: 0;
 </div>
 
 <script>
+
+const rooms = {
+living: [
+"Assets/ROOMS_livingroom1.jpg",
+"Assets/ROOMS_livingroom2.jpg",
+"Assets/ROOMS_livingroom3.jpg"
+],
+dining: [
+"Assets/ROOMS_diningroom1.jpg",
+"Assets/ROOMS_diningroom2.jpg"
+],
+bedroom: [
+"Assets/ROOMS_bedroom1.jpg",
+"Assets/ROOMS_bedroom2.jpg",
+"Assets/ROOMS_bedroom3.jpg"
+],
+spare: [
+"Assets/ROOMS_kitchen1.jpg",
+"Assets/ROOMS_office1.jpg",
+"Assets/ROOMS_bathroom1.jpg"
+]
+};
+
+let currentDrawer = null;
+let currentIndex = 0;
+let selectedRoom = null;
+
+document.querySelectorAll(".drawer-hit").forEach(drawer => {
+drawer.addEventListener("click", function() {
+
+const drawerType = this.dataset.drawer;
+
+if (currentDrawer !== drawerType) {
+currentDrawer = drawerType;
+currentIndex = 0;
+} else {
+currentIndex = (currentIndex + 1) % rooms[drawerType].length;
+}
+
+document.getElementById("work-area").style.background =
+"url('" + rooms[drawerType][currentIndex] + "') center/cover no-repeat";
+
+selectedRoom = rooms[drawerType][currentIndex];
+
+});
+});
+
+document.getElementById("work-area").addEventListener("click", function() {
+
+if (!selectedRoom) return;
+
+const cabinet = document.getElementById("rooms-cabinet");
+const wrapper = document.getElementById("workspaceWrapper");
+
+cabinet.classList.remove("show");
+wrapper.classList.remove("active");
+
+});
 
 document.getElementById("roomsTab").addEventListener("click", function () {
 
