@@ -5,42 +5,37 @@
 <title>Room Glow Up</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jacques+Francois+Shadow&display=swap" rel="stylesheet">
 
 <style>
 
-/* ===== PAGE ===== */
+/* ===== 3-PANEL BACKGROUND ===== */
 html, body {
 margin: 0;
 padding: 0;
-min-height: 200vh;
+min-height: 100vh;
 font-family: 'Limelight', cursive;
 color: white;
 overflow-x: hidden;
 
+/* Left curtain | Center blue | Right curtain */
 background:
 url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
 url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
 url('Assets/mainbackground_blue.jpg') center top no-repeat;
 
 background-size:
-33% 100%,
-33% 100%,
-34% 100%;
+33% 100%,   /* left curtain */
+33% 100%,   /* right curtain */
+34% 100%;   /* center blue */
 
 background-attachment: fixed;
 }
 
-/* ===== HEADER FIXED ===== */
+/* ===== HEADER ===== */
 header {
-position: fixed;
-top: 0;
-left: 50%;
-transform: translateX(-50%);
 text-align: center;
-padding-top: 30px;
-z-index: 10;
-width: 100%;
+padding: 70px 0 30px 0;
 }
 
 h1 {
@@ -61,15 +56,13 @@ color: rgba(224,224,224,0.9);
 text-shadow: 2px 2px 6px #000;
 }
 
-/* ===== TABS FIXED ===== */
+/* ===== TOP PULL TABS ===== */
 .nav-container {
-position: fixed;
-top: 200px;
-left: 50%;
-transform: translateX(-50%);
 display: flex;
+justify-content: center;
 gap: 50px;
-z-index: 10;
+margin-top: 35px;
+flex-wrap: wrap;
 }
 
 .top-tab {
@@ -81,9 +74,7 @@ transition: transform 0.25s ease, filter 0.25s ease;
 
 .top-tab:hover {
 transform: translateY(-6px);
-filter:
-drop-shadow(0 0 12px rgba(255,255,255,0.8))
-drop-shadow(0 0 25px rgba(255,255,255,0.6));
+filter: drop-shadow(0 8px 18px rgba(0,0,0,0.6));
 }
 
 .top-tab img {
@@ -96,35 +87,34 @@ position: absolute;
 top: 39%;
 left: 50%;
 transform: translate(-50%, -50%);
-font-family: 'Special Elite', cursive;
+font-family: 'Jacques Francois Shadow', serif;
 font-size: 20px;
 letter-spacing: 2px;
-color: #ffffff;
+color: #f2f2f2;
 text-align: center;
 width: 85%;
 line-height: 1.2;
 pointer-events: none;
-text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+white-space: normal;
+text-shadow: 0 2px 4px rgba(0,0,0,0.6);
 }
 
-/* ===== WORKSPACE FIXED LOWER ===== */
+/* ===== WORKSPACE WRAPPER ===== */
 .workspace-wrapper {
-position: fixed;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -30%);
 width: 1450px;
-z-index: 5;
+margin: 130px auto;
+position: relative;
 }
-/* CABINET */
+
+/* ===== CABINET ===== */
 #rooms-cabinet {
-width: 600px;
+width: 500px;
 position: absolute;
 left: 0;
 top: 0;
-transform: translateX(-620px);
+transform: translateX(-520px);
 transition: transform 2.2s cubic-bezier(0.22,1,0.36,1);
-z-index: 6;
+z-index: 2;
 }
 
 #rooms-cabinet.show {
@@ -136,39 +126,26 @@ width: 100%;
 display: block;
 }
 
-/* DRAWER HIT AREAS */
-.drawer-hit {
-position: absolute;
-left: 0;
-width: 100%;
-height: 85px;
-cursor: pointer;
-}
-
-.drawer-hit:hover {
-filter:
-drop-shadow(0 0 15px rgba(255,255,255,0.9))
-drop-shadow(0 0 30px rgba(255,255,255,0.6));
-}
-
-.drawer1 { top: 80px; }
-.drawer2 { top: 165px; }
-.drawer3 { top: 250px; }
-.drawer4 { top: 335px; }
-
-/* WORK AREA */
+/* ===== WORK AREA ===== */
 #work-area {
 width: 950px;
 height: 650px;
 margin-left: auto;
 background: url('Assets/workstation.jpg') center/cover no-repeat;
 box-shadow: 0 0 60px rgba(0,0,0,0.9);
-cursor: pointer;
-transition: width 2.2s cubic-bezier(0.22,1,0.36,1);
+transition:
+width 2.2s cubic-bezier(0.22,1,0.36,1),
+transform 0.6s ease,
+opacity 0.4s ease;
 }
 
 .workspace-wrapper.active #work-area {
-width: 850px;
+width: 900px;
+}
+
+#work-area.sweep {
+transform: translateX(200px);
+opacity: 0;
 }
 
 </style>
@@ -182,36 +159,38 @@ width: 850px;
 </header>
 
 <div class="nav-container">
+
 <div class="top-tab" id="roomsTab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">ROOMS</div>
 </div>
+
 <div class="top-tab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">FURNITURE<br>CATALOG</div>
 </div>
+
 <div class="top-tab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">DECOR<br>CLOSET</div>
 </div>
+
 <div class="top-tab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">GALLERY</div>
 </div>
+
 <div class="top-tab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">SAVE/<br>CHECKOUT</div>
 </div>
+
 </div>
 
 <div class="workspace-wrapper" id="workspaceWrapper">
 
 <div id="rooms-cabinet">
-<img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
-<div class="drawer-hit drawer1" data-drawer="living"></div>
-<div class="drawer-hit drawer2" data-drawer="dining"></div>
-<div class="drawer-hit drawer3" data-drawer="bedroom"></div>
-<div class="drawer-hit drawer4" data-drawer="spare"></div>
+<img src="Assets/rooms_cabinet.png" class="cabinet-img">
 </div>
 
 <div id="work-area"></div>
@@ -220,63 +199,28 @@ width: 850px;
 
 <script>
 
-const rooms = {
-living: [
-"Assets/ROOMS_livingroom1.jpg",
-"Assets/ROOMS_livingroom2.jpg",
-"Assets/ROOMS_livingroom3.jpg"
-],
-dining: [
-"Assets/ROOMS_diningroom1.jpg",
-"Assets/ROOMS_diningroom2.jpg"
-],
-bedroom: [
-"Assets/ROOMS_bedroom1.jpg",
-"Assets/ROOMS_bedroom2.jpg",
-"Assets/ROOMS_bedroom3.jpg"
-],
-spare: [
-"Assets/ROOMS_kitchen1.jpg",
-"Assets/ROOMS_office1.jpg",
-"Assets/ROOMS_bathroom1.jpg"
-]
-};
-
-let currentDrawer = null;
-let currentIndex = 0;
-let selectedRoom = null;
-
-document.querySelectorAll(".drawer-hit").forEach(drawer => {
-drawer.addEventListener("click", function() {
-
-const drawerType = this.dataset.drawer;
-
-if (currentDrawer !== drawerType) {
-currentDrawer = drawerType;
-currentIndex = 0;
-} else {
-currentIndex = (currentIndex + 1) % rooms[drawerType].length;
-}
-
-document.getElementById("work-area").style.background =
-"url('" + rooms[drawerType][currentIndex] + "') center/cover no-repeat";
-
-selectedRoom = rooms[drawerType][currentIndex];
-
-});
-});
-
-document.getElementById("work-area").addEventListener("click", function() {
-if (!selectedRoom) return;
-document.getElementById("rooms-cabinet").classList.remove("show");
-});
-
 document.getElementById("roomsTab").addEventListener("click", function () {
-document.getElementById("rooms-cabinet").classList.add("show");
+
+const wrapper = document.getElementById("workspaceWrapper");
+const cabinet = document.getElementById("rooms-cabinet");
+const workArea = document.getElementById("work-area");
+
+window.scrollTo({
+top: wrapper.offsetTop - 80,
+behavior: "smooth"
+});
+
+workArea.classList.add("sweep");
+
+setTimeout(() => {
+cabinet.classList.add("show");
+wrapper.classList.add("active");
+workArea.classList.remove("sweep");
+}, 600);
+
 });
 
 </script>
 
 </body>
 </html>
-
