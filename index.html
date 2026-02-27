@@ -125,25 +125,25 @@ width: 100%;
 display: block;
 }
 
-/* ===== DRAWER LABELS ===== */
+/* ===== DRAWER LABELS (MATCH IMAGE ORDER) ===== */
 .drawer-label {
 position: absolute;
 left: 50%;
 transform: translateX(-50%);
 font-family: 'Special Elite', cursive;
-font-size: 22px;
+font-size: 26px;
 letter-spacing: 3px;
-color: #1a1a1a;
-text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+color: #111111;
+text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
 pointer-events: none;
 }
 
-/* Current vertical positioning */
-.drawer1 { top: 115px; }
-.drawer2 { top: 210px; }
-.drawer3 { top: 305px; }
-.drawer4 { top: 400px; }
-.drawer5 { top: 495px; }
+/* Adjusted to visually match the cabinet image */
+.drawer1 { top: 95px; }
+.drawer2 { top: 180px; }
+.drawer3 { top: 265px; }
+.drawer4 { top: 350px; }
+.drawer5 { top: 435px; }
 
 /* ===== WORK AREA ===== */
 #work-area {
@@ -209,13 +209,13 @@ opacity: 0;
 <div class="workspace-wrapper" id="workspaceWrapper">
 
 <div id="rooms-cabinet">
-<img src="Assets/rooms_cabinet.png" class="cabinet-img">
+<img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
 
 <div class="drawer-label drawer1">LIVINGROOM</div>
-<div class="drawer-label drawer2">BEDROOM</div>
-<div class="drawer-label drawer3">DININGROOM</div>
-<div class="drawer-label drawer4">EXTRA ROOMS</div>
-<div class="drawer-label drawer5">UPLOAD YOURS</div>
+<div class="drawer-label drawer2">DININGROOM</div>
+<div class="drawer-label drawer3">BEDROOM</div>
+<div class="drawer-label drawer4">SPAREROOM</div>
+<div class="drawer-label drawer5">UPLOAD</div>
 
 </div>
 
