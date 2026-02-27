@@ -13,10 +13,10 @@
 html, body {
 margin: 0;
 padding: 0;
-min-height: 100vh;
+height: 100vh;
 font-family: 'Limelight', cursive;
 color: white;
-overflow-x: hidden;
+overflow: hidden;
 
 background:
 url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
@@ -34,7 +34,7 @@ background-attachment: fixed;
 /* ===== HEADER ===== */
 header {
 text-align: center;
-padding: 70px 0 30px 0;
+padding: 50px 0 10px 0;
 }
 
 h1 {
@@ -60,7 +60,7 @@ text-shadow: 2px 2px 6px #000;
 display: flex;
 justify-content: center;
 gap: 50px;
-margin-top: 35px;
+margin-top: 25px;
 flex-wrap: wrap;
 }
 
@@ -100,11 +100,13 @@ white-space: normal;
 text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
 }
 
-/* ===== WORKSPACE WRAPPER ===== */
+/* ===== WORKSPACE WRAPPER LOCKED ===== */
 .workspace-wrapper {
 width: 1450px;
-margin: 220px auto;
-position: relative;
+position: absolute;
+top: 320px;
+left: 50%;
+transform: translateX(-50%);
 }
 
 /* ===== CABINET ===== */
@@ -287,14 +289,9 @@ wrapper.classList.remove("active");
 
 document.getElementById("roomsTab").addEventListener("click", function () {
 
-const wrapper = document.getElementById("workspaceWrapper");
 const cabinet = document.getElementById("rooms-cabinet");
+const wrapper = document.getElementById("workspaceWrapper");
 const workArea = document.getElementById("work-area");
-
-window.scrollTo({
-top: wrapper.offsetTop - 80,
-behavior: "smooth"
-});
 
 workArea.classList.add("sweep");
 
