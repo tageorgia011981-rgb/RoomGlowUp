@@ -89,29 +89,29 @@ transform: translate(-50%, -50%);
 font-family: 'Special Elite', cursive;
 font-size: 20px;
 letter-spacing: 2px;
-color: #1a1a1a;
+color: #ffffff;
 text-align: center;
 width: 85%;
 line-height: 1.2;
 pointer-events: none;
 white-space: normal;
-text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
 }
 
 /* ===== WORKSPACE WRAPPER ===== */
 .workspace-wrapper {
 width: 1450px;
-margin: 130px auto;
+margin: 220px auto;
 position: relative;
 }
 
 /* ===== CABINET ===== */
 #rooms-cabinet {
-width: 500px;
+width: 600px;
 position: absolute;
 left: 0;
 top: 0;
-transform: translateX(-520px);
+transform: translateX(-620px);
 transition: transform 2.2s cubic-bezier(0.22,1,0.36,1);
 z-index: 2;
 }
@@ -125,25 +125,7 @@ width: 100%;
 display: block;
 }
 
-/* ===== DRAWER LABELS (MATCH IMAGE ORDER) ===== */
-.drawer-label {
-position: absolute;
-left: 50%;
-transform: translateX(-50%);
-font-family: 'Special Elite', cursive;
-font-size: 26px;
-letter-spacing: 3px;
-color: #111111;
-text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-pointer-events: none;
-}
-
-/* Adjusted to visually match the cabinet image */
-.drawer1 { top: 95px; }
-.drawer2 { top: 180px; }
-.drawer3 { top: 265px; }
-.drawer4 { top: 350px; }
-.drawer5 { top: 435px; }
+/* ===== DRAWER LABELS REMOVED (ONLY IMAGE LABELS REMAIN) ===== */
 
 /* ===== WORK AREA ===== */
 #work-area {
@@ -159,7 +141,7 @@ opacity 0.4s ease;
 }
 
 .workspace-wrapper.active #work-area {
-width: 900px;
+width: 850px;
 }
 
 #work-area.sweep {
@@ -210,13 +192,6 @@ opacity: 0;
 
 <div id="rooms-cabinet">
 <img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
-
-<div class="drawer-label drawer1">LIVINGROOM</div>
-<div class="drawer-label drawer2">DININGROOM</div>
-<div class="drawer-label drawer3">BEDROOM</div>
-<div class="drawer-label drawer4">SPAREROOM</div>
-<div class="drawer-label drawer5">UPLOAD</div>
-
 </div>
 
 <div id="work-area"></div>
