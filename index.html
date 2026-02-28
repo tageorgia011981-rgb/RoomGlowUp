@@ -18,15 +18,16 @@ font-family: 'Limelight', cursive;
 color: white;
 overflow-x: hidden;
 
+/* Left curtain | Center blue | Right curtain */
 background:
 url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
 url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
 url('Assets/mainbackground_blue.jpg') center top no-repeat;
 
 background-size:
-33% 100%,
-33% 100%,
-34% 100%;
+33% 100%,   /* left curtain */
+33% 100%,   /* right curtain */
+34% 100%;   /* center blue */
 
 background-attachment: fixed;
 }
@@ -101,7 +102,7 @@ text-shadow: 0 2px 4px rgba(0,0,0,0.6);
 /* ===== WORKSPACE WRAPPER ===== */
 .workspace-wrapper {
 width: 1450px;
-margin: 220px auto;
+margin: 130px auto;
 position: relative;
 }
 
@@ -110,9 +111,9 @@ position: relative;
 width: 500px;
 position: absolute;
 left: 0;
-top: 40px;
+top: 0;
 transform: translateX(-520px);
-transition: transform 1.2s cubic-bezier(0.22,1,0.36,1);
+transition: transform 2.2s cubic-bezier(0.22,1,0.36,1);
 z-index: 2;
 }
 
@@ -133,9 +134,9 @@ margin-left: auto;
 background: url('Assets/workstation.jpg') center/cover no-repeat;
 box-shadow: 0 0 60px rgba(0,0,0,0.9);
 transition:
-width 1.2s cubic-bezier(0.22,1,0.36,1),
-transform 0.4s ease,
-opacity 0.3s ease;
+width 2.2s cubic-bezier(0.22,1,0.36,1),
+transform 0.6s ease,
+opacity 0.4s ease;
 }
 
 .workspace-wrapper.active #work-area {
@@ -189,7 +190,7 @@ opacity: 0;
 <div class="workspace-wrapper" id="workspaceWrapper">
 
 <div id="rooms-cabinet">
-<img src="Assets/room_cabinet.jpg" class="cabinet-img">
+<img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
 </div>
 
 <div id="work-area"></div>
