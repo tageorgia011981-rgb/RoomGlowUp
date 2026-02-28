@@ -30,7 +30,7 @@ background-attachment: fixed;
 /* ===== HEADER ===== */
 header {
 text-align: center;
-padding: 70px 0 30px 0;
+padding: 90px 0 40px 0;
 }
 
 h1 {
@@ -56,7 +56,7 @@ text-shadow: 2px 2px 6px #000;
 display: flex;
 justify-content: center;
 gap: 50px;
-margin-top: 35px;
+margin-top: 40px;
 flex-wrap: wrap;
 }
 
@@ -65,6 +65,7 @@ position: relative;
 width: 220px;
 cursor: pointer;
 transition: transform 0.25s ease, filter 0.25s ease;
+line-height: 0;
 }
 
 .top-tab:hover {
@@ -75,6 +76,7 @@ filter: drop-shadow(0 8px 18px rgba(0,0,0,0.6));
 .top-tab img {
 width: 100%;
 display: block;
+pointer-events: none;
 }
 
 .top-tab-text {
@@ -90,24 +92,23 @@ text-align: center;
 width: 85%;
 line-height: 1.2;
 pointer-events: none;
-white-space: normal;
 text-shadow: 0 2px 4px rgba(0,0,0,0.6);
 }
 
 /* ===== WORKSPACE WRAPPER ===== */
 .workspace-wrapper {
 width: 1450px;
-margin: 130px auto;
+margin: 260px auto;
 position: relative;
 }
 
-/* ===== CABINET ===== */
+/* ===== CABINET (LARGER) ===== */
 #rooms-cabinet {
-width: 560px;
+width: 700px;
 position: absolute;
 left: 0;
 top: 0;
-transform: translateX(-580px);
+transform: translateX(-720px);
 transition: transform 2.2s cubic-bezier(0.22,1,0.36,1);
 z-index: 2;
 }
@@ -119,23 +120,33 @@ transform: translateX(0);
 .cabinet-img {
 width: 100%;
 display: block;
+pointer-events: none;
 }
 
-/* Invisible Drawer Click Areas */
+/* Drawer Overlay */
 .drawer-container {
 position: absolute;
-top: 120px;
+top: 150px;
 left: 50%;
 transform: translateX(-50%);
 width: 85%;
 display: flex;
 flex-direction: column;
-gap: 28px;
+gap: 34px;
 }
 
 .drawer {
-height: 45px;
 cursor: pointer;
+text-align: center;
+font-family: 'Jacques Francois Shadow', serif;
+font-size: 22px;
+letter-spacing: 2px;
+transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.drawer:hover {
+transform: translateY(-5px);
+filter: drop-shadow(0 6px 12px rgba(255,255,255,0.5));
 }
 
 /* ===== WORK AREA ===== */
@@ -154,7 +165,7 @@ overflow: hidden;
 }
 
 .workspace-wrapper.active #work-area {
-width: 900px;
+width: 880px;
 }
 
 #work-area.sweep {
@@ -217,11 +228,11 @@ z-index: 1;
 <img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
 
 <div class="drawer-container">
-<div class="drawer" data-room="living"></div>
-<div class="drawer" data-room="dining"></div>
-<div class="drawer" data-room="bedroom"></div>
-<div class="drawer" data-room="spare"></div>
-<div class="drawer" data-room="upload"></div>
+<div class="drawer" data-room="living">LIVINGROOM</div>
+<div class="drawer" data-room="bedroom">BEDROOM</div>
+<div class="drawer" data-room="dining">DININGROOM</div>
+<div class="drawer" data-room="spare">SPARE ROOMS</div>
+<div class="drawer" data-room="upload">UPLOAD YOURS</div>
 </div>
 
 </div>
@@ -239,7 +250,7 @@ const cabinet = document.getElementById("rooms-cabinet");
 const workArea = document.getElementById("work-area");
 
 window.scrollTo({
-top: wrapper.offsetTop - 80,
+top: wrapper.offsetTop - 100,
 behavior: "smooth"
 });
 
@@ -253,23 +264,24 @@ workArea.classList.remove("sweep");
 
 });
 
+/* ===== ROOM DATA ===== */
 const rooms = {
 living: [
 "Assets/ROOMS_livingroom1.jpg",
 "Assets/ROOMS_livingroom2.jpg",
 "Assets/ROOMS_livingroom3.jpg"
 ],
-dining: [
-"Assets/ROOMS_diningroom1.jpg",
-"Assets/ROOMS_diningroom2.jpg"
-],
 bedroom: [
 "Assets/ROOMS_bedroom1.jpg",
 "Assets/ROOMS_bedroom2.jpg",
 "Assets/ROOMS_bedroom3.jpg"
 ],
+dining: [
+"Assets/ROOMS_diningroom1.jpg",
+"Assets/ROOMS_diningroom2.jpg"
+],
 spare: [
-"Assets/ROOM_bathroom.jpg",
+"Assets/ROOMS_bathroom.jpg",
 "Assets/ROOMS_kitchen1.jpg",
 "Assets/ROOMS_office.jpg"
 ]
@@ -277,8 +289,8 @@ spare: [
 
 const roomIndexes = {
 living: 0,
-dining: 0,
 bedroom: 0,
+dining: 0,
 spare: 0
 };
 
