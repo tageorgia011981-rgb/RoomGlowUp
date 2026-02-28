@@ -5,6 +5,7 @@
 <title>Room Glow Up</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jacques+Francois+Shadow&display=swap" rel="stylesheet">
 
 <style>
 
@@ -17,12 +18,17 @@ font-family: 'Limelight', cursive;
 color: white;
 overflow-x: hidden;
 
+/* Left curtain | Center blue | Right curtain */
 background:
 url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
 url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
 url('Assets/mainbackground_blue.jpg') center top no-repeat;
 
-background-size: 33% 100%, 33% 100%, 34% 100%;
+background-size:
+33% 100%,   /* left curtain */
+33% 100%,   /* right curtain */
+34% 100%;   /* center blue */
+
 background-attachment: fixed;
 }
 
@@ -50,12 +56,13 @@ color: rgba(224,224,224,0.9);
 text-shadow: 2px 2px 6px #000;
 }
 
-/* ===== TABS ===== */
+/* ===== TOP PULL TABS ===== */
 .nav-container {
 display: flex;
 justify-content: center;
 gap: 50px;
 margin-top: 35px;
+flex-wrap: wrap;
 }
 
 .top-tab {
@@ -80,29 +87,32 @@ position: absolute;
 top: 39%;
 left: 50%;
 transform: translate(-50%, -50%);
+font-family: 'Jacques Francois Shadow', serif;
 font-size: 20px;
 letter-spacing: 2px;
 color: #f2f2f2;
 text-align: center;
 width: 85%;
-text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+line-height: 1.2;
 pointer-events: none;
+white-space: normal;
+text-shadow: 0 2px 4px rgba(0,0,0,0.6);
 }
 
-/* ===== WORKSPACE ===== */
+/* ===== WORKSPACE WRAPPER ===== */
 .workspace-wrapper {
 width: 1450px;
 margin: 130px auto;
 position: relative;
 }
 
-/* CABINET */
+/* ===== CABINET ===== */
 #rooms-cabinet {
-width: 650px;
+width: 500px;
 position: absolute;
 left: 0;
 top: 0;
-transform: translateX(-670px);
+transform: translateX(-520px);
 transition: transform 2.2s cubic-bezier(0.22,1,0.36,1);
 z-index: 2;
 }
@@ -116,21 +126,7 @@ width: 100%;
 display: block;
 }
 
-/* INVISIBLE DRAWER HIT AREAS */
-.drawer-hit {
-position: absolute;
-left: 0;
-width: 100%;
-height: 110px;
-cursor: pointer;
-}
-
-.drawer1 { top: 110px; }
-.drawer2 { top: 225px; }
-.drawer3 { top: 340px; }
-.drawer4 { top: 455px; }
-
-/* WORK AREA */
+/* ===== WORK AREA ===== */
 #work-area {
 width: 950px;
 height: 650px;
@@ -141,7 +137,6 @@ transition:
 width 2.2s cubic-bezier(0.22,1,0.36,1),
 transform 0.6s ease,
 opacity 0.4s ease;
-cursor: pointer;
 }
 
 .workspace-wrapper.active #work-area {
@@ -195,13 +190,7 @@ opacity: 0;
 <div class="workspace-wrapper" id="workspaceWrapper">
 
 <div id="rooms-cabinet">
-<img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
-
-<div class="drawer-hit drawer1" data-drawer="living"></div>
-<div class="drawer-hit drawer2" data-drawer="dining"></div>
-<div class="drawer-hit drawer3" data-drawer="bedroom"></div>
-<div class="drawer-hit drawer4" data-drawer="spare"></div>
-
+<img src="Assets/rooms_cabinet.png" class="cabinet-img">
 </div>
 
 <div id="work-area"></div>
@@ -209,53 +198,6 @@ opacity: 0;
 </div>
 
 <script>
-
-const rooms = {
-living: [
-"Assets/ROOMS_livingroom1.jpg",
-"Assets/ROOMS_livingroom2.jpg",
-"Assets/ROOMS_livingroom3.jpg"
-],
-dining: [
-"Assets/ROOMS_diningroom1.jpg",
-"Assets/ROOMS_diningroom2.jpg"
-],
-bedroom: [
-"Assets/ROOMS_bedroom1.jpg",
-"Assets/ROOMS_bedroom2.jpg",
-"Assets/ROOMS_bedroom3.jpg"
-],
-spare: [
-"Assets/ROOMS_kitchen1.jpg",
-"Assets/ROOMS_office1.jpg",
-"Assets/ROOMS_bathroom1.jpg"
-]
-};
-
-let currentDrawer = null;
-let currentIndex = 0;
-
-document.querySelectorAll(".drawer-hit").forEach(drawer => {
-drawer.addEventListener("click", function() {
-
-const drawerType = this.dataset.drawer;
-
-if (currentDrawer !== drawerType) {
-currentDrawer = drawerType;
-currentIndex = 0;
-} else {
-currentIndex = (currentIndex + 1) % rooms[drawerType].length;
-}
-
-document.getElementById("work-area").style.background =
-"url('" + rooms[drawerType][currentIndex] + "') center/cover no-repeat";
-
-});
-});
-
-document.getElementById("work-area").addEventListener("click", function() {
-document.getElementById("rooms-cabinet").classList.remove("show");
-});
 
 document.getElementById("roomsTab").addEventListener("click", function () {
 
@@ -282,4 +224,3 @@ workArea.classList.remove("sweep");
 
 </body>
 </html>
-
