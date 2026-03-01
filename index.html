@@ -16,7 +16,6 @@ padding: 0;
 min-height: 100vh;
 font-family: 'Limelight', cursive;
 color: white;
-overflow-x: hidden;
 
 background:
 url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
@@ -44,7 +43,6 @@ h2 {
 font-size: 24px;
 letter-spacing: 9px;
 margin-top: 15px;
-color: rgba(224,224,224,0.9);
 text-shadow: 2px 2px 6px #000;
 }
 
@@ -66,7 +64,7 @@ transition: transform 0.25s ease, filter 0.25s ease;
 
 .top-tab:hover {
 transform: translateY(-6px);
-filter: drop-shadow(0 0 18px rgba(255,255,255,0.6))
+filter: drop-shadow(0 0 18px rgba(255,255,255,0.7))
         drop-shadow(0 8px 18px rgba(0,0,0,0.6));
 }
 
@@ -83,29 +81,27 @@ transform: translate(-50%, -50%);
 font-family: 'Jacques Francois Shadow', serif;
 font-size: 20px;
 letter-spacing: 2px;
-color: #f2f2f2;
 text-align: center;
 width: 85%;
-line-height: 1.2;
 pointer-events: none;
-text-shadow: 0 2px 4px rgba(0,0,0,0.6);
 }
 
 /* ===== WORKSPACE WRAPPER ===== */
 .workspace-wrapper {
-width: 1550px;
-margin: 180px auto 300px auto;
+width: 1650px;
+margin: 200px auto 500px auto;
 position: relative;
+height: 760px;
 }
 
 /* ===== CABINET ===== */
 #rooms-cabinet {
-width: 600px;
+width: 700px;
 position: absolute;
 left: 0;
 top: 0;
-transform: translateX(-620px);
-transition: transform 1.8s cubic-bezier(0.22,1,0.36,1);
+transform: translateX(-750px);
+transition: transform 1.5s ease;
 z-index: 2;
 }
 
@@ -118,35 +114,38 @@ width: 100%;
 display: block;
 }
 
-/* ===== DRAWER ZONES ===== */
+/* ===== DRAWERS ===== */
 .drawer {
 position: absolute;
 left: 8%;
 width: 84%;
-height: 12%;
+height: 11%;
 cursor: pointer;
 transition: transform 0.25s ease, filter 0.25s ease;
 }
 
 .drawer:hover {
 transform: translateY(-6px);
-filter: drop-shadow(0 0 18px rgba(255,255,255,0.6));
+filter: drop-shadow(0 0 18px rgba(255,255,255,0.8));
 }
 
-#living { top: 18%; }
-#bedroom { top: 32%; }
-#dining { top: 46%; }
-#spare { top: 60%; }
-#upload { top: 74%; }
+/* aligned to cabinet image */
+#living { top: 17%; }
+#bedroom { top: 30%; }
+#dining { top: 43%; }
+#spare { top: 56%; }
+#upload { top: 69%; }
 
 /* ===== WORK AREA ===== */
 #work-area {
+position: absolute;
+right: 0;
+top: 0;
 width: 950px;
-height: 700px;
-margin-left: auto;
+height: 760px;
 background: url('Assets/workstation.jpg') center/cover no-repeat;
 box-shadow: 0 0 60px rgba(0,0,0,0.9);
-transition: opacity 0.4s ease;
+transition: opacity 0.3s ease;
 cursor: pointer;
 }
 
@@ -165,7 +164,6 @@ opacity: 0;
 </header>
 
 <div class="nav-container">
-
 <div class="top-tab" id="roomsTab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">ROOMS</div>
@@ -190,7 +188,6 @@ opacity: 0;
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">SAVE/<br>CHECKOUT</div>
 </div>
-
 </div>
 
 <div class="workspace-wrapper">
@@ -220,6 +217,7 @@ roomsTab.addEventListener("click", () => {
 cabinet.classList.add("show");
 });
 
+/* ROOM IMAGES */
 const roomSets = {
 living: [
 "Assets/ROOMS_livingroom1.jpg",
@@ -247,7 +245,6 @@ let currentIndex = 0;
 let locked = false;
 
 document.querySelectorAll(".drawer").forEach(drawer => {
-
 drawer.addEventListener("click", function() {
 
 if (this.id === "upload") return;
@@ -273,16 +270,12 @@ workArea.classList.remove("fade-out");
 }, 200);
 
 });
-
 });
 
 workArea.addEventListener("click", () => {
-
 if (!currentSet || locked) return;
-
 locked = true;
 cabinet.classList.remove("show");
-
 });
 
 </script>
