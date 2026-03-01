@@ -102,7 +102,7 @@ margin: 260px auto;
 position: relative;
 }
 
-/* ===== CABINET (LARGER) ===== */
+/* ===== CABINET ===== */
 #rooms-cabinet {
 width: 700px;
 position: absolute;
@@ -123,30 +123,21 @@ display: block;
 pointer-events: none;
 }
 
-/* Drawer Overlay */
+/* Invisible Drawer Click Zones */
 .drawer-container {
 position: absolute;
-top: 150px;
+top: 140px;
 left: 50%;
 transform: translateX(-50%);
-width: 85%;
+width: 80%;
 display: flex;
 flex-direction: column;
-gap: 34px;
+gap: 32px;
 }
 
 .drawer {
+height: 60px;
 cursor: pointer;
-text-align: center;
-font-family: 'Jacques Francois Shadow', serif;
-font-size: 22px;
-letter-spacing: 2px;
-transition: transform 0.25s ease, filter 0.25s ease;
-}
-
-.drawer:hover {
-transform: translateY(-5px);
-filter: drop-shadow(0 6px 12px rgba(255,255,255,0.5));
 }
 
 /* ===== WORK AREA ===== */
@@ -228,11 +219,11 @@ z-index: 1;
 <img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
 
 <div class="drawer-container">
-<div class="drawer" data-room="living">LIVINGROOM</div>
-<div class="drawer" data-room="bedroom">BEDROOM</div>
-<div class="drawer" data-room="dining">DININGROOM</div>
-<div class="drawer" data-room="spare">SPARE ROOMS</div>
-<div class="drawer" data-room="upload">UPLOAD YOURS</div>
+<div class="drawer" data-room="living"></div>
+<div class="drawer" data-room="bedroom"></div>
+<div class="drawer" data-room="dining"></div>
+<div class="drawer" data-room="spare"></div>
+<div class="drawer" data-room="upload"></div>
 </div>
 
 </div>
@@ -264,7 +255,6 @@ workArea.classList.remove("sweep");
 
 });
 
-/* ===== ROOM DATA ===== */
 const rooms = {
 living: [
 "Assets/ROOMS_livingroom1.jpg",
