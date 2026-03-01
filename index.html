@@ -94,15 +94,16 @@ text-shadow: 0 2px 4px rgba(0,0,0,0.6);
 /* ===== WORKSPACE WRAPPER ===== */
 .workspace-wrapper {
 width: 1550px;
-margin: 150px auto;
+margin: 180px auto 300px auto;
 position: relative;
-display: flex;
 }
 
-/* ===== CABINET (BIGGER) ===== */
+/* ===== CABINET ===== */
 #rooms-cabinet {
 width: 600px;
-position: relative;
+position: absolute;
+left: 0;
+top: 0;
 transform: translateX(-620px);
 transition: transform 1.8s cubic-bezier(0.22,1,0.36,1);
 z-index: 2;
@@ -117,7 +118,7 @@ width: 100%;
 display: block;
 }
 
-/* ===== DRAWER CLICK ZONES ===== */
+/* ===== DRAWER ZONES ===== */
 .drawer {
 position: absolute;
 left: 8%;
@@ -132,7 +133,6 @@ transform: translateY(-6px);
 filter: drop-shadow(0 0 18px rgba(255,255,255,0.6));
 }
 
-/* Drawer vertical alignment */
 #living { top: 18%; }
 #bedroom { top: 32%; }
 #dining { top: 46%; }
@@ -146,7 +146,7 @@ height: 700px;
 margin-left: auto;
 background: url('Assets/workstation.jpg') center/cover no-repeat;
 box-shadow: 0 0 60px rgba(0,0,0,0.9);
-transition: opacity 0.5s ease;
+transition: opacity 0.4s ease;
 cursor: pointer;
 }
 
@@ -220,8 +220,6 @@ roomsTab.addEventListener("click", () => {
 cabinet.classList.add("show");
 });
 
-/* ===== ROOM IMAGE ARRAYS ===== */
-
 const roomSets = {
 living: [
 "Assets/ROOMS_livingroom1.jpg",
@@ -248,8 +246,6 @@ let currentSet = null;
 let currentIndex = 0;
 let locked = false;
 
-/* ===== DRAWER CLICK ===== */
-
 document.querySelectorAll(".drawer").forEach(drawer => {
 
 drawer.addEventListener("click", function() {
@@ -274,20 +270,17 @@ setTimeout(() => {
 workArea.style.background =
 `url('${roomSets[currentSet][currentIndex]}') center/cover no-repeat`;
 workArea.classList.remove("fade-out");
-}, 300);
+}, 200);
 
 });
 
 });
-
-/* ===== LOCK ROOM ===== */
 
 workArea.addEventListener("click", () => {
 
 if (!currentSet || locked) return;
 
 locked = true;
-
 cabinet.classList.remove("show");
 
 });
@@ -296,4 +289,3 @@ cabinet.classList.remove("show");
 
 </body>
 </html>
-
