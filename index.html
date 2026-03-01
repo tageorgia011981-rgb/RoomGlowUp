@@ -100,18 +100,18 @@ text-shadow: 0 2px 4px rgba(0,0,0,0.6);
 
 /* ===== WORKSPACE WRAPPER ===== */
 .workspace-wrapper {
-width: 1450px;
+width: 1600px;
 margin: 130px auto;
 position: relative;
 }
 
-/* ===== CABINET ===== */
+/* ===== CABINET (BIGGER) ===== */
 #rooms-cabinet {
-width: 500px;
+width: 650px;
 position: absolute;
 left: 0;
 top: 0;
-transform: translateX(-520px);
+transform: translateX(-700px);
 transition: transform 2.2s cubic-bezier(0.22,1,0.36,1);
 z-index: 2;
 }
@@ -131,23 +131,23 @@ position: absolute;
 left: 50%;
 transform: translateX(-50%);
 font-family: 'Jacques Francois Shadow', serif;
-font-size: 20px;
+font-size: 24px;
 letter-spacing: 2px;
 cursor: pointer;
 transition: transform 0.25s ease, filter 0.25s ease;
-text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+text-shadow: 0 3px 6px rgba(0,0,0,0.9);
 }
 
 .drawer:hover {
-transform: translateX(-50%) translateY(-5px);
-filter: drop-shadow(0 6px 14px rgba(255,255,255,0.6));
+transform: translateX(-50%) translateY(-6px);
+filter: drop-shadow(0 6px 18px rgba(255,255,255,0.7));
 }
 
-.drawer.living { top: 120px; }
-.drawer.bedroom { top: 190px; }
-.drawer.dining { top: 260px; }
-.drawer.spare { top: 330px; }
-.drawer.upload { top: 400px; }
+.drawer.living { top: 155px; }
+.drawer.bedroom { top: 245px; }
+.drawer.dining { top: 335px; }
+.drawer.spare { top: 425px; }
+.drawer.upload { top: 515px; }
 
 /* ===== WORK AREA ===== */
 #work-area {
@@ -291,14 +291,12 @@ drawer.addEventListener("click", function () {
 const roomType = this.dataset.room;
 if (!roomType) return;
 
-const images = roomImages[roomType];
 roomIndexes[roomType]++;
-
-if (roomIndexes[roomType] >= images.length) {
+if (roomIndexes[roomType] >= roomImages[roomType].length) {
 roomIndexes[roomType] = 0;
 }
 
-workArea.style.background = `url('${images[roomIndexes[roomType]]}') center/cover no-repeat`;
+workArea.style.background = `url('${roomImages[roomType][roomIndexes[roomType]]}') center/cover no-repeat`;
 
 });
 
@@ -308,4 +306,3 @@ workArea.style.background = `url('${images[roomIndexes[roomType]]}') center/cove
 
 </body>
 </html>
-```
