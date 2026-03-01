@@ -122,7 +122,7 @@ display: block;
 pointer-events: none;
 }
 
-/* ===== MANUAL DRAWER CLICK ZONES ===== */
+/* Drawer click zones */
 .drawer {
 position: absolute;
 left: 10%;
@@ -131,7 +131,6 @@ height: 70px;
 cursor: pointer;
 }
 
-/* Adjust these top values if needed */
 .drawer.living   { top: 155px; }
 .drawer.bedroom  { top: 235px; }
 .drawer.dining   { top: 315px; }
@@ -183,17 +182,14 @@ z-index: 1;
 </header>
 
 <div class="nav-container">
-
 <div class="top-tab" id="roomsTab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">ROOMS</div>
 </div>
-
 <div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">FURNITURE<br>CATALOG</div></div>
 <div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">DECOR<br>CLOSET</div></div>
 <div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">GALLERY</div></div>
 <div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">SAVE/<br>CHECKOUT</div></div>
-
 </div>
 
 <div class="workspace-wrapper" id="workspaceWrapper">
@@ -205,7 +201,7 @@ z-index: 1;
 <div class="drawer bedroom" data-room="bedroom"></div>
 <div class="drawer dining" data-room="dining"></div>
 <div class="drawer spare" data-room="spare"></div>
-<div class="drawer upload" data-room="upload"></div>
+<div class="drawer upload" id="uploadDrawer"></div>
 
 </div>
 
@@ -213,18 +209,16 @@ z-index: 1;
 
 </div>
 
+<input type="file" id="fileInput" accept="image/*" style="display:none;">
+
 <script>
 
 document.getElementById("roomsTab").addEventListener("click", function () {
-
 const wrapper = document.getElementById("workspaceWrapper");
 const cabinet = document.getElementById("rooms-cabinet");
 const workArea = document.getElementById("work-area");
 
-window.scrollTo({
-top: wrapper.offsetTop - 100,
-behavior: "smooth"
-});
+window.scrollTo({ top: wrapper.offsetTop - 100, behavior: "smooth" });
 
 workArea.classList.add("sweep");
 
@@ -233,9 +227,9 @@ cabinet.classList.add("show");
 wrapper.classList.add("active");
 workArea.classList.remove("sweep");
 }, 600);
-
 });
 
+/* ===== ROOM DATA ===== */
 const rooms = {
 living: [
 "Assets/ROOMS_livingroom1.jpg",
@@ -259,7 +253,6 @@ spare: [
 };
 
 const roomIndexes = { living:0, bedroom:0, dining:0, spare:0 };
-
 const workArea = document.getElementById("work-area");
 
 function displayRoom(src) {
@@ -273,12 +266,32 @@ workArea.appendChild(img);
 
 document.querySelectorAll(".drawer").forEach(drawer => {
 drawer.addEventListener("click", function() {
+
+if (this.id === "uploadDrawer") {
+document.getElementById("fileInput").click();
+return;
+}
+
 const type = this.dataset.room;
 if (!rooms[type]) return;
+
 displayRoom(rooms[type][roomIndexes[type]]);
 roomIndexes[type]++;
 if (roomIndexes[type] >= rooms[type].length) roomIndexes[type] = 0;
+
 });
+});
+
+/* Upload logic */
+document.getElementById("fileInput").addEventListener("change", function(e) {
+const file = e.target.files[0];
+if (!file) return;
+
+const reader = new FileReader();
+reader.onload = function(event) {
+displayRoom(event.target.result);
+};
+reader.readAsDataURL(file);
 });
 
 </script>
