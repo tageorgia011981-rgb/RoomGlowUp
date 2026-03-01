@@ -23,11 +23,7 @@ url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
 url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
 url('Assets/mainbackground_blue.jpg') center top no-repeat;
 
-background-size:
-33% 100%,
-33% 100%,
-34% 100%;
-
+background-size: 33% 100%, 33% 100%, 34% 100%;
 background-attachment: fixed;
 }
 
@@ -105,7 +101,7 @@ margin: 130px auto;
 position: relative;
 }
 
-/* ===== CABINET (BIGGER) ===== */
+/* ===== CABINET (LARGER) ===== */
 #rooms-cabinet {
 width: 650px;
 position: absolute;
@@ -125,29 +121,19 @@ width: 100%;
 display: block;
 }
 
-/* ===== DRAWERS ===== */
-.drawer {
+/* ===== INVISIBLE CLICK ZONES ===== */
+.drawer-zone {
 position: absolute;
-left: 50%;
-transform: translateX(-50%);
-font-family: 'Jacques Francois Shadow', serif;
-font-size: 24px;
-letter-spacing: 2px;
+left: 0;
+width: 100%;
+height: 85px;
 cursor: pointer;
-transition: transform 0.25s ease, filter 0.25s ease;
-text-shadow: 0 3px 6px rgba(0,0,0,0.9);
 }
 
-.drawer:hover {
-transform: translateX(-50%) translateY(-6px);
-filter: drop-shadow(0 6px 18px rgba(255,255,255,0.7));
-}
-
-.drawer.living { top: 155px; }
-.drawer.bedroom { top: 245px; }
-.drawer.dining { top: 335px; }
-.drawer.spare { top: 425px; }
-.drawer.upload { top: 515px; }
+.zone-living  { top: 155px; }
+.zone-dining  { top: 245px; }
+.zone-bedroom { top: 335px; }
+.zone-spare   { top: 425px; }
 
 /* ===== WORK AREA ===== */
 #work-area {
@@ -216,11 +202,10 @@ opacity: 0;
 <div id="rooms-cabinet">
 <img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
 
-<div class="drawer living" data-room="living">LIVINGROOM</div>
-<div class="drawer bedroom" data-room="bedroom">BEDROOM</div>
-<div class="drawer dining" data-room="dining">DININGROOM</div>
-<div class="drawer spare" data-room="spare">SPARE ROOMS</div>
-<div class="drawer upload">UPLOAD YOURS</div>
+<div class="drawer-zone zone-living" data-room="living"></div>
+<div class="drawer-zone zone-dining" data-room="dining"></div>
+<div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
+<div class="drawer-zone zone-spare" data-room="spare"></div>
 
 </div>
 
@@ -251,22 +236,20 @@ workArea.classList.remove("sweep");
 
 });
 
-/* ===== ROOM IMAGE CYCLING ===== */
-
 const roomImages = {
 living: [
 "Assets/ROOMS_livingroom1.jpg",
 "Assets/ROOMS_livingroom2.jpg",
 "Assets/ROOMS_livingroom3.jpg"
 ],
+dining: [
+"Assets/ROOMS_diningroom1.jpg",
+"Assets/ROOMS_diningroom2.jpg"
+],
 bedroom: [
 "Assets/ROOMS_bedroom1.jpg",
 "Assets/ROOMS_bedroom2.jpg",
 "Assets/ROOMS_bedroom3.jpg"
-],
-dining: [
-"Assets/ROOMS_diningroom1.jpg",
-"Assets/ROOMS_diningroom2.jpg"
 ],
 spare: [
 "Assets/ROOM_bathroom.jpg",
@@ -277,26 +260,26 @@ spare: [
 
 const roomIndexes = {
 living: 0,
-bedroom: 0,
 dining: 0,
+bedroom: 0,
 spare: 0
 };
 
 const workArea = document.getElementById("work-area");
 
-document.querySelectorAll(".drawer").forEach(drawer => {
+document.querySelectorAll(".drawer-zone").forEach(zone => {
 
-drawer.addEventListener("click", function () {
+zone.addEventListener("click", function () {
 
-const roomType = this.dataset.room;
-if (!roomType) return;
+const type = this.dataset.room;
 
-roomIndexes[roomType]++;
-if (roomIndexes[roomType] >= roomImages[roomType].length) {
-roomIndexes[roomType] = 0;
+roomIndexes[type]++;
+if (roomIndexes[type] >= roomImages[type].length) {
+roomIndexes[type] = 0;
 }
 
-workArea.style.background = `url('${roomImages[roomType][roomIndexes[roomType]]}') center/cover no-repeat`;
+workArea.style.background =
+`url('${roomImages[type][roomIndexes[type]]}') center/cover no-repeat`;
 
 });
 
