@@ -9,20 +9,25 @@
 
 <style>
 
-/* ===== BACKGROUND ===== */
+/* ===== 3-PANEL BACKGROUND ===== */
 html, body {
 margin: 0;
 padding: 0;
 min-height: 100vh;
 font-family: 'Limelight', cursive;
 color: white;
+overflow-x: hidden;
 
 background:
 url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
 url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
 url('Assets/mainbackground_blue.jpg') center top no-repeat;
 
-background-size: 33% 100%, 33% 100%, 34% 100%;
+background-size:
+33% 100%,
+33% 100%,
+34% 100%;
+
 background-attachment: fixed;
 }
 
@@ -35,6 +40,9 @@ padding: 70px 0 30px 0;
 h1 {
 font-size: 115px;
 margin: 0;
+background: linear-gradient(to bottom,#ffffff 0%,#a6a6a6 45%,#4d4d4d 50%,#ffffff 55%,#808080 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
 letter-spacing: 7px;
 filter: drop-shadow(6px 6px 14px rgba(0,0,0,0.9));
 }
@@ -43,10 +51,11 @@ h2 {
 font-size: 24px;
 letter-spacing: 9px;
 margin-top: 15px;
+color: rgba(224,224,224,0.9);
 text-shadow: 2px 2px 6px #000;
 }
 
-/* ===== TOP TABS ===== */
+/* ===== TOP PULL TABS ===== */
 .nav-container {
 display: flex;
 justify-content: center;
@@ -64,8 +73,7 @@ transition: transform 0.25s ease, filter 0.25s ease;
 
 .top-tab:hover {
 transform: translateY(-6px);
-filter: drop-shadow(0 0 18px rgba(255,255,255,0.7))
-        drop-shadow(0 8px 18px rgba(0,0,0,0.6));
+filter: drop-shadow(0 8px 18px rgba(0,0,0,0.6));
 }
 
 .top-tab img {
@@ -81,27 +89,30 @@ transform: translate(-50%, -50%);
 font-family: 'Jacques Francois Shadow', serif;
 font-size: 20px;
 letter-spacing: 2px;
+color: #f2f2f2;
 text-align: center;
 width: 85%;
+line-height: 1.2;
 pointer-events: none;
+white-space: normal;
+text-shadow: 0 2px 4px rgba(0,0,0,0.6);
 }
 
 /* ===== WORKSPACE WRAPPER ===== */
 .workspace-wrapper {
-width: 1650px;
-margin: 200px auto 500px auto;
+width: 1450px;
+margin: 130px auto;
 position: relative;
-height: 760px;
 }
 
 /* ===== CABINET ===== */
 #rooms-cabinet {
-width: 700px;
+width: 500px;
 position: absolute;
 left: 0;
 top: 0;
-transform: translateX(-750px);
-transition: transform 1.5s ease;
+transform: translateX(-520px);
+transition: transform 2.2s cubic-bezier(0.22,1,0.36,1);
 z-index: 2;
 }
 
@@ -117,39 +128,47 @@ display: block;
 /* ===== DRAWERS ===== */
 .drawer {
 position: absolute;
-left: 8%;
-width: 84%;
-height: 11%;
+left: 50%;
+transform: translateX(-50%);
+font-family: 'Jacques Francois Shadow', serif;
+font-size: 20px;
+letter-spacing: 2px;
 cursor: pointer;
 transition: transform 0.25s ease, filter 0.25s ease;
+text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
 
 .drawer:hover {
-transform: translateY(-6px);
-filter: drop-shadow(0 0 18px rgba(255,255,255,0.8));
+transform: translateX(-50%) translateY(-5px);
+filter: drop-shadow(0 6px 14px rgba(255,255,255,0.6));
 }
 
-/* aligned to cabinet image */
-#living { top: 17%; }
-#bedroom { top: 30%; }
-#dining { top: 43%; }
-#spare { top: 56%; }
-#upload { top: 69%; }
+.drawer.living { top: 120px; }
+.drawer.bedroom { top: 190px; }
+.drawer.dining { top: 260px; }
+.drawer.spare { top: 330px; }
+.drawer.upload { top: 400px; }
 
 /* ===== WORK AREA ===== */
 #work-area {
-position: absolute;
-right: 0;
-top: 0;
 width: 950px;
-height: 760px;
+height: 650px;
+margin-left: auto;
 background: url('Assets/workstation.jpg') center/cover no-repeat;
 box-shadow: 0 0 60px rgba(0,0,0,0.9);
-transition: opacity 0.3s ease;
-cursor: pointer;
+transition:
+width 2.2s cubic-bezier(0.22,1,0.36,1),
+transform 0.6s ease,
+opacity 0.4s ease,
+background 0.6s ease;
 }
 
-.fade-out {
+.workspace-wrapper.active #work-area {
+width: 900px;
+}
+
+#work-area.sweep {
+transform: translateX(200px);
 opacity: 0;
 }
 
@@ -164,6 +183,7 @@ opacity: 0;
 </header>
 
 <div class="nav-container">
+
 <div class="top-tab" id="roomsTab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">ROOMS</div>
@@ -188,18 +208,19 @@ opacity: 0;
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">SAVE/<br>CHECKOUT</div>
 </div>
+
 </div>
 
-<div class="workspace-wrapper">
+<div class="workspace-wrapper" id="workspaceWrapper">
 
 <div id="rooms-cabinet">
-<img src="Assets/rooms_cabinet.png" class="cabinet-img">
+<img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
 
-<div class="drawer" id="living"></div>
-<div class="drawer" id="bedroom"></div>
-<div class="drawer" id="dining"></div>
-<div class="drawer" id="spare"></div>
-<div class="drawer" id="upload"></div>
+<div class="drawer living" data-room="living">LIVINGROOM</div>
+<div class="drawer bedroom" data-room="bedroom">BEDROOM</div>
+<div class="drawer dining" data-room="dining">DININGROOM</div>
+<div class="drawer spare" data-room="spare">SPARE ROOMS</div>
+<div class="drawer upload">UPLOAD YOURS</div>
 
 </div>
 
@@ -209,16 +230,30 @@ opacity: 0;
 
 <script>
 
-const roomsTab = document.getElementById("roomsTab");
+document.getElementById("roomsTab").addEventListener("click", function () {
+
+const wrapper = document.getElementById("workspaceWrapper");
 const cabinet = document.getElementById("rooms-cabinet");
 const workArea = document.getElementById("work-area");
 
-roomsTab.addEventListener("click", () => {
-cabinet.classList.add("show");
+window.scrollTo({
+top: wrapper.offsetTop - 80,
+behavior: "smooth"
 });
 
-/* ROOM IMAGES */
-const roomSets = {
+workArea.classList.add("sweep");
+
+setTimeout(() => {
+cabinet.classList.add("show");
+wrapper.classList.add("active");
+workArea.classList.remove("sweep");
+}, 600);
+
+});
+
+/* ===== ROOM IMAGE CYCLING ===== */
+
+const roomImages = {
 living: [
 "Assets/ROOMS_livingroom1.jpg",
 "Assets/ROOMS_livingroom2.jpg",
@@ -240,45 +275,37 @@ spare: [
 ]
 };
 
-let currentSet = null;
-let currentIndex = 0;
-let locked = false;
+const roomIndexes = {
+living: 0,
+bedroom: 0,
+dining: 0,
+spare: 0
+};
+
+const workArea = document.getElementById("work-area");
 
 document.querySelectorAll(".drawer").forEach(drawer => {
-drawer.addEventListener("click", function() {
 
-if (this.id === "upload") return;
+drawer.addEventListener("click", function () {
 
-locked = false;
+const roomType = this.dataset.room;
+if (!roomType) return;
 
-if (currentSet !== this.id) {
-currentSet = this.id;
-currentIndex = 0;
-} else {
-currentIndex++;
-if (currentIndex >= roomSets[currentSet].length) {
-currentIndex = 0;
-}
+const images = roomImages[roomType];
+roomIndexes[roomType]++;
+
+if (roomIndexes[roomType] >= images.length) {
+roomIndexes[roomType] = 0;
 }
 
-workArea.classList.add("fade-out");
-
-setTimeout(() => {
-workArea.style.background =
-`url('${roomSets[currentSet][currentIndex]}') center/cover no-repeat`;
-workArea.classList.remove("fade-out");
-}, 200);
+workArea.style.background = `url('${images[roomIndexes[roomType]]}') center/cover no-repeat`;
 
 });
-});
 
-workArea.addEventListener("click", () => {
-if (!currentSet || locked) return;
-locked = true;
-cabinet.classList.remove("show");
 });
 
 </script>
 
 </body>
 </html>
+```
