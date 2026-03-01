@@ -283,9 +283,181 @@ workArea.style.background =
 
 });
 
+});/* ===== CATALOG ===== */
+
+#catalogWrapper {
+position: absolute;
+inset: 0;
+display: flex;
+justify-content: center;
+align-items: flex-start;
+perspective: 1200px;
+z-index: 10;
+}
+
+#catalogBook {
+width: 95%;
+margin-top: 10px;
+transform-origin: top center;
+transform: rotateX(8deg);
+}
+
+.page {
+position: absolute;
+top: 18%;
+width: 36%;
+height: 62%;
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+grid-template-rows: repeat(3, 1fr);
+gap: 25px;
+}
+
+.left-page { left: 10%; }
+.right-page { right: 10%; }
+
+.catalog-item {
+width: 100%;
+cursor: pointer;
+transition: transform 0.2s ease;
+}
+
+.catalog-item:hover {
+transform: scale(1.05);
+}
+
+.room-item {
+width: 160px;
+position: absolute;
+cursor: move;
+}
+
+button {
+display: block;
+margin: 20px auto;
+padding: 10px 20px;
+font-size: 18px;
+cursor: pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Room Glow Up</h1>
+</header>
+
+<button onclick="openCatalog()">Open Furniture Catalog</button>
+
+<div id="stage">
+<div id="room"></div>
+</div>
+
+<script>
+
+let spawnOffset = 0;
+
+const items = [
+"Assets/seating_couch1.png",
+"Assets/seating_couch2.png",
+"Assets/seating_couch4.png",
+"Assets/seating_couch5.png",
+"Assets/seating_couch6.png",
+"Assets/seating_couch1.png",
+"Assets/seating_couch2.png",
+"Assets/seating_couch4.png",
+"Assets/seating_couch5.png",
+"Assets/seating_couch6.png",
+"Assets/seating_couch1.png",
+"Assets/seating_couch2.png"
+];
+
+function openCatalog() {
+
+const stage = document.getElementById("stage");
+
+stage.innerHTML += `
+<div id="catalogWrapper">
+<img src="Assets/furniturecatalog.png" id="catalogBook">
+<div class="page left-page"></div>
+<div class="page right-page"></div>
+</div>
+`;
+
+populate();
+}
+
+function populate() {
+
+const left = document.querySelector(".left-page");
+const right = document.querySelector(".right-page");
+
+items.slice(0,6).forEach(src => createItem(src, left));
+items.slice(6,12).forEach(src => createItem(src, right));
+}
+
+function createItem(src, container) {
+
+const img = document.createElement("img");
+img.src = src;
+img.className = "catalog-item";
+
+img.ondblclick = function() {
+addToRoom(src);
+};
+
+container.appendChild(img);
+}
+
+function addToRoom(src) {
+
+const room = document.getElementById("room");
+
+const el = document.createElement("img");
+el.src = src;
+el.className = "room-item";
+
+el.style.bottom = (20 + spawnOffset) + "px";
+el.style.right = (20 + spawnOffset) + "px";
+
+spawnOffset += 20;
+if (spawnOffset > 120) spawnOffset = 0;
+
+makeDraggable(el);
+room.appendChild(el);
+}
+
+function makeDraggable(el) {
+
+let isDragging = false;
+let offsetX, offsetY;
+
+el.addEventListener("mousedown", function(e) {
+isDragging = true;
+offsetX = e.offsetX;
+offsetY = e.offsetY;
 });
+
+document.addEventListener("mouseup", function() {
+isDragging = false;
+});
+
+document.addEventListener("mousemove", function(e) {
+
+if (!isDragging) return;
+
+const rect = document.getElementById("room").getBoundingClientRect();
+
+el.style.left = (e.clientX - rect.left - offsetX) + "px";
+el.style.top = (e.clientY - rect.top - offsetY) + "px";
+});
+}
 
 </script>
 
 </body>
 </html>
+
+
