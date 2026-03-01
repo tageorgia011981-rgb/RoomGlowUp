@@ -51,7 +51,7 @@ color: rgba(224,224,224,0.9);
 text-shadow: 2px 2px 6px #000;
 }
 
-/* ===== TOP PULL TABS ===== */
+/* ===== TOP TABS ===== */
 .nav-container {
 display: flex;
 justify-content: center;
@@ -65,7 +65,6 @@ position: relative;
 width: 220px;
 cursor: pointer;
 transition: transform 0.25s ease, filter 0.25s ease;
-line-height: 0;
 }
 
 .top-tab:hover {
@@ -123,22 +122,21 @@ display: block;
 pointer-events: none;
 }
 
-/* Invisible Drawer Click Zones */
-.drawer-container {
-position: absolute;
-top: 140px;
-left: 50%;
-transform: translateX(-50%);
-width: 80%;
-display: flex;
-flex-direction: column;
-gap: 32px;
-}
-
+/* ===== MANUAL DRAWER CLICK ZONES ===== */
 .drawer {
-height: 60px;
+position: absolute;
+left: 10%;
+width: 80%;
+height: 70px;
 cursor: pointer;
 }
+
+/* Adjust these top values if needed */
+.drawer.living   { top: 155px; }
+.drawer.bedroom  { top: 235px; }
+.drawer.dining   { top: 315px; }
+.drawer.spare    { top: 395px; }
+.drawer.upload   { top: 475px; }
 
 /* ===== WORK AREA ===== */
 #work-area {
@@ -191,25 +189,10 @@ z-index: 1;
 <div class="top-tab-text">ROOMS</div>
 </div>
 
-<div class="top-tab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">FURNITURE<br>CATALOG</div>
-</div>
-
-<div class="top-tab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">DECOR<br>CLOSET</div>
-</div>
-
-<div class="top-tab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">GALLERY</div>
-</div>
-
-<div class="top-tab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">SAVE/<br>CHECKOUT</div>
-</div>
+<div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">FURNITURE<br>CATALOG</div></div>
+<div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">DECOR<br>CLOSET</div></div>
+<div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">GALLERY</div></div>
+<div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">SAVE/<br>CHECKOUT</div></div>
 
 </div>
 
@@ -218,13 +201,11 @@ z-index: 1;
 <div id="rooms-cabinet">
 <img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
 
-<div class="drawer-container">
-<div class="drawer" data-room="living"></div>
-<div class="drawer" data-room="bedroom"></div>
-<div class="drawer" data-room="dining"></div>
-<div class="drawer" data-room="spare"></div>
-<div class="drawer" data-room="upload"></div>
-</div>
+<div class="drawer living" data-room="living"></div>
+<div class="drawer bedroom" data-room="bedroom"></div>
+<div class="drawer dining" data-room="dining"></div>
+<div class="drawer spare" data-room="spare"></div>
+<div class="drawer upload" data-room="upload"></div>
 
 </div>
 
@@ -277,19 +258,13 @@ spare: [
 ]
 };
 
-const roomIndexes = {
-living: 0,
-bedroom: 0,
-dining: 0,
-spare: 0
-};
+const roomIndexes = { living:0, bedroom:0, dining:0, spare:0 };
 
 const workArea = document.getElementById("work-area");
 
 function displayRoom(src) {
 let existing = document.querySelector(".room-display");
 if (existing) existing.remove();
-
 const img = document.createElement("img");
 img.src = src;
 img.className = "room-display";
@@ -300,13 +275,9 @@ document.querySelectorAll(".drawer").forEach(drawer => {
 drawer.addEventListener("click", function() {
 const type = this.dataset.room;
 if (!rooms[type]) return;
-
 displayRoom(rooms[type][roomIndexes[type]]);
-
 roomIndexes[type]++;
-if (roomIndexes[type] >= rooms[type].length) {
-roomIndexes[type] = 0;
-}
+if (roomIndexes[type] >= rooms[type].length) roomIndexes[type] = 0;
 });
 });
 
