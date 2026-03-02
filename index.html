@@ -98,7 +98,7 @@ align-items:flex-start;
 /* ===== CABINET ===== */
 #rooms-cabinet{
 width:650px;
-margin-top:120px;
+margin-top:240px;
 transform:translateX(-700px);
 transition:transform 1.6s cubic-bezier(.22,1,.36,1);
 position:relative;
@@ -126,7 +126,7 @@ cursor:pointer;
 .zone-bedroom{top:335px;}
 .zone-spare{top:425px;}
 
-/* ===== RIGHT SIDE COLUMN ===== */
+/* ===== STAGE COLUMN ===== */
 .stage-column{
 display:flex;
 flex-direction:column;
@@ -168,6 +168,17 @@ gap:18px;
 
 .left-page{left:13%;}
 .right-page{right:13%;}
+
+.catalog-item{
+width:100%;
+object-fit:contain;
+cursor:pointer;
+transition:transform .25s ease;
+}
+
+.catalog-item:hover{
+transform:scale(1.06);
+}
 
 /* ===== WORKSPACE ===== */
 #work-area{
@@ -230,55 +241,84 @@ cursor:move;
 
 document.addEventListener("DOMContentLoaded", function() {
 
-  document.getElementById("roomsTab").addEventListener("click", function() {
-    window.scrollTo({
-      top: document.getElementById("workspaceWrapper").offsetTop - 80,
-      behavior: "smooth"
-    });
+  const roomImages = {
+    living:["Assets/ROOMS_livingroom1.jpg","Assets/ROOMS_livingroom2.jpg","Assets/ROOMS_livingroom3.jpg"],
+    dining:["Assets/ROOMS_diningroom1.jpg","Assets/ROOMS_diningroom2.jpg"],
+    bedroom:["Assets/ROOMS_bedroom1.jpg","Assets/ROOMS_bedroom2.jpg","Assets/ROOMS_bedroom3.jpg"],
+    spare:["Assets/ROOM_bathroom.jpg","Assets/ROOMS_kitchen1.jpg","Assets/ROOMS_office.jpg"]
+  };
+
+  const roomIndexes={living:0,dining:0,bedroom:0,spare:0};
+  const workArea=document.getElementById("work-area");
+
+  document.getElementById("roomsTab").addEventListener("click",function(){
+    window.scrollTo({top:document.getElementById("workspaceWrapper").offsetTop-80,behavior:"smooth"});
     document.getElementById("rooms-cabinet").classList.add("show");
   });
 
-  const roomImages = {
-    living: [
-      "Assets/ROOMS_livingroom1.jpg",
-      "Assets/ROOMS_livingroom2.jpg",
-      "Assets/ROOMS_livingroom3.jpg"
-    ],
-    dining: [
-      "Assets/ROOMS_diningroom1.jpg",
-      "Assets/ROOMS_diningroom2.jpg"
-    ],
-    bedroom: [
-      "Assets/ROOMS_bedroom1.jpg",
-      "Assets/ROOMS_bedroom2.jpg",
-      "Assets/ROOMS_bedroom3.jpg"
-    ],
-    spare: [
-      "Assets/ROOM_bathroom.jpg",
-      "Assets/ROOMS_kitchen1.jpg",
-      "Assets/ROOMS_office.jpg"
-    ]
-  };
-
-  const roomIndexes = { living:0, dining:0, bedroom:0, spare:0 };
-
-  const workArea = document.getElementById("work-area");
-
-  document.querySelectorAll(".drawer-zone").forEach(zone => {
-    zone.addEventListener("click", function() {
-
-      const type = this.dataset.room;
-      roomIndexes[type] = (roomIndexes[type] + 1) % roomImages[type].length;
-
-      workArea.style.background =
-        "url('" + roomImages[type][roomIndexes[type]] + "') center/cover no-repeat";
-
+  document.querySelectorAll(".drawer-zone").forEach(zone=>{
+    zone.addEventListener("click",function(){
+      const type=this.dataset.room;
+      roomIndexes[type]=(roomIndexes[type]+1)%roomImages[type].length;
+      workArea.style.background="url('"+roomImages[type][roomIndexes[type]]+"') center/cover no-repeat";
     });
   });
 
-  workArea.addEventListener("click", function() {
+  const catalogData={
+    SEATING:["Assets/seating_couch1.png","Assets/seating_couch2.png"],
+    TABLES:["Assets/tables_coffee1.png","Assets/tables_coffee2.png"],
+    STORAGE:[],
+    BEDS:[]
+  };
+
+  function loadCategory(cat){
+    const left=document.querySelector(".left-page");
+    const right=document.querySelector(".right-page");
+    left.innerHTML="";
+    right.innerHTML="";
+    const items=catalogData[cat]||[];
+    items.slice(0,6).forEach(src=>createItem(src,left));
+    items.slice(6,12).forEach(src=>createItem(src,right));
+  }
+
+  function createItem(src,container){
+    const img=document.createElement("img");
+    img.src=src;
+    img.className="catalog-item";
+    img.ondblclick=()=>addToRoom(src);
+    container.appendChild(img);
+  }
+
+  function addToRoom(src){
+    const el=document.createElement("img");
+    el.src=src;
+    el.className="room-item";
+    el.style.left="50px";
+    el.style.top="50px";
+    makeDraggable(el);
+    workArea.appendChild(el);
+  }
+
+  function makeDraggable(el){
+    let isDragging=false,offsetX,offsetY;
+    el.addEventListener("mousedown",e=>{
+      isDragging=true;
+      offsetX=e.offsetX;
+      offsetY=e.offsetY;
+    });
+    document.addEventListener("mouseup",()=>isDragging=false);
+    document.addEventListener("mousemove",e=>{
+      if(!isDragging)return;
+      const rect=workArea.getBoundingClientRect();
+      el.style.left=(e.clientX-rect.left-offsetX)+"px";
+      el.style.top=(e.clientY-rect.top-offsetY)+"px";
+    });
+  }
+
+  workArea.addEventListener("click",function(){
     document.getElementById("rooms-cabinet").classList.remove("show");
     document.getElementById("catalogOverlay").classList.add("show");
+    loadCategory("SEATING");
   });
 
 });
