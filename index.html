@@ -1,289 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Room Glow Up</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Jacques+Francois+Shadow&display=swap" rel="stylesheet">
 
 <style>
 
-/* ===== 3-PANEL BACKGROUND ===== */
-html, body {
+body {
 margin: 0;
-padding: 0;
-min-height: 100vh;
+background: #111;
 font-family: 'Limelight', cursive;
-color: white;
-overflow-x: hidden;
-
-background:
-url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
-url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
-url('Assets/mainbackground_blue.jpg') center top no-repeat;
-
-background-size: 33% 100%, 33% 100%, 34% 100%;
-background-attachment: fixed;
 }
 
-/* ===== HEADER ===== */
 header {
 text-align: center;
-padding: 70px 0 30px 0;
+padding: 40px 0;
+color: white;
 }
 
 h1 {
-font-size: 115px;
+font-size: 70px;
 margin: 0;
-background: linear-gradient(to bottom,#ffffff 0%,#a6a6a6 45%,#4d4d4d 50%,#ffffff 55%,#808080 100%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-letter-spacing: 7px;
-filter: drop-shadow(6px 6px 14px rgba(0,0,0,0.9));
 }
 
-h2 {
-font-size: 24px;
-letter-spacing: 9px;
-margin-top: 15px;
-color: rgba(224,224,224,0.9);
-text-shadow: 2px 2px 6px #000;
-}
+/* ===== STAGE ===== */
 
-/* ===== TOP PULL TABS ===== */
-.nav-container {
-display: flex;
-justify-content: center;
-gap: 50px;
-margin-top: 35px;
-flex-wrap: wrap;
-}
-
-.top-tab {
-position: relative;
-width: 220px;
-cursor: pointer;
-transition: transform 0.25s ease, filter 0.25s ease;
-}
-
-.top-tab:hover {
-transform: translateY(-6px);
-filter: drop-shadow(0 8px 18px rgba(0,0,0,0.6));
-}
-
-.top-tab img {
-width: 100%;
-display: block;
-}
-
-.top-tab-text {
-position: absolute;
-top: 39%;
-left: 50%;
-transform: translate(-50%, -50%);
-font-family: 'Jacques Francois Shadow', serif;
-font-size: 20px;
-letter-spacing: 2px;
-color: #f2f2f2;
-text-align: center;
-width: 85%;
-line-height: 1.2;
-pointer-events: none;
-white-space: normal;
-text-shadow: 0 2px 4px rgba(0,0,0,0.6);
-}
-
-/* ===== WORKSPACE WRAPPER ===== */
-.workspace-wrapper {
-width: 1600px;
-margin: 130px auto;
-position: relative;
-}
-
-/* ===== CABINET (LARGER) ===== */
-#rooms-cabinet {
-width: 650px;
-position: absolute;
-left: 0;
-top: 0;
-transform: translateX(-700px);
-transition: transform 2.2s cubic-bezier(0.22,1,0.36,1);
-z-index: 2;
-}
-
-#rooms-cabinet.show {
-transform: translateX(0);
-}
-
-.cabinet-img {
-width: 100%;
-display: block;
-}
-
-/* ===== INVISIBLE CLICK ZONES ===== */
-.drawer-zone {
-position: absolute;
-left: 0;
-width: 100%;
-height: 85px;
-cursor: pointer;
-}
-
-.zone-living  { top: 155px; }
-.zone-dining  { top: 245px; }
-.zone-bedroom { top: 335px; }
-.zone-spare   { top: 425px; }
-
-/* ===== WORK AREA ===== */
-#work-area {
-width: 950px;
+#stage {
+width: 1000px;
 height: 650px;
-margin-left: auto;
-background: url('Assets/workstation.jpg') center/cover no-repeat;
-box-shadow: 0 0 60px rgba(0,0,0,0.9);
-transition:
-width 2.2s cubic-bezier(0.22,1,0.36,1),
-transform 0.6s ease,
-opacity 0.4s ease,
-background 0.6s ease;
+margin: 40px auto;
+position: relative;
+background: #000;
+border: 25px solid #000;
+overflow: hidden;
+box-shadow: 0 0 60px rgba(0,0,0,1);
 }
 
-.workspace-wrapper.active #work-area {
-width: 900px;
+#room {
+width: 100%;
+height: 100%;
+position: relative;
+background-size: cover;
+background-position: center;
 }
 
-#work-area.sweep {
-transform: translateX(200px);
-opacity: 0;
-}
-
-</style>
-</head>
-
-<body>
-
-<header>
-<h1>Room Glow Up</h1>
-<h2>WHERE YOUR DREAM SPACE COMES TO LIFE</h2>
-</header>
-
-<div class="nav-container">
-
-<div class="top-tab" id="roomsTab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">ROOMS</div>
-</div>
-
-<div class="top-tab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">FURNITURE<br>CATALOG</div>
-</div>
-
-<div class="top-tab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">DECOR<br>CLOSET</div>
-</div>
-
-<div class="top-tab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">GALLERY</div>
-</div>
-
-<div class="top-tab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">SAVE/<br>CHECKOUT</div>
-</div>
-
-</div>
-
-<div class="workspace-wrapper" id="workspaceWrapper">
-
-<div id="rooms-cabinet">
-<img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
-
-<div class="drawer-zone zone-living" data-room="living"></div>
-<div class="drawer-zone zone-dining" data-room="dining"></div>
-<div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
-<div class="drawer-zone zone-spare" data-room="spare"></div>
-
-</div>
-
-<div id="work-area"></div>
-
-</div>
-
-<script>
-
-document.getElementById("roomsTab").addEventListener("click", function () {
-
-const wrapper = document.getElementById("workspaceWrapper");
-const cabinet = document.getElementById("rooms-cabinet");
-const workArea = document.getElementById("work-area");
-
-window.scrollTo({
-top: wrapper.offsetTop - 80,
-behavior: "smooth"
-});
-
-workArea.classList.add("sweep");
-
-setTimeout(() => {
-cabinet.classList.add("show");
-wrapper.classList.add("active");
-workArea.classList.remove("sweep");
-}, 600);
-
-});
-
-const roomImages = {
-living: [
-"Assets/ROOMS_livingroom1.jpg",
-"Assets/ROOMS_livingroom2.jpg",
-"Assets/ROOMS_livingroom3.jpg"
-],
-dining: [
-"Assets/ROOMS_diningroom1.jpg",
-"Assets/ROOMS_diningroom2.jpg"
-],
-bedroom: [
-"Assets/ROOMS_bedroom1.jpg",
-"Assets/ROOMS_bedroom2.jpg",
-"Assets/ROOMS_bedroom3.jpg"
-],
-spare: [
-"Assets/ROOM_bathroom.jpg",
-"Assets/ROOMS_kitchen1.jpg",
-"Assets/ROOMS_office.jpg"
-]
-};
-
-const roomIndexes = {
-living: 0,
-dining: 0,
-bedroom: 0,
-spare: 0
-};
-
-const workArea = document.getElementById("work-area");
-
-document.querySelectorAll(".drawer-zone").forEach(zone => {
-
-zone.addEventListener("click", function () {
-
-const type = this.dataset.room;
-
-roomIndexes[type]++;
-if (roomIndexes[type] >= roomImages[type].length) {
-roomIndexes[type] = 0;
-}
-
-workArea.style.background =
-`url('${roomImages[type][roomIndexes[type]]}') center/cover no-repeat`;
-
-});
-
-});/* ===== CATALOG ===== */
+/* ===== CATALOG ===== */
 
 #catalogWrapper {
 position: absolute;
@@ -316,15 +79,25 @@ gap: 25px;
 .left-page { left: 10%; }
 .right-page { right: 10%; }
 
+/* ===== ENHANCED HOVER POP EFFECT ===== */
+
 .catalog-item {
 width: 100%;
 cursor: pointer;
-transition: transform 0.2s ease;
+transition:
+transform 0.28s cubic-bezier(0.22,1,0.36,1),
+box-shadow 0.28s cubic-bezier(0.22,1,0.36,1);
+position: relative;
+z-index: 1;
 }
 
 .catalog-item:hover {
-transform: scale(1.05);
+transform: translateY(-12px) scale(1.08);
+box-shadow: 0 25px 45px rgba(0,0,0,0.6);
+z-index: 50;
 }
+
+/* ===== ROOM ITEMS ===== */
 
 .room-item {
 width: 160px;
@@ -459,5 +232,3 @@ el.style.top = (e.clientY - rect.top - offsetY) + "px";
 
 </body>
 </html>
-
-
