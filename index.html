@@ -86,22 +86,22 @@ width:85%;
 pointer-events:none;
 }
 
-/* ===== WRAPPER ===== */
+/* ===== MAIN WRAPPER ===== */
 .workspace-wrapper{
-width:1600px;
-margin:100px auto;
+width:1450px;            /* pulled in from right edge */
+margin:120px auto;       /* pushes whole stage down */
 display:flex;
+gap:40px;
 align-items:flex-start;
-gap:30px;
-position:relative;
 }
 
 /* ===== CABINET ===== */
 #rooms-cabinet{
-width:650px;
-position:relative;
+width:620px;
+margin-top:60px;         /* moves cabinet down */
 transform:translateX(-700px);
 transition:transform 1.6s cubic-bezier(.22,1,.36,1);
+position:relative;
 }
 
 #rooms-cabinet.show{
@@ -121,27 +121,28 @@ height:75px;
 cursor:pointer;
 }
 
-/* Adjusted alignment */
-.zone-living{top:135px;}
-.zone-dining{top:215px;}
-.zone-bedroom{top:295px;}
-.zone-spare{top:375px;}
+/* realigned slightly upward */
+.zone-living{top:125px;}
+.zone-dining{top:205px;}
+.zone-bedroom{top:285px;}
+.zone-spare{top:365px;}
 
 /* ===== RIGHT SIDE COLUMN ===== */
 .stage-column{
 display:flex;
 flex-direction:column;
 align-items:center;
+width:950px;
 }
 
 /* ===== CATALOG ===== */
 #catalogOverlay{
 width:900px;
-margin-bottom:20px;
+margin-bottom:25px;
 opacity:0;
 pointer-events:none;
 transition:opacity .6s ease;
-position:relative; /* FIXES PAGE SCATTER */
+position:relative;
 }
 
 #catalogOverlay.show{
@@ -152,35 +153,33 @@ pointer-events:auto;
 #catalogBook{
 width:100%;
 display:block;
-transform:rotateX(8deg);
+transform:rotateX(6deg);
 }
 
-/* Pages positioned relative to overlay */
+/* LOCK GRID TO BOOK */
 .page{
 position:absolute;
 top:18%;
-width:36%;
-height:62%;
+width:34%;
+height:60%;
 display:grid;
-grid-template-columns:repeat(2,1fr);
-grid-template-rows:repeat(3,1fr);
-gap:20px;
+grid-template-columns:1fr 1fr;
+grid-template-rows:1fr 1fr 1fr;
+gap:18px;
 }
 
-.left-page{left:12%;}
-.right-page{right:12%;}
+.left-page{left:13%;}
+.right-page{right:13%;}
 
 .catalog-item{
 width:100%;
+object-fit:contain;
 cursor:pointer;
-transition:transform .28s cubic-bezier(.22,1,.36,1),
-box-shadow .28s cubic-bezier(.22,1,.36,1);
+transition:transform .25s ease;
 }
 
 .catalog-item:hover{
-transform:translateY(-12px) scale(1.08);
-box-shadow:0 25px 45px rgba(0,0,0,.6);
-z-index:50;
+transform:scale(1.06);
 }
 
 /* ===== WORKSPACE ===== */
@@ -190,11 +189,6 @@ height:650px;
 background:url('Assets/workstation.jpg') center/cover no-repeat;
 box-shadow:0 0 60px rgba(0,0,0,.9);
 position:relative;
-transition:width 1.6s cubic-bezier(.22,1,.36,1);
-}
-
-.workspace-wrapper.active #work-area{
-width:900px;
 }
 
 .room-item{
@@ -247,111 +241,15 @@ cursor:move;
 
 <script>
 
-/* ===== DATA ===== */
-const catalogData={
-SEATING:[
-"Assets/seating_couch1.png",
-"Assets/seating_couch2.png",
-"Assets/seating_couch3.png",
-"Assets/seating_couch4.png",
-"Assets/seating_couch5.png",
-"Assets/seating_couch6.png",
-"Assets/seating_couch7.png",
-"Assets/seating_couch8.png",
-"Assets/seating_couch9.png",
-"Assets/seating_couch10.png"
-],
-TABLES:[
-"Assets/tables_coffee1.png",
-"Assets/tables_coffee2.png",
-"Assets/tables_coffee3.png",
-"Assets/tables_coffee4.png",
-"Assets/tables_coffee5.png"
-]
-};
-
-let spawnOffset=0;
-
-/* ===== ROOMS CLICK ===== */
 document.getElementById("roomsTab").addEventListener("click",function(){
-const wrapper=document.getElementById("workspaceWrapper");
-window.scrollTo({top:wrapper.offsetTop-80,behavior:"smooth"});
+window.scrollTo({top:document.getElementById("workspaceWrapper").offsetTop-80,behavior:"smooth"});
 document.getElementById("rooms-cabinet").classList.add("show");
-wrapper.classList.add("active");
 });
 
-/* ===== ROOM CYCLING ===== */
-const roomImages={
-living:["Assets/ROOMS_livingroom1.jpg","Assets/ROOMS_livingroom2.jpg","Assets/ROOMS_livingroom3.jpg"],
-dining:["Assets/ROOMS_diningroom1.jpg","Assets/ROOMS_diningroom2.jpg"],
-bedroom:["Assets/ROOMS_bedroom1.jpg","Assets/ROOMS_bedroom2.jpg","Assets/ROOMS_bedroom3.jpg"],
-spare:["Assets/ROOM_bathroom.jpg","Assets/ROOMS_kitchen1.jpg","Assets/ROOMS_office.jpg"]
-};
-
-const roomIndexes={living:0,dining:0,bedroom:0,spare:0};
-const workArea=document.getElementById("work-area");
-
-document.querySelectorAll(".drawer-zone").forEach(zone=>{
-zone.addEventListener("click",function(){
-const type=this.dataset.room;
-roomIndexes[type]=(roomIndexes[type]+1)%roomImages[type].length;
-workArea.style.background=`url('${roomImages[type][roomIndexes[type]]}') center/cover no-repeat`;
-});
-});
-
-/* ===== OPEN CATALOG ===== */
-workArea.addEventListener("click",function(){
+document.getElementById("work-area").addEventListener("click",function(){
 document.getElementById("rooms-cabinet").classList.remove("show");
 document.getElementById("catalogOverlay").classList.add("show");
-loadCategory("SEATING");
 });
-
-/* ===== LOAD GRID ===== */
-function loadCategory(cat){
-const left=document.querySelector(".left-page");
-const right=document.querySelector(".right-page");
-left.innerHTML="";
-right.innerHTML="";
-const items=catalogData[cat]||[];
-items.slice(0,6).forEach(src=>createItem(src,left));
-items.slice(6,12).forEach(src=>createItem(src,right));
-}
-
-function createItem(src,container){
-const img=document.createElement("img");
-img.src=src;
-img.className="catalog-item";
-img.ondblclick=()=>addToRoom(src);
-container.appendChild(img);
-}
-
-function addToRoom(src){
-const el=document.createElement("img");
-el.src=src;
-el.className="room-item";
-el.style.bottom=(20+spawnOffset)+"px";
-el.style.right=(20+spawnOffset)+"px";
-spawnOffset+=20;
-if(spawnOffset>120)spawnOffset=0;
-makeDraggable(el);
-workArea.appendChild(el);
-}
-
-function makeDraggable(el){
-let isDragging=false,offsetX,offsetY;
-el.addEventListener("mousedown",e=>{
-isDragging=true;
-offsetX=e.offsetX;
-offsetY=e.offsetY;
-});
-document.addEventListener("mouseup",()=>isDragging=false);
-document.addEventListener("mousemove",e=>{
-if(!isDragging)return;
-const rect=workArea.getBoundingClientRect();
-el.style.left=(e.clientX-rect.left-offsetX)+"px";
-el.style.top=(e.clientY-rect.top-offsetY)+"px";
-});
-}
 
 </script>
 
