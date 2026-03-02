@@ -143,98 +143,6 @@ transition: width 1.8s cubic-bezier(0.22,1,0.36,1);
 width: 900px;
 }
 
-/* ===== CATALOG OVERLAY ===== */
-#catalogOverlay {
-position: absolute;
-top: 20px;
-left: 50%;
-transform: translateX(-50%);
-width: 900px;
-opacity: 0;
-pointer-events: none;
-transition: opacity 0.6s ease;
-z-index: 20;
-}
-
-#catalogOverlay.show {
-opacity: 1;
-pointer-events: auto;
-}
-
-#catalogBook {
-width: 100%;
-transform-origin: top center;
-transform: rotateX(8deg);
-}
-
-.page {
-position: absolute;
-top: 18%;
-width: 36%;
-height: 62%;
-display: grid;
-grid-template-columns: repeat(2, 1fr);
-grid-template-rows: repeat(3, 1fr);
-gap: 20px;
-}
-
-.left-page { left: 12%; }
-.right-page { right: 12%; }
-
-/* ===== CATEGORY TABS ===== */
-#categoryTabs {
-position: absolute;
-top: 25%;
-right: -80px;
-display: flex;
-flex-direction: column;
-gap: 10px;
-}
-
-.category-tab {
-background: #000;
-color: #d4af37;
-padding: 10px 16px;
-cursor: pointer;
-font-size: 15px;
-border-left: 4px solid #d4af37;
-transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.category-tab:hover {
-transform: translateX(-6px);
-box-shadow: -6px 6px 18px rgba(0,0,0,0.6);
-}
-
-.category-tab.active {
-transform: translateX(-10px);
-box-shadow: -10px 10px 22px rgba(0,0,0,0.8);
-}
-
-/* ===== HOVER POP ===== */
-.catalog-item {
-width: 100%;
-cursor: pointer;
-transition:
-transform 0.28s cubic-bezier(0.22,1,0.36,1),
-box-shadow 0.28s cubic-bezier(0.22,1,0.36,1);
-position: relative;
-z-index: 1;
-}
-
-.catalog-item:hover {
-transform: translateY(-12px) scale(1.08);
-box-shadow: 0 25px 45px rgba(0,0,0,0.6);
-z-index: 50;
-}
-
-/* ===== ROOM ITEMS ===== */
-.room-item {
-width: 160px;
-position: absolute;
-cursor: move;
-}
-
 </style>
 </head>
 
@@ -246,41 +154,64 @@ cursor: move;
 </header>
 
 <div class="nav-container">
-<div class="top-tab" id="roomsTab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">ROOMS</div></div>
-<div class="top-tab" id="catalogTab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">FURNITURE<br>CATALOG</div></div>
-<div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">DECOR<br>CLOSET</div></div>
-<div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">GALLERY</div></div>
-<div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">SAVE/<br>CHECKOUT</div></div>
+<div class="top-tab" id="roomsTab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">ROOMS</div>
+</div>
+
+<div class="top-tab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">FURNITURE<br>CATALOG</div>
+</div>
+
+<div class="top-tab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">DECOR<br>CLOSET</div>
+</div>
+
+<div class="top-tab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">GALLERY</div>
+</div>
+
+<div class="top-tab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">SAVE/<br>CHECKOUT</div>
+</div>
 </div>
 
 <div class="workspace-wrapper" id="workspaceWrapper">
 
 <div id="rooms-cabinet">
 <img src="Assets/rooms_cabinet.jpg" width="100%">
+
 <div class="drawer-zone zone-living" data-room="living"></div>
 <div class="drawer-zone zone-dining" data-room="dining"></div>
 <div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
 <div class="drawer-zone zone-spare" data-room="spare"></div>
 </div>
 
-<div id="work-area">
+<div id="work-area"></div>
 
-<div id="catalogOverlay">
-<img src="Assets/furniturecatalog.png" id="catalogBook">
-<div class="page left-page"></div>
-<div class="page right-page"></div>
-<div id="categoryTabs"></div>
-</div>
-
-</div>
 </div>
 
 <script>
 
-/* ===== ROOMS SYSTEM ===== */
+/* ===== ROOMS CLICK – ALL ONE MOTION ===== */
 document.getElementById("roomsTab").onclick = function(){
-document.getElementById("rooms-cabinet").classList.add("show");
-document.getElementById("workspaceWrapper").classList.add("active");
+
+const wrapper = document.getElementById("workspaceWrapper");
+const cabinet = document.getElementById("rooms-cabinet");
+const workspace = document.getElementById("workspaceWrapper");
+
+window.scrollTo({
+  top: wrapper.offsetTop - 80,
+  behavior: "smooth"
+});
+
+cabinet.classList.add("show");
+workspace.classList.add("active");
+
 };
 
 /* ===== ROOM CYCLING ===== */
@@ -301,11 +232,6 @@ roomIndexes[type]=(roomIndexes[type]+1)%roomImages[type].length;
 workArea.style.background=`url('${roomImages[type][roomIndexes[type]]}') center/cover no-repeat`;
 };
 });
-
-/* ===== OPEN CATALOG ===== */
-document.getElementById("catalogTab").onclick=function(){
-document.getElementById("catalogOverlay").classList.add("show");
-};
 
 </script>
 
