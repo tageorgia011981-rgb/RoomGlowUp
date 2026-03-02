@@ -88,8 +88,8 @@ pointer-events:none;
 
 /* ===== MAIN WRAPPER ===== */
 .workspace-wrapper{
-width:1450px;            /* pulled in from right edge */
-margin:120px auto;       /* pushes whole stage down */
+width:1450px;
+margin:120px auto;
 display:flex;
 gap:40px;
 align-items:flex-start;
@@ -97,8 +97,8 @@ align-items:flex-start;
 
 /* ===== CABINET ===== */
 #rooms-cabinet{
-width:620px;
-margin-top:60px;         /* moves cabinet down */
+width:650px;
+margin-top:120px;
 transform:translateX(-700px);
 transition:transform 1.6s cubic-bezier(.22,1,.36,1);
 position:relative;
@@ -117,15 +117,14 @@ display:block;
 position:absolute;
 left:0;
 width:100%;
-height:75px;
+height:85px;
 cursor:pointer;
 }
 
-/* realigned slightly upward */
-.zone-living{top:125px;}
-.zone-dining{top:205px;}
-.zone-bedroom{top:285px;}
-.zone-spare{top:365px;}
+.zone-living{top:155px;}
+.zone-dining{top:245px;}
+.zone-bedroom{top:335px;}
+.zone-spare{top:425px;}
 
 /* ===== RIGHT SIDE COLUMN ===== */
 .stage-column{
@@ -156,7 +155,6 @@ display:block;
 transform:rotateX(6deg);
 }
 
-/* LOCK GRID TO BOOK */
 .page{
 position:absolute;
 top:18%;
@@ -170,17 +168,6 @@ gap:18px;
 
 .left-page{left:13%;}
 .right-page{right:13%;}
-
-.catalog-item{
-width:100%;
-object-fit:contain;
-cursor:pointer;
-transition:transform .25s ease;
-}
-
-.catalog-item:hover{
-transform:scale(1.06);
-}
 
 /* ===== WORKSPACE ===== */
 #work-area{
@@ -241,14 +228,59 @@ cursor:move;
 
 <script>
 
-document.getElementById("roomsTab").addEventListener("click",function(){
-window.scrollTo({top:document.getElementById("workspaceWrapper").offsetTop-80,behavior:"smooth"});
-document.getElementById("rooms-cabinet").classList.add("show");
-});
+document.addEventListener("DOMContentLoaded", function() {
 
-document.getElementById("work-area").addEventListener("click",function(){
-document.getElementById("rooms-cabinet").classList.remove("show");
-document.getElementById("catalogOverlay").classList.add("show");
+  document.getElementById("roomsTab").addEventListener("click", function() {
+    window.scrollTo({
+      top: document.getElementById("workspaceWrapper").offsetTop - 80,
+      behavior: "smooth"
+    });
+    document.getElementById("rooms-cabinet").classList.add("show");
+  });
+
+  const roomImages = {
+    living: [
+      "Assets/ROOMS_livingroom1.jpg",
+      "Assets/ROOMS_livingroom2.jpg",
+      "Assets/ROOMS_livingroom3.jpg"
+    ],
+    dining: [
+      "Assets/ROOMS_diningroom1.jpg",
+      "Assets/ROOMS_diningroom2.jpg"
+    ],
+    bedroom: [
+      "Assets/ROOMS_bedroom1.jpg",
+      "Assets/ROOMS_bedroom2.jpg",
+      "Assets/ROOMS_bedroom3.jpg"
+    ],
+    spare: [
+      "Assets/ROOM_bathroom.jpg",
+      "Assets/ROOMS_kitchen1.jpg",
+      "Assets/ROOMS_office.jpg"
+    ]
+  };
+
+  const roomIndexes = { living:0, dining:0, bedroom:0, spare:0 };
+
+  const workArea = document.getElementById("work-area");
+
+  document.querySelectorAll(".drawer-zone").forEach(zone => {
+    zone.addEventListener("click", function() {
+
+      const type = this.dataset.room;
+      roomIndexes[type] = (roomIndexes[type] + 1) % roomImages[type].length;
+
+      workArea.style.background =
+        "url('" + roomImages[type][roomIndexes[type]] + "') center/cover no-repeat";
+
+    });
+  });
+
+  workArea.addEventListener("click", function() {
+    document.getElementById("rooms-cabinet").classList.remove("show");
+    document.getElementById("catalogOverlay").classList.add("show");
+  });
+
 });
 
 </script>
