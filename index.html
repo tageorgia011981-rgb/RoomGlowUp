@@ -91,18 +91,19 @@ pointer-events:none;
 width:1600px;
 margin:120px auto;
 display:flex;
+flex-direction:row;
+align-items:flex-start;
+justify-content:center;
 gap:30px;
-align-items:stretch; /* aligns cabinet & workspace */
 }
 
 /* ===== CABINET ===== */
 #rooms-cabinet{
 width:650px;
-height:650px;  /* same height as workspace */
-overflow:hidden;
+height:650px;
+position:relative;
 transform:translateX(-700px);
 transition:transform 1.6s cubic-bezier(.22,1,.36,1);
-position:relative;
 }
 
 #rooms-cabinet.show{
@@ -133,7 +134,6 @@ cursor:pointer;
 display:flex;
 flex-direction:column;
 align-items:center;
-width:950px;
 }
 
 /* ===== CATALOG ===== */
@@ -154,22 +154,7 @@ pointer-events:auto;
 #catalogBook{
 width:100%;
 display:block;
-transform:rotateX(6deg);
 }
-
-.page{
-position:absolute;
-top:18%;
-width:34%;
-height:60%;
-display:grid;
-grid-template-columns:1fr 1fr;
-grid-template-rows:1fr 1fr 1fr;
-gap:18px;
-}
-
-.left-page{left:13%;}
-.right-page{right:13%;}
 
 /* ===== WORKSPACE ===== */
 #work-area{
@@ -178,12 +163,6 @@ height:650px;
 background:url('Assets/workstation.jpg') center/cover no-repeat;
 box-shadow:0 0 60px rgba(0,0,0,.9);
 position:relative;
-}
-
-.room-item{
-width:160px;
-position:absolute;
-cursor:move;
 }
 
 </style>
@@ -215,33 +194,20 @@ cursor:move;
 </div>
 
 <div class="stage-column">
-
 <div id="catalogOverlay">
 <img src="Assets/furniturecatalog.png" id="catalogBook">
-<div class="page left-page"></div>
-<div class="page right-page"></div>
 </div>
-
 <div id="work-area"></div>
-
 </div>
 
 </div>
 
 <script>
-
 document.addEventListener("DOMContentLoaded", function() {
-
-  document.getElementById("roomsTab").addEventListener("click", function() {
-    window.scrollTo({
-      top: document.getElementById("workspaceWrapper").offsetTop - 80,
-      behavior: "smooth"
-    });
-    document.getElementById("rooms-cabinet").classList.add("show");
-  });
-
+document.getElementById("roomsTab").addEventListener("click", function() {
+document.getElementById("rooms-cabinet").classList.add("show");
 });
-
+});
 </script>
 
 </body>
