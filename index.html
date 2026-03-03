@@ -52,7 +52,6 @@ display:flex;
 justify-content:center;
 gap:50px;
 margin-top:35px;
-flex-wrap:wrap;
 }
 
 .top-tab{
@@ -62,11 +61,9 @@ cursor:pointer;
 transition:.25s;
 }
 
-.top-tab:hover{
-transform:translateY(-6px);
-}
+.top-tab:hover{ transform:translateY(-6px); }
 
-.top-tab img{width:100%;}
+.top-tab img{ width:100%; }
 
 .top-tab-text{
 position:absolute;
@@ -76,11 +73,10 @@ transform:translate(-50%,-50%);
 font-family:'Jacques Francois Shadow', serif;
 font-size:20px;
 color:white;
-text-align:center;
 pointer-events:none;
 }
 
-/* CATALOG (between tabs and stage) */
+/* CATALOG */
 #catalogOverlay{
 width:1000px;
 margin:30px auto -60px auto;
@@ -90,9 +86,7 @@ position:relative;
 z-index:5;
 }
 
-#catalogOverlay.show{
-opacity:1;
-}
+#catalogOverlay.show{ opacity:1; }
 
 #catalogBook{
 width:100%;
@@ -101,7 +95,6 @@ transform:rotateX(8deg);
 transform-origin:top center;
 }
 
-/* PAGE GRID */
 .page{
 position:absolute;
 top:18%;
@@ -113,23 +106,23 @@ grid-template-rows:1fr 1fr 1fr;
 gap:18px;
 }
 
-.left-page{left:13%;}
-.right-page{right:13%;}
+.left-page{ left:13%; }
+.right-page{ right:13%; }
 
 .catalog-item{
 width:100%;
 height:100%;
 object-fit:contain;
-display:block;
+display:flex;
+align-items:center;
+justify-content:center;
 cursor:pointer;
 transition:.2s;
 }
 
-.catalog-item:hover{
-transform:scale(1.05);
-}
+.catalog-item:hover{ transform:scale(1.05); }
 
-/* STAGE ROW */
+/* STAGE */
 .workspace-wrapper{
 width:1600px;
 margin:200px auto;
@@ -138,7 +131,6 @@ gap:30px;
 align-items:flex-start;
 }
 
-/* CABINET */
 #rooms-cabinet{
 width:650px;
 height:650px;
@@ -147,9 +139,7 @@ transform:translateX(-700px);
 transition:transform 1.2s ease;
 }
 
-#rooms-cabinet.show{
-transform:translateX(0);
-}
+#rooms-cabinet.show{ transform:translateX(0); }
 
 .cabinet-img{
 width:100%;
@@ -165,12 +155,11 @@ height:85px;
 cursor:pointer;
 }
 
-.zone-living{top:155px;}
-.zone-dining{top:245px;}
-.zone-bedroom{top:335px;}
-.zone-spare{top:425px;}
+.zone-living{ top:155px; }
+.zone-dining{ top:245px; }
+.zone-bedroom{ top:335px; }
+.zone-spare{ top:425px; }
 
-/* WORK AREA */
 #work-area{
 width:950px;
 height:650px;
@@ -201,10 +190,6 @@ cursor:move;
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">ROOMS</div>
 </div>
-<div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">FURNITURE<br>CATALOG</div></div>
-<div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">DECOR<br>CLOSET</div></div>
-<div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">GALLERY</div></div>
-<div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">SAVE/<br>CHECKOUT</div></div>
 </div>
 
 <div id="catalogOverlay">
@@ -235,20 +220,23 @@ const cabinet=document.getElementById("rooms-cabinet");
 const workArea=document.getElementById("work-area");
 const catalog=document.getElementById("catalogOverlay");
 
-/* ROOMS TAB */
+/* SCROLL FIX */
 document.getElementById("roomsTab").addEventListener("click",function(){
 
 document.getElementById("workspaceSection")
 .scrollIntoView({behavior:"smooth"});
 
-setTimeout(function(){
+setTimeout(()=>{
 cabinet.classList.add("show");
-window.scrollBy({top:-120,behavior:"smooth"});
-},400);
+},500);
+
+setTimeout(()=>{
+window.scrollBy({top:-140,behavior:"smooth"});
+},900);
 
 });
 
-/* ROOM BACKGROUNDS */
+/* ROOMS */
 const roomImages={
 living:["Assets/ROOMS_livingroom1.jpg","Assets/ROOMS_livingroom2.jpg","Assets/ROOMS_livingroom3.jpg"],
 dining:["Assets/ROOMS_diningroom1.jpg","Assets/ROOMS_diningroom2.jpg"],
@@ -298,7 +286,10 @@ function createItem(src,container){
 const img=document.createElement("img");
 img.src=src;
 img.className="catalog-item";
-img.ondblclick=()=>addToRoom(src);
+
+/* SINGLE CLICK SEND TO ROOM */
+img.onclick=()=>addToRoom(src);
+
 container.appendChild(img);
 }
 
@@ -308,6 +299,12 @@ el.src=src;
 el.className="room-item";
 el.style.left="40px";
 el.style.top="40px";
+
+/* DOUBLE CLICK SEND BACK */
+el.ondblclick=function(){
+el.remove();
+};
+
 makeDraggable(el);
 workArea.appendChild(el);
 }
