@@ -9,7 +9,6 @@
 
 <style>
 
-/* ===== BACKGROUND ===== */
 html, body{
 margin:0;
 padding:0;
@@ -24,7 +23,7 @@ background-size:33% 100%,33% 100%,34% 100%;
 background-attachment:fixed;
 }
 
-/* ===== HEADER ===== */
+/* HEADER */
 header{
 text-align:center;
 padding:70px 0 30px;
@@ -47,7 +46,7 @@ margin-top:15px;
 color:#ddd;
 }
 
-/* ===== TOP TABS ===== */
+/* TOP TABS */
 .nav-container{
 display:flex;
 justify-content:center;
@@ -81,10 +80,10 @@ text-align:center;
 pointer-events:none;
 }
 
-/* ===== CATALOG (SITS BETWEEN TABS & WORKSTATION) ===== */
+/* CATALOG (between tabs and stage) */
 #catalogOverlay{
 width:1000px;
-margin:30px auto -60px auto; /* pulls it down toward workstation */
+margin:30px auto -60px auto;
 opacity:0;
 transition:opacity .4s ease;
 position:relative;
@@ -102,7 +101,7 @@ transform:rotateX(8deg);
 transform-origin:top center;
 }
 
-/* Pages */
+/* PAGE GRID */
 .page{
 position:absolute;
 top:18%;
@@ -119,7 +118,9 @@ gap:18px;
 
 .catalog-item{
 width:100%;
+height:100%;
 object-fit:contain;
+display:block;
 cursor:pointer;
 transition:.2s;
 }
@@ -128,7 +129,7 @@ transition:.2s;
 transform:scale(1.05);
 }
 
-/* ===== WORKSPACE ROW ===== */
+/* STAGE ROW */
 .workspace-wrapper{
 width:1600px;
 margin:200px auto;
@@ -137,7 +138,7 @@ gap:30px;
 align-items:flex-start;
 }
 
-/* ===== CABINET ===== */
+/* CABINET */
 #rooms-cabinet{
 width:650px;
 height:650px;
@@ -169,7 +170,7 @@ cursor:pointer;
 .zone-bedroom{top:335px;}
 .zone-spare{top:425px;}
 
-/* ===== WORK AREA ===== */
+/* WORK AREA */
 #work-area{
 width:950px;
 height:650px;
@@ -206,14 +207,12 @@ cursor:move;
 <div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">SAVE/<br>CHECKOUT</div></div>
 </div>
 
-<!-- CATALOG -->
 <div id="catalogOverlay">
 <img src="Assets/furniturecatalog.png" id="catalogBook">
 <div class="page left-page"></div>
 <div class="page right-page"></div>
 </div>
 
-<!-- CABINET + WORKSTATION -->
 <div class="workspace-wrapper" id="workspaceSection">
 
 <div id="rooms-cabinet">
@@ -238,8 +237,15 @@ const catalog=document.getElementById("catalogOverlay");
 
 /* ROOMS TAB */
 document.getElementById("roomsTab").addEventListener("click",function(){
-document.getElementById("workspaceSection").scrollIntoView({behavior:"smooth"});
-setTimeout(()=>cabinet.classList.add("show"),300);
+
+document.getElementById("workspaceSection")
+.scrollIntoView({behavior:"smooth"});
+
+setTimeout(function(){
+cabinet.classList.add("show");
+window.scrollBy({top:-120,behavior:"smooth"});
+},400);
+
 });
 
 /* ROOM BACKGROUNDS */
@@ -265,7 +271,7 @@ workArea.addEventListener("click",function(){
 catalog.classList.add("show");
 });
 
-/* FURNITURE DATA */
+/* FURNITURE */
 const items=[
 "Assets/seating_couch1.png",
 "Assets/seating_couch2.png",
