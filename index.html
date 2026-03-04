@@ -93,6 +93,7 @@ display:flex;
 gap:30px;
 align-items:flex-start;
 position:relative;
+transition:all .8s ease;
 }
 
 /* CABINET */
@@ -134,12 +135,10 @@ cursor:pointer;
 position:relative;
 width:950px;
 height:650px;
-transition:margin-left .8s ease, width .8s ease;
+transition:margin-left .8s ease,width .8s ease;
 }
 
-/* cabinet opens → workspace gives up space on the left */
-
-#rooms-cabinet.show + .workspace-container{
+.workspace-wrapper.cabinet-open .workspace-container{
 margin-left:120px;
 width:830px;
 }
@@ -316,7 +315,172 @@ cursor:pointer;
 document.addEventListener("DOMContentLoaded",function(){
 
 const cabinet=document.getElementById("rooms-cabinet");
+const wrapper=document.querySelector(".workspace-wrapper");
 const workArea=document.getElementById("work-area");
 const catalog=document.getElementById("catalogOverlay");
 
-document.getElementById("rooms
+/* ROOMS TAB */
+
+document.getElementById("roomsTab").onclick=function(){
+
+document.getElementById("workspaceSection").scrollIntoView({behavior:"smooth"});
+
+if(cabinet.classList.contains("show")){
+cabinet.classList.remove("show");
+wrapper.classList.remove("cabinet-open");
+}else{
+cabinet.classList.add("show");
+wrapper.classList.add("cabinet-open");
+}
+
+};
+
+/* ROOM IMAGES */
+
+const roomImages={
+
+living:[
+"Assets/ROOMS_livingroom1.jpg",
+"Assets/ROOMS_livingroom2.jpg",
+"Assets/ROOMS_livingroom3.jpg"
+],
+
+dining:[
+"Assets/ROOMS_diningroom1.jpg",
+"Assets/ROOMS_diningroom2.jpg"
+],
+
+bedroom:[
+"Assets/ROOMS_bedroom1.jpg",
+"Assets/ROOMS_bedroom2.jpg",
+"Assets/ROOMS_bedroom3.jpg"
+],
+
+spare:[
+"Assets/ROOMS_kitchen1.jpg",
+"Assets/ROOMS_bathroom1.jpg",
+"Assets/ROOMS_office1.jpg"
+]
+
+};
+
+const indexes={living:0,dining:0,bedroom:0,spare:0};
+
+document.querySelectorAll(".drawer-zone").forEach(zone=>{
+zone.onclick=function(){
+
+const type=this.dataset.room;
+
+indexes[type]=(indexes[type]+1)%roomImages[type].length;
+
+workArea.style.background=
+"url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
+
+};
+});
+
+/* FURNITURE */
+
+const furniture={
+seating:[
+"Assets/seating_couch1.png","Assets/seating_couch2.png","Assets/seating_couch3.png",
+"Assets/seating_couch4.png","Assets/seating_couch5.png","Assets/seating_couch6.png",
+"Assets/seating_couch7.png","Assets/seating_couch8.png","Assets/seating_couch9.png",
+"Assets/seating_couch10.png","Assets/seating_couch11.png","Assets/seating_couch12.png"
+]
+};
+
+function loadCatalog(){
+
+const left=document.querySelector(".left-page");
+const right=document.querySelector(".right-page");
+
+left.innerHTML="";
+right.innerHTML="";
+
+const items=furniture.seating;
+
+items.slice(0,6).forEach(src=>addItem(src,left));
+items.slice(6,12).forEach(src=>addItem(src,right));
+
+}
+
+function addItem(src,page){
+
+const img=document.createElement("img");
+img.src=src;
+img.className="catalog-item";
+
+img.ondblclick=function(){
+addToRoom(src,img);
+};
+
+page.appendChild(img);
+
+}
+
+function addToRoom(src,catalogItem){
+
+catalogItem.style.visibility="hidden";
+
+const el=document.createElement("img");
+el.src=src;
+el.className="room-item";
+
+el.style.left="40px";
+el.style.top="40px";
+
+el.ondblclick=function(){
+catalogItem.style.visibility="visible";
+el.remove();
+};
+
+makeDraggable(el);
+workArea.appendChild(el);
+
+}
+
+function makeDraggable(el){
+
+let drag=false;
+let offsetX,offsetY;
+
+el.addEventListener("mousedown",e=>{
+drag=true;
+offsetX=e.offsetX;
+offsetY=e.offsetY;
+});
+
+document.addEventListener("mouseup",()=>drag=false);
+
+document.addEventListener("mousemove",e=>{
+
+if(!drag)return;
+
+const rect=workArea.getBoundingClientRect();
+
+el.style.left=(e.clientX-rect.left-offsetX)+"px";
+el.style.top=(e.clientY-rect.top-offsetY)+"px";
+
+});
+
+}
+
+/* OPEN CATALOG */
+
+workArea.onclick=function(){
+
+catalog.classList.add("show");
+cabinet.classList.remove("show");
+wrapper.classList.remove("cabinet-open");
+
+loadCatalog();
+
+};
+
+});
+
+</script>
+
+</body>
+</html>
