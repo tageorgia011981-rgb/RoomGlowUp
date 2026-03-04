@@ -1,141 +1,211 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Room Glow Up Catalog</title>
+<title>Room Glow Up</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jacques+Francois+Shadow&display=swap" rel="stylesheet">
 
 <style>
 
-body{
+html, body{
 margin:0;
-background:#111;
+padding:0;
+min-height:100vh;
 font-family:'Limelight', cursive;
-color:white;
+overflow-x:hidden;
+background:
+url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
+url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
+url('Assets/mainbackground_blue.jpg') center top no-repeat;
+background-size:33% 100%,33% 100%,34% 100%;
+background-attachment:fixed;
+scroll-behavior:smooth;
 }
+
+/* HEADER */
 
 header{
 text-align:center;
-padding:40px 0;
+padding:70px 0 30px;
 }
 
 h1{
-font-size:70px;
+font-size:115px;
 margin:0;
+background:linear-gradient(to bottom,#ffffff 0%,#a6a6a6 45%,#4d4d4d 50%,#ffffff 55%,#808080 100%);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+letter-spacing:7px;
 }
 
-/* ===== WORKSPACE ===== */
+h2{
+font-size:24px;
+letter-spacing:9px;
+margin-top:15px;
+color:#ddd;
+}
 
-#workspace{
-width:1000px;
-height:650px;
-margin:40px auto;
+/* TOP TABS */
+
+.nav-container{
+display:flex;
+justify-content:center;
+gap:50px;
+margin-top:35px;
+}
+
+.top-tab{
 position:relative;
-background:#000;
-border:25px solid #000;
-overflow:hidden;
-box-shadow:0 0 60px rgba(0,0,0,1);
+width:220px;
+cursor:pointer;
+transition:.25s;
 }
 
-/* ===== CATALOG BOOK ===== */
+.top-tab:hover{
+transform:translateY(-6px);
+}
 
-#catalogWrapper{
+.top-tab img{width:100%}
+
+.top-tab-text{
 position:absolute;
-inset:0;
+top:39%;
+left:50%;
+transform:translate(-50%,-50%);
+font-family:'Jacques Francois Shadow', serif;
+font-size:20px;
+color:white;
+text-align:center;
+pointer-events:none;
+}
+
+/* MAIN ROW */
+
+.workspace-wrapper{
+width:1600px;
+margin:200px auto;
+display:flex;
+gap:30px;
+align-items:flex-start;
+}
+
+/* CABINET */
+
+#rooms-cabinet{
+width:650px;
+height:650px;
+position:relative;
+transform:translateX(-700px);
+transition:transform 1.2s ease;
+}
+
+#rooms-cabinet.show{
+transform:translateX(0);
+}
+
+.cabinet-img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.drawer-zone{
+position:absolute;
+left:0;
+width:100%;
+height:85px;
+cursor:pointer;
+}
+
+.zone-living{top:155px;}
+.zone-dining{top:245px;}
+.zone-bedroom{top:335px;}
+.zone-spare{top:425px;}
+
+/* WORKSPACE */
+
+.workspace-container{
+position:relative;
+width:950px;
+height:650px;
+}
+
+/* ROOM AREA */
+
+#work-area{
+width:100%;
+height:100%;
+background:url('Assets/workstation.jpg') center/cover no-repeat;
+box-shadow:0 0 60px rgba(0,0,0,.9);
+position:relative;
+cursor:pointer;
+}
+
+/* CATALOG OVERLAY */
+
+#catalogOverlay{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
 display:flex;
 justify-content:center;
 align-items:flex-start;
-perspective:1200px;
+opacity:0;
+pointer-events:none;
+transition:opacity .5s ease;
+z-index:5;
+}
+
+#catalogOverlay.show{
+opacity:1;
+pointer-events:auto;
 }
 
 #catalogBook{
-width:95%;
+width:92%;
 margin-top:10px;
 transform-origin:top center;
 transform:rotateX(8deg);
-z-index:1;
 }
 
-/* ===== PAGE AREAS ===== */
+/* CATALOG PAGE AREAS */
 
 .page{
 position:absolute;
-top:18%;
-width:36%;
-height:62%;
+top:22%;
+width:34%;
+height:56%;
 display:grid;
 grid-template-columns:repeat(2,1fr);
 grid-template-rows:repeat(3,1fr);
-gap:25px;
-z-index:2;
+gap:20px;
+z-index:10;
 }
 
-.left-page{left:10%;}
-.right-page{right:10%;}
-
-/* ===== CATALOG ITEMS ===== */
+.left-page{left:11%;}
+.right-page{right:11%;}
 
 .catalog-item{
 width:100%;
 cursor:pointer;
-transition:transform .2s ease;
+transition:.2s;
 }
 
 .catalog-item:hover{
 transform:scale(1.05);
 }
 
-/* ===== ITEMS IN ROOM ===== */
+/* ITEMS IN ROOM */
 
 .room-item{
 width:160px;
 position:absolute;
 cursor:move;
-}
-
-/* ===== SIDE TABS ===== */
-
-.catalog-tabs{
-position:absolute;
-right:-65px;
-top:120px;
-display:flex;
-flex-direction:column;
-gap:12px;
-z-index:10;
-}
-
-.catalog-tab{
-width:95px;
-height:26px;
-background:black;
-color:#d4af37;
-font-size:10px;
-letter-spacing:1px;
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-
-clip-path:polygon(
-12px 0,
-100% 0,
-100% 100%,
-12px 100%,
-0 50%
-);
-
-box-shadow:0 2px 6px rgba(0,0,0,.6);
-}
-
-.catalog-tab.tables{margin-left:6px;}
-.catalog-tab.storage{margin-left:12px;}
-.catalog-tab.beds{margin-left:18px;}
-
-.catalog-tab:hover{
-transform:translateX(-4px);
 }
 
 </style>
@@ -146,23 +216,61 @@ transform:translateX(-4px);
 
 <header>
 <h1>Room Glow Up</h1>
+<h2>WHERE YOUR DREAM SPACE COMES TO LIFE</h2>
 </header>
 
-<div id="workspace">
+<div class="nav-container">
+<div class="top-tab" id="roomsTab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">ROOMS</div>
+</div>
 
-<div id="catalogWrapper">
+<div class="top-tab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">FURNITURE<br>CATALOG</div>
+</div>
+
+<div class="top-tab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">DECOR<br>CLOSET</div>
+</div>
+
+<div class="top-tab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">GALLERY</div>
+</div>
+
+<div class="top-tab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">SAVE/<br>CHECKOUT</div>
+</div>
+</div>
+
+<div class="workspace-wrapper" id="workspaceSection">
+
+<div id="rooms-cabinet">
+
+<img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
+
+<div class="drawer-zone zone-living" data-room="living"></div>
+<div class="drawer-zone zone-dining" data-room="dining"></div>
+<div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
+<div class="drawer-zone zone-spare" data-room="spare"></div>
+
+</div>
+
+<div class="workspace-container">
+
+<div id="catalogOverlay">
 
 <img src="Assets/furniturecatalog.png" id="catalogBook">
 
 <div class="page left-page"></div>
 <div class="page right-page"></div>
 
-<div class="catalog-tabs">
-<div class="catalog-tab seating">SEATING</div>
-<div class="catalog-tab tables">TABLES</div>
-<div class="catalog-tab storage">STORAGE</div>
-<div class="catalog-tab beds">BEDS</div>
 </div>
+
+<div id="work-area"></div>
 
 </div>
 
@@ -170,8 +278,18 @@ transform:translateX(-4px);
 
 <script>
 
-let spawnOffset=0;
+document.addEventListener("DOMContentLoaded",function(){
 
-const items=[
-"Assets/seating_couch1.png",
-"
+const cabinet=document.getElementById("rooms-cabinet");
+const workArea=document.getElementById("work-area");
+const catalog=document.getElementById("catalogOverlay");
+
+document.getElementById("roomsTab").addEventListener("click",function(){
+document.getElementById("workspaceSection").scrollIntoView({behavior:"smooth"});
+setTimeout(()=>cabinet.classList.add("show"),300);
+});
+
+const roomImages={
+living:["Assets/ROOMS_livingroom1.jpg","Assets/ROOMS_livingroom2.jpg","Assets/ROOMS_livingroom3.jpg"],
+dining:["Assets/ROOMS_diningroom1.jpg","Assets/ROOMS_diningroom2.jpg"],
+bedroom:["Assets/ROOMS_bedroom1.jpg","Assets/ROOMS_bedroom2.jpg"]()
