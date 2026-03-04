@@ -37,16 +37,7 @@ padding:70px 0 30px;
 h1{
 font-size:115px;
 margin:0;
-
-background:linear-gradient(
-to bottom,
-#ffffff 0%,
-#a6a6a6 45%,
-#4d4d4d 50%,
-#ffffff 55%,
-#808080 100%
-);
-
+background:linear-gradient(to bottom,#ffffff 0%,#a6a6a6 45%,#4d4d4d 50%,#ffffff 55%,#808080 100%);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 letter-spacing:7px;
@@ -86,14 +77,14 @@ position:absolute;
 top:39%;
 left:50%;
 transform:translate(-50%,-50%);
-font-family:'Jacques Francois Shadow',serif;
+font-family:'Jacques Francois Shadow', serif;
 font-size:20px;
 color:white;
 text-align:center;
 pointer-events:none;
 }
 
-/* MAIN WORKSPACE ROW */
+/* WORKSPACE ROW */
 
 .workspace-wrapper{
 width:1600px;
@@ -109,7 +100,6 @@ align-items:flex-start;
 width:650px;
 height:650px;
 position:relative;
-
 transform:translateX(-700px);
 transition:transform 1.2s ease;
 }
@@ -156,24 +146,17 @@ position:relative;
 cursor:pointer;
 }
 
-/* CATALOG OVERLAY */
+/* CATALOG PODIUM */
 
 #catalogOverlay{
 position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-
-display:flex;
-justify-content:center;
-align-items:flex-start;
-
+top:-40px;
+left:25px;
+width:900px;
 opacity:0;
 pointer-events:none;
-
 transition:opacity .5s ease;
-z-index:5;
+z-index:10;
 }
 
 #catalogOverlay.show{
@@ -182,27 +165,24 @@ pointer-events:auto;
 }
 
 #catalogBook{
-width:92%;
-margin-top:10px;
-
+width:100%;
+display:block;
 transform-origin:top center;
-transform:rotateX(8deg);
+transform:rotateX(8deg) scale(1.15);
 }
 
-/* CATALOG PAGE AREAS */
+/* PAGE GRID */
 
 .page{
 position:absolute;
-top:22%;
+top:23%;
 width:34%;
-height:56%;
-
+height:55%;
 display:grid;
 grid-template-columns:repeat(2,1fr);
 grid-template-rows:repeat(3,1fr);
-
 gap:20px;
-z-index:10;
+z-index:15;
 }
 
 .left-page{left:11%;}
@@ -218,13 +198,36 @@ transition:.2s;
 transform:scale(1.05);
 }
 
-/* FURNITURE IN ROOM */
+/* ROOM FURNITURE */
 
 .room-item{
 width:160px;
 position:absolute;
 cursor:move;
 }
+
+/* SIDE INDEX TABS */
+
+.catalog-tab{
+position:absolute;
+right:-55px;
+width:90px;
+height:24px;
+background:black;
+color:#d4af37;
+font-size:11px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:5px 0 0 5px;
+letter-spacing:1px;
+box-shadow:0 2px 6px rgba(0,0,0,.6);
+}
+
+.tab-seating{top:160px;}
+.tab-tables{top:190px;left:5px;}
+.tab-storage{top:220px;left:10px;}
+.tab-beds{top:250px;left:15px;}
 
 </style>
 
@@ -268,8 +271,6 @@ cursor:move;
 
 <div class="workspace-wrapper" id="workspaceSection">
 
-<!-- CABINET -->
-
 <div id="rooms-cabinet">
 
 <img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
@@ -281,8 +282,6 @@ cursor:move;
 
 </div>
 
-<!-- WORKSPACE -->
-
 <div class="workspace-container">
 
 <div id="catalogOverlay">
@@ -291,6 +290,11 @@ cursor:move;
 
 <div class="page left-page"></div>
 <div class="page right-page"></div>
+
+<div class="catalog-tab tab-seating">SEATING</div>
+<div class="catalog-tab tab-tables">TABLES</div>
+<div class="catalog-tab tab-storage">STORAGE</div>
+<div class="catalog-tab tab-beds">BEDS</div>
 
 </div>
 
@@ -308,18 +312,10 @@ const cabinet=document.getElementById("rooms-cabinet");
 const workArea=document.getElementById("work-area");
 const catalog=document.getElementById("catalogOverlay");
 
-/* SCROLL + CABINET OPEN */
-
 document.getElementById("roomsTab").addEventListener("click",function(){
-
-document.getElementById("workspaceSection")
-.scrollIntoView({behavior:"smooth"});
-
+document.getElementById("workspaceSection").scrollIntoView({behavior:"smooth"});
 setTimeout(()=>cabinet.classList.add("show"),300);
-
 });
-
-/* ROOM CYCLING */
 
 const roomImages={
 living:["Assets/ROOMS_livingroom1.jpg","Assets/ROOMS_livingroom2.jpg","Assets/ROOMS_livingroom3.jpg"],
@@ -331,21 +327,12 @@ spare:["Assets/ROOM_bathroom.jpg","Assets/ROOMS_kitchen1.jpg","Assets/ROOMS_offi
 const indexes={living:0,dining:0,bedroom:0,spare:0};
 
 document.querySelectorAll(".drawer-zone").forEach(zone=>{
-
 zone.addEventListener("click",function(){
-
 const type=this.dataset.room;
-
 indexes[type]=(indexes[type]+1)%roomImages[type].length;
-
-workArea.style.background=
-"url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
-
+workArea.style.background="url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
 });
-
 });
-
-/* FURNITURE */
 
 const furniture=[
 "Assets/seating_couch1.png",
@@ -435,8 +422,6 @@ el.style.top=(e.clientY-rect.top-offsetY)+"px";
 });
 
 }
-
-/* OPEN CATALOG */
 
 workArea.addEventListener("click",function(){
 
