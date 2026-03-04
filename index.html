@@ -6,320 +6,60 @@
 <title>Room Glow Up</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Jacques+Francois+Shadow&display=swap" rel="stylesheet">
 
 <style>
 
-html, body{
+body{
 margin:0;
-padding:0;
-min-height:100vh;
-font-family:'Limelight', cursive;
-overflow-x:hidden;
-background:
-url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
-url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
-url('Assets/mainbackground_blue.jpg') center top no-repeat;
-background-size:33% 100%,33% 100%,34% 100%;
-background-attachment:fixed;
-scroll-behavior:smooth;
+font-family:'Limelight',cursive;
+background:#111;
+color:white;
 }
 
 /* HEADER */
 
 header{
 text-align:center;
-padding:70px 0 30px;
+padding:60px 0 20px;
 }
 
 h1{
-font-size:115px;
+font-size:90px;
 margin:0;
-background:linear-gradient(to bottom,#ffffff 0%,#a6a6a6 45%,#4d4d4d 50%,#ffffff 55%,#808080 100%);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-letter-spacing:7px;
 }
 
-h2{
-font-size:24px;
-letter-spacing:9px;
-margin-top:15px;
-color:#ddd;
-}
+/* TABS */
 
-/* TOP TABS */
-
-.nav-container{
+.nav{
 display:flex;
 justify-content:center;
-gap:50px;
-margin-top:35px;
+gap:40px;
+margin-bottom:120px;
 }
 
-.top-tab{
-position:relative;
-width:220px;
+.tab{
 cursor:pointer;
-transition:.25s;
-}
-
-.top-tab:hover{
-transform:translateY(-6px);
-}
-
-.top-tab img{width:100%}
-
-.top-tab-text{
-position:absolute;
-top:39%;
-left:50%;
-transform:translate(-50%,-50%);
-font-family:'Jacques Francois Shadow', serif;
-font-size:20px;
-color:white;
-text-align:center;
-pointer-events:none;
-}
-
-/* MAIN ROW */
-
-.workspace-wrapper{
-width:1600px;
-margin:260px auto;
-display:flex;
-gap:30px;
-align-items:flex-start;
-position:relative;
-}
-
-/* CABINET */
-
-#rooms-cabinet{
-width:650px;
-height:650px;
-position:relative;
-transform:translateX(-700px);
-transition:transform 1.2s ease;
-}
-
-#rooms-cabinet.show{
-transform:translateX(0);
-}
-
-.cabinet-img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.drawer-zone{
-position:absolute;
-left:0;
-width:100%;
-height:85px;
-cursor:pointer;
-}
-
-.zone-living{top:155px;}
-.zone-dining{top:245px;}
-.zone-bedroom{top:335px;}
-.zone-spare{top:425px;}
-
-/* WORKSPACE */
-
-.workspace-container{
-position:relative;
-width:950px;
-height:650px;
+padding:10px 20px;
+background:#222;
+border:1px solid #555;
 }
 
 /* WORK AREA */
 
-#work-area{
-width:100%;
-height:100%;
-background:url('Assets/workstation.jpg') center/cover no-repeat;
-box-shadow:0 0 60px rgba(0,0,0,.9);
+.workspace-wrapper{
+width:1400px;
+margin:auto;
+display:flex;
+gap:30px;
 position:relative;
 }
 
-/* CATALOG UMBRELLA */
-
-#catalogOverlay{
-position:absolute;
-top:-260px;
-left:25px;
+.workspace-container{
+position:relative;
 width:900px;
-opacity:0;
-pointer-events:none;
-transition:opacity .5s ease;
-z-index:5;
+height:600px;
 }
 
-#catalogOverlay.show{
-opacity:1;
-pointer-events:auto;
-}
-
-#catalogBook{
+#work-area{
 width:100%;
-display:block;
-}
-
-/* PAGE GRIDS */
-
-.page{
-position:absolute;
-top:23%;
-width:34%;
-height:55%;
-display:grid;
-grid-template-columns:repeat(2,1fr);
-grid-template-rows:repeat(3,1fr);
-gap:18px;
-}
-
-.left-page{left:11%;}
-.right-page{right:11%;}
-
-.catalog-item{
-width:100%;
-cursor:pointer;
-transition:.2s;
-}
-
-.catalog-item:hover{
-transform:scale(1.05);
-}
-
-/* ROOM ITEMS */
-
-.room-item{
-width:160px;
-position:absolute;
-cursor:move;
-}
-
-/* SIDE TABS */
-
-.catalog-tab{
-position:absolute;
-right:-55px;
-width:90px;
-height:24px;
-background:black;
-color:#d4af37;
-font-size:11px;
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:5px 0 0 5px;
-letter-spacing:1px;
-cursor:pointer;
-}
-
-.tab-seating{top:160px;}
-.tab-tables{top:190px;left:5px;}
-.tab-storage{top:220px;left:10px;}
-.tab-beds{top:250px;left:15px;}
-
-</style>
-
-</head>
-
-<body>
-
-<header>
-<h1>Room Glow Up</h1>
-<h2>WHERE YOUR DREAM SPACE COMES TO LIFE</h2>
-</header>
-
-<div class="nav-container">
-
-<div class="top-tab" id="roomsTab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">ROOMS</div>
-</div>
-
-<div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">FURNITURE<br>CATALOG</div></div>
-<div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">DECOR<br>CLOSET</div></div>
-<div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">GALLERY</div></div>
-<div class="top-tab"><img src="Assets/roomscabinet_pulltab.png"><div class="top-tab-text">SAVE/<br>CHECKOUT</div></div>
-
-</div>
-
-<div class="workspace-wrapper" id="workspaceSection">
-
-<div id="catalogOverlay">
-
-<img src="Assets/furniturecatalog.png" id="catalogBook">
-
-<div class="page left-page"></div>
-<div class="page right-page"></div>
-
-<div class="catalog-tab tab-seating">SEATING</div>
-<div class="catalog-tab tab-tables">TABLES</div>
-<div class="catalog-tab tab-storage">STORAGE</div>
-<div class="catalog-tab tab-beds">BEDS</div>
-
-</div>
-
-<div id="rooms-cabinet">
-
-<img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
-
-<div class="drawer-zone zone-living" data-room="living"></div>
-<div class="drawer-zone zone-dining" data-room="dining"></div>
-<div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
-<div class="drawer-zone zone-spare" data-room="spare"></div>
-
-</div>
-
-<div class="workspace-container">
-<div id="work-area"></div>
-</div>
-
-</div>
-
-<script>
-
-document.addEventListener("DOMContentLoaded",function(){
-
-const cabinet=document.getElementById("rooms-cabinet");
-const workArea=document.getElementById("work-area");
-const catalog=document.getElementById("catalogOverlay");
-
-/* SCROLL + CABINET */
-
-document.getElementById("roomsTab").onclick=function(){
-document.getElementById("workspaceSection").scrollIntoView({behavior:"smooth"});
-setTimeout(()=>cabinet.classList.add("show"),300);
-};
-
-/* ROOM CYCLING */
-
-const roomImages={
-living:["Assets/ROOMS_livingroom1.jpg","Assets/ROOMS_livingroom2.jpg"],
-dining:["Assets/ROOMS_diningroom1.jpg","Assets/ROOMS_diningroom2.jpg"],
-bedroom:["Assets/ROOMS_bedroom1.jpg","Assets/ROOMS_bedroom2.jpg"],
-spare:["Assets/ROOMS_kitchen1.jpg","Assets/ROOMS_office.jpg"]
-};
-
-const indexes={living:0,dining:0,bedroom:0,spare:0};
-
-document.querySelectorAll(".drawer-zone").forEach(zone=>{
-zone.onclick=function(){
-const type=this.dataset.room;
-indexes[type]=(indexes[type]+1)%roomImages[type].length;
-workArea.style.background="url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
-};
-});
-
-/* FURNITURE */
-
-const furniture={
-seating:[
-"Assets/seating_couch1.png","Assets/seating_couch2.png","Assets/seating_couch3.png",
-"Assets/seating_couch4.png","Assets/seating_couch5.png","Assets/seating_couch6.png",
-"Assets/seating_couch_
+height:100%
