@@ -137,10 +137,10 @@ position:relative;
 cursor:pointer;
 }
 
-/* CATALOG OVERLAY */
+/* CATALOG OVERLAY (Adjusted Higher) */
 #catalogOverlay{
 position:absolute;
-top:-80px;
+top:-120px; /* moved up more */
 left:25px;
 width:900px;
 opacity:0;
@@ -213,9 +213,10 @@ document.addEventListener("DOMContentLoaded", function(){
 const cabinet=document.getElementById("rooms-cabinet");
 const workArea=document.getElementById("work-area");
 const catalog=document.getElementById("catalogOverlay");
+const workspaceSection=document.getElementById("workspaceSection");
 
 document.getElementById("roomsTab").addEventListener("click",function(){
-document.getElementById("workspaceSection").scrollIntoView({behavior:"smooth"});
+workspaceSection.scrollIntoView({behavior:"smooth", block:"center"});
 setTimeout(()=>cabinet.classList.add("show"),300);
 });
 
@@ -239,6 +240,7 @@ workArea.style.background="url('"+roomImages[type][indexes[type]]+"') center/cov
 workArea.addEventListener("click",function(){
 catalog.classList.add("show");
 cabinet.classList.remove("show");
+workspaceSection.scrollIntoView({behavior:"smooth", block:"start"});
 });
 
 });
