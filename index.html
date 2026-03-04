@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Room Glow Up</title>
+<title>Room Glow Up Catalog</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
 
@@ -13,26 +14,32 @@ margin:0;
 background:#111;
 font-family:'Limelight', cursive;
 color:white;
+}
+
+header{
 text-align:center;
+padding:40px 0;
 }
 
 h1{
-margin-top:30px;
+font-size:70px;
+margin:0;
 }
 
-/* ROOM AREA */
+/* ===== WORKSPACE ===== */
 
-#room{
+#workspace{
 width:1000px;
 height:650px;
 margin:40px auto;
-background:#000;
 position:relative;
+background:#000;
+border:25px solid #000;
 overflow:hidden;
 box-shadow:0 0 60px rgba(0,0,0,1);
 }
 
-/* CATALOG */
+/* ===== CATALOG BOOK ===== */
 
 #catalogWrapper{
 position:absolute;
@@ -47,11 +54,11 @@ perspective:1200px;
 width:95%;
 margin-top:10px;
 transform-origin:top center;
-transform:rotateX(8deg) scale(1.35);
-z-index:3;
+transform:rotateX(8deg);
+z-index:1;
 }
 
-/* PAGE AREAS */
+/* ===== PAGE AREAS ===== */
 
 .page{
 position:absolute;
@@ -68,34 +75,41 @@ z-index:2;
 .left-page{left:10%;}
 .right-page{right:10%;}
 
-/* CATALOG ITEMS */
+/* ===== CATALOG ITEMS ===== */
 
 .catalog-item{
 width:100%;
-max-width:160px;
-margin:auto;
 cursor:pointer;
+transition:transform .2s ease;
 }
 
 .catalog-item:hover{
-transform:scale(1.08);
+transform:scale(1.05);
 }
 
-/* ROOM ITEMS */
+/* ===== ITEMS IN ROOM ===== */
 
 .room-item{
-width:180px;
+width:160px;
 position:absolute;
 cursor:move;
 }
 
-/* SMALL PAGE TABS */
+/* ===== SIDE TABS ===== */
+
+.catalog-tabs{
+position:absolute;
+right:-65px;
+top:120px;
+display:flex;
+flex-direction:column;
+gap:12px;
+z-index:10;
+}
 
 .catalog-tab{
-position:absolute;
-right:4%;
-width:70px;
-height:22px;
+width:95px;
+height:26px;
 background:black;
 color:#d4af37;
 font-size:10px;
@@ -103,34 +117,52 @@ letter-spacing:1px;
 display:flex;
 align-items:center;
 justify-content:center;
-border-radius:4px 0 0 4px;
+cursor:pointer;
+
+clip-path:polygon(
+12px 0,
+100% 0,
+100% 100%,
+12px 100%,
+0 50%
+);
+
+box-shadow:0 2px 6px rgba(0,0,0,.6);
 }
 
-.tab-seating{top:150px;}
-.tab-tables{top:185px;}
-.tab-storage{top:220px;}
-.tab-beds{top:255px;}
+.catalog-tab.tables{margin-left:6px;}
+.catalog-tab.storage{margin-left:12px;}
+.catalog-tab.beds{margin-left:18px;}
+
+.catalog-tab:hover{
+transform:translateX(-4px);
+}
 
 </style>
+
 </head>
 
 <body>
 
+<header>
 <h1>Room Glow Up</h1>
+</header>
 
-<div id="room">
+<div id="workspace">
 
 <div id="catalogWrapper">
+
+<img src="Assets/furniturecatalog.png" id="catalogBook">
 
 <div class="page left-page"></div>
 <div class="page right-page"></div>
 
-<img src="Assets/furniturecatalog.png" id="catalogBook">
-
-<div class="catalog-tab tab-seating">SEATING</div>
-<div class="catalog-tab tab-tables">TABLES</div>
-<div class="catalog-tab tab-storage">STORAGE</div>
-<div class="catalog-tab tab-beds">BEDS</div>
+<div class="catalog-tabs">
+<div class="catalog-tab seating">SEATING</div>
+<div class="catalog-tab tables">TABLES</div>
+<div class="catalog-tab storage">STORAGE</div>
+<div class="catalog-tab beds">BEDS</div>
+</div>
 
 </div>
 
@@ -142,100 +174,4 @@ let spawnOffset=0;
 
 const items=[
 "Assets/seating_couch1.png",
-"Assets/seating_couch2.png",
-"Assets/seating_couch3.png",
-"Assets/seating_couch4.png",
-"Assets/seating_couch5.png",
-"Assets/seating_couch6.png",
-"Assets/seating_couch1.png",
-"Assets/seating_couch2.png",
-"Assets/seating_couch3.png",
-"Assets/seating_couch4.png",
-"Assets/seating_couch5.png",
-"Assets/seating_couch6.png"
-];
-
-const leftPage=document.querySelector(".left-page");
-const rightPage=document.querySelector(".right-page");
-
-function createCatalog(){
-
-items.slice(0,6).forEach(src=>addCatalogItem(src,leftPage));
-items.slice(6,12).forEach(src=>addCatalogItem(src,rightPage));
-
-}
-
-function addCatalogItem(src,page){
-
-const img=document.createElement("img");
-img.src=src;
-img.className="catalog-item";
-
-img.ondblclick=function(){
-sendToRoom(src,img);
-};
-
-page.appendChild(img);
-
-}
-
-function sendToRoom(src,catalogItem){
-
-catalogItem.style.visibility="hidden";
-
-const room=document.getElementById("room");
-
-const el=document.createElement("img");
-el.src=src;
-el.className="room-item";
-
-el.style.bottom=(20+spawnOffset)+"px";
-el.style.right=(20+spawnOffset)+"px";
-
-spawnOffset+=20;
-if(spawnOffset>120)spawnOffset=0;
-
-el.ondblclick=function(){
-catalogItem.style.visibility="visible";
-el.remove();
-};
-
-makeDraggable(el);
-room.appendChild(el);
-
-}
-
-function makeDraggable(el){
-
-let dragging=false;
-let offsetX,offsetY;
-
-el.addEventListener("mousedown",function(e){
-dragging=true;
-offsetX=e.offsetX;
-offsetY=e.offsetY;
-});
-
-document.addEventListener("mouseup",function(){
-dragging=false;
-});
-
-document.addEventListener("mousemove",function(e){
-
-if(!dragging)return;
-
-const rect=document.getElementById("room").getBoundingClientRect();
-
-el.style.left=(e.clientX-rect.left-offsetX)+"px";
-el.style.top=(e.clientY-rect.top-offsetY)+"px";
-
-});
-
-}
-
-createCatalog();
-
-</script>
-
-</body>
-</html>
+"
