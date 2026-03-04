@@ -95,6 +95,40 @@ transform:rotateX(8deg);
 transform-origin:top center;
 }
 
+/* STAGGERED SIDE TABS */
+.side-tabs{
+position:absolute;
+right:-120px;
+top:80px;
+display:flex;
+flex-direction:column;
+}
+
+.side-tab{
+width:120px;
+padding:12px 10px;
+background:black;
+color:#d4af37;
+text-align:center;
+cursor:pointer;
+font-size:14px;
+letter-spacing:1px;
+border-radius:0 6px 6px 0;
+transition:.2s;
+position:relative;
+}
+
+.side-tab:nth-child(1){ margin-left:0; }
+.side-tab:nth-child(2){ margin-left:18px; margin-top:12px; }
+.side-tab:nth-child(3){ margin-left:36px; margin-top:12px; }
+.side-tab:nth-child(4){ margin-left:54px; margin-top:12px; }
+
+.side-tab:hover{
+background:#111;
+transform:translateX(6px);
+}
+
+/* PAGE GRID */
 .page{
 position:absolute;
 top:18%;
@@ -109,13 +143,19 @@ gap:18px;
 .left-page{ left:13%; }
 .right-page{ right:13%; }
 
-.catalog-item{
+.catalog-frame{
 width:100%;
 height:100%;
-object-fit:contain;
 display:flex;
 align-items:center;
 justify-content:center;
+overflow:hidden;
+}
+
+.catalog-item{
+max-width:90%;
+max-height:90%;
+object-fit:contain;
 cursor:pointer;
 transition:.2s;
 }
@@ -193,9 +233,19 @@ cursor:move;
 </div>
 
 <div id="catalogOverlay">
+
 <img src="Assets/furniturecatalog.png" id="catalogBook">
+
+<div class="side-tabs">
+<div class="side-tab" data-cat="SEATING">SEATING</div>
+<div class="side-tab" data-cat="TABLES">TABLES</div>
+<div class="side-tab" data-cat="STORAGE">STORAGE</div>
+<div class="side-tab" data-cat="BEDS">BEDS</div>
+</div>
+
 <div class="page left-page"></div>
 <div class="page right-page"></div>
+
 </div>
 
 <div class="workspace-wrapper" id="workspaceSection">
@@ -220,38 +270,11 @@ const cabinet=document.getElementById("rooms-cabinet");
 const workArea=document.getElementById("work-area");
 const catalog=document.getElementById("catalogOverlay");
 
-/* SCROLL FIX */
+/* ROOMS TAB */
 document.getElementById("roomsTab").addEventListener("click",function(){
-
 document.getElementById("workspaceSection")
 .scrollIntoView({behavior:"smooth"});
-
-setTimeout(()=>{
-cabinet.classList.add("show");
-},500);
-
-setTimeout(()=>{
-window.scrollBy({top:-140,behavior:"smooth"});
-},900);
-
-});
-
-/* ROOMS */
-const roomImages={
-living:["Assets/ROOMS_livingroom1.jpg","Assets/ROOMS_livingroom2.jpg","Assets/ROOMS_livingroom3.jpg"],
-dining:["Assets/ROOMS_diningroom1.jpg","Assets/ROOMS_diningroom2.jpg"],
-bedroom:["Assets/ROOMS_bedroom1.jpg","Assets/ROOMS_bedroom2.jpg","Assets/ROOMS_bedroom3.jpg"],
-spare:["Assets/ROOM_bathroom.jpg","Assets/ROOMS_kitchen1.jpg","Assets/ROOMS_office.jpg"]
-};
-
-const indexes={living:0,dining:0,bedroom:0,spare:0};
-
-document.querySelectorAll(".drawer-zone").forEach(zone=>{
-zone.addEventListener("click",function(){
-const type=this.dataset.room;
-indexes[type]=(indexes[type]+1)%roomImages[type].length;
-workArea.style.background="url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
-});
+setTimeout(()=>cabinet.classList.add("show"),500);
 });
 
 /* OPEN CATALOG */
@@ -259,8 +282,9 @@ workArea.addEventListener("click",function(){
 catalog.classList.add("show");
 });
 
-/* FURNITURE */
-const items=[
+/* CATEGORY DATA */
+const catalogData={
+SEATING:[
 "Assets/seating_couch1.png",
 "Assets/seating_couch2.png",
 "Assets/seating_couch3.png",
@@ -271,26 +295,37 @@ const items=[
 "Assets/seating_couch8.png",
 "Assets/seating_couch9.png",
 "Assets/seating_couch10.png"
-];
+],
+TABLES:[
+"Assets/tables_coffee1.png",
+"Assets/tables_coffee2.png",
+"Assets/tables_coffee3.png",
+"Assets/tables_coffee4.png",
+"Assets/tables_coffee5.png"
+],
+STORAGE:[],
+BEDS:[]
+};
 
-function populate(){
+function loadCategory(cat){
 const left=document.querySelector(".left-page");
 const right=document.querySelector(".right-page");
 left.innerHTML="";
 right.innerHTML="";
+const items=catalogData[cat]||[];
 items.slice(0,6).forEach(src=>createItem(src,left));
 items.slice(6,12).forEach(src=>createItem(src,right));
 }
 
 function createItem(src,container){
+const frame=document.createElement("div");
+frame.className="catalog-frame";
 const img=document.createElement("img");
 img.src=src;
 img.className="catalog-item";
-
-/* SINGLE CLICK SEND TO ROOM */
-img.onclick=()=>addToRoom(src);
-
-container.appendChild(img);
+img.ondblclick=()=>addToRoom(src);
+frame.appendChild(img);
+container.appendChild(frame);
 }
 
 function addToRoom(src){
@@ -299,12 +334,7 @@ el.src=src;
 el.className="room-item";
 el.style.left="40px";
 el.style.top="40px";
-
-/* DOUBLE CLICK SEND BACK */
-el.ondblclick=function(){
-el.remove();
-};
-
+el.ondblclick=()=>el.remove();
 makeDraggable(el);
 workArea.appendChild(el);
 }
@@ -325,7 +355,13 @@ el.style.top=(e.clientY-rect.top-offsetY)+"px";
 });
 }
 
-populate();
+document.querySelectorAll(".side-tab").forEach(tab=>{
+tab.addEventListener("click",function(){
+loadCategory(this.dataset.cat);
+});
+});
+
+loadCategory("SEATING");
 
 });
 
