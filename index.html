@@ -37,7 +37,16 @@ padding:70px 0 30px;
 h1{
 font-size:115px;
 margin:0;
-background:linear-gradient(to bottom,#ffffff 0%,#a6a6a6 45%,#4d4d4d 50%,#ffffff 55%,#808080 100%);
+
+background:linear-gradient(
+to bottom,
+#ffffff 0%,
+#a6a6a6 45%,
+#4d4d4d 50%,
+#ffffff 55%,
+#808080 100%
+);
+
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 letter-spacing:7px;
@@ -84,7 +93,7 @@ text-align:center;
 pointer-events:none;
 }
 
-/* WORKSPACE ROW */
+/* MAIN WORKSPACE ROW */
 
 .workspace-wrapper{
 width:1600px;
@@ -171,16 +180,18 @@ transform-origin:top center;
 transform:rotateX(8deg) scale(1.15);
 }
 
-/* PAGE GRID */
+/* CATALOG PAGE GRID */
 
 .page{
 position:absolute;
 top:23%;
 width:34%;
 height:55%;
+
 display:grid;
 grid-template-columns:repeat(2,1fr);
 grid-template-rows:repeat(3,1fr);
+
 gap:20px;
 z-index:15;
 }
@@ -206,7 +217,7 @@ position:absolute;
 cursor:move;
 }
 
-/* SIDE INDEX TABS */
+/* SIDE TABS */
 
 .catalog-tab{
 position:absolute;
@@ -222,6 +233,7 @@ justify-content:center;
 border-radius:5px 0 0 5px;
 letter-spacing:1px;
 box-shadow:0 2px 6px rgba(0,0,0,.6);
+cursor:pointer;
 }
 
 .tab-seating{top:160px;}
@@ -312,10 +324,18 @@ const cabinet=document.getElementById("rooms-cabinet");
 const workArea=document.getElementById("work-area");
 const catalog=document.getElementById("catalogOverlay");
 
+/* SCROLL + CABINET OPEN */
+
 document.getElementById("roomsTab").addEventListener("click",function(){
-document.getElementById("workspaceSection").scrollIntoView({behavior:"smooth"});
+
+document.getElementById("workspaceSection")
+.scrollIntoView({behavior:"smooth"});
+
 setTimeout(()=>cabinet.classList.add("show"),300);
+
 });
+
+/* ROOM CYCLING */
 
 const roomImages={
 living:["Assets/ROOMS_livingroom1.jpg","Assets/ROOMS_livingroom2.jpg","Assets/ROOMS_livingroom3.jpg"],
@@ -328,28 +348,59 @@ const indexes={living:0,dining:0,bedroom:0,spare:0};
 
 document.querySelectorAll(".drawer-zone").forEach(zone=>{
 zone.addEventListener("click",function(){
+
 const type=this.dataset.room;
+
 indexes[type]=(indexes[type]+1)%roomImages[type].length;
+
 workArea.style.background="url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
+
 });
 });
 
-const furniture=[
-"Assets/seating_couch1.png",
-"Assets/seating_couch2.png",
-"Assets/seating_couch3.png",
-"Assets/seating_couch4.png",
-"Assets/seating_couch5.png",
-"Assets/seating_couch6.png",
+/* FURNITURE CATEGORIES */
+
+const furniture={
+
+seating:[
 "Assets/seating_couch1.png",
 "Assets/seating_couch2.png",
 "Assets/seating_couch3.png",
 "Assets/seating_couch4.png",
 "Assets/seating_couch5.png",
 "Assets/seating_couch6.png"
-];
+],
 
-function loadCatalog(){
+tables:[
+"Assets/tables_table1.png",
+"Assets/tables_table2.png",
+"Assets/tables_table3.png",
+"Assets/tables_table4.png",
+"Assets/tables_table5.png",
+"Assets/tables_table6.png"
+],
+
+storage:[
+"Assets/storage_shelf1.png",
+"Assets/storage_shelf2.png",
+"Assets/storage_shelf3.png",
+"Assets/storage_shelf4.png",
+"Assets/storage_shelf5.png",
+"Assets/storage_shelf6.png"
+],
+
+beds:[
+"Assets/beds_bed1.png",
+"Assets/beds_bed2.png",
+"Assets/beds_bed3.png",
+"Assets/beds_bed4.png",
+"Assets/beds_bed5.png",
+"Assets/beds_bed6.png"
+]
+
+};
+
+function loadCatalog(category){
 
 const left=document.querySelector(".left-page");
 const right=document.querySelector(".right-page");
@@ -357,8 +408,10 @@ const right=document.querySelector(".right-page");
 left.innerHTML="";
 right.innerHTML="";
 
-furniture.slice(0,6).forEach(src=>addItem(src,left));
-furniture.slice(6,12).forEach(src=>addItem(src,right));
+const items=furniture[category];
+
+items.slice(0,6).forEach(src=>addItem(src,left));
+items.slice(6,12).forEach(src=>addItem(src,right));
 
 }
 
@@ -423,12 +476,21 @@ el.style.top=(e.clientY-rect.top-offsetY)+"px";
 
 }
 
+/* TAB SWITCHING */
+
+document.querySelector(".tab-seating").onclick=()=>loadCatalog("seating");
+document.querySelector(".tab-tables").onclick=()=>loadCatalog("tables");
+document.querySelector(".tab-storage").onclick=()=>loadCatalog("storage");
+document.querySelector(".tab-beds").onclick=()=>loadCatalog("beds");
+
+/* OPEN CATALOG */
+
 workArea.addEventListener("click",function(){
 
 catalog.classList.add("show");
 cabinet.classList.remove("show");
 
-loadCatalog();
+loadCatalog("seating");
 
 });
 
