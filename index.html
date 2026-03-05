@@ -90,6 +90,7 @@ pointer-events:none;
 width:1600px;
 margin:260px auto;
 display:flex;
+justify-content:flex-start;
 align-items:flex-start;
 position:relative;
 transition:all .8s ease;
@@ -109,20 +110,23 @@ transition:transform 1.2s ease;
 transform:translateX(0);
 }
 
+.cabinet-img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
 /* WORKSPACE */
 
 .workspace-container{
 position:relative;
 width:1000px;
 height:650px;
-margin-left:0;
-transition:margin-left .8s ease,width .8s ease;
+flex-grow:1;
+transition:width .8s ease;
 }
 
-/* when cabinet opens */
-
 .workspace-wrapper.cabinet-open .workspace-container{
-margin-left:40px;
 width:900px;
 }
 
@@ -259,7 +263,7 @@ cursor:pointer;
 </div>
 
 <div id="rooms-cabinet">
-<img src="Assets/rooms_cabinet.jpg" style="width:100%;height:100%;object-fit:cover;">
+<img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
 </div>
 
 <div class="workspace-container">
@@ -299,10 +303,8 @@ workArea.onclick=function(){
 
 catalog.classList.add("show");
 
-/* scroll page upward so catalog is visible */
-
 window.scrollTo({
-top:document.getElementById("workspaceSection").offsetTop-150,
+top:document.getElementById("workspaceSection").offsetTop-200,
 behavior:"smooth"
 });
 
