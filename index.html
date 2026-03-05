@@ -50,7 +50,7 @@ margin-top:15px;
 color:#ddd;
 }
 
-/* TOP TABS */
+/* TABS */
 
 .nav-container{
 display:flex;
@@ -90,7 +90,6 @@ pointer-events:none;
 width:1600px;
 margin:260px auto;
 display:flex;
-gap:30px;
 align-items:flex-start;
 position:relative;
 transition:all .8s ease;
@@ -110,37 +109,21 @@ transition:transform 1.2s ease;
 transform:translateX(0);
 }
 
-.cabinet-img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.drawer-zone{
-position:absolute;
-left:0;
-width:100%;
-height:85px;
-cursor:pointer;
-}
-
-.zone-living{top:155px;}
-.zone-dining{top:245px;}
-.zone-bedroom{top:335px;}
-.zone-spare{top:425px;}
-
 /* WORKSPACE */
 
 .workspace-container{
 position:relative;
-width:950px;
+width:1000px;
 height:650px;
+margin-left:0;
 transition:margin-left .8s ease,width .8s ease;
 }
 
+/* when cabinet opens */
+
 .workspace-wrapper.cabinet-open .workspace-container{
-margin-left:120px;
-width:830px;
+margin-left:40px;
+width:900px;
 }
 
 #work-area{
@@ -276,14 +259,7 @@ cursor:pointer;
 </div>
 
 <div id="rooms-cabinet">
-
-<img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
-
-<div class="drawer-zone zone-living" data-room="living"></div>
-<div class="drawer-zone zone-dining" data-room="dining"></div>
-<div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
-<div class="drawer-zone zone-spare" data-room="spare"></div>
-
+<img src="Assets/rooms_cabinet.jpg" style="width:100%;height:100%;object-fit:cover;">
 </div>
 
 <div class="workspace-container">
@@ -317,54 +293,19 @@ wrapper.classList.add("cabinet-open");
 
 };
 
-/* ROOM IMAGES */
-
-const roomImages={
-
-living:[
-"Assets/ROOMS_livingroom1.jpg",
-"Assets/ROOMS_livingroom2.jpg",
-"Assets/ROOMS_livingroom3.jpg"
-],
-
-dining:[
-"Assets/ROOMS_diningroom1.jpg",
-"Assets/ROOMS_diningroom2.jpg"
-],
-
-bedroom:[
-"Assets/ROOMS_bedroom1.jpg",
-"Assets/ROOMS_bedroom2.jpg",
-"Assets/ROOMS_bedroom3.jpg"
-],
-
-spare:[
-"Assets/ROOMS_kitchen1.jpg",
-"Assets/ROOMS_bathroom1.jpg",
-"Assets/ROOMS_office1.jpg"
-]
-
-};
-
-const indexes={living:0,dining:0,bedroom:0,spare:0};
-
-document.querySelectorAll(".drawer-zone").forEach(zone=>{
-zone.onclick=function(){
-
-const type=this.dataset.room;
-indexes[type]=(indexes[type]+1)%roomImages[type].length;
-
-workArea.style.background=
-"url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
-
-};
-});
-
 /* OPEN CATALOG */
 
 workArea.onclick=function(){
 
 catalog.classList.add("show");
+
+/* scroll page upward so catalog is visible */
+
+window.scrollTo({
+top:document.getElementById("workspaceSection").offsetTop-150,
+behavior:"smooth"
+});
+
 cabinet.classList.remove("show");
 wrapper.classList.remove("cabinet-open");
 
