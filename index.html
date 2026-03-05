@@ -84,7 +84,7 @@ text-align:center;
 pointer-events:none;
 }
 
-/* MAIN WORKSPACE */
+/* WORKSPACE ROW */
 
 .workspace-wrapper{
 width:1600px;
@@ -155,9 +155,9 @@ position:relative;
 
 #catalogOverlay{
 position:absolute;
-top:-260px;
-left:325px;
-width:900px;
+top:-397px;
+left:214px;
+width:716px;
 opacity:0;
 pointer-events:none;
 transform:translateY(-40px);
@@ -186,17 +186,19 @@ height:55%;
 display:grid;
 grid-template-columns:repeat(2,1fr);
 grid-template-rows:repeat(3,1fr);
-gap:20px;
+gap:18px;
 align-items:center;
 justify-items:center;
+padding:10px;
+box-sizing:border-box;
 }
 
 .left-page{left:11%;}
 .right-page{right:11%;}
 
 .catalog-item{
-width:100%;
-height:100%;
+max-width:90%;
+max-height:90%;
 object-fit:contain;
 cursor:pointer;
 transition:.2s;
@@ -253,26 +255,6 @@ cursor:pointer;
 <div class="top-tab" id="roomsTab">
 <img src="Assets/roomscabinet_pulltab.png">
 <div class="top-tab-text">ROOMS</div>
-</div>
-
-<div class="top-tab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">FURNITURE<br>CATALOG</div>
-</div>
-
-<div class="top-tab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">DECOR<br>CLOSET</div>
-</div>
-
-<div class="top-tab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">GALLERY</div>
-</div>
-
-<div class="top-tab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">SAVE/<br>CHECKOUT</div>
 </div>
 
 </div>
@@ -370,7 +352,6 @@ document.querySelectorAll(".drawer-zone").forEach(zone=>{
 zone.onclick=function(){
 
 const type=this.dataset.room;
-
 indexes[type]=(indexes[type]+1)%roomImages[type].length;
 
 workArea.style.background=
@@ -378,88 +359,6 @@ workArea.style.background=
 
 };
 });
-
-/* FURNITURE */
-
-const furniture={
-
-};
-
-function loadCatalog(){
-
-const left=document.querySelector(".left-page");
-const right=document.querySelector(".right-page");
-
-left.innerHTML="";
-right.innerHTML="";
-
-const items=furniture.seating;
-
-items.slice(0,6).forEach(src=>addItem(src,left));
-items.slice(6,12).forEach(src=>addItem(src,right));
-
-}
-
-function addItem(src,page){
-
-const img=document.createElement("img");
-img.src=src;
-img.className="catalog-item";
-
-img.ondblclick=function(){
-addToRoom(src,img);
-};
-
-page.appendChild(img);
-
-}
-
-function addToRoom(src,catalogItem){
-
-catalogItem.style.visibility="hidden";
-
-const el=document.createElement("img");
-el.src=src;
-el.className="room-item";
-
-el.style.left="40px";
-el.style.top="40px";
-
-el.ondblclick=function(){
-catalogItem.style.visibility="visible";
-el.remove();
-};
-
-makeDraggable(el);
-workArea.appendChild(el);
-
-}
-
-function makeDraggable(el){
-
-let drag=false;
-let offsetX,offsetY;
-
-el.addEventListener("mousedown",e=>{
-drag=true;
-offsetX=e.offsetX;
-offsetY=e.offsetY;
-});
-
-document.addEventListener("mouseup",()=>drag=false);
-
-document.addEventListener("mousemove",e=>{
-
-if(!drag)return;
-
-const rect=workArea.getBoundingClientRect();
-
-el.style.left=(e.clientX-rect.left-offsetX)+"px";
-el.style.top=(e.clientY-rect.top-offsetY)+"px";
-
-});
-
-}
 
 /* OPEN CATALOG */
 
@@ -469,8 +368,6 @@ catalog.classList.add("show");
 cabinet.classList.remove("show");
 wrapper.classList.remove("cabinet-open");
 
-loadCatalog();
-
 };
 
 });
@@ -479,5 +376,3 @@ loadCatalog();
 
 </body>
 </html>
-
-
