@@ -84,7 +84,7 @@ text-align:center;
 pointer-events:none;
 }
 
-/* WORKSPACE AREA */
+/* WORKSPACE ROW */
 
 .workspace-wrapper{
 width:1600px;
@@ -116,7 +116,7 @@ height:100%;
 object-fit:cover;
 }
 
-/* DRAWER CLICK ZONES (adjusted) */
+/* DRAWER ZONES */
 
 .drawer-zone{
 position:absolute;
@@ -129,7 +129,7 @@ cursor:pointer;
 .zone-living{top:150px;}
 .zone-dining{top:245px;}
 .zone-bedroom{top:340px;}
-.zone-spare{top:435px;}
+.zone-upload{top:435px;}
 
 /* WORKSPACE */
 
@@ -228,6 +228,10 @@ cursor:pointer;
 
 <body>
 
+<!-- hidden upload input -->
+
+<input type="file" id="roomUpload" accept="image/*" style="display:none">
+
 <header>
 <h1>Room Glow Up</h1>
 <h2>WHERE YOUR DREAM SPACE COMES TO LIFE</h2>
@@ -264,6 +268,8 @@ cursor:pointer;
 
 <div class="workspace-wrapper" id="workspaceSection">
 
+<!-- CATALOG -->
+
 <div id="catalogOverlay">
 
 <img src="Assets/furniturecatalog.png" id="catalogBook">
@@ -278,6 +284,8 @@ cursor:pointer;
 
 </div>
 
+<!-- CABINET -->
+
 <div id="rooms-cabinet">
 
 <img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
@@ -285,9 +293,11 @@ cursor:pointer;
 <div class="drawer-zone zone-living" data-room="living"></div>
 <div class="drawer-zone zone-dining" data-room="dining"></div>
 <div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
-<div class="drawer-zone zone-spare" data-room="spare"></div>
+<div class="drawer-zone zone-upload" id="uploadDrawer"></div>
 
 </div>
+
+<!-- WORKSPACE -->
 
 <div class="workspace-container">
 <div id="work-area"></div>
@@ -303,8 +313,10 @@ const cabinet=document.getElementById("rooms-cabinet");
 const wrapper=document.querySelector(".workspace-wrapper");
 const workArea=document.getElementById("work-area");
 const catalog=document.getElementById("catalogOverlay");
+const uploadDrawer=document.getElementById("uploadDrawer");
+const roomUpload=document.getElementById("roomUpload");
 
-/* ROOMS TAB – scroll down */
+/* ROOMS TAB */
 
 document.getElementById("roomsTab").onclick=function(){
 
@@ -320,21 +332,35 @@ wrapper.classList.add("cabinet-open");
 /* ROOM IMAGES */
 
 const roomImages={
-living:["Assets/ROOMS_livingroom1.jpg","Assets/ROOMS_livingroom2.jpg","Assets/ROOMS_livingroom3.jpg"],
-dining:["Assets/ROOMS_diningroom1.jpg","Assets/ROOMS_diningroom2.jpg"],
-bedroom:["Assets/ROOMS_bedroom1.jpg","Assets/ROOMS_bedroom2.jpg","Assets/ROOMS_bedroom3.jpg"],
-spare:["Assets/ROOMS_kitchen1.jpg","Assets/ROOMS_bathroom1.jpg","Assets/ROOMS_office1.jpg"]
+living:[
+"Assets/ROOMS_livingroom1.jpg",
+"Assets/ROOMS_livingroom2.jpg",
+"Assets/ROOMS_livingroom3.jpg"
+],
+
+dining:[
+"Assets/ROOMS_diningroom1.jpg",
+"Assets/ROOMS_diningroom2.jpg"
+],
+
+bedroom:[
+"Assets/ROOMS_bedroom1.jpg",
+"Assets/ROOMS_bedroom2.jpg",
+"Assets/ROOMS_bedroom3.jpg"
+]
 };
 
-const indexes={living:0,dining:0,bedroom:0,spare:0};
+const indexes={living:0,dining:0,bedroom:0};
 
-/* DRAWER CLICK = CHANGE ROOM */
+/* DRAWER CLICK */
 
 document.querySelectorAll(".drawer-zone").forEach(zone=>{
 
 zone.onclick=function(){
 
 const type=this.dataset.room;
+
+if(!type) return;
 
 indexes[type]=(indexes[type]+1)%roomImages[type].length;
 
@@ -344,13 +370,32 @@ workArea.style.background="url('"+roomImages[type][indexes[type]]+"') center/cov
 
 });
 
+/* UPLOAD ROOM */
+
+uploadDrawer.onclick=function(){
+roomUpload.click();
+};
+
+roomUpload.onchange=function(e){
+
+const file=e.target.files[0];
+if(!file) return;
+
+const reader=new FileReader();
+
+reader.onload=function(event){
+workArea.style.background="url('"+event.target.result+"') center/cover no-repeat";
+};
+
+reader.readAsDataURL(file);
+
+};
+
 /* CLICK ROOM = OPEN CATALOG */
 
 workArea.onclick=function(){
 
 catalog.classList.add("show");
-
-/* scroll higher so book is fully visible */
 
 window.scrollTo({
 top:document.getElementById("workspaceSection").offsetTop-400,
@@ -368,4 +413,3 @@ wrapper.classList.remove("cabinet-open");
 
 </body>
 </html>
-
