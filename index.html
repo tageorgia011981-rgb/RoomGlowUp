@@ -116,7 +116,7 @@ height:100%;
 object-fit:cover;
 }
 
-/* DRAWER CLICK ZONES */
+/* DRAWER CLICK ZONES (adjusted) */
 
 .drawer-zone{
 position:absolute;
@@ -130,6 +130,7 @@ cursor:pointer;
 .zone-dining{top:230px;}
 .zone-bedroom{top:320px;}
 .zone-spare{top:410px;}
+
 /* WORKSPACE */
 
 .workspace-container{
@@ -303,7 +304,7 @@ const wrapper=document.querySelector(".workspace-wrapper");
 const workArea=document.getElementById("work-area");
 const catalog=document.getElementById("catalogOverlay");
 
-/* ROOMS TAB – scroll down to cabinet */
+/* ROOMS TAB – scroll down */
 
 document.getElementById("roomsTab").onclick=function(){
 
@@ -327,7 +328,7 @@ spare:["Assets/ROOMS_kitchen1.jpg","Assets/ROOMS_bathroom1.jpg","Assets/ROOMS_of
 
 const indexes={living:0,dining:0,bedroom:0,spare:0};
 
-/* CLICK DRAWER = CHANGE ROOM */
+/* DRAWER CLICK = CHANGE ROOM */
 
 document.querySelectorAll(".drawer-zone").forEach(zone=>{
 
@@ -349,10 +350,10 @@ workArea.onclick=function(){
 
 catalog.classList.add("show");
 
-/* scroll upward to catalog */
+/* scroll higher so book is fully visible */
 
 window.scrollTo({
-top:document.getElementById("workspaceSection").offsetTop-250,
+top:document.getElementById("workspaceSection").offsetTop-400,
 behavior:"smooth"
 });
 
@@ -367,4 +368,3 @@ wrapper.classList.remove("cabinet-open");
 
 </body>
 </html>
-
