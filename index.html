@@ -84,7 +84,7 @@ text-align:center;
 pointer-events:none;
 }
 
-/* WORKSPACE AREA (LOWERED ON PAGE) */
+/* WORKSPACE AREA (LOWERED) */
 
 .workspace-wrapper{
 width:1600px;
@@ -197,6 +197,10 @@ cursor:pointer;
 transition:.2s;
 }
 
+.catalog-item:hover{
+transform:scale(1.05);
+}
+
 /* SIDE TABS */
 
 .catalog-tab{
@@ -262,6 +266,8 @@ letter-spacing:1px;
 
 <div class="workspace-wrapper" id="workspaceSection">
 
+<!-- CATALOG -->
+
 <div id="catalogOverlay">
 
 <img src="Assets/furniturecatalog.png" id="catalogBook">
@@ -276,6 +282,8 @@ letter-spacing:1px;
 
 </div>
 
+<!-- CABINET -->
+
 <div id="rooms-cabinet">
 
 <img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
@@ -284,14 +292,19 @@ letter-spacing:1px;
 <div class="drawer-zone zone-dining" data-room="dining"></div>
 <div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
 <div class="drawer-zone zone-spare" data-room="spare"></div>
+<div class="drawer-zone zone-upload" id="uploadDrawer"></div>
 
 </div>
+
+<!-- WORKSPACE -->
 
 <div class="workspace-container">
 <div id="work-area"></div>
 </div>
 
 </div>
+
+<input type="file" id="roomUpload" accept="image/*" style="display:none">
 
 <script>
 
@@ -300,11 +313,80 @@ document.addEventListener("DOMContentLoaded",function(){
 const cabinet=document.getElementById("rooms-cabinet");
 const workArea=document.getElementById("work-area");
 const catalog=document.getElementById("catalogOverlay");
+const uploadDrawer=document.getElementById("uploadDrawer");
+const roomUpload=document.getElementById("roomUpload");
+
+/* ROOMS TAB */
 
 document.getElementById("roomsTab").onclick=function(){
 document.getElementById("workspaceSection").scrollIntoView({behavior:"smooth"});
 cabinet.classList.add("show");
 };
+
+/* ROOM CYCLING */
+
+const roomImages={
+living:[
+"Assets/ROOMS_livingroom1.jpg",
+"Assets/ROOMS_livingroom2.jpg",
+"Assets/ROOMS_livingroom3.jpg"
+],
+dining:[
+"Assets/ROOMS_diningroom1.jpg",
+"Assets/ROOMS_diningroom2.jpg"
+],
+bedroom:[
+"Assets/ROOMS_bedroom1.jpg",
+"Assets/ROOMS_bedroom2.jpg",
+"Assets/ROOMS_bedroom3.jpg"
+],
+spare:[
+"Assets/ROOMS_kitchen1.jpg",
+"Assets/ROOMS_bathroom1.jpg",
+"Assets/ROOMS_office1.jpg"
+]
+};
+
+const indexes={living:0,dining:0,bedroom:0,spare:0};
+
+document.querySelectorAll(".drawer-zone").forEach(zone=>{
+
+zone.onclick=function(){
+
+const type=this.dataset.room;
+
+if(!type) return;
+
+indexes[type]=(indexes[type]+1)%roomImages[type].length;
+
+workArea.style.background="url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
+
+};
+
+});
+
+/* UPLOAD ROOM */
+
+uploadDrawer.onclick=function(){
+roomUpload.click();
+};
+
+roomUpload.onchange=function(e){
+
+const file=e.target.files[0];
+if(!file) return;
+
+const reader=new FileReader();
+
+reader.onload=function(event){
+workArea.style.background="url('"+event.target.result+"') center/cover no-repeat";
+};
+
+reader.readAsDataURL(file);
+
+};
+
+/* OPEN CATALOG */
 
 workArea.onclick=function(){
 
@@ -322,6 +404,7 @@ loadCatalog();
 /* FURNITURE */
 
 const furniture=[
+
 "Assets/seating_couch1.png",
 "Assets/seating_couch2.png",
 "Assets/seating_couch3.png",
@@ -334,11 +417,23 @@ const furniture=[
 "Assets/seating_couch10.png",
 "Assets/seating_couch11.png",
 "Assets/seating_couch12.png",
+
 "Assets/seating_stools.png",
+
 "Assets/seating_barstool1.png",
 "Assets/seating_barstool2.png",
 "Assets/seating_barstool3.png",
-"Assets/seating_barstool4.png"
+"Assets/seating_barstool4.png",
+
+"Assets/seating_bench1.png",
+"Assets/seating_bench2.png",
+"Assets/seating_bench3.png",
+"Assets/seating_bench4.png",
+"Assets/seating_bench5.png",
+"Assets/seating_bench6.png",
+"Assets/seating_bench7.png",
+"Assets/seating_bench8.png"
+
 ];
 
 let pageIndex=0;
