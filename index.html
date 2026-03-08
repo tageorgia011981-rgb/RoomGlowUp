@@ -50,7 +50,7 @@ margin-top:15px;
 color:#ddd;
 }
 
-/* TOP NAV */
+/* TOP TABS */
 
 .nav-container{
 display:flex;
@@ -70,7 +70,9 @@ transition:.25s;
 transform:translateY(-6px);
 }
 
-.top-tab img{width:100%}
+.top-tab img{
+width:100%;
+}
 
 .top-tab-text{
 position:absolute;
@@ -145,13 +147,13 @@ box-shadow:0 0 60px rgba(0,0,0,.9);
 cursor:pointer;
 }
 
-/* CATALOG */
+/* CATALOG POSITION (YOUR EXACT VALUES) */
 
 #catalogOverlay{
 position:absolute;
-top:-413px;
-left:250px;
-width:908px;
+top:-542px;
+left:232px;
+width:954px;
 opacity:0;
 pointer-events:none;
 transform:translateY(-40px);
@@ -168,6 +170,8 @@ transform:translateY(0);
 #catalogBook{
 width:100%;
 }
+
+/* PAGE GRID */
 
 .page{
 position:absolute;
@@ -199,7 +203,7 @@ transition:.2s;
 transform:scale(1.05);
 }
 
-/* CATALOG SIDE TABS */
+/* CATALOG TABS */
 
 .catalog-tab{
 position:absolute;
@@ -233,6 +237,8 @@ letter-spacing:1px;
 <h2>WHERE YOUR DREAM SPACE COMES TO LIFE</h2>
 </header>
 
+<!-- TOP NAVIGATION -->
+
 <div class="nav-container">
 
 <div class="top-tab" id="roomsTab">
@@ -261,6 +267,8 @@ letter-spacing:1px;
 </div>
 
 </div>
+
+<!-- WORKSPACE AREA -->
 
 <div class="workspace-wrapper" id="workspaceSection">
 
@@ -311,7 +319,6 @@ document.addEventListener("DOMContentLoaded",function(){
 const cabinet=document.getElementById("rooms-cabinet");
 const workArea=document.getElementById("work-area");
 const catalog=document.getElementById("catalogOverlay");
-const uploadDrawer=document.getElementById("uploadDrawer");
 const roomUpload=document.getElementById("roomUpload");
 
 /* OPEN CABINET */
@@ -357,8 +364,7 @@ if(!type) return;
 
 indexes[type]=(indexes[type]+1)%roomImages[type].length;
 
-workArea.style.background=
-"url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
+workArea.style.background="url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
 
 };
 
@@ -366,7 +372,7 @@ workArea.style.background=
 
 /* UPLOAD ROOM */
 
-uploadDrawer.onclick=function(){
+document.getElementById("uploadDrawer").onclick=function(){
 roomUpload.click();
 };
 
@@ -400,7 +406,7 @@ loadCatalog();
 
 };
 
-/* FURNITURE CATEGORIES */
+/* FURNITURE DATA */
 
 const furniture={
 
@@ -430,7 +436,46 @@ seating:[
 "Assets/seating_bench9.png",
 "Assets/seating_bench10.png",
 "Assets/seating_bench11.png",
-"Assets/seating_bench12.png"
+"Assets/seating_bench12.png",
+
+"Assets/seating_armchair1.png",
+"Assets/seating_armchair2.png",
+"Assets/seating_armchair3.png",
+"Assets/seating_armchair4.png",
+"Assets/seating_armchair5.png",
+"Assets/seating_armchair6.png",
+"Assets/seating_armchair7.png",
+"Assets/seating_armchair8.png",
+"Assets/seating_armchair9.png",
+"Assets/seating_armchair10.png",
+"Assets/seating_armchair11.png",
+"Assets/seating_armchair12.png",
+
+"Assets/seating_ottoman1.png",
+"Assets/seating_ottoman2.png",
+"Assets/seating_ottoman3.png",
+"Assets/seating_ottoman4.png",
+"Assets/seating_ottoman5.png",
+"Assets/seating_ottoman6.png",
+"Assets/seating_ottoman7.png",
+"Assets/seating_ottoman8.png",
+"Assets/seating_ottoman9.png",
+"Assets/seating_ottoman10.png",
+"Assets/seating_ottoman11.png",
+"Assets/seating_ottoman12.png",
+
+"Assets/seating_diningchair1.png",
+"Assets/seating_diningchair2.png",
+"Assets/seating_diningchair3.png",
+"Assets/seating_diningchair4.png",
+"Assets/seating_diningchair5.png",
+"Assets/seating_diningchair6.png",
+"Assets/seating_diningchair7.png",
+"Assets/seating_diningchair8.png",
+"Assets/seating_diningchair9.png",
+"Assets/seating_diningchair10.png",
+"Assets/seating_diningchair11.png",
+"Assets/seating_diningchair12.png"
 
 ],
 
