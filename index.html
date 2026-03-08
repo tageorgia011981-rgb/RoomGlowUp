@@ -50,7 +50,7 @@ margin-top:15px;
 color:#ddd;
 }
 
-/* TOP TABS */
+/* TOP NAV */
 
 .nav-container{
 display:flex;
@@ -84,7 +84,7 @@ text-align:center;
 pointer-events:none;
 }
 
-/* WORKSPACE */
+/* WORKSPACE SECTION */
 
 .workspace-wrapper{
 width:1600px;
@@ -199,7 +199,7 @@ transition:.2s;
 transform:scale(1.05);
 }
 
-/* SIDE TABS */
+/* CATALOG SIDE TABS */
 
 .catalog-tab{
 position:absolute;
@@ -240,9 +240,31 @@ letter-spacing:1px;
 <div class="top-tab-text">ROOMS</div>
 </div>
 
+<div class="top-tab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">FURNITURE<br>CATALOG</div>
+</div>
+
+<div class="top-tab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">DECOR<br>CLOSET</div>
+</div>
+
+<div class="top-tab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">GALLERY</div>
+</div>
+
+<div class="top-tab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">SAVE/<br>CHECKOUT</div>
+</div>
+
 </div>
 
 <div class="workspace-wrapper" id="workspaceSection">
+
+<!-- CATALOG -->
 
 <div id="catalogOverlay">
 
@@ -251,12 +273,14 @@ letter-spacing:1px;
 <div class="page left-page"></div>
 <div class="page right-page"></div>
 
-<div class="catalog-tab tab-seating" id="flipPage">SEATING</div>
-<div class="catalog-tab tab-tables">TABLES</div>
-<div class="catalog-tab tab-storage">STORAGE</div>
-<div class="catalog-tab tab-beds">BEDS</div>
+<div class="catalog-tab tab-seating" id="tabSeating">SEATING</div>
+<div class="catalog-tab tab-tables" id="tabTables">TABLES</div>
+<div class="catalog-tab tab-storage" id="tabStorage">STORAGE</div>
+<div class="catalog-tab tab-beds" id="tabBeds">BEDS</div>
 
 </div>
+
+<!-- CABINET -->
 
 <div id="rooms-cabinet">
 
@@ -266,14 +290,19 @@ letter-spacing:1px;
 <div class="drawer-zone zone-dining" data-room="dining"></div>
 <div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
 <div class="drawer-zone zone-spare" data-room="spare"></div>
+<div class="drawer-zone zone-upload" id="uploadDrawer"></div>
 
 </div>
+
+<!-- WORKSPACE -->
 
 <div class="workspace-container">
 <div id="work-area"></div>
 </div>
 
 </div>
+
+<input type="file" id="roomUpload" accept="image/*" style="display:none">
 
 <script>
 
@@ -282,11 +311,81 @@ document.addEventListener("DOMContentLoaded",function(){
 const cabinet=document.getElementById("rooms-cabinet");
 const workArea=document.getElementById("work-area");
 const catalog=document.getElementById("catalogOverlay");
+const uploadDrawer=document.getElementById("uploadDrawer");
+const roomUpload=document.getElementById("roomUpload");
+
+/* OPEN CABINET */
 
 document.getElementById("roomsTab").onclick=function(){
 document.getElementById("workspaceSection").scrollIntoView({behavior:"smooth"});
 cabinet.classList.add("show");
 };
+
+/* ROOM IMAGES */
+
+const roomImages={
+living:[
+"Assets/ROOMS_livingroom1.jpg",
+"Assets/ROOMS_livingroom2.jpg",
+"Assets/ROOMS_livingroom3.jpg"
+],
+dining:[
+"Assets/ROOMS_diningroom1.jpg",
+"Assets/ROOMS_diningroom2.jpg"
+],
+bedroom:[
+"Assets/ROOMS_bedroom1.jpg",
+"Assets/ROOMS_bedroom2.jpg",
+"Assets/ROOMS_bedroom3.jpg"
+],
+spare:[
+"Assets/ROOMS_kitchen1.jpg",
+"Assets/ROOMS_bathroom1.jpg",
+"Assets/ROOMS_office1.jpg"
+]
+};
+
+const indexes={living:0,dining:0,bedroom:0,spare:0};
+
+document.querySelectorAll(".drawer-zone").forEach(zone=>{
+
+zone.onclick=function(){
+
+const type=this.dataset.room;
+
+if(!type) return;
+
+indexes[type]=(indexes[type]+1)%roomImages[type].length;
+
+workArea.style.background=
+"url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
+
+};
+
+});
+
+/* UPLOAD ROOM */
+
+uploadDrawer.onclick=function(){
+roomUpload.click();
+};
+
+roomUpload.onchange=function(e){
+
+const file=e.target.files[0];
+if(!file) return;
+
+const reader=new FileReader();
+
+reader.onload=function(event){
+workArea.style.background="url('"+event.target.result+"') center/cover no-repeat";
+};
+
+reader.readAsDataURL(file);
+
+};
+
+/* OPEN CATALOG */
 
 workArea.onclick=function(){
 
@@ -301,13 +400,12 @@ loadCatalog();
 
 };
 
-/* FURNITURE GROUPS */
+/* FURNITURE CATEGORIES */
 
-const furnitureGroups=[
+const furniture={
 
-/* COUCHES */
+seating:[
 
-[
 "Assets/seating_couch1.png",
 "Assets/seating_couch2.png",
 "Assets/seating_couch3.png",
@@ -319,12 +417,8 @@ const furnitureGroups=[
 "Assets/seating_couch9.png",
 "Assets/seating_couch10.png",
 "Assets/seating_couch11.png",
-"Assets/seating_couch12.png"
-],
+"Assets/seating_couch12.png",
 
-/* BENCHES */
-
-[
 "Assets/seating_bench1.png",
 "Assets/seating_bench2.png",
 "Assets/seating_bench3.png",
@@ -337,72 +431,16 @@ const furnitureGroups=[
 "Assets/seating_bench10.png",
 "Assets/seating_bench11.png",
 "Assets/seating_bench12.png"
+
 ],
 
-/* ARMCHAIRS */
+tables:[],
+storage:[],
+beds:[]
 
-[
-"Assets/seating_armchair1.png",
-"Assets/seating_armchair2.png",
-"Assets/seating_armchair3.png",
-"Assets/seating_armchair4.png",
-"Assets/seating_armchair5.png",
-"Assets/seating_armchair6.png",
-"Assets/seating_armchair7.png",
-"Assets/seating_armchair8.png",
-"Assets/seating_armchair9.png",
-"Assets/seating_armchair10.png",
-"Assets/seating_armchair11.png",
-"Assets/seating_armchair12.png"
-],
+};
 
-/* OTTOMANS */
-
-[
-"Assets/seating_ottoman1.png",
-"Assets/seating_ottoman2.png",
-"Assets/seating_ottoman3.png",
-"Assets/seating_ottoman4.png",
-"Assets/seating_ottoman5.png",
-"Assets/seating_ottoman6.png",
-"Assets/seating_ottoman7.png",
-"Assets/seating_ottoman8.png",
-"Assets/seating_ottoman9.png",
-"Assets/seating_ottoman10.png",
-"Assets/seating_ottoman11.png",
-"Assets/seating_ottoman12.png"
-],
-
-/* DINING CHAIRS */
-
-[
-"Assets/seating_diningchair1.png",
-"Assets/seating_diningchair2.png",
-"Assets/seating_diningchair3.png",
-"Assets/seating_diningchair4.png",
-"Assets/seating_diningchair5.png",
-"Assets/seating_diningchair6.png",
-"Assets/seating_diningchair7.png",
-"Assets/seating_diningchair8.png",
-"Assets/seating_diningchair9.png",
-"Assets/seating_diningchair10.png",
-"Assets/seating_diningchair11.png",
-"Assets/seating_diningchair12.png"
-]
-
-];
-
-let furniture=[];
-
-furnitureGroups.forEach(group=>{
-furniture=furniture.concat(group);
-
-while(furniture.length%12!==0){
-furniture.push(null);
-}
-
-});
-
+let currentCategory="seating";
 let pageIndex=0;
 
 function loadCatalog(){
@@ -413,18 +451,18 @@ const right=document.querySelector(".right-page");
 left.innerHTML="";
 right.innerHTML="";
 
+const items=furniture[currentCategory];
+
 let start=pageIndex*12;
 
-furniture.slice(start,start+6).forEach(src=>{
-if(!src) return;
+items.slice(start,start+6).forEach(src=>{
 const img=document.createElement("img");
 img.src=src;
 img.className="catalog-item";
 left.appendChild(img);
 });
 
-furniture.slice(start+6,start+12).forEach(src=>{
-if(!src) return;
+items.slice(start+6,start+12).forEach(src=>{
 const img=document.createElement("img");
 img.src=src;
 img.className="catalog-item";
@@ -433,16 +471,28 @@ right.appendChild(img);
 
 }
 
-document.getElementById("flipPage").onclick=function(){
-
-pageIndex++;
-
-if(pageIndex*12>=furniture.length){
+document.getElementById("tabSeating").onclick=function(){
+currentCategory="seating";
 pageIndex=0;
-}
-
 loadCatalog();
+};
 
+document.getElementById("tabTables").onclick=function(){
+currentCategory="tables";
+pageIndex=0;
+loadCatalog();
+};
+
+document.getElementById("tabStorage").onclick=function(){
+currentCategory="storage";
+pageIndex=0;
+loadCatalog();
+};
+
+document.getElementById("tabBeds").onclick=function(){
+currentCategory="beds";
+pageIndex=0;
+loadCatalog();
 };
 
 });
