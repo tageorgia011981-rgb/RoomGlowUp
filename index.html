@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -17,14 +18,16 @@ font-family:'Limelight',cursive;
 overflow-x:hidden;
 
 background:
-url('Assets/mainbackgroundl.jpg') left top no-repeat,
-url('Assets/mainbackgroundr.jpg') right top no-repeat,
-url('Assets/mainbackgroundblue.jpg') center top no-repeat;
+url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
+url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
+url('Assets/mainbackground_blue.jpg') center top no-repeat;
 
 background-size:33% 100%,33% 100%,34% 100%;
 background-attachment:fixed;
 scroll-behavior:smooth;
 }
+
+/* HEADER */
 
 header{
 text-align:center;
@@ -46,6 +49,8 @@ letter-spacing:9px;
 margin-top:15px;
 color:#ddd;
 }
+
+/* TOP TABS */
 
 .nav-container{
 display:flex;
@@ -81,12 +86,13 @@ text-align:center;
 pointer-events:none;
 }
 
+/* WORKSPACE SECTION */
+
 .workspace-wrapper{
-width:1700px;
+width:1600px;
 margin:440px auto;
 display:flex;
 align-items:flex-start;
-justify-content:flex-end;
 position:relative;
 }
 
@@ -95,9 +101,7 @@ position:relative;
 #rooms-cabinet{
 width:650px;
 height:650px;
-position:absolute;
-left:0;
-top:0;
+position:relative;
 transform:translateX(-700px);
 transition:transform 1.2s ease;
 }
@@ -132,11 +136,7 @@ cursor:pointer;
 position:relative;
 width:1000px;
 height:650px;
-transition:width 1.2s ease;
-}
-
-.workspace-container.expand{
-width:1650px;
+flex-grow:1;
 }
 
 #work-area{
@@ -147,7 +147,7 @@ box-shadow:0 0 60px rgba(0,0,0,.9);
 cursor:pointer;
 }
 
-/* CATALOG */
+/* CATALOG POSITION (YOUR EXACT VALUES) */
 
 #catalogOverlay{
 position:absolute;
@@ -170,6 +170,8 @@ transform:translateY(0);
 #catalogBook{
 width:100%;
 }
+
+/* PAGE GRID */
 
 .page{
 position:absolute;
@@ -225,6 +227,7 @@ letter-spacing:1px;
 .tab-beds{top:250px;left:15px;}
 
 </style>
+
 </head>
 
 <body>
@@ -233,6 +236,8 @@ letter-spacing:1px;
 <h1>Room Glow Up</h1>
 <h2>WHERE YOUR DREAM SPACE COMES TO LIFE</h2>
 </header>
+
+<!-- TOP NAVIGATION -->
 
 <div class="nav-container">
 
@@ -263,7 +268,11 @@ letter-spacing:1px;
 
 </div>
 
+<!-- WORKSPACE AREA -->
+
 <div class="workspace-wrapper" id="workspaceSection">
+
+<!-- CATALOG -->
 
 <div id="catalogOverlay">
 
@@ -279,9 +288,11 @@ letter-spacing:1px;
 
 </div>
 
+<!-- CABINET -->
+
 <div id="rooms-cabinet">
 
-<img src="Assets/rooms_cabinet.png" class="cabinet-img">
+<img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
 
 <div class="drawer-zone zone-living" data-room="living"></div>
 <div class="drawer-zone zone-dining" data-room="dining"></div>
@@ -290,6 +301,8 @@ letter-spacing:1px;
 <div class="drawer-zone zone-upload" id="uploadDrawer"></div>
 
 </div>
+
+<!-- WORKSPACE -->
 
 <div class="workspace-container">
 <div id="work-area"></div>
@@ -307,13 +320,15 @@ const cabinet=document.getElementById("rooms-cabinet");
 const workArea=document.getElementById("work-area");
 const catalog=document.getElementById("catalogOverlay");
 const roomUpload=document.getElementById("roomUpload");
-const workspace=document.querySelector(".workspace-container");
+
+/* OPEN CABINET */
 
 document.getElementById("roomsTab").onclick=function(){
-workspace.classList.remove("expand");
 document.getElementById("workspaceSection").scrollIntoView({behavior:"smooth"});
 cabinet.classList.add("show");
 };
+
+/* ROOM IMAGES */
 
 const roomImages={
 living:[
@@ -331,9 +346,9 @@ bedroom:[
 "Assets/ROOMS_bedroom3.jpg"
 ],
 spare:[
-"Assets/ROOMS_bathroom.jpg",
 "Assets/ROOMS_kitchen1.jpg",
-"Assets/ROOMS_office.jpg"
+"Assets/ROOMS_bathroom1.jpg",
+"Assets/ROOMS_office1.jpg"
 ]
 };
 
@@ -344,6 +359,7 @@ document.querySelectorAll(".drawer-zone").forEach(zone=>{
 zone.onclick=function(){
 
 const type=this.dataset.room;
+
 if(!type) return;
 
 indexes[type]=(indexes[type]+1)%roomImages[type].length;
@@ -353,6 +369,8 @@ workArea.style.background="url('"+roomImages[type][indexes[type]]+"') center/cov
 };
 
 });
+
+/* UPLOAD ROOM */
 
 document.getElementById("uploadDrawer").onclick=function(){
 roomUpload.click();
@@ -373,24 +391,22 @@ reader.readAsDataURL(file);
 
 };
 
+/* OPEN CATALOG */
+
 workArea.onclick=function(){
 
-cabinet.classList.remove("show");
-
-setTimeout(function(){
-
-workspace.classList.add("expand");
 catalog.classList.add("show");
-loadCatalog();
-
-},800);
 
 window.scrollTo({
 top:document.getElementById("workspaceSection").offsetTop-400,
 behavior:"smooth"
 });
 
+loadCatalog();
+
 };
+
+/* FURNITURE DATA */
 
 const furniture={
 
@@ -420,7 +436,46 @@ seating:[
 "Assets/seating_bench9.png",
 "Assets/seating_bench10.png",
 "Assets/seating_bench11.png",
-"Assets/seating_bench12.png"
+"Assets/seating_bench12.png",
+
+"Assets/seating_armchair1.png",
+"Assets/seating_armchair2.png",
+"Assets/seating_armchair3.png",
+"Assets/seating_armchair4.png",
+"Assets/seating_armchair5.png",
+"Assets/seating_armchair6.png",
+"Assets/seating_armchair7.png",
+"Assets/seating_armchair8.png",
+"Assets/seating_armchair9.png",
+"Assets/seating_armchair10.png",
+"Assets/seating_armchair11.png",
+"Assets/seating_armchair12.png",
+
+"Assets/seating_ottoman1.png",
+"Assets/seating_ottoman2.png",
+"Assets/seating_ottoman3.png",
+"Assets/seating_ottoman4.png",
+"Assets/seating_ottoman5.png",
+"Assets/seating_ottoman6.png",
+"Assets/seating_ottoman7.png",
+"Assets/seating_ottoman8.png",
+"Assets/seating_ottoman9.png",
+"Assets/seating_ottoman10.png",
+"Assets/seating_ottoman11.png",
+"Assets/seating_ottoman12.png",
+
+"Assets/seating_diningchair1.png",
+"Assets/seating_diningchair2.png",
+"Assets/seating_diningchair3.png",
+"Assets/seating_diningchair4.png",
+"Assets/seating_diningchair5.png",
+"Assets/seating_diningchair6.png",
+"Assets/seating_diningchair7.png",
+"Assets/seating_diningchair8.png",
+"Assets/seating_diningchair9.png",
+"Assets/seating_diningchair10.png",
+"Assets/seating_diningchair11.png",
+"Assets/seating_diningchair12.png"
 
 ],
 
@@ -461,32 +516,6 @@ right.appendChild(img);
 
 }
 
-/* PAGE TURNING */
-
-const leftPage=document.querySelector(".left-page");
-const rightPage=document.querySelector(".right-page");
-
-rightPage.onclick=function(){
-
-const items=furniture[currentCategory];
-const maxPage=Math.ceil(items.length/12)-1;
-
-if(pageIndex<maxPage){
-pageIndex++;
-loadCatalog();
-}
-
-};
-
-leftPage.onclick=function(){
-
-if(pageIndex>0){
-pageIndex--;
-loadCatalog();
-}
-
-};
-
 document.getElementById("tabSeating").onclick=function(){
 currentCategory="seating";
 pageIndex=0;
@@ -516,3 +545,4 @@ loadCatalog();
 
 </body>
 </html>
+
