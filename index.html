@@ -101,10 +101,10 @@ position:relative;
 /* CABINET */
 
 #rooms-cabinet{
-width:650px;
-height:650px;
+width:600px;
+height:600px;
 position:relative;
-transform:translateX(-420px);
+transform:translateX(-390px);
 transition:transform 1.2s ease;
 }
 
@@ -305,8 +305,201 @@ letter-spacing:1px;
 
 <script>
 
-/* your existing JS remains unchanged */
+document.addEventListener("DOMContentLoaded",function(){
 
+const cabinet=document.getElementById("rooms-cabinet");
+const workArea=document.getElementById("work-area");
+const catalog=document.getElementById("catalogOverlay");
+const roomUpload=document.getElementById("roomUpload");
+
+/* TOP TAB CONTROLS */
+
+document.getElementById("roomsTab").onclick=function(){
+
+const section=document.getElementById("workspaceSection");
+
+cabinet.classList.add("show");
+
+window.scrollTo({
+top:section.offsetTop,
+behavior:"smooth"
+});
+
+};
+
+document.getElementById("catalogTab").onclick=function(){
+catalog.classList.add("show");
+loadCatalog();
+};
+
+/* ROOM IMAGES */
+
+const roomImages={
+living:[
+"Assets/ROOMS_livingroom1.jpg",
+"Assets/ROOMS_livingroom2.jpg",
+"Assets/ROOMS_livingroom3.jpg"
+],
+dining:[
+"Assets/ROOMS_diningroom1.jpg",
+"Assets/ROOMS_diningroom2.jpg"
+],
+bedroom:[
+"Assets/ROOMS_bedroom1.jpg",
+"Assets/ROOMS_bedroom2.jpg",
+"Assets/ROOMS_bedroom3.jpg"
+],
+spare:[
+"Assets/ROOMS_kitchen1.jpg",
+"Assets/ROOMS_bathroom1.jpg",
+"Assets/ROOMS_office1.jpg"
+]
+};
+
+const indexes={living:0,dining:0,bedroom:0,spare:0};
+
+document.querySelectorAll(".drawer-zone").forEach(zone=>{
+
+zone.onclick=function(){
+
+const type=this.dataset.room;
+
+if(!type) return;
+
+indexes[type]=(indexes[type]+1)%roomImages[type].length;
+
+workArea.style.background="url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
+
+};
+
+});
+
+/* UPLOAD ROOM */
+
+document.getElementById("uploadDrawer").onclick=function(){
+roomUpload.click();
+};
+
+roomUpload.onchange=function(e){
+
+const file=e.target.files[0];
+if(!file) return;
+
+const reader=new FileReader();
+
+reader.onload=function(event){
+workArea.style.background="url('"+event.target.result+"') center/cover no-repeat";
+};
+
+reader.readAsDataURL(file);
+
+};
+
+/* OPEN CATALOG */
+
+workArea.onclick=function(){
+
+catalog.classList.add("show");
+
+window.scrollTo({
+top:document.getElementById("workspaceSection").offsetTop-400,
+behavior:"smooth"
+});
+
+loadCatalog();
+
+};
+
+/* FURNITURE DATA */
+
+const furniture={
+seating:[
+"Assets/seating_couch1.png",
+"Assets/seating_couch2.png",
+"Assets/seating_couch3.png",
+"Assets/seating_couch4.png",
+"Assets/seating_couch5.png",
+"Assets/seating_couch6.png",
+"Assets/seating_couch7.png",
+"Assets/seating_couch8.png",
+"Assets/seating_couch9.png",
+"Assets/seating_couch10.png",
+"Assets/seating_couch11.png",
+"Assets/seating_couch12.png",
+"Assets/seating_bench1.png",
+"Assets/seating_bench2.png",
+"Assets/seating_bench3.png",
+"Assets/seating_bench4.png",
+"Assets/seating_bench5.png",
+"Assets/seating_bench6.png",
+"Assets/seating_bench7.png",
+"Assets/seating_bench8.png",
+"Assets/seating_bench9.png",
+"Assets/seating_bench10.png",
+"Assets/seating_bench11.png",
+"Assets/seating_bench12.png"
+],
+tables:[],
+storage:[],
+beds:[]
+};
+
+let currentCategory="seating";
+let pageIndex=0;
+
+function loadCatalog(){
+
+const left=document.querySelector(".left-page");
+const right=document.querySelector(".right-page");
+
+left.innerHTML="";
+right.innerHTML="";
+
+const items=furniture[currentCategory];
+
+let start=pageIndex*12;
+
+items.slice(start,start+6).forEach(src=>{
+const img=document.createElement("img");
+img.src=src;
+img.className="catalog-item";
+left.appendChild(img);
+});
+
+items.slice(start+6,start+12).forEach(src=>{
+const img=document.createElement("img");
+img.src=src;
+img.className="catalog-item";
+right.appendChild(img);
+});
+
+}
+
+const leftPage=document.querySelector(".left-page");
+const rightPage=document.querySelector(".right-page");
+
+rightPage.onclick=function(){
+
+const items=furniture[currentCategory];
+const maxPage=Math.ceil(items.length/12)-1;
+
+if(pageIndex<maxPage){
+pageIndex++;
+loadCatalog();
+}
+
+};
+
+leftPage.onclick=function(){
+
+if(pageIndex>0){
+pageIndex--;
+loadCatalog();
+}
+
+};
+
+});
 </script>
 
 </body>
