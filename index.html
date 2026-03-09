@@ -147,7 +147,7 @@ box-shadow:0 0 60px rgba(0,0,0,.9);
 cursor:pointer;
 }
 
-/* CATALOG POSITION (YOUR EXACT VALUES) */
+/* CATALOG POSITION */
 
 #catalogOverlay{
 position:absolute;
@@ -171,12 +171,12 @@ transform:translateY(0);
 width:100%;
 }
 
-/* PAGE GRID */
+/* PAGE GRID (YOUR ADJUSTMENT INCLUDED) */
 
 .page{
 position:absolute;
-top:23%;
-width:34%;
+top:1%;
+width:39%;
 height:55%;
 display:grid;
 grid-template-columns:repeat(2,1fr);
@@ -237,8 +237,6 @@ letter-spacing:1px;
 <h2>WHERE YOUR DREAM SPACE COMES TO LIFE</h2>
 </header>
 
-<!-- TOP NAVIGATION -->
-
 <div class="nav-container">
 
 <div class="top-tab" id="roomsTab">
@@ -268,11 +266,7 @@ letter-spacing:1px;
 
 </div>
 
-<!-- WORKSPACE AREA -->
-
 <div class="workspace-wrapper" id="workspaceSection">
-
-<!-- CATALOG -->
 
 <div id="catalogOverlay">
 
@@ -288,8 +282,6 @@ letter-spacing:1px;
 
 </div>
 
-<!-- CABINET -->
-
 <div id="rooms-cabinet">
 
 <img src="Assets/rooms_cabinet.jpg" class="cabinet-img">
@@ -301,8 +293,6 @@ letter-spacing:1px;
 <div class="drawer-zone zone-upload" id="uploadDrawer"></div>
 
 </div>
-
-<!-- WORKSPACE -->
 
 <div class="workspace-container">
 <div id="work-area"></div>
@@ -321,162 +311,60 @@ const workArea=document.getElementById("work-area");
 const catalog=document.getElementById("catalogOverlay");
 const roomUpload=document.getElementById("roomUpload");
 
-/* OPEN CABINET */
-
 document.getElementById("roomsTab").onclick=function(){
 document.getElementById("workspaceSection").scrollIntoView({behavior:"smooth"});
 cabinet.classList.add("show");
 };
 
-/* ROOM IMAGES */
-
 const roomImages={
-living:[
-"Assets/ROOMS_livingroom1.jpg",
-"Assets/ROOMS_livingroom2.jpg",
-"Assets/ROOMS_livingroom3.jpg"
-],
-dining:[
-"Assets/ROOMS_diningroom1.jpg",
-"Assets/ROOMS_diningroom2.jpg"
-],
-bedroom:[
-"Assets/ROOMS_bedroom1.jpg",
-"Assets/ROOMS_bedroom2.jpg",
-"Assets/ROOMS_bedroom3.jpg"
-],
-spare:[
-"Assets/ROOMS_kitchen1.jpg",
-"Assets/ROOMS_bathroom1.jpg",
-"Assets/ROOMS_office1.jpg"
-]
+living:["Assets/ROOMS_livingroom1.jpg","Assets/ROOMS_livingroom2.jpg","Assets/ROOMS_livingroom3.jpg"],
+dining:["Assets/ROOMS_diningroom1.jpg","Assets/ROOMS_diningroom2.jpg"],
+bedroom:["Assets/ROOMS_bedroom1.jpg","Assets/ROOMS_bedroom2.jpg","Assets/ROOMS_bedroom3.jpg"],
+spare:["Assets/ROOMS_kitchen1.jpg","Assets/ROOMS_bathroom1.jpg","Assets/ROOMS_office1.jpg"]
 };
 
 const indexes={living:0,dining:0,bedroom:0,spare:0};
 
 document.querySelectorAll(".drawer-zone").forEach(zone=>{
-
 zone.onclick=function(){
-
 const type=this.dataset.room;
-
 if(!type) return;
-
 indexes[type]=(indexes[type]+1)%roomImages[type].length;
-
 workArea.style.background="url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
-
 };
-
 });
-
-/* UPLOAD ROOM */
 
 document.getElementById("uploadDrawer").onclick=function(){
 roomUpload.click();
 };
 
 roomUpload.onchange=function(e){
-
 const file=e.target.files[0];
 if(!file) return;
-
 const reader=new FileReader();
-
 reader.onload=function(event){
 workArea.style.background="url('"+event.target.result+"') center/cover no-repeat";
 };
-
 reader.readAsDataURL(file);
-
 };
 
-/* OPEN CATALOG */
-
 workArea.onclick=function(){
-
 catalog.classList.add("show");
-
 window.scrollTo({
 top:document.getElementById("workspaceSection").offsetTop-400,
 behavior:"smooth"
 });
-
 loadCatalog();
-
 };
-
-/* FURNITURE DATA */
 
 const furniture={
 
 seating:[
-
-"Assets/seating_couch1.png",
-"Assets/seating_couch2.png",
-"Assets/seating_couch3.png",
-"Assets/seating_couch4.png",
-"Assets/seating_couch5.png",
-"Assets/seating_couch6.png",
-"Assets/seating_couch7.png",
-"Assets/seating_couch8.png",
-"Assets/seating_couch9.png",
-"Assets/seating_couch10.png",
-"Assets/seating_couch11.png",
-"Assets/seating_couch12.png",
-
-"Assets/seating_bench1.png",
-"Assets/seating_bench2.png",
-"Assets/seating_bench3.png",
-"Assets/seating_bench4.png",
-"Assets/seating_bench5.png",
-"Assets/seating_bench6.png",
-"Assets/seating_bench7.png",
-"Assets/seating_bench8.png",
-"Assets/seating_bench9.png",
-"Assets/seating_bench10.png",
-"Assets/seating_bench11.png",
-"Assets/seating_bench12.png",
-
-"Assets/seating_armchair1.png",
-"Assets/seating_armchair2.png",
-"Assets/seating_armchair3.png",
-"Assets/seating_armchair4.png",
-"Assets/seating_armchair5.png",
-"Assets/seating_armchair6.png",
-"Assets/seating_armchair7.png",
-"Assets/seating_armchair8.png",
-"Assets/seating_armchair9.png",
-"Assets/seating_armchair10.png",
-"Assets/seating_armchair11.png",
-"Assets/seating_armchair12.png",
-
-"Assets/seating_ottoman1.png",
-"Assets/seating_ottoman2.png",
-"Assets/seating_ottoman3.png",
-"Assets/seating_ottoman4.png",
-"Assets/seating_ottoman5.png",
-"Assets/seating_ottoman6.png",
-"Assets/seating_ottoman7.png",
-"Assets/seating_ottoman8.png",
-"Assets/seating_ottoman9.png",
-"Assets/seating_ottoman10.png",
-"Assets/seating_ottoman11.png",
-"Assets/seating_ottoman12.png",
-
-"Assets/seating_diningchair1.png",
-"Assets/seating_diningchair2.png",
-"Assets/seating_diningchair3.png",
-"Assets/seating_diningchair4.png",
-"Assets/seating_diningchair5.png",
-"Assets/seating_diningchair6.png",
-"Assets/seating_diningchair7.png",
-"Assets/seating_diningchair8.png",
-"Assets/seating_diningchair9.png",
-"Assets/seating_diningchair10.png",
-"Assets/seating_diningchair11.png",
-"Assets/seating_diningchair12.png"
-
+"Assets/seating_couch1.png","Assets/seating_couch2.png","Assets/seating_couch3.png","Assets/seating_couch4.png","Assets/seating_couch5.png","Assets/seating_couch6.png","Assets/seating_couch7.png","Assets/seating_couch8.png","Assets/seating_couch9.png","Assets/seating_couch10.png","Assets/seating_couch11.png","Assets/seating_couch12.png",
+"Assets/seating_bench1.png","Assets/seating_bench2.png","Assets/seating_bench3.png","Assets/seating_bench4.png","Assets/seating_bench5.png","Assets/seating_bench6.png","Assets/seating_bench7.png","Assets/seating_bench8.png","Assets/seating_bench9.png","Assets/seating_bench10.png","Assets/seating_bench11.png","Assets/seating_bench12.png",
+"Assets/seating_armchair1.png","Assets/seating_armchair2.png","Assets/seating_armchair3.png","Assets/seating_armchair4.png","Assets/seating_armchair5.png","Assets/seating_armchair6.png","Assets/seating_armchair7.png","Assets/seating_armchair8.png","Assets/seating_armchair9.png","Assets/seating_armchair10.png","Assets/seating_armchair11.png","Assets/seating_armchair12.png",
+"Assets/seating_ottoman1.png","Assets/seating_ottoman2.png","Assets/seating_ottoman3.png","Assets/seating_ottoman4.png","Assets/seating_ottoman5.png","Assets/seating_ottoman6.png","Assets/seating_ottoman7.png","Assets/seating_ottoman8.png","Assets/seating_ottoman9.png","Assets/seating_ottoman10.png","Assets/seating_ottoman11.png","Assets/seating_ottoman12.png",
+"Assets/seating_diningchair1.png","Assets/seating_diningchair2.png","Assets/seating_diningchair3.png","Assets/seating_diningchair4.png","Assets/seating_diningchair5.png","Assets/seating_diningchair6.png","Assets/seating_diningchair7.png","Assets/seating_diningchair8.png","Assets/seating_diningchair9.png","Assets/seating_diningchair10.png","Assets/seating_diningchair11.png","Assets/seating_diningchair12.png"
 ],
 
 tables:[],
@@ -516,28 +404,30 @@ right.appendChild(img);
 
 }
 
-document.getElementById("tabSeating").onclick=function(){
-currentCategory="seating";
-pageIndex=0;
+/* PAGE TURNING */
+
+const leftPage=document.querySelector(".left-page");
+const rightPage=document.querySelector(".right-page");
+
+rightPage.onclick=function(){
+
+const items=furniture[currentCategory];
+const maxPage=Math.ceil(items.length/12)-1;
+
+if(pageIndex<maxPage){
+pageIndex++;
 loadCatalog();
+}
+
 };
 
-document.getElementById("tabTables").onclick=function(){
-currentCategory="tables";
-pageIndex=0;
-loadCatalog();
-};
+leftPage.onclick=function(){
 
-document.getElementById("tabStorage").onclick=function(){
-currentCategory="storage";
-pageIndex=0;
+if(pageIndex>0){
+pageIndex--;
 loadCatalog();
-};
+}
 
-document.getElementById("tabBeds").onclick=function(){
-currentCategory="beds";
-pageIndex=0;
-loadCatalog();
 };
 
 });
@@ -545,4 +435,3 @@ loadCatalog();
 
 </body>
 </html>
-
