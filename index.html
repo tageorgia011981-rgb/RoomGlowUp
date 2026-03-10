@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -13,7 +13,7 @@
 html,body{
 margin:0;
 padding:0;
-min-height:100vh;
+min-height:200vh;
 font-family:'Limelight',cursive;
 overflow-x:hidden;
 
@@ -27,10 +27,354 @@ background-attachment:fixed;
 scroll-behavior:smooth;
 }
 
-/* HEADER */
-
 header{
 text-align:center;
 padding:70px 0 30px;
 }
 
+h1{
+font-size:115px;
+margin:0;
+background:linear-gradient(to bottom,#ffffff 0%,#a6a6a6 45%,#4d4d4d 50%,#ffffff 55%,#808080 100%);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+letter-spacing:7px;
+}
+
+h2{
+font-size:24px;
+letter-spacing:9px;
+margin-top:15px;
+color:#ddd;
+}
+
+.nav-container{
+display:flex;
+justify-content:center;
+gap:50px;
+margin-top:35px;
+}
+
+.top-tab{
+position:relative;
+width:220px;
+cursor:pointer;
+transition:.25s;
+}
+
+.top-tab:hover{
+transform:translateY(-6px);
+}
+
+.top-tab img{
+width:100%;
+}
+
+.top-tab-text{
+position:absolute;
+top:39%;
+left:50%;
+transform:translate(-50%,-50%);
+font-family:'Jacques Francois Shadow', serif;
+font-size:20px;
+color:white;
+text-align:center;
+pointer-events:none;
+}
+
+.workspace-wrapper{
+width:1350px;
+margin:60vh auto 200px;
+display:flex;
+justify-content:center;
+align-items:flex-start;
+gap:25px;
+position:relative;
+}
+
+#rooms-cabinet{
+width:600px;
+height:600px;
+position:relative;
+transform:translateX(-390px);
+transition:transform 1.2s ease;
+}
+
+#rooms-cabinet.show{
+transform:translateX(0);
+}
+
+.cabinet-img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.drawer-zone{
+position:absolute;
+left:0;
+width:100%;
+height:20%;
+cursor:pointer;
+}
+
+.zone-living{top:0%;}
+.zone-dining{top:20%;}
+.zone-bedroom{top:40%;}
+.zone-spare{top:60%;}
+.zone-upload{top:80%;}
+
+.workspace-container{
+position:relative;
+width:1000px;
+height:650px;
+}
+
+#work-area{
+width:100%;
+height:100%;
+background:url('Assets/workstation.jpg') center/cover no-repeat;
+box-shadow:0 0 60px rgba(0,0,0,.9);
+cursor:pointer;
+}
+
+#catalogOverlay{
+position:absolute;
+top:-542px;
+left:232px;
+width:954px;
+opacity:0;
+pointer-events:none;
+transform:translateY(-40px);
+transition:opacity 1.2s ease, transform 1.2s ease;
+z-index:5;
+}
+
+#catalogOverlay.show{
+opacity:1;
+pointer-events:auto;
+transform:translateY(0);
+}
+
+#catalogBook{
+width:100%;
+}
+
+.page{
+position:absolute;
+top:1%;
+width:39%;
+height:55%;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+grid-template-rows:repeat(3,1fr);
+gap:18px;
+align-items:center;
+justify-items:center;
+padding:10px;
+box-sizing:border-box;
+}
+
+.left-page{left:11%;}
+.right-page{right:11%;}
+
+.catalog-item{
+max-width:84%;
+max-height:84%;
+object-fit:contain;
+cursor:pointer;
+transition:.2s;
+}
+
+.catalog-item:hover{
+transform:scale(1.05);
+}
+
+.catalog-tab{
+position:absolute;
+right:-60px;
+width:90px;
+height:24px;
+background:black;
+color:#d4af37;
+font-size:11px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:6px 0 0 6px;
+cursor:pointer;
+letter-spacing:1px;
+}
+
+.tab-seating{top:160px;}
+.tab-tables{top:190px;left:5px;}
+.tab-storage{top:220px;left:10px;}
+.tab-beds{top:250px;left:15px;}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+<h1>Room Glow Up</h1>
+<h2>WHERE YOUR DREAM SPACE COMES TO LIFE</h2>
+</header>
+
+<div class="nav-container">
+
+<div class="top-tab" id="roomsTab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">ROOMS</div>
+</div>
+
+<div class="top-tab" id="catalogTab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">FURNITURE<br>CATALOG</div>
+</div>
+
+</div>
+
+<div class="workspace-wrapper" id="workspaceSection">
+
+<div id="catalogOverlay">
+
+<img src="Assets/furniturecatalog.png" id="catalogBook">
+
+<div class="page left-page"></div>
+<div class="page right-page"></div>
+
+</div>
+
+<div id="rooms-cabinet">
+
+<img src="Assets/rooms_cabinet.png" class="cabinet-img">
+
+<div class="drawer-zone zone-living" data-room="living"></div>
+<div class="drawer-zone zone-dining" data-room="dining"></div>
+<div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
+<div class="drawer-zone zone-spare" data-room="spare"></div>
+<div class="drawer-zone zone-upload" id="uploadDrawer"></div>
+
+</div>
+
+<div class="workspace-container">
+<div id="work-area"></div>
+</div>
+
+</div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded",function(){
+
+const cabinet=document.getElementById("rooms-cabinet");
+const workArea=document.getElementById("work-area");
+const catalog=document.getElementById("catalogOverlay");
+
+document.getElementById("roomsTab").onclick=function(){
+
+const section=document.getElementById("workspaceSection");
+
+cabinet.classList.add("show");
+
+window.scrollTo({
+top:section.offsetTop,
+behavior:"smooth"
+});
+
+};
+
+document.getElementById("catalogTab").onclick=function(){
+catalog.classList.add("show");
+loadCatalog();
+};
+
+const furniture={
+seating:[
+"Assets/seating_couch1.png",
+"Assets/seating_couch2.png",
+"Assets/seating_couch3.png",
+"Assets/seating_couch4.png"
+]
+};
+
+let currentCategory="seating";
+let pageIndex=0;
+
+function loadCatalog(){
+
+const left=document.querySelector(".left-page");
+const right=document.querySelector(".right-page");
+
+left.innerHTML="";
+right.innerHTML="";
+
+const items=furniture[currentCategory];
+
+items.slice(0,6).forEach(src=>{
+
+const img=document.createElement("img");
+img.src=src;
+img.className="catalog-item";
+
+img.ondblclick=function(){
+
+const item=document.createElement("img");
+item.src=this.src;
+item.style.position="absolute";
+item.style.width="180px";
+item.style.left="420px";
+item.style.top="260px";
+item.style.cursor="move";
+
+makeDraggable(item);
+
+workArea.appendChild(item);
+
+};
+
+left.appendChild(img);
+
+});
+
+}
+
+function makeDraggable(el){
+
+let offsetX,offsetY;
+let dragging=false;
+
+el.addEventListener("mousedown",function(e){
+
+dragging=true;
+offsetX=e.offsetX;
+offsetY=e.offsetY;
+
+});
+
+document.addEventListener("mousemove",function(e){
+
+if(!dragging) return;
+
+const rect=workArea.getBoundingClientRect();
+
+el.style.left=(e.clientX-rect.left-offsetX)+"px";
+el.style.top=(e.clientY-rect.top-offsetY)+"px";
+
+});
+
+document.addEventListener("mouseup",function(){
+
+dragging=false;
+
+});
+
+}
+
+});
+</script>
+
+</body>
+</html>
