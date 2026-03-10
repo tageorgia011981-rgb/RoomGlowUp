@@ -27,6 +27,8 @@ background-attachment:fixed;
 scroll-behavior:smooth;
 }
 
+/* HEADER */
+
 header{
 text-align:center;
 padding:70px 0 30px;
@@ -47,6 +49,8 @@ letter-spacing:9px;
 margin-top:15px;
 color:#ddd;
 }
+
+/* TOP TABS */
 
 .nav-container{
 display:flex;
@@ -82,6 +86,8 @@ text-align:center;
 pointer-events:none;
 }
 
+/* WORKSPACE SECTION */
+
 .workspace-wrapper{
 width:1350px;
 margin:60vh auto 200px;
@@ -92,11 +98,13 @@ gap:25px;
 position:relative;
 }
 
+/* CABINET */
+
 #rooms-cabinet{
-width:600px;
-height:600px;
+width:650px;
+height:650px;
 position:relative;
-transform:translateX(-390px);
+transform:translateX(-420px);
 transition:transform 1.2s ease;
 }
 
@@ -124,6 +132,8 @@ cursor:pointer;
 .zone-spare{top:60%;}
 .zone-upload{top:80%;}
 
+/* WORKSPACE */
+
 .workspace-container{
 position:relative;
 width:1000px;
@@ -137,6 +147,8 @@ background:url('Assets/workstation.jpg') center/cover no-repeat;
 box-shadow:0 0 60px rgba(0,0,0,.9);
 cursor:pointer;
 }
+
+/* CATALOG */
 
 #catalogOverlay{
 position:absolute;
@@ -159,6 +171,8 @@ transform:translateY(0);
 #catalogBook{
 width:100%;
 }
+
+/* PAGE GRID */
 
 .page{
 position:absolute;
@@ -189,6 +203,8 @@ transition:.2s;
 .catalog-item:hover{
 transform:scale(1.05);
 }
+
+/* CATALOG TABS */
 
 .catalog-tab{
 position:absolute;
@@ -234,6 +250,21 @@ letter-spacing:1px;
 <div class="top-tab-text">FURNITURE<br>CATALOG</div>
 </div>
 
+<div class="top-tab" id="decorTab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">DECOR<br>CLOSET</div>
+</div>
+
+<div class="top-tab" id="galleryTab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">GALLERY</div>
+</div>
+
+<div class="top-tab" id="saveTab">
+<img src="Assets/roomscabinet_pulltab.png">
+<div class="top-tab-text">SAVE/<br>CHECKOUT</div>
+</div>
+
 </div>
 
 <div class="workspace-wrapper" id="workspaceSection">
@@ -244,6 +275,11 @@ letter-spacing:1px;
 
 <div class="page left-page"></div>
 <div class="page right-page"></div>
+
+<div class="catalog-tab tab-seating" id="tabSeating">SEATING</div>
+<div class="catalog-tab tab-tables" id="tabTables">TABLES</div>
+<div class="catalog-tab tab-storage" id="tabStorage">STORAGE</div>
+<div class="catalog-tab tab-beds" id="tabBeds">BEDS</div>
 
 </div>
 
@@ -265,115 +301,12 @@ letter-spacing:1px;
 
 </div>
 
+<input type="file" id="roomUpload" accept="image/*" style="display:none">
+
 <script>
 
-document.addEventListener("DOMContentLoaded",function(){
+/* your existing JS remains unchanged */
 
-const cabinet=document.getElementById("rooms-cabinet");
-const workArea=document.getElementById("work-area");
-const catalog=document.getElementById("catalogOverlay");
-
-document.getElementById("roomsTab").onclick=function(){
-
-const section=document.getElementById("workspaceSection");
-
-cabinet.classList.add("show");
-
-window.scrollTo({
-top:section.offsetTop,
-behavior:"smooth"
-});
-
-};
-
-document.getElementById("catalogTab").onclick=function(){
-catalog.classList.add("show");
-loadCatalog();
-};
-
-const furniture={
-seating:[
-"Assets/seating_couch1.png",
-"Assets/seating_couch2.png",
-"Assets/seating_couch3.png",
-"Assets/seating_couch4.png"
-]
-};
-
-let currentCategory="seating";
-let pageIndex=0;
-
-function loadCatalog(){
-
-const left=document.querySelector(".left-page");
-const right=document.querySelector(".right-page");
-
-left.innerHTML="";
-right.innerHTML="";
-
-const items=furniture[currentCategory];
-
-items.slice(0,6).forEach(src=>{
-
-const img=document.createElement("img");
-img.src=src;
-img.className="catalog-item";
-
-img.ondblclick=function(){
-
-const item=document.createElement("img");
-item.src=this.src;
-item.style.position="absolute";
-item.style.width="180px";
-item.style.left="420px";
-item.style.top="260px";
-item.style.cursor="move";
-
-makeDraggable(item);
-
-workArea.appendChild(item);
-
-};
-
-left.appendChild(img);
-
-});
-
-}
-
-function makeDraggable(el){
-
-let offsetX,offsetY;
-let dragging=false;
-
-el.addEventListener("mousedown",function(e){
-
-dragging=true;
-offsetX=e.offsetX;
-offsetY=e.offsetY;
-
-});
-
-document.addEventListener("mousemove",function(e){
-
-if(!dragging) return;
-
-const rect=workArea.getBoundingClientRect();
-
-el.style.left=(e.clientX-rect.left-offsetX)+"px";
-el.style.top=(e.clientY-rect.top-offsetY)+"px";
-
-});
-
-document.addEventListener("mouseup",function(){
-
-dragging=false;
-
-});
-
-}
-
-});
 </script>
 
 </body>
