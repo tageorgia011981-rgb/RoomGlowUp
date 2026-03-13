@@ -204,6 +204,19 @@ transition:.2s;
 transform:scale(1.05);
 }
 
+.catalog-empty{
+grid-column:1 / -1;
+align-self:center;
+justify-self:center;
+font-size:16px;
+letter-spacing:1px;
+color:#1f1f1f;
+text-align:center;
+padding:12px;
+background:rgba(255,255,255,.65);
+border-radius:8px;
+}
+
 /* CATALOG TABS */
 
 .catalog-tab{
@@ -226,6 +239,11 @@ letter-spacing:1px;
 .tab-tables{top:190px;left:5px;}
 .tab-storage{top:220px;left:10px;}
 .tab-beds{top:250px;left:15px;}
+
+.catalog-tab.active{
+background:#d4af37;
+color:#000;
+}
 
 </style>
 
@@ -414,6 +432,27 @@ loadCatalog();
 
 const furniture={
 seating:[
+"Assets/seating_armchair1.png",
+"Assets/seating_armchair2.png",
+"Assets/seating_armchair3.png",
+"Assets/seating_armchair4.png",
+"Assets/seating_armchair5.png",
+"Assets/seating_armchair6.png",
+"Assets/seating_armchair7.png",
+"Assets/seating_armchair8.png",
+"Assets/seating_armchair9.png",
+"Assets/seating_armchair10.png",
+"Assets/seating_armchair12.png",
+"Assets/seating_armchair14.png",
+"Assets/seating_barstool1.png",
+"Assets/seating_barstool2.png",
+"Assets/seating_barstool3.png",
+"Assets/seating_barstool4.png",
+"Assets/seating_barstool5.png",
+"Assets/seating_barstool6.png",
+"Assets/seating_barstool7.png",
+"Assets/seating_barstool8.png",
+"Assets/seating_barstool9.png",
 "Assets/seating_couch1.png",
 "Assets/seating_couch2.png",
 "Assets/seating_couch3.png",
@@ -439,7 +478,13 @@ seating:[
 "Assets/seating_bench11.png",
 "Assets/seating_bench12.png"
 ],
-tables:[],
+tables:[
+"Assets/table_coffee2.png",
+"Assets/tables_coffee3.png",
+"Assets/tables_coffee4.png",
+"Assets/table_coffee5.png",
+"Assets/tables_coffee6.png.png"
+],
 storage:[],
 beds:[]
 };
@@ -459,6 +504,14 @@ const items=furniture[currentCategory];
 
 let start=pageIndex*12;
 
+if(!items.length){
+const empty=document.createElement("div");
+empty.className="catalog-empty";
+empty.textContent="More items coming soon.";
+left.appendChild(empty);
+return;
+}
+
 items.slice(start,start+6).forEach(src=>{
 const img=document.createElement("img");
 img.src=src;
@@ -474,6 +527,39 @@ right.appendChild(img);
 });
 
 }
+
+function setCategory(category){
+if(!furniture[category]){
+return;
+}
+
+currentCategory=category;
+pageIndex=0;
+loadCatalog();
+
+document.querySelectorAll(".catalog-tab").forEach(tab=>{
+tab.classList.remove("active");
+});
+
+const activeTab=document.querySelector('[data-category="'+category+'"]');
+if(activeTab){
+activeTab.classList.add("active");
+}
+}
+
+const categoryTabs={
+seating:document.getElementById("tabSeating"),
+tables:document.getElementById("tabTables"),
+storage:document.getElementById("tabStorage"),
+beds:document.getElementById("tabBeds")
+};
+
+Object.entries(categoryTabs).forEach(([category,tab])=>{
+tab.dataset.category=category;
+tab.onclick=function(){
+setCategory(category);
+};
+});
 
 const leftPage=document.querySelector(".left-page");
 const rightPage=document.querySelector(".right-page");
@@ -498,6 +584,8 @@ loadCatalog();
 }
 
 };
+
+setCategory(currentCategory);
 
 });
 </script>
