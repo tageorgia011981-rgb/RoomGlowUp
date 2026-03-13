@@ -656,6 +656,7 @@ let currentCategory="seating";
 let pageIndex=0;
 const FLIP_DURATION=520;
 let isPageTurning=false;
+const ITEMS_PER_PAGE_SIDE=6;
 
 function getItemTypeLabel(src){
 const fileName=src.split("/").pop().toLowerCase();
@@ -683,12 +684,14 @@ return currentCategory.toUpperCase();
 }
 
 function getPageTitle(items){
-if(!items.length){
+const filledItems=items.filter(Boolean);
+
+if(!filledItems.length){
 return "";
 }
 
 const labels=[];
-items.forEach(item=>{
+filledItems.forEach(item=>{
 const label=getItemTypeLabel(item);
 if(!labels.includes(label)){
 labels.push(label);
@@ -706,6 +709,29 @@ return labels[0]+" / "+labels[1];
 return labels[0]+" +MORE";
 }
 
+function getCatalogDisplayItems(category){
+const sourceItems=furniture[category] || [];
+const displayItems=[];
+let currentPanelType="";
+
+sourceItems.forEach(item=>{
+const itemType=getItemTypeLabel(item);
+
+if(displayItems.length % ITEMS_PER_PAGE_SIDE===0){
+currentPanelType=itemType;
+}else if(itemType!==currentPanelType){
+while(displayItems.length % ITEMS_PER_PAGE_SIDE!==0){
+displayItems.push(null);
+}
+currentPanelType=itemType;
+}
+
+displayItems.push(item);
+});
+
+return displayItems;
+}
+
 function loadCatalog(){
 
 const left=document.querySelector(".left-page");
@@ -714,7 +740,7 @@ const right=document.querySelector(".right-page");
 left.innerHTML="";
 right.innerHTML="";
 
-const items=furniture[currentCategory];
+const items=getCatalogDisplayItems(currentCategory);
 
 const start=pageIndex*12;
 const leftItems=items.slice(start,start+6);
@@ -798,8 +824,8 @@ if(isPageTurning){
 return;
 }
 
-const items=furniture[currentCategory];
-const maxPage=Math.max(Math.ceil(items.length/12)-1,0);
+const displayItems=getCatalogDisplayItems(currentCategory);
+const maxPage=Math.max(Math.ceil(displayItems.length/12)-1,0);
 
 if(direction==="next" && pageIndex>=maxPage){
 return;
