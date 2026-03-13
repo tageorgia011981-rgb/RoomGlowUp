@@ -657,6 +657,55 @@ let pageIndex=0;
 const FLIP_DURATION=520;
 let isPageTurning=false;
 
+function getItemTypeLabel(src){
+const fileName=src.split("/").pop().toLowerCase();
+
+if(fileName.includes("seating_couch")) return "COUCHES";
+if(fileName.includes("seating_armchair")) return "ARMCHAIRS";
+if(fileName.includes("seating_barstool")) return "BARSTOOLS";
+if(fileName.includes("seating_bench")) return "BENCHES";
+if(fileName.includes("seating_ottoman")) return "OTTOMANS";
+if(fileName.includes("seating_dining")) return "DINING CHAIRS";
+
+if(fileName.includes("table_coffee") || fileName.includes("tables_coffee")) return "COFFEE TABLES";
+if(fileName.includes("table_end") || fileName.includes("tables_end")) return "END TABLES";
+if(fileName.includes("tables_dining")) return "DINING TABLES";
+if(fileName.includes("tables_sofa")) return "SOFA TABLES";
+if(fileName.includes("tables_shelf")) return "SHELF TABLES";
+
+if(fileName.includes("storage_cabinet")) return "CABINETS";
+if(fileName.includes("storage_dresser")) return "DRESSERS";
+if(fileName.includes("storage_shelf")) return "SHELVES";
+if(fileName.includes("storage_sideboard")) return "SIDEBOARDS";
+if(fileName.includes("storage_vanity")) return "VANITIES";
+
+return currentCategory.toUpperCase();
+}
+
+function getPageTitle(items){
+if(!items.length){
+return "";
+}
+
+const labels=[];
+items.forEach(item=>{
+const label=getItemTypeLabel(item);
+if(!labels.includes(label)){
+labels.push(label);
+}
+});
+
+if(labels.length===1){
+return labels[0];
+}
+
+if(labels.length===2){
+return labels[0]+" / "+labels[1];
+}
+
+return labels[0]+" +MORE";
+}
+
 function loadCatalog(){
 
 const left=document.querySelector(".left-page");
@@ -667,12 +716,12 @@ right.innerHTML="";
 
 const items=furniture[currentCategory];
 
-let start=pageIndex*12;
+const start=pageIndex*12;
 const leftItems=items.slice(start,start+6);
 const rightItems=items.slice(start+6,start+12);
 
-leftPageTitle.textContent=currentCategory.toUpperCase();
-rightPageTitle.textContent=currentCategory.toUpperCase();
+leftPageTitle.textContent=getPageTitle(leftItems);
+rightPageTitle.textContent=getPageTitle(rightItems);
 
 for(let i=0;i<6;i++){
 const slot=document.createElement("div");
