@@ -154,7 +154,7 @@ cursor:pointer;
 position:absolute;
 top:-542px;
 left:232px;
-width:954px;
+width:1000px;
 opacity:0;
 pointer-events:none;
 transform:translateY(-40px);
@@ -180,21 +180,22 @@ perspective:1800px;
 
 .page{
 position:absolute;
-top:1%;
-width:39%;
-height:55%;
+top:2.5%;
+width:37%;
+height:50%;
 display:grid;
 grid-template-columns:repeat(2,1fr);
 grid-template-rows:repeat(3,1fr);
-gap:18px;
+gap:12px;
 align-items:center;
 justify-items:center;
-padding:10px;
+padding:14px 12px;
 box-sizing:border-box;
 transition:transform .52s ease, opacity .52s ease;
 transform-style:preserve-3d;
 backface-visibility:hidden;
 cursor:pointer;
+overflow:hidden;
 }
 
 .left-page{left:11%;}
@@ -227,15 +228,25 @@ animation:flipPrev .52s ease;
 }
 
 .catalog-item{
-max-width:84%;
-max-height:84%;
+max-width:72%;
+max-height:72%;
 object-fit:contain;
 cursor:pointer;
 transition:.2s;
+display:block;
 }
 
 .catalog-item:hover{
 transform:scale(1.05);
+}
+
+.catalog-slot{
+width:100%;
+height:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
 }
 
 .catalog-empty{
@@ -629,28 +640,36 @@ right.innerHTML="";
 const items=furniture[currentCategory];
 
 let start=pageIndex*12;
+const leftItems=items.slice(start,start+6);
+const rightItems=items.slice(start+6,start+12);
 
-if(!items.length){
-const empty=document.createElement("div");
-empty.className="catalog-empty";
-empty.textContent="More items coming soon.";
-left.appendChild(empty);
-return;
+for(let i=0;i<6;i++){
+const slot=document.createElement("div");
+slot.className="catalog-slot";
+
+if(leftItems[i]){
+const img=document.createElement("img");
+img.src=leftItems[i];
+img.className="catalog-item";
+slot.appendChild(img);
 }
 
-items.slice(start,start+6).forEach(src=>{
-const img=document.createElement("img");
-img.src=src;
-img.className="catalog-item";
-left.appendChild(img);
-});
+left.appendChild(slot);
+}
 
-items.slice(start+6,start+12).forEach(src=>{
+for(let i=0;i<6;i++){
+const slot=document.createElement("div");
+slot.className="catalog-slot";
+
+if(rightItems[i]){
 const img=document.createElement("img");
-img.src=src;
+img.src=rightItems[i];
 img.className="catalog-item";
-right.appendChild(img);
-});
+slot.appendChild(img);
+}
+
+right.appendChild(slot);
+}
 
 }
 
