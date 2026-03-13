@@ -172,6 +172,10 @@ transform:translateY(0);
 width:100%;
 }
 
+#catalogOverlay{
+perspective:1800px;
+}
+
 /* PAGE GRID */
 
 .page{
@@ -187,10 +191,40 @@ align-items:center;
 justify-items:center;
 padding:10px;
 box-sizing:border-box;
+transition:transform .52s ease, opacity .52s ease;
+transform-style:preserve-3d;
+backface-visibility:hidden;
+cursor:pointer;
 }
 
 .left-page{left:11%;}
 .right-page{right:11%;}
+.left-page{transform-origin:right center;}
+.right-page{transform-origin:left center;}
+
+#catalogOverlay.is-flipping .page{
+pointer-events:none;
+}
+
+.right-page.flip-next{
+animation:flipNext .52s ease;
+}
+
+.left-page.flip-prev{
+animation:flipPrev .52s ease;
+}
+
+@keyframes flipNext{
+0%{transform:rotateY(0deg);}
+50%{transform:rotateY(-24deg);}
+100%{transform:rotateY(0deg);}
+}
+
+@keyframes flipPrev{
+0%{transform:rotateY(0deg);}
+50%{transform:rotateY(24deg);}
+100%{transform:rotateY(0deg);}
+}
 
 .catalog-item{
 max-width:84%;
@@ -233,6 +267,7 @@ justify-content:center;
 border-radius:6px 0 0 6px;
 cursor:pointer;
 letter-spacing:1px;
+transition:background .2s ease, color .2s ease, transform .35s ease;
 }
 
 .tab-seating{top:160px;}
@@ -243,6 +278,14 @@ letter-spacing:1px;
 .catalog-tab.active{
 background:#d4af37;
 color:#000;
+}
+
+#catalogOverlay.flipping-next .catalog-tab{
+transform:translateX(-14px) skewY(-2deg);
+}
+
+#catalogOverlay.flipping-prev .catalog-tab{
+transform:translateX(8px) skewY(2deg);
 }
 
 </style>
@@ -559,6 +602,8 @@ beds:[]
 
 let currentCategory="seating";
 let pageIndex=0;
+const FLIP_DURATION=520;
+let isPageTurning=false;
 
 function loadCatalog(){
 
@@ -632,24 +677,52 @@ setCategory(category);
 const leftPage=document.querySelector(".left-page");
 const rightPage=document.querySelector(".right-page");
 
-rightPage.onclick=function(){
+function animatePageTurn(direction){
+if(isPageTurning){
+return;
+}
 
 const items=furniture[currentCategory];
-const maxPage=Math.ceil(items.length/12)-1;
+const maxPage=Math.max(Math.ceil(items.length/12)-1,0);
 
-if(pageIndex<maxPage){
-pageIndex++;
-loadCatalog();
+if(direction==="next" && pageIndex>=maxPage){
+return;
 }
+
+if(direction==="prev" && pageIndex<=0){
+return;
+}
+
+isPageTurning=true;
+
+const overlayClass=direction==="next" ? "flipping-next" : "flipping-prev";
+const pageClass=direction==="next" ? "flip-next" : "flip-prev";
+const targetPage=direction==="next" ? rightPage : leftPage;
+
+catalog.classList.add("is-flipping");
+catalog.classList.add(overlayClass);
+targetPage.classList.add(pageClass);
+
+window.setTimeout(function(){
+pageIndex=direction==="next" ? pageIndex+1 : pageIndex-1;
+loadCatalog();
+},FLIP_DURATION/2);
+
+window.setTimeout(function(){
+targetPage.classList.remove(pageClass);
+catalog.classList.remove("is-flipping");
+catalog.classList.remove(overlayClass);
+isPageTurning=false;
+},FLIP_DURATION);
+}
+
+rightPage.onclick=function(){
+animatePageTurn("next");
 
 };
 
 leftPage.onclick=function(){
-
-if(pageIndex>0){
-pageIndex--;
-loadCatalog();
-}
+animatePageTurn("prev");
 
 };
 
