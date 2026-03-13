@@ -650,40 +650,6 @@ let pageIndex=0;
 const FLIP_DURATION=520;
 let isPageTurning=false;
 
-function getItemTypeLabel(src){
-const name=src.split("/").pop().toLowerCase();
-
-if(name.includes("couch")) return "COUCHES";
-if(name.includes("armchair")) return "ARMCHAIRS";
-if(name.includes("barstool")) return "BARSTOOLS";
-if(name.includes("bench")) return "BENCHES";
-if(name.includes("ottoman")) return "OTTOMANS";
-if(name.includes("seating_dining")) return "DINING CHAIRS";
-
-if(name.includes("table_coffee") || name.includes("tables_coffee")) return "COFFEE TABLES";
-if(name.includes("table_end") || name.includes("tables_end")) return "END TABLES";
-if(name.includes("tables_dining")) return "DINING TABLES";
-if(name.includes("tables_sofa")) return "SOFA TABLES";
-if(name.includes("tables_shelf")) return "SHELVES";
-
-if(name.includes("storage_cabinet")) return "CABINETS";
-if(name.includes("storage_dresser")) return "DRESSERS";
-if(name.includes("storage_shelf")) return "SHELVES";
-if(name.includes("storage_sideboard")) return "SIDEBOARDS";
-if(name.includes("storage_vanity")) return "VANITIES";
-
-return currentCategory.toUpperCase();
-}
-
-function getPageTitle(items){
-if(!items.length){
-return currentCategory.toUpperCase();
-}
-
-const labels=[...new Set(items.map(getItemTypeLabel))];
-return labels.length===1 ? labels[0] : currentCategory.toUpperCase()+" MIX";
-}
-
 function loadCatalog(){
 
 const left=document.querySelector(".left-page");
@@ -698,8 +664,8 @@ let start=pageIndex*12;
 const leftItems=items.slice(start,start+6);
 const rightItems=items.slice(start+6,start+12);
 
-leftPageTitle.textContent=getPageTitle(leftItems);
-rightPageTitle.textContent=getPageTitle(rightItems);
+leftPageTitle.textContent=currentCategory.toUpperCase();
+rightPageTitle.textContent=currentCategory.toUpperCase();
 
 for(let i=0;i<6;i++){
 const slot=document.createElement("div");
