@@ -281,11 +281,26 @@ color:#000;
 }
 
 #catalogOverlay.flipping-next .catalog-tab{
-transform:translateX(-14px) skewY(-2deg);
+transform:translateX(-10px) skewY(-1.5deg);
 }
 
 #catalogOverlay.flipping-prev .catalog-tab{
-transform:translateX(8px) skewY(2deg);
+transform:translateX(6px) skewY(1.5deg);
+}
+
+.page::after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(to left, rgba(0,0,0,.15), rgba(0,0,0,0));
+opacity:0;
+pointer-events:none;
+transition:opacity .22s ease;
+}
+
+.right-page.flip-next::after,
+.left-page.flip-prev::after{
+opacity:1;
 }
 
 </style>
@@ -646,6 +661,10 @@ if(!furniture[category]){
 return;
 }
 
+if(isPageTurning){
+return;
+}
+
 currentCategory=category;
 pageIndex=0;
 loadCatalog();
@@ -716,12 +735,18 @@ isPageTurning=false;
 },FLIP_DURATION);
 }
 
-rightPage.onclick=function(){
+rightPage.onclick=function(event){
+if(event.target && event.target.classList && event.target.classList.contains("catalog-item")){
+return;
+}
 animatePageTurn("next");
 
 };
 
-leftPage.onclick=function(){
+leftPage.onclick=function(event){
+if(event.target && event.target.classList && event.target.classList.contains("catalog-item")){
+return;
+}
 animatePageTurn("prev");
 
 };
