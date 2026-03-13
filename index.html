@@ -57,6 +57,7 @@ display:flex;
 justify-content:center;
 gap:50px;
 margin-top:35px;
+position:relative;
 }
 
 .top-tab{
@@ -84,6 +85,31 @@ font-size:20px;
 color:white;
 text-align:center;
 pointer-events:none;
+}
+
+#receiptRoll{
+position:absolute;
+top:100%;
+right:-10px;
+width:270px;
+transform-origin:top center;
+transform:translateY(-18px) scaleY(0);
+opacity:0;
+pointer-events:none;
+transition:transform .65s cubic-bezier(.22,.61,.36,1), opacity .3s ease;
+z-index:15;
+filter:drop-shadow(0 10px 18px rgba(0,0,0,.5));
+}
+
+#receiptRoll.show{
+transform:translateY(8px) scaleY(1);
+opacity:1;
+pointer-events:auto;
+}
+
+#receiptRoll img{
+width:100%;
+display:block;
 }
 
 /* WORKSPACE SECTION */
@@ -375,6 +401,10 @@ opacity:1;
 <div class="top-tab-text">SAVE/<br>CHECKOUT</div>
 </div>
 
+<div id="receiptRoll" aria-hidden="true">
+<img src="Assets/scrollreceipt.png" alt="Checkout receipt">
+</div>
+
 </div>
 
 <div class="workspace-wrapper" id="workspaceSection">
@@ -426,12 +456,15 @@ const catalog=document.getElementById("catalogOverlay");
 const roomUpload=document.getElementById("roomUpload");
 const leftPageTitle=document.getElementById("leftPageTitle");
 const rightPageTitle=document.getElementById("rightPageTitle");
+const saveTab=document.getElementById("saveTab");
+const receiptRoll=document.getElementById("receiptRoll");
 
 /* TOP TAB CONTROLS */
 
 document.getElementById("roomsTab").onclick=function(){
 
 const section=document.getElementById("workspaceSection");
+receiptRoll.classList.remove("show");
 
 cabinet.classList.add("show");
 
@@ -443,9 +476,21 @@ behavior:"smooth"
 };
 
 document.getElementById("catalogTab").onclick=function(){
+receiptRoll.classList.remove("show");
 catalog.classList.add("show");
 loadCatalog();
 };
+
+saveTab.onclick=function(event){
+event.stopPropagation();
+receiptRoll.classList.toggle("show");
+};
+
+document.addEventListener("click",function(event){
+if(!receiptRoll.contains(event.target) && !saveTab.contains(event.target)){
+receiptRoll.classList.remove("show");
+}
+});
 
 /* ROOM IMAGES */
 
