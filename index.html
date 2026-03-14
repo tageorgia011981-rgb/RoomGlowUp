@@ -720,15 +720,20 @@ body {
 }
 
 #roomItemControls {
-  position: absolute;
-  right: 14px;
-  top: 14px;
-  z-index: 80;
+  position: fixed;
+  right: 20px;
+  top: 112px;
+  z-index: 95;
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
   justify-content: flex-end;
-  max-width: 60%;
+  max-width: min(62vw, 560px);
+  padding: 8px;
+  border-radius: 12px;
+  background: rgba(10, 10, 10, 0.5);
+  border: 1px solid rgba(255, 223, 132, 0.2);
+  backdrop-filter: blur(2px);
   opacity: 0;
   pointer-events: none;
   transform: translateY(-6px);
@@ -749,6 +754,17 @@ body {
   letter-spacing: 0.8px;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
   margin-bottom: 2px;
+}
+
+.item-controls-hint {
+  width: 100%;
+  text-align: right;
+  color: rgba(245, 229, 171, 0.9);
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
+  margin-top: -1px;
+  margin-bottom: 4px;
 }
 
 .item-control-btn {
@@ -979,6 +995,12 @@ body {
   .drawer-zone {
     font-size: 14px;
   }
+
+  #roomItemControls {
+    right: 10px;
+    top: 92px;
+    max-width: calc(100vw - 20px);
+  }
 }
 </style>
 </head>
@@ -1046,6 +1068,7 @@ body {
         <div id="work-area" title="Click once room is selected to open catalog">
           <div id="roomItemControls" aria-label="Placed item controls">
             <div class="item-controls-title">SELECT ITEM TO EDIT</div>
+            <div class="item-controls-hint">WHEEL: ROTATE | SHIFT+WHEEL: SIZE | ALT+WHEEL: PUSH</div>
             <button class="item-control-btn" type="button" data-edit="enlarge">ENLARGE</button>
             <button class="item-control-btn" type="button" data-edit="shrink">SHRINK</button>
             <button class="item-control-btn" type="button" data-edit="push-left">PUSH LEFT</button>
@@ -1603,7 +1626,7 @@ body {
         piece.style.top = Math.max(20, Math.floor(Math.random() * (workArea.clientHeight - 210))) + "px";
         piece.style.width = item.src.endsWith(".jpg") ? "180px" : "140px";
         piece.style.zIndex = String(100 + placedItems.children.length);
-        piece.title = "Double-click to send back";
+        piece.title = "Double-click send back | Wheel rotate | Shift+Wheel size | Alt+Wheel push";
         piece.addEventListener("dblclick", (event) => {
           event.preventDefault();
           event.stopPropagation();
@@ -1615,6 +1638,27 @@ body {
           piece.remove();
           selectLatestPlacedItemOrClear();
         });
+        piece.addEventListener("wheel", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          if (selectedPlacedItem !== piece) {
+            selectPlacedItem(piece);
+          }
+          const direction = event.deltaY < 0 ? 1 : -1;
+          if (event.shiftKey) {
+            updateSelectedPlacedItem((state) => {
+              state.scale += direction * 0.06;
+            });
+          } else if (event.altKey || event.metaKey) {
+            updateSelectedPlacedItem((state) => {
+              state.tilt += direction * 3;
+            });
+          } else {
+            updateSelectedPlacedItem((state) => {
+              state.rotation += direction * 4;
+            });
+          }
+        }, { passive: false });
         applyPlacedItemTransform(piece);
         placedItems.appendChild(piece);
         makeDraggable(piece, workArea);
