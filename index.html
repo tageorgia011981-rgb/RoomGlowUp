@@ -378,19 +378,22 @@ body {
   outline: none;
   appearance: none;
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  opacity: 0;
+  transition: none;
 }
 
 .drawer-zone:hover,
 .drawer-zone.active {
-  transform: translateY(-4px);
-  box-shadow: 0 0 12px rgba(138, 230, 255, 0.78);
-  background: rgba(138, 230, 255, 0.1);
+  transform: none;
+  box-shadow: none;
+  background: transparent;
+  opacity: 0;
 }
 
 .drawer-zone:focus-visible {
-  box-shadow: 0 0 0 2px rgba(173, 237, 255, 0.95), 0 0 12px rgba(138, 230, 255, 0.7);
-  background: rgba(138, 230, 255, 0.12);
+  box-shadow: none;
+  background: transparent;
+  opacity: 0;
 }
 
 .drawer-living {
