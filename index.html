@@ -243,12 +243,12 @@ body {
 
 .catalog-grid {
   position: absolute;
-  top: 10%;
+  top: 12%;
   width: 36%;
-  height: 56%;
+  height: 52%;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-auto-rows: 1fr;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
   gap: 10px;
   padding: 10px;
   opacity: 0;
@@ -279,6 +279,14 @@ body {
   transition-delay: 0.06s;
 }
 
+#catalogOverlay.flipping .catalog-left {
+  animation: pageFlipLeft 0.55s ease;
+}
+
+#catalogOverlay.flipping .catalog-right {
+  animation: pageFlipRight 0.55s ease;
+}
+
 .catalog-item {
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 10px;
@@ -304,10 +312,47 @@ body {
   object-fit: contain;
 }
 
-.catalog-item-label {
+.catalog-item.placeholder {
+  border-style: dashed;
+  background: rgba(20, 20, 20, 0.35);
+  box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.09);
+}
+
+.catalog-item-placeholder {
   font-size: 11px;
+  letter-spacing: 1px;
+  color: rgba(255, 245, 214, 0.85);
   text-align: center;
-  letter-spacing: 0.8px;
+  line-height: 1.3;
+}
+
+.catalog-page-title {
+  position: absolute;
+  top: 6%;
+  width: 34%;
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 1.2px;
+  color: #efcc6d;
+  text-shadow:
+    0 0 8px rgba(255, 224, 148, 0.42),
+    0 1px 5px rgba(0, 0, 0, 0.85);
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.catalog-title-left {
+  left: 12%;
+}
+
+.catalog-title-right {
+  right: 12%;
+}
+
+#catalogOverlay.show .catalog-page-title {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .catalog-controls {
@@ -347,6 +392,10 @@ body {
   box-shadow: 0 0 10px rgba(253, 236, 164, 0.7);
 }
 
+.catalog-control.flip {
+  animation: tabFlip 0.45s ease;
+}
+
 .catalog-page-controls {
   position: absolute;
   bottom: 20%;
@@ -372,6 +421,24 @@ body {
   background: rgba(10, 10, 10, 0.8);
   color: #fff;
   font-size: 18px;
+}
+
+@keyframes pageFlipLeft {
+  0% { transform: rotateY(0deg); }
+  45% { transform: rotateY(-68deg); }
+  100% { transform: rotateY(0deg); }
+}
+
+@keyframes pageFlipRight {
+  0% { transform: rotateY(0deg); }
+  45% { transform: rotateY(68deg); }
+  100% { transform: rotateY(0deg); }
+}
+
+@keyframes tabFlip {
+  0% { transform: rotateX(0deg); }
+  50% { transform: rotateX(85deg); }
+  100% { transform: rotateX(0deg); }
 }
 
 .workspace-row {
@@ -846,12 +913,15 @@ body {
   <section class="workspace-section" id="workspaceSection">
     <div id="catalogOverlay">
       <img src="Assets/furniturecatalog.png" id="catalogBook" alt="Furniture catalog">
+      <div class="catalog-page-title catalog-title-left" id="catalogTitleLeft">COUCHES</div>
+      <div class="catalog-page-title catalog-title-right" id="catalogTitleRight">ARMCHAIRS</div>
       <div class="catalog-grid catalog-left" id="catalogLeft"></div>
       <div class="catalog-grid catalog-right" id="catalogRight"></div>
       <div class="catalog-controls">
         <button class="catalog-control active" id="tabSeating" type="button">SEATING</button>
         <button class="catalog-control" id="tabTables" type="button">TABLES</button>
         <button class="catalog-control" id="tabStorage" type="button">STORAGE</button>
+        <button class="catalog-control" id="tabBeds" type="button">BEDS</button>
       </div>
       <div class="catalog-page-controls">
         <button id="pagePrev" type="button" aria-label="Previous page">&#8592;</button>
@@ -976,10 +1046,8 @@ body {
           "Assets/seating_armchair2.png",
           "Assets/seating_armchair3.png",
           "Assets/seating_armchair4.png",
-          "Assets/seating_bench1.png",
-          "Assets/seating_bench2.png",
-          "Assets/seating_barstool1.png",
-          "Assets/seating_barstool2.png"
+          "Assets/seating_armchair5.png",
+          "Assets/seating_armchair6.png"
         ],
         tables: [
           "Assets/table_coffee2.png",
@@ -989,12 +1057,39 @@ body {
           "Assets/tables_coffee6.png.png"
         ],
         storage: [
+          "Assets/seating_bench1.png",
+          "Assets/seating_bench2.png",
+          "Assets/seating_bench3.png",
+          "Assets/seating_bench4.png",
+          "Assets/seating_bench5.png",
+          "Assets/seating_bench6.png",
+          "Assets/seating_bench7.png",
           "Assets/seating_bench8.png",
           "Assets/seating_bench9.png",
           "Assets/seating_bench10.png",
           "Assets/seating_bench11.png",
           "Assets/seating_bench12.png"
-        ]
+        ],
+        beds: []
+      };
+
+      const catalogPageTitles = {
+        seating: {
+          left: "COUCHES",
+          right: "ARMCHAIRS"
+        },
+        tables: {
+          left: "COFFEE TABLES",
+          right: "ACCENT TABLES"
+        },
+        storage: {
+          left: "BENCH STORAGE",
+          right: "ENTRY STORAGE"
+        },
+        beds: {
+          left: "BEDS",
+          right: "BEDDING"
+        }
       };
 
       const decorItems = [
@@ -1053,15 +1148,12 @@ body {
       let gallerySceneIndex = 0;
       let catalogRevealTimer = null;
 
+      const CATALOG_SPREAD_COUNT = 12;
+      const ITEMS_PER_PAGE = 6;
+
       const catalogData = Object.fromEntries(
         Object.entries(catalogSource).map(([key, paths]) => {
-          const mapped = paths.map((src, idx) => ({
-            id: key + "-" + idx,
-            name: formatItemName(src),
-            src,
-            specs: buildSpec(key, idx),
-            price: buildPrice(key, idx)
-          }));
+          const mapped = fillCategoryItems(paths, key, CATALOG_SPREAD_COUNT);
           return [key, mapped];
         })
       );
@@ -1079,6 +1171,9 @@ body {
       }
 
       function buildSpec(group, idx) {
+        if (group === "beds") {
+          return "Category: Beds | Uploads coming soon";
+        }
         if (group === "seating") {
           return "Category: Seating | Comfort Grade " + (idx % 5 + 1);
         }
@@ -1089,8 +1184,38 @@ body {
       }
 
       function buildPrice(group, idx) {
+        if (group === "beds") {
+          return 0;
+        }
         const base = group === "seating" ? 349 : group === "tables" ? 229 : 189;
         return base + idx * 19;
+      }
+
+      function fillCategoryItems(paths, category, count) {
+        if (!paths.length) {
+          return Array.from({ length: count }, (_, idx) => ({
+            id: category + "-placeholder-" + idx,
+            name: "COMING SOON",
+            src: "",
+            specs: "No " + category + " assets uploaded yet.",
+            price: 0,
+            placeholder: true
+          }));
+        }
+
+        const expanded = [];
+        while (expanded.length < count) {
+          expanded.push(paths[expanded.length % paths.length]);
+        }
+
+        return expanded.map((src, idx) => ({
+          id: category + "-" + idx,
+          name: formatItemName(src),
+          src,
+          specs: buildSpec(category, idx),
+          price: buildPrice(category, idx),
+          placeholder: false
+        }));
       }
 
       function setActiveTab(tabEl) {
@@ -1258,9 +1383,25 @@ body {
       }
 
       function bindItemCard(card, item) {
+        if (item.placeholder) {
+          return;
+        }
         card.addEventListener("mouseenter", () => showPreview(item));
         card.addEventListener("mouseleave", hidePreview);
         card.addEventListener("dblclick", () => placeInRoom(item));
+      }
+
+      function runCatalogFlip() {
+        catalog.classList.remove("flipping");
+        void catalog.offsetWidth;
+        catalog.classList.add("flipping");
+        setTimeout(() => catalog.classList.remove("flipping"), 560);
+      }
+
+      function setCatalogTitles() {
+        const titles = catalogPageTitles[currentCategory] || { left: "", right: "" };
+        document.getElementById("catalogTitleLeft").textContent = titles.left;
+        document.getElementById("catalogTitleRight").textContent = titles.right;
       }
 
       function renderCatalog() {
@@ -1268,20 +1409,23 @@ body {
         const right = document.getElementById("catalogRight");
         left.innerHTML = "";
         right.innerHTML = "";
+        setCatalogTitles();
         const items = catalogData[currentCategory] || [];
-        const start = pageIndex * 8;
-        const visible = items.slice(start, start + 8);
+        const start = pageIndex * CATALOG_SPREAD_COUNT;
+        const visible = items.slice(start, start + CATALOG_SPREAD_COUNT);
 
-        visible.slice(0, 4).forEach((item) => left.appendChild(buildCatalogCard(item)));
-        visible.slice(4, 8).forEach((item) => right.appendChild(buildCatalogCard(item)));
+        visible.slice(0, ITEMS_PER_PAGE).forEach((item) => left.appendChild(buildCatalogCard(item)));
+        visible.slice(ITEMS_PER_PAGE, CATALOG_SPREAD_COUNT).forEach((item) => right.appendChild(buildCatalogCard(item)));
       }
 
       function buildCatalogCard(item) {
         const card = document.createElement("div");
-        card.className = "catalog-item";
-        card.innerHTML =
-          "<img src='" + item.src + "' alt='" + item.name + "'>" +
-          "<div class='catalog-item-label'>" + item.name + "</div>";
+        card.className = "catalog-item" + (item.placeholder ? " placeholder" : "");
+        if (item.placeholder) {
+          card.innerHTML = "<div class='catalog-item-placeholder'>BEDS COMING SOON</div>";
+        } else {
+          card.innerHTML = "<img src='" + item.src + "' alt='" + item.name + "'>";
+        }
         bindItemCard(card, item);
         return card;
       }
@@ -1294,16 +1438,27 @@ body {
           document.getElementById("tabSeating").classList.add("active");
         } else if (category === "tables") {
           document.getElementById("tabTables").classList.add("active");
-        } else {
+        } else if (category === "storage") {
           document.getElementById("tabStorage").classList.add("active");
+        } else {
+          document.getElementById("tabBeds").classList.add("active");
         }
+        const activeButton = document.querySelector(".catalog-control.active");
+        if (activeButton) {
+          activeButton.classList.remove("flip");
+          void activeButton.offsetWidth;
+          activeButton.classList.add("flip");
+          setTimeout(() => activeButton.classList.remove("flip"), 500);
+        }
+        runCatalogFlip();
         renderCatalog();
       }
 
       function nextCatalogPage(step) {
         const items = catalogData[currentCategory] || [];
-        const maxPage = Math.max(0, Math.ceil(items.length / 8) - 1);
+        const maxPage = Math.max(0, Math.ceil(items.length / CATALOG_SPREAD_COUNT) - 1);
         pageIndex = Math.max(0, Math.min(maxPage, pageIndex + step));
+        runCatalogFlip();
         renderCatalog();
       }
 
@@ -1402,6 +1557,7 @@ body {
       document.getElementById("tabSeating").addEventListener("click", () => setCategory("seating"));
       document.getElementById("tabTables").addEventListener("click", () => setCategory("tables"));
       document.getElementById("tabStorage").addEventListener("click", () => setCategory("storage"));
+      document.getElementById("tabBeds").addEventListener("click", () => setCategory("beds"));
       document.getElementById("pagePrev").addEventListener("click", () => nextCatalogPage(-1));
       document.getElementById("pageNext").addEventListener("click", () => nextCatalogPage(1));
 
