@@ -663,6 +663,8 @@ body {
   max-width: 26%;
   cursor: grab;
   user-select: none;
+  touch-action: none;
+  -webkit-user-drag: none;
   transition: filter 0.18s ease;
 }
 
@@ -1345,6 +1347,7 @@ body {
         piece.src = item.src;
         piece.alt = item.name;
         piece.className = "placed-item";
+        piece.draggable = false;
         piece.style.left = Math.max(20, Math.floor(Math.random() * (workArea.clientWidth - 190))) + "px";
         piece.style.top = Math.max(20, Math.floor(Math.random() * (workArea.clientHeight - 210))) + "px";
         piece.style.width = item.src.endsWith(".jpg") ? "180px" : "140px";
@@ -1363,7 +1366,14 @@ body {
         let originY = 0;
 
         el.addEventListener("pointerdown", (event) => {
+          if (event.button !== undefined && event.button !== 0) {
+            return;
+          }
+          event.preventDefault();
           dragging = true;
+          const highest = Array.from(container.querySelectorAll(".placed-item"))
+            .reduce((max, node) => Math.max(max, Number(node.style.zIndex || 0)), 100);
+          el.style.zIndex = String(highest + 1);
           el.setPointerCapture(event.pointerId);
           startX = event.clientX;
           startY = event.clientY;
@@ -1388,7 +1398,9 @@ body {
         const stopDragging = (event) => {
           if (dragging) {
             dragging = false;
-            el.releasePointerCapture(event.pointerId);
+            if (el.hasPointerCapture && el.hasPointerCapture(event.pointerId)) {
+              el.releasePointerCapture(event.pointerId);
+            }
           }
         };
 
