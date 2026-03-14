@@ -968,8 +968,9 @@ body {
         closePanels();
         cabinet.classList.add("show");
         setActiveTab(tabs.rooms);
+        const rowTop = workspaceRow.getBoundingClientRect().top + window.scrollY;
         window.scrollTo({
-          top: workspaceRow.offsetTop - 24,
+          top: Math.max(0, rowTop - 24),
           behavior: "smooth"
         });
       }
@@ -995,8 +996,9 @@ body {
         } else {
           revealCatalog();
         }
+        const sectionTop = workspaceSection.getBoundingClientRect().top + window.scrollY;
         window.scrollTo({
-          top: workspaceSection.offsetTop - 150,
+          top: Math.max(0, sectionTop - 150),
           behavior: "smooth"
         });
       }
