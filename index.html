@@ -368,13 +368,13 @@ body {
   width: 86%;
   height: 17%;
   border: 0;
-  background: rgba(0, 0, 0, 0.05);
-  color: #e7e7e7;
+  background: transparent;
+  color: transparent;
   font-family: "Limelight", serif;
   letter-spacing: 1px;
   cursor: pointer;
-  font-size: 17px;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  font-size: 0;
+  text-shadow: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
@@ -721,11 +721,11 @@ body {
       <aside id="rooms-cabinet">
         <img src="Assets/rooms_cabinet.png" class="cabinet-img" alt="Rooms cabinet"
           onerror="this.src='Assets/room_cabinet.png'">
-        <button class="drawer-zone drawer-living" data-room="living" type="button">LIVINGROOM</button>
-        <button class="drawer-zone drawer-bedroom" data-room="bedroom" type="button">BEDROOM</button>
-        <button class="drawer-zone drawer-dining" data-room="dining" type="button">DININGROOM</button>
-        <button class="drawer-zone drawer-spare" data-room="spare" type="button">SPARE ROOMS</button>
-        <button class="drawer-zone drawer-upload" id="uploadDrawer" type="button">UPLOAD YOURS</button>
+        <button class="drawer-zone drawer-living" data-room="living" type="button" aria-label="LIVINGROOM"></button>
+        <button class="drawer-zone drawer-bedroom" data-room="bedroom" type="button" aria-label="BEDROOM"></button>
+        <button class="drawer-zone drawer-dining" data-room="dining" type="button" aria-label="DININGROOM"></button>
+        <button class="drawer-zone drawer-spare" data-room="spare" type="button" aria-label="SPARE ROOMS"></button>
+        <button class="drawer-zone drawer-upload" id="uploadDrawer" type="button" aria-label="UPLOAD YOURS"></button>
       </aside>
 
       <div class="workspace-shell">
