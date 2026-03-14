@@ -375,34 +375,42 @@ body {
   cursor: pointer;
   font-size: 0;
   text-shadow: none;
+  outline: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .drawer-zone:hover,
 .drawer-zone.active {
   transform: translateY(-4px);
-  box-shadow: 0 0 14px rgba(165, 255, 187, 0.85);
-  background: rgba(175, 255, 190, 0.12);
+  box-shadow: 0 0 12px rgba(138, 230, 255, 0.78);
+  background: rgba(138, 230, 255, 0.1);
+}
+
+.drawer-zone:focus-visible {
+  box-shadow: 0 0 0 2px rgba(173, 237, 255, 0.95), 0 0 12px rgba(138, 230, 255, 0.7);
+  background: rgba(138, 230, 255, 0.12);
 }
 
 .drawer-living {
-  top: 1%;
+  top: 5%;
 }
 
 .drawer-bedroom {
-  top: 41%;
+  top: 45%;
 }
 
 .drawer-dining {
-  top: 21%;
+  top: 25%;
 }
 
 .drawer-spare {
-  top: 61%;
+  top: 65%;
 }
 
 .drawer-upload {
-  top: 81%;
+  top: 85%;
 }
 
 .workspace-shell {
