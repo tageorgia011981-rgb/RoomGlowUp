@@ -206,15 +206,12 @@ body {
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
-  clip-path: inset(0 50% 0 50%);
-  perspective: 1600px;
   transform: translateY(-58px) scaleY(0.9);
   transform-origin: top center;
   transition:
     max-height 0.75s ease,
     margin 0.75s ease,
     opacity 0.95s cubic-bezier(0.23, 1, 0.32, 1),
-    clip-path 0.95s cubic-bezier(0.23, 1, 0.32, 1),
     transform 0.95s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -224,7 +221,6 @@ body {
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
-  clip-path: inset(0 0 0 0);
   transform: translateY(0) scaleY(1);
 }
 
@@ -232,9 +228,9 @@ body {
   width: 100%;
   display: block;
   filter: drop-shadow(0 18px 38px rgba(0, 0, 0, 0.62));
-  transform-origin: top center;
-  transform: scaleX(0.84);
-  transition: transform 0.88s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-origin: center top;
+  transform: scaleX(0.06);
+  transition: transform 0.95s cubic-bezier(0.2, 1, 0.3, 1);
 }
 
 #catalogOverlay.show #catalogBook {
@@ -257,22 +253,20 @@ body {
 
 .catalog-left {
   left: 12%;
-  transform-origin: right center;
-  transform: rotateY(-70deg);
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+  transform: translateX(28%) scale(0.94);
+  transition: transform 0.72s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
 }
 
 .catalog-right {
   right: 12%;
-  transform-origin: left center;
-  transform: rotateY(70deg);
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+  transform: translateX(-28%) scale(0.94);
+  transition: transform 0.72s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
 }
 
 #catalogOverlay.show .catalog-left,
 #catalogOverlay.show .catalog-right {
   opacity: 1;
-  transform: rotateY(0deg);
+  transform: translateX(0) scale(1);
 }
 
 #catalogOverlay.show .catalog-right {
@@ -1034,61 +1028,71 @@ body {
         spare: -1
       };
 
-      const catalogSource = {
-        seating: [
-          "Assets/seating_couch1.png",
-          "Assets/seating_couch2.png",
-          "Assets/seating_couch3.png",
-          "Assets/seating_couch4.png",
-          "Assets/seating_couch5.png",
-          "Assets/seating_couch6.png",
-          "Assets/seating_armchair1.png",
-          "Assets/seating_armchair2.png",
-          "Assets/seating_armchair3.png",
-          "Assets/seating_armchair4.png",
-          "Assets/seating_armchair5.png",
-          "Assets/seating_armchair6.png"
-        ],
-        tables: [
-          "Assets/table_coffee2.png",
-          "Assets/tables_coffee3.png",
-          "Assets/tables_coffee4.png",
-          "Assets/table_coffee5.png",
-          "Assets/tables_coffee6.png.png"
-        ],
-        storage: [
-          "Assets/seating_bench1.png",
-          "Assets/seating_bench2.png",
-          "Assets/seating_bench3.png",
-          "Assets/seating_bench4.png",
-          "Assets/seating_bench5.png",
-          "Assets/seating_bench6.png",
-          "Assets/seating_bench7.png",
-          "Assets/seating_bench8.png",
-          "Assets/seating_bench9.png",
-          "Assets/seating_bench10.png",
-          "Assets/seating_bench11.png",
-          "Assets/seating_bench12.png"
-        ],
-        beds: []
-      };
-
-      const catalogPageTitles = {
+      const catalogConfig = {
         seating: {
-          left: "COUCHES",
-          right: "ARMCHAIRS"
+          leftTitle: "COUCHES",
+          rightTitle: "ARMCHAIRS",
+          leftAssets: [
+            "Assets/seating_couch1.png",
+            "Assets/seating_couch2.png",
+            "Assets/seating_couch3.png",
+            "Assets/seating_couch4.png",
+            "Assets/seating_couch5.png",
+            "Assets/seating_couch6.png"
+          ],
+          rightAssets: [
+            "Assets/seating_armchair1.png",
+            "Assets/seating_armchair2.png",
+            "Assets/seating_armchair3.png",
+            "Assets/seating_armchair4.png",
+            "Assets/seating_armchair5.png",
+            "Assets/seating_armchair6.png"
+          ]
         },
         tables: {
-          left: "COFFEE TABLES",
-          right: "ACCENT TABLES"
+          leftTitle: "COFFEE TABLES",
+          rightTitle: "DINING CHAIRS",
+          leftAssets: [
+            "Assets/table_coffee2.png",
+            "Assets/tables_coffee3.png",
+            "Assets/tables_coffee4.png",
+            "Assets/table_coffee5.png",
+            "Assets/tables_coffee6.png.png"
+          ],
+          rightAssets: [
+            "Assets/seating_barstool1.png",
+            "Assets/seating_barstool2.png",
+            "Assets/seating_barstool3.png",
+            "Assets/seating_barstool4.png",
+            "Assets/seating_barstool5.png",
+            "Assets/seating_barstool6.png"
+          ]
         },
         storage: {
-          left: "BENCH STORAGE",
-          right: "ENTRY STORAGE"
+          leftTitle: "BENCHES",
+          rightTitle: "ENTRY BENCHES",
+          leftAssets: [
+            "Assets/seating_bench1.png",
+            "Assets/seating_bench2.png",
+            "Assets/seating_bench3.png",
+            "Assets/seating_bench4.png",
+            "Assets/seating_bench5.png",
+            "Assets/seating_bench6.png"
+          ],
+          rightAssets: [
+            "Assets/seating_bench7.png",
+            "Assets/seating_bench8.png",
+            "Assets/seating_bench9.png",
+            "Assets/seating_bench10.png",
+            "Assets/seating_bench11.png",
+            "Assets/seating_bench12.png"
+          ]
         },
         beds: {
-          left: "BEDS",
-          right: "BEDDING"
+          leftTitle: "BEDS",
+          rightTitle: "BEDDING",
+          leftAssets: [],
+          rightAssets: []
         }
       };
 
@@ -1152,8 +1156,8 @@ body {
       const ITEMS_PER_PAGE = 6;
 
       const catalogData = Object.fromEntries(
-        Object.entries(catalogSource).map(([key, paths]) => {
-          const mapped = fillCategoryItems(paths, key, CATALOG_SPREAD_COUNT);
+        Object.entries(catalogConfig).map(([key, definition]) => {
+          const mapped = buildCatalogItemsFromConfig(key, definition);
           return [key, mapped];
         })
       );
@@ -1191,10 +1195,10 @@ body {
         return base + idx * 19;
       }
 
-      function fillCategoryItems(paths, category, count) {
+      function fillSideItems(paths, category, side, count) {
         if (!paths.length) {
           return Array.from({ length: count }, (_, idx) => ({
-            id: category + "-placeholder-" + idx,
+            id: category + "-" + side + "-placeholder-" + idx,
             name: "COMING SOON",
             src: "",
             specs: "No " + category + " assets uploaded yet.",
@@ -1208,14 +1212,20 @@ body {
           expanded.push(paths[expanded.length % paths.length]);
         }
 
-        return expanded.map((src, idx) => ({
-          id: category + "-" + idx,
+        return expanded.slice(0, count).map((src, idx) => ({
+          id: category + "-" + side + "-" + idx,
           name: formatItemName(src),
           src,
           specs: buildSpec(category, idx),
           price: buildPrice(category, idx),
           placeholder: false
         }));
+      }
+
+      function buildCatalogItemsFromConfig(category, definition) {
+        const leftItems = fillSideItems(definition.leftAssets || [], category, "left", ITEMS_PER_PAGE);
+        const rightItems = fillSideItems(definition.rightAssets || [], category, "right", ITEMS_PER_PAGE);
+        return [...leftItems, ...rightItems];
       }
 
       function setActiveTab(tabEl) {
@@ -1255,8 +1265,12 @@ body {
           clearTimeout(catalogRevealTimer);
         }
         const revealCatalog = () => {
-          catalog.classList.add("show");
           renderCatalog();
+          catalog.classList.remove("show");
+          void catalog.offsetWidth;
+          requestAnimationFrame(() => {
+            catalog.classList.add("show");
+          });
         };
         if (cabinetWasVisible) {
           catalogRevealTimer = setTimeout(revealCatalog, 620);
@@ -1399,9 +1413,9 @@ body {
       }
 
       function setCatalogTitles() {
-        const titles = catalogPageTitles[currentCategory] || { left: "", right: "" };
-        document.getElementById("catalogTitleLeft").textContent = titles.left;
-        document.getElementById("catalogTitleRight").textContent = titles.right;
+        const config = catalogConfig[currentCategory] || { leftTitle: "", rightTitle: "" };
+        document.getElementById("catalogTitleLeft").textContent = config.leftTitle;
+        document.getElementById("catalogTitleRight").textContent = config.rightTitle;
       }
 
       function renderCatalog() {
