@@ -720,24 +720,7 @@ body {
 }
 
 #roomItemControls {
-  position: fixed;
-  right: 20px;
-  top: 112px;
-  z-index: 95;
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  max-width: min(62vw, 560px);
-  padding: 8px;
-  border-radius: 12px;
-  background: rgba(10, 10, 10, 0.5);
-  border: 1px solid rgba(255, 223, 132, 0.2);
-  backdrop-filter: blur(2px);
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-6px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  display: none !important;
 }
 
 #roomItemControls.show {
@@ -1527,7 +1510,6 @@ body {
           selectedPlacedItem.classList.remove("selected");
         }
         selectedPlacedItem = null;
-        roomItemControls.classList.remove("show");
       }
 
       function selectPlacedItem(piece) {
@@ -1536,7 +1518,6 @@ body {
         }
         selectedPlacedItem = piece;
         selectedPlacedItem.classList.add("selected");
-        roomItemControls.classList.add("show");
       }
 
       function selectLatestPlacedItemOrClear() {
@@ -1574,6 +1555,25 @@ body {
         selectedPlacedItem.dataset.rotation = String(state.rotation);
         selectedPlacedItem.dataset.tilt = state.tilt.toFixed(1);
         applyPlacedItemTransform(selectedPlacedItem);
+      }
+
+      function updatePlacedItemState(piece, updater) {
+        if (!piece) {
+          return;
+        }
+        const state = {
+          scale: Number(piece.dataset.scale || "1"),
+          rotation: Number(piece.dataset.rotation || "0"),
+          tilt: Number(piece.dataset.tilt || "0")
+        };
+        updater(state);
+        state.scale = clamp(state.scale, 0.35, 2.5);
+        state.rotation = ((state.rotation % 360) + 360) % 360;
+        state.tilt = clamp(state.tilt, -38, 38);
+        piece.dataset.scale = state.scale.toFixed(2);
+        piece.dataset.rotation = String(state.rotation);
+        piece.dataset.tilt = state.tilt.toFixed(1);
+        applyPlacedItemTransform(piece);
       }
 
       function renderEstimate() {
@@ -1626,7 +1626,7 @@ body {
         piece.style.top = Math.max(20, Math.floor(Math.random() * (workArea.clientHeight - 210))) + "px";
         piece.style.width = item.src.endsWith(".jpg") ? "180px" : "140px";
         piece.style.zIndex = String(100 + placedItems.children.length);
-        piece.title = "Double-click send back | Wheel rotate | Shift+Wheel size | Alt+Wheel push";
+        piece.title = "Drag move | Shift+Drag size | Alt+Drag push | Ctrl+Drag rotate | Double-click send back";
         piece.addEventListener("dblclick", (event) => {
           event.preventDefault();
           event.stopPropagation();
@@ -1647,15 +1647,15 @@ body {
           const direction = event.deltaY < 0 ? 1 : -1;
           if (event.shiftKey) {
             updateSelectedPlacedItem((state) => {
-              state.scale += direction * 0.06;
+              state.scale += direction * 0.1;
             });
           } else if (event.altKey || event.metaKey) {
             updateSelectedPlacedItem((state) => {
-              state.tilt += direction * 3;
+              state.tilt += direction * 4;
             });
           } else {
             updateSelectedPlacedItem((state) => {
-              state.rotation += direction * 4;
+              state.rotation += direction * 6;
             });
           }
         }, { passive: false });
@@ -1678,6 +1678,8 @@ body {
         let startY = 0;
         let originX = 0;
         let originY = 0;
+        let prevX = 0;
+        let prevY = 0;
 
         el.addEventListener("pointerdown", (event) => {
           if (event.button !== undefined && event.button !== 0) {
@@ -1692,6 +1694,8 @@ body {
           el.setPointerCapture(event.pointerId);
           startX = event.clientX;
           startY = event.clientY;
+          prevX = event.clientX;
+          prevY = event.clientY;
           originX = parseFloat(el.style.left || "0");
           originY = parseFloat(el.style.top || "0");
         });
@@ -1702,12 +1706,43 @@ body {
           }
           const dx = event.clientX - startX;
           const dy = event.clientY - startY;
-          const maxX = container.clientWidth - el.clientWidth;
-          const maxY = container.clientHeight - el.clientHeight;
-          const nx = Math.min(maxX, Math.max(0, originX + dx));
-          const ny = Math.min(maxY, Math.max(0, originY + dy));
-          el.style.left = nx + "px";
-          el.style.top = ny + "px";
+          const stepX = event.clientX - prevX;
+          const stepY = event.clientY - prevY;
+          const modifierMode = event.shiftKey ? "scale" : (event.altKey ? "tilt" : ((event.ctrlKey || event.metaKey) ? "rotate" : "move"));
+          if (modifierMode === "move") {
+            const maxX = container.clientWidth - el.clientWidth;
+            const maxY = container.clientHeight - el.clientHeight;
+            const nx = Math.min(maxX, Math.max(0, originX + dx));
+            const ny = Math.min(maxY, Math.max(0, originY + dy));
+            el.style.left = nx + "px";
+            el.style.top = ny + "px";
+          } else if (modifierMode === "scale") {
+            updatePlacedItemState(el, (state) => {
+              state.scale += -stepY * 0.006;
+            });
+            startX = event.clientX;
+            startY = event.clientY;
+            originX = parseFloat(el.style.left || "0");
+            originY = parseFloat(el.style.top || "0");
+          } else if (modifierMode === "tilt") {
+            updatePlacedItemState(el, (state) => {
+              state.tilt += stepX * 0.22;
+            });
+            startX = event.clientX;
+            startY = event.clientY;
+            originX = parseFloat(el.style.left || "0");
+            originY = parseFloat(el.style.top || "0");
+          } else if (modifierMode === "rotate") {
+            updatePlacedItemState(el, (state) => {
+              state.rotation += stepX * 0.65;
+            });
+            startX = event.clientX;
+            startY = event.clientY;
+            originX = parseFloat(el.style.left || "0");
+            originY = parseFloat(el.style.top || "0");
+          }
+          prevX = event.clientX;
+          prevY = event.clientY;
         });
 
         const stopDragging = (event) => {
