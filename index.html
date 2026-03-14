@@ -200,15 +200,25 @@ body {
 #catalogOverlay {
   position: relative;
   width: min(1080px, 95vw);
-  margin: 0 auto 64px;
+  margin: 0 auto 0;
+  max-height: 0;
+  overflow: hidden;
+  visibility: hidden;
   opacity: 0;
   pointer-events: none;
   transform: translateY(-58px) scaleX(0.78) rotateX(16deg);
   transform-origin: top center;
-  transition: opacity 1.1s cubic-bezier(0.23, 1, 0.32, 1), transform 1.1s cubic-bezier(0.23, 1, 0.32, 1);
+  transition:
+    max-height 0.75s ease,
+    margin 0.75s ease,
+    opacity 1.1s cubic-bezier(0.23, 1, 0.32, 1),
+    transform 1.1s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 #catalogOverlay.show {
+  max-height: 1200px;
+  margin: 0 auto 64px;
+  visibility: visible;
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0) scaleX(1) rotateX(0deg);
@@ -777,6 +787,7 @@ body {
       const catalog = document.getElementById("catalogOverlay");
       const roomUpload = document.getElementById("roomUpload");
       const workspaceSection = document.getElementById("workspaceSection");
+      const workspaceRow = document.querySelector(".workspace-row");
       const receiptPanel = document.getElementById("receiptPanel");
       const decorPopup = document.getElementById("decorClosetPopup");
       const galleryPopup = document.getElementById("galleryPopup");
@@ -958,7 +969,7 @@ body {
         cabinet.classList.add("show");
         setActiveTab(tabs.rooms);
         window.scrollTo({
-          top: workspaceSection.offsetTop - 26,
+          top: workspaceRow.offsetTop - 24,
           behavior: "smooth"
         });
       }
