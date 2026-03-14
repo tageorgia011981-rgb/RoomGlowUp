@@ -1306,6 +1306,17 @@ body {
         }
       }
 
+      function removeEstimate(itemId) {
+        if (!estimate.has(itemId)) {
+          return;
+        }
+        const entry = estimate.get(itemId);
+        entry.qty -= 1;
+        if (entry.qty <= 0) {
+          estimate.delete(itemId);
+        }
+      }
+
       function renderEstimate() {
         const lines = document.getElementById("receiptLines");
         const totalNode = document.getElementById("receiptTotal");
@@ -1347,11 +1358,23 @@ body {
         piece.src = item.src;
         piece.alt = item.name;
         piece.className = "placed-item";
+        piece.dataset.itemId = item.id;
         piece.draggable = false;
         piece.style.left = Math.max(20, Math.floor(Math.random() * (workArea.clientWidth - 190))) + "px";
         piece.style.top = Math.max(20, Math.floor(Math.random() * (workArea.clientHeight - 210))) + "px";
         piece.style.width = item.src.endsWith(".jpg") ? "180px" : "140px";
         piece.style.zIndex = String(100 + placedItems.children.length);
+        piece.title = "Double-click to send back";
+        piece.addEventListener("dblclick", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          const itemId = piece.dataset.itemId;
+          if (itemId) {
+            removeEstimate(itemId);
+            renderEstimate();
+          }
+          piece.remove();
+        });
         placedItems.appendChild(piece);
         makeDraggable(piece, workArea);
         addEstimate(item);
