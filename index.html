@@ -349,6 +349,44 @@ body {
   transform: translateY(0);
 }
 
+.catalog-subcats {
+  position: absolute;
+  top: 9.6%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 64%;
+  z-index: 9;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+#catalogOverlay.show .catalog-subcats {
+  opacity: 1;
+}
+
+.catalog-subcat-btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 4px 9px;
+  background: rgba(10, 10, 10, 0.82);
+  color: #f1d283;
+  font-family: "Limelight", serif;
+  font-size: 9px;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.catalog-subcat-btn:hover,
+.catalog-subcat-btn.active {
+  transform: translateY(-1px);
+  box-shadow: 0 0 8px rgba(255, 221, 129, 0.72);
+}
+
 .catalog-controls {
   position: absolute;
   right: -8px;
@@ -732,6 +770,17 @@ body {
   box-shadow: 0 0 11px rgba(255, 223, 128, 0.75);
 }
 
+.item-control-btn.rotate-btn {
+  font-size: 18px;
+  line-height: 1;
+  width: 34px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
 #itemPreview {
   position: fixed;
   right: 18px;
@@ -967,6 +1016,7 @@ body {
       <img src="Assets/furniturecatalog.png" id="catalogBook" alt="Furniture catalog">
       <div class="catalog-page-title catalog-title-left" id="catalogTitleLeft">COUCHES</div>
       <div class="catalog-page-title catalog-title-right" id="catalogTitleRight">ARMCHAIRS</div>
+      <div class="catalog-subcats" id="catalogSubcats"></div>
       <div class="catalog-grid catalog-left" id="catalogLeft"></div>
       <div class="catalog-grid catalog-right" id="catalogRight"></div>
       <div class="catalog-controls">
@@ -999,8 +1049,8 @@ body {
             <button class="item-control-btn" type="button" data-edit="enlarge">ENLARGE</button>
             <button class="item-control-btn" type="button" data-edit="shrink">SHRINK</button>
             <button class="item-control-btn" type="button" data-edit="flip">FLIP</button>
-            <button class="item-control-btn" type="button" data-edit="rotate-left">ROTATE LEFT</button>
-            <button class="item-control-btn" type="button" data-edit="rotate-right">ROTATE RIGHT</button>
+            <button class="item-control-btn rotate-btn" type="button" data-edit="rotate-left" aria-label="Rotate Left" title="Rotate Left">&#10226;</button>
+            <button class="item-control-btn rotate-btn" type="button" data-edit="rotate-right" aria-label="Rotate Right" title="Rotate Right">&#10227;</button>
           </div>
           <div id="placedItems"></div>
         </div>
@@ -1057,6 +1107,7 @@ body {
       const workArea = document.getElementById("work-area");
       const placedItems = document.getElementById("placedItems");
       const roomItemControls = document.getElementById("roomItemControls");
+      const catalogSubcats = document.getElementById("catalogSubcats");
       const catalog = document.getElementById("catalogOverlay");
       const roomUpload = document.getElementById("roomUpload");
       const workspaceSection = document.getElementById("workspaceSection");
@@ -1133,7 +1184,7 @@ body {
               ]
             },
             {
-              title: "DINING CHAIRS",
+              title: "BARSTOOLS",
               assets: [
                 "Assets/seating_barstool1.png",
                 "Assets/seating_barstool2.png",
@@ -1653,11 +1704,11 @@ body {
           });
         } else if (action === "rotate-left") {
           updateSelectedPlacedItem((state) => {
-            state.rotation -= 90;
+            state.rotation -= 5;
           });
         } else if (action === "rotate-right") {
           updateSelectedPlacedItem((state) => {
-            state.rotation += 90;
+            state.rotation += 5;
           });
         }
       });
@@ -1679,6 +1730,30 @@ body {
         document.getElementById("catalogTitleRight").textContent = spreadTitle + " \u2022 PAGE 2";
       }
 
+      function renderCatalogSubcats(spreads) {
+        catalogSubcats.innerHTML = "";
+        if (!spreads || spreads.length <= 1) {
+          catalogSubcats.style.display = "none";
+          return;
+        }
+        catalogSubcats.style.display = "flex";
+        spreads.forEach((spread, index) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "catalog-subcat-btn" + (index === pageIndex ? " active" : "");
+          btn.textContent = spread.title;
+          btn.addEventListener("click", () => {
+            if (pageIndex === index) {
+              return;
+            }
+            pageIndex = index;
+            runCatalogFlip();
+            renderCatalog();
+          });
+          catalogSubcats.appendChild(btn);
+        });
+      }
+
       function renderCatalog() {
         const left = document.getElementById("catalogLeft");
         const right = document.getElementById("catalogRight");
@@ -1687,11 +1762,13 @@ body {
         const spreads = catalogData[currentCategory] || [];
         if (!spreads.length) {
           setCatalogTitles("");
+          renderCatalogSubcats([]);
           return;
         }
         pageIndex = Math.max(0, Math.min(spreads.length - 1, pageIndex));
         const spread = spreads[pageIndex];
         setCatalogTitles(spread.title || "");
+        renderCatalogSubcats(spreads);
         const visible = spread.items || [];
 
         visible.slice(0, ITEMS_PER_PAGE).forEach((item) => left.appendChild(buildCatalogCard(item)));
