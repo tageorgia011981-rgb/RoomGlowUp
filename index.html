@@ -719,6 +719,54 @@ body {
   filter: drop-shadow(0 0 10px rgba(255, 230, 146, 0.95));
 }
 
+#itemGizmo {
+  position: absolute;
+  display: none;
+  border: 1px dashed rgba(255, 224, 137, 0.68);
+  border-radius: 8px;
+  z-index: 84;
+  pointer-events: none;
+}
+
+#itemGizmo.show {
+  display: block;
+}
+
+.gizmo-handle {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(12, 12, 12, 0.94);
+  color: #f7d98f;
+  font-family: "Limelight", serif;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 9px rgba(255, 218, 128, 0.72);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.gizmo-handle-resize {
+  right: -13px;
+  bottom: -13px;
+}
+
+.gizmo-handle-rotate {
+  left: 50%;
+  top: -13px;
+  transform: translateX(-50%);
+}
+
+.gizmo-handle-push {
+  right: -13px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 #roomItemControls {
   display: none !important;
 }
@@ -1049,6 +1097,11 @@ body {
 
       <div class="workspace-shell">
         <div id="work-area" title="Click once room is selected to open catalog">
+          <div id="itemGizmo" aria-label="Item adjustment handles">
+            <button class="gizmo-handle gizmo-handle-rotate" type="button" data-gizmo="rotate" aria-label="Rotate item">&#8635;</button>
+            <button class="gizmo-handle gizmo-handle-push" type="button" data-gizmo="push" aria-label="Push item side">&#8644;</button>
+            <button class="gizmo-handle gizmo-handle-resize" type="button" data-gizmo="scale" aria-label="Resize item">&#8645;</button>
+          </div>
           <div id="roomItemControls" aria-label="Placed item controls">
             <div class="item-controls-title">SELECT ITEM TO EDIT</div>
             <div class="item-controls-hint">WHEEL: ROTATE | SHIFT+WHEEL: SIZE | ALT+WHEEL: PUSH</div>
@@ -1113,6 +1166,7 @@ body {
       const cabinet = document.getElementById("rooms-cabinet");
       const workArea = document.getElementById("work-area");
       const placedItems = document.getElementById("placedItems");
+      const itemGizmo = document.getElementById("itemGizmo");
       const roomItemControls = document.getElementById("roomItemControls");
       const catalogSubcats = document.getElementById("catalogSubcats");
       const catalog = document.getElementById("catalogOverlay");
@@ -1510,6 +1564,7 @@ body {
           selectedPlacedItem.classList.remove("selected");
         }
         selectedPlacedItem = null;
+        itemGizmo.classList.remove("show");
       }
 
       function selectPlacedItem(piece) {
@@ -1518,6 +1573,8 @@ body {
         }
         selectedPlacedItem = piece;
         selectedPlacedItem.classList.add("selected");
+        positionItemGizmo();
+        itemGizmo.classList.add("show");
       }
 
       function selectLatestPlacedItemOrClear() {
@@ -1555,6 +1612,7 @@ body {
         selectedPlacedItem.dataset.rotation = String(state.rotation);
         selectedPlacedItem.dataset.tilt = state.tilt.toFixed(1);
         applyPlacedItemTransform(selectedPlacedItem);
+        positionItemGizmo();
       }
 
       function updatePlacedItemState(piece, updater) {
@@ -1574,6 +1632,20 @@ body {
         piece.dataset.rotation = String(state.rotation);
         piece.dataset.tilt = state.tilt.toFixed(1);
         applyPlacedItemTransform(piece);
+        positionItemGizmo();
+      }
+
+      function positionItemGizmo() {
+        if (!selectedPlacedItem) {
+          itemGizmo.classList.remove("show");
+          return;
+        }
+        const itemRect = selectedPlacedItem.getBoundingClientRect();
+        const areaRect = workArea.getBoundingClientRect();
+        itemGizmo.style.left = (itemRect.left - areaRect.left) + "px";
+        itemGizmo.style.top = (itemRect.top - areaRect.top) + "px";
+        itemGizmo.style.width = itemRect.width + "px";
+        itemGizmo.style.height = itemRect.height + "px";
       }
 
       function renderEstimate() {
@@ -1716,6 +1788,7 @@ body {
             const ny = Math.min(maxY, Math.max(0, originY + dy));
             el.style.left = nx + "px";
             el.style.top = ny + "px";
+            positionItemGizmo();
           } else if (modifierMode === "scale") {
             updatePlacedItemState(el, (state) => {
               state.scale += -stepY * 0.006;
@@ -1800,6 +1873,52 @@ body {
             state.rotation += 5;
           });
         }
+      });
+
+      itemGizmo.addEventListener("pointerdown", (event) => {
+        const handle = event.target.closest(".gizmo-handle");
+        if (!handle || !selectedPlacedItem) {
+          return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        const mode = handle.dataset.gizmo;
+        let prevX = event.clientX;
+        let prevY = event.clientY;
+        handle.setPointerCapture(event.pointerId);
+
+        const onMove = (moveEvent) => {
+          const dx = moveEvent.clientX - prevX;
+          const dy = moveEvent.clientY - prevY;
+          if (mode === "rotate") {
+            updateSelectedPlacedItem((state) => {
+              state.rotation += dx * 0.85;
+            });
+          } else if (mode === "push") {
+            updateSelectedPlacedItem((state) => {
+              state.tilt += dx * 0.35;
+            });
+          } else if (mode === "scale") {
+            updateSelectedPlacedItem((state) => {
+              state.scale += -dy * 0.008;
+            });
+          }
+          prevX = moveEvent.clientX;
+          prevY = moveEvent.clientY;
+        };
+
+        const onEnd = (endEvent) => {
+          if (handle.hasPointerCapture && handle.hasPointerCapture(endEvent.pointerId)) {
+            handle.releasePointerCapture(endEvent.pointerId);
+          }
+          handle.removeEventListener("pointermove", onMove);
+          handle.removeEventListener("pointerup", onEnd);
+          handle.removeEventListener("pointercancel", onEnd);
+        };
+
+        handle.addEventListener("pointermove", onMove);
+        handle.addEventListener("pointerup", onEnd);
+        handle.addEventListener("pointercancel", onEnd);
       });
 
       function runCatalogFlip() {
@@ -1997,13 +2116,16 @@ body {
       workArea.addEventListener("click", (event) => {
         const clickedItem = event.target.closest(".placed-item");
         const clickedControls = event.target.closest("#roomItemControls");
-        if (!clickedItem && !clickedControls) {
+        const clickedGizmo = event.target.closest("#itemGizmo");
+        if (!clickedItem && !clickedControls && !clickedGizmo) {
           selectLatestPlacedItemOrClear();
         }
-        if (cabinet.classList.contains("show") && roomChosen && !clickedItem && !clickedControls) {
+        if (cabinet.classList.contains("show") && roomChosen && !clickedItem && !clickedControls && !clickedGizmo) {
           openCatalog();
         }
       });
+
+      window.addEventListener("resize", positionItemGizmo);
 
       document.getElementById("tabSeating").addEventListener("click", () => setCategory("seating"));
       document.getElementById("tabTables").addEventListener("click", () => setCategory("tables"));
