@@ -1048,7 +1048,8 @@ body {
             <div class="item-controls-title">SELECT ITEM TO EDIT</div>
             <button class="item-control-btn" type="button" data-edit="enlarge">ENLARGE</button>
             <button class="item-control-btn" type="button" data-edit="shrink">SHRINK</button>
-            <button class="item-control-btn" type="button" data-edit="flip">FLIP</button>
+            <button class="item-control-btn" type="button" data-edit="push-left">PUSH LEFT</button>
+            <button class="item-control-btn" type="button" data-edit="push-right">PUSH RIGHT</button>
             <button class="item-control-btn rotate-btn" type="button" data-edit="rotate-left" aria-label="Rotate Left" title="Rotate Left">&#10226;</button>
             <button class="item-control-btn rotate-btn" type="button" data-edit="rotate-right" aria-label="Rotate Right" title="Rotate Right">&#10227;</button>
           </div>
@@ -1457,6 +1458,10 @@ body {
         void workArea.offsetWidth;
         workArea.classList.add("room-switch");
         workArea.style.backgroundImage = "url('" + src + "')";
+        workArea.style.backgroundSize = "contain";
+        workArea.style.backgroundPosition = "center center";
+        workArea.style.backgroundRepeat = "no-repeat";
+        workArea.style.backgroundColor = "rgba(8, 10, 18, 0.86)";
         roomChosen = true;
       }
 
@@ -1490,8 +1495,8 @@ body {
       function applyPlacedItemTransform(piece) {
         const scale = Number(piece.dataset.scale || "1");
         const rotation = Number(piece.dataset.rotation || "0");
-        const flip = Number(piece.dataset.flip || "1");
-        piece.style.transform = "rotate(" + rotation + "deg) scale(" + scale + ") scaleX(" + flip + ")";
+        const tilt = Number(piece.dataset.tilt || "0");
+        piece.style.transform = "perspective(900px) rotateY(" + tilt + "deg) rotate(" + rotation + "deg) scale(" + scale + ")";
       }
 
       function clearSelectedPlacedItem() {
@@ -1536,14 +1541,15 @@ body {
         const state = {
           scale: Number(selectedPlacedItem.dataset.scale || "1"),
           rotation: Number(selectedPlacedItem.dataset.rotation || "0"),
-          flip: Number(selectedPlacedItem.dataset.flip || "1")
+          tilt: Number(selectedPlacedItem.dataset.tilt || "0")
         };
         updater(state);
         state.scale = clamp(state.scale, 0.35, 2.5);
         state.rotation = ((state.rotation % 360) + 360) % 360;
+        state.tilt = clamp(state.tilt, -38, 38);
         selectedPlacedItem.dataset.scale = state.scale.toFixed(2);
         selectedPlacedItem.dataset.rotation = String(state.rotation);
-        selectedPlacedItem.dataset.flip = String(state.flip >= 0 ? 1 : -1);
+        selectedPlacedItem.dataset.tilt = state.tilt.toFixed(1);
         applyPlacedItemTransform(selectedPlacedItem);
       }
 
@@ -1591,7 +1597,7 @@ body {
         piece.dataset.itemId = item.id;
         piece.dataset.scale = "1";
         piece.dataset.rotation = "0";
-        piece.dataset.flip = "1";
+        piece.dataset.tilt = "0";
         piece.draggable = false;
         piece.style.left = Math.max(20, Math.floor(Math.random() * (workArea.clientWidth - 190))) + "px";
         piece.style.top = Math.max(20, Math.floor(Math.random() * (workArea.clientHeight - 210))) + "px";
@@ -1698,9 +1704,13 @@ body {
           updateSelectedPlacedItem((state) => {
             state.scale -= 0.12;
           });
-        } else if (action === "flip") {
+        } else if (action === "push-left") {
           updateSelectedPlacedItem((state) => {
-            state.flip *= -1;
+            state.tilt -= 5;
+          });
+        } else if (action === "push-right") {
+          updateSelectedPlacedItem((state) => {
+            state.tilt += 5;
           });
         } else if (action === "rotate-left") {
           updateSelectedPlacedItem((state) => {
