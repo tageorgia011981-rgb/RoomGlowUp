@@ -1489,6 +1489,7 @@ body {
         };
         updater(state);
         state.scale = clamp(state.scale, 0.35, 2.5);
+        state.rotation = ((state.rotation % 360) + 360) % 360;
         selectedPlacedItem.dataset.scale = state.scale.toFixed(2);
         selectedPlacedItem.dataset.rotation = String(state.rotation);
         selectedPlacedItem.dataset.flip = String(state.flip >= 0 ? 1 : -1);
@@ -1561,6 +1562,11 @@ body {
         placedItems.appendChild(piece);
         makeDraggable(piece, workArea);
         selectPlacedItem(piece);
+        const workAreaTop = workArea.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({
+          top: Math.max(0, workAreaTop - 120),
+          behavior: "smooth"
+        });
         addEstimate(item);
         renderEstimate();
       }
@@ -1647,11 +1653,11 @@ body {
           });
         } else if (action === "rotate-left") {
           updateSelectedPlacedItem((state) => {
-            state.rotation -= 30;
+            state.rotation -= 90;
           });
         } else if (action === "rotate-right") {
           updateSelectedPlacedItem((state) => {
-            state.rotation += 30;
+            state.rotation += 90;
           });
         }
       });
