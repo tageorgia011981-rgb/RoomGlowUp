@@ -339,71 +339,70 @@ body {
   width: 440px;
   max-width: 0;
   height: 640px;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
   opacity: 0;
-  transform: translateX(-110%);
+  transform: translateX(-112%) rotateY(10deg) scale(0.97);
+  transform-origin: left center;
   transition: max-width 1.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.85s ease, transform 1.25s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
   flex-shrink: 0;
-  border-radius: 22px;
-  background:
-    radial-gradient(circle at 12% 10%, rgba(255, 227, 170, 0.18), transparent 35%),
-    radial-gradient(circle at 85% 14%, rgba(185, 239, 255, 0.2), transparent 40%),
-    linear-gradient(160deg, rgba(19, 24, 41, 0.95), rgba(8, 11, 23, 0.95));
-  border: 1px solid rgba(255, 243, 201, 0.35);
-  box-shadow:
-    0 14px 36px rgba(0, 0, 0, 0.65),
-    0 0 0 1px rgba(255, 251, 228, 0.2),
-    0 0 22px rgba(177, 245, 255, 0.28);
 }
 
 #rooms-cabinet.show {
   max-width: 440px;
   opacity: 1;
-  transform: translateX(0);
+  transform: translateX(0) rotateY(0deg) scale(1);
   pointer-events: auto;
 }
 
 .cabinet-img {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
-  border-radius: 18px;
-  padding: 7px;
-  filter: saturate(1.1) contrast(1.04) brightness(1.02);
+  filter:
+    saturate(1.12)
+    contrast(1.08)
+    brightness(1.03)
+    drop-shadow(0 26px 30px rgba(0, 0, 0, 0.62))
+    drop-shadow(12px 0 10px rgba(0, 0, 0, 0.28));
 }
 
 #rooms-cabinet::before {
   content: "";
   position: absolute;
-  inset: 8px;
-  border-radius: 18px;
+  left: 6%;
+  right: 5%;
+  top: 5%;
+  bottom: 4%;
+  border-radius: 30px;
   pointer-events: none;
-  z-index: 2;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 243, 214, 0.55),
-    inset 0 0 18px rgba(255, 227, 162, 0.24),
-    inset 0 0 42px rgba(113, 220, 255, 0.16);
+  z-index: 1;
+  background:
+    radial-gradient(circle at 15% 18%, rgba(255, 241, 199, 0.35), transparent 34%),
+    radial-gradient(circle at 82% 20%, rgba(175, 233, 255, 0.3), transparent 38%),
+    radial-gradient(circle at 52% 78%, rgba(255, 197, 237, 0.2), transparent 42%);
+  filter: blur(10px);
+  opacity: 0.9;
 }
 
 #rooms-cabinet::after {
   content: "";
   position: absolute;
-  top: -32%;
-  left: -62%;
-  width: 88%;
-  height: 165%;
+  top: -28%;
+  left: -55%;
+  width: 78%;
+  height: 155%;
   pointer-events: none;
   z-index: 3;
   background: linear-gradient(
     110deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.36) 46%,
-    rgba(255, 250, 224, 0.52) 50%,
+    rgba(255, 255, 255, 0.3) 46%,
+    rgba(255, 250, 224, 0.45) 50%,
     rgba(255, 255, 255, 0) 54%
   );
   opacity: 0;
@@ -417,6 +416,46 @@ body {
 
 #rooms-cabinet.show .cabinet-img {
   animation: cabinetGlowPulse 3.8s ease-in-out infinite;
+}
+
+.drawer-label {
+  position: absolute;
+  left: 14%;
+  width: 72%;
+  text-align: center;
+  font-family: "Jacques Francois Shadow", serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: rgba(240, 236, 228, 0.98);
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.75),
+    0 0 8px rgba(23, 25, 36, 0.55);
+  pointer-events: none;
+  z-index: 5;
+  white-space: nowrap;
+}
+
+.label-living {
+  top: 12.5%;
+}
+
+.label-dining {
+  top: 32.5%;
+}
+
+.label-bedroom {
+  top: 52.5%;
+}
+
+.label-spare {
+  top: 72.5%;
+}
+
+.label-upload {
+  top: 92.5%;
+  font-size: 12.5px;
+  letter-spacing: 0.8px;
 }
 
 .drawer-zone {
@@ -751,7 +790,7 @@ body {
     width: 100%;
     max-width: 100%;
     height: 420px;
-    transform: translateY(-20px);
+    transform: translateY(-20px) rotateY(0deg) scale(1);
   }
 
   #rooms-cabinet {
@@ -766,6 +805,15 @@ body {
 
   .drawer-zone {
     font-size: 14px;
+  }
+
+  .drawer-label {
+    font-size: 11px;
+    letter-spacing: 0.6px;
+  }
+
+  .label-upload {
+    font-size: 9.8px;
   }
 }
 </style>
@@ -819,6 +867,11 @@ body {
       <aside id="rooms-cabinet">
         <img src="Assets/rooms_cabinet.png" class="cabinet-img" alt="Rooms cabinet"
           onerror="this.src='Assets/room_cabinet.png'">
+        <div class="drawer-label label-living">LIVINGROOM</div>
+        <div class="drawer-label label-dining">DININGROOM</div>
+        <div class="drawer-label label-bedroom">BEDROOM</div>
+        <div class="drawer-label label-spare">SPAREROOM</div>
+        <div class="drawer-label label-upload">UPLOAD YOURS</div>
         <button class="drawer-zone drawer-living" data-room="living" type="button" aria-label="LIVINGROOM"></button>
         <button class="drawer-zone drawer-dining" data-room="dining" type="button" aria-label="DININGROOM"></button>
         <button class="drawer-zone drawer-bedroom" data-room="bedroom" type="button" aria-label="BEDROOM"></button>
