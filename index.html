@@ -346,6 +346,16 @@ body {
   transition: max-width 1.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.85s ease, transform 1.25s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
   flex-shrink: 0;
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(255, 227, 170, 0.18), transparent 35%),
+    radial-gradient(circle at 85% 14%, rgba(185, 239, 255, 0.2), transparent 40%),
+    linear-gradient(160deg, rgba(19, 24, 41, 0.95), rgba(8, 11, 23, 0.95));
+  border: 1px solid rgba(255, 243, 201, 0.35);
+  box-shadow:
+    0 14px 36px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(255, 251, 228, 0.2),
+    0 0 22px rgba(177, 245, 255, 0.28);
 }
 
 #rooms-cabinet.show {
@@ -356,10 +366,57 @@ body {
 }
 
 .cabinet-img {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 18px;
+  padding: 7px;
+  filter: saturate(1.1) contrast(1.04) brightness(1.02);
+}
+
+#rooms-cabinet::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 18px;
+  pointer-events: none;
+  z-index: 2;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 243, 214, 0.55),
+    inset 0 0 18px rgba(255, 227, 162, 0.24),
+    inset 0 0 42px rgba(113, 220, 255, 0.16);
+}
+
+#rooms-cabinet::after {
+  content: "";
+  position: absolute;
+  top: -32%;
+  left: -62%;
+  width: 88%;
+  height: 165%;
+  pointer-events: none;
+  z-index: 3;
+  background: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.36) 46%,
+    rgba(255, 250, 224, 0.52) 50%,
+    rgba(255, 255, 255, 0) 54%
+  );
+  opacity: 0;
+  transform: rotate(12deg) translateX(0);
+}
+
+#rooms-cabinet.show::after {
+  opacity: 0.75;
+  animation: cabinetSheen 4.8s ease-in-out infinite;
+}
+
+#rooms-cabinet.show .cabinet-img {
+  animation: cabinetGlowPulse 3.8s ease-in-out infinite;
 }
 
 .drawer-zone {
@@ -380,6 +437,7 @@ body {
   -webkit-tap-highlight-color: transparent;
   opacity: 0;
   transition: none;
+  z-index: 4;
 }
 
 .drawer-zone:hover,
@@ -414,6 +472,35 @@ body {
 
 .drawer-upload {
   top: 85%;
+}
+
+@keyframes cabinetSheen {
+  0% {
+    transform: rotate(12deg) translateX(-8%);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.7;
+  }
+  52% {
+    transform: rotate(12deg) translateX(175%);
+    opacity: 0.75;
+  }
+  68%,
+  100% {
+    transform: rotate(12deg) translateX(210%);
+    opacity: 0;
+  }
+}
+
+@keyframes cabinetGlowPulse {
+  0%,
+  100% {
+    filter: saturate(1.1) contrast(1.04) brightness(1.02);
+  }
+  50% {
+    filter: saturate(1.16) contrast(1.08) brightness(1.07);
+  }
 }
 
 .workspace-shell {
