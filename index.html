@@ -361,7 +361,7 @@ body {
   z-index: 2;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
   filter:
     saturate(1.12)
@@ -416,46 +416,6 @@ body {
 
 #rooms-cabinet.show .cabinet-img {
   animation: cabinetGlowPulse 3.8s ease-in-out infinite;
-}
-
-.drawer-label {
-  position: absolute;
-  left: 14%;
-  width: 72%;
-  text-align: center;
-  font-family: "Jacques Francois Shadow", serif;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  color: rgba(240, 236, 228, 0.98);
-  text-shadow:
-    0 1px 0 rgba(0, 0, 0, 0.75),
-    0 0 8px rgba(23, 25, 36, 0.55);
-  pointer-events: none;
-  z-index: 5;
-  white-space: nowrap;
-}
-
-.label-living {
-  top: 12.5%;
-}
-
-.label-dining {
-  top: 32.5%;
-}
-
-.label-bedroom {
-  top: 52.5%;
-}
-
-.label-spare {
-  top: 72.5%;
-}
-
-.label-upload {
-  top: 92.5%;
-  font-size: 12.5px;
-  letter-spacing: 0.8px;
 }
 
 .drawer-zone {
@@ -806,15 +766,6 @@ body {
   .drawer-zone {
     font-size: 14px;
   }
-
-  .drawer-label {
-    font-size: 11px;
-    letter-spacing: 0.6px;
-  }
-
-  .label-upload {
-    font-size: 9.8px;
-  }
 }
 </style>
 </head>
@@ -867,11 +818,6 @@ body {
       <aside id="rooms-cabinet">
         <img src="Assets/rooms_cabinet.png" class="cabinet-img" alt="Rooms cabinet"
           onerror="this.src='Assets/room_cabinet.png'">
-        <div class="drawer-label label-living">LIVINGROOM</div>
-        <div class="drawer-label label-dining">DININGROOM</div>
-        <div class="drawer-label label-bedroom">BEDROOM</div>
-        <div class="drawer-label label-spare">SPAREROOM</div>
-        <div class="drawer-label label-upload">UPLOAD YOURS</div>
         <button class="drawer-zone drawer-living" data-room="living" type="button" aria-label="LIVINGROOM"></button>
         <button class="drawer-zone drawer-dining" data-room="dining" type="button" aria-label="DININGROOM"></button>
         <button class="drawer-zone drawer-bedroom" data-room="bedroom" type="button" aria-label="BEDROOM"></button>
