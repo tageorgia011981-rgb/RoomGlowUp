@@ -1228,6 +1228,10 @@ body {
         ]
       };
 
+      const roomImageFallbacks = {
+        "Assets/ROOMS_livingroom5.jpg": "Assets/ROOMS_livingroom1.jpg"
+      };
+
       const drawerIndexes = {
         living: -1,
         bedroom: -1,
@@ -1545,10 +1549,18 @@ body {
         workArea.classList.remove("room-switch");
         void workArea.offsetWidth;
         workArea.classList.add("room-switch");
-        workArea.style.backgroundImage = "url('" + src + "')";
-        workArea.style.backgroundSize = "contain";
-        workArea.style.backgroundPosition = "center center";
-        workArea.style.backgroundRepeat = "no-repeat";
+        const fallback = roomImageFallbacks[src];
+        if (fallback) {
+          workArea.style.backgroundImage = "url('" + src + "'), url('" + fallback + "')";
+          workArea.style.backgroundSize = "cover, cover";
+          workArea.style.backgroundPosition = "center center, center center";
+          workArea.style.backgroundRepeat = "no-repeat, no-repeat";
+        } else {
+          workArea.style.backgroundImage = "url('" + src + "')";
+          workArea.style.backgroundSize = "cover";
+          workArea.style.backgroundPosition = "center center";
+          workArea.style.backgroundRepeat = "no-repeat";
+        }
         workArea.style.backgroundColor = "transparent";
         roomChosen = true;
       }
