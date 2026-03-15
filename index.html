@@ -1576,7 +1576,8 @@ body {
       function applyPlacedItemTransform(piece) {
         const scale = Number(piece.dataset.scale || "1");
         const rotation = Number(piece.dataset.rotation || "0");
-        piece.style.transform = "rotate(" + rotation + "deg) scale(" + scale + ")";
+        const tilt = Number(piece.dataset.tilt || "0");
+        piece.style.transform = "perspective(900px) rotateY(" + tilt + "deg) rotate(" + rotation + "deg) scale(" + scale + ")";
         updatePlacedItemShadow(piece);
       }
 
@@ -1642,13 +1643,16 @@ body {
         }
         const state = {
           scale: Number(selectedPlacedItem.dataset.scale || "1"),
-          rotation: Number(selectedPlacedItem.dataset.rotation || "0")
+          rotation: Number(selectedPlacedItem.dataset.rotation || "0"),
+          tilt: Number(selectedPlacedItem.dataset.tilt || "0")
         };
         updater(state);
         state.scale = clamp(state.scale, 0.35, 2.5);
         state.rotation = clamp(state.rotation, -75, 75);
+        state.tilt = clamp(state.tilt, -38, 38);
         selectedPlacedItem.dataset.scale = state.scale.toFixed(2);
         selectedPlacedItem.dataset.rotation = String(state.rotation);
+        selectedPlacedItem.dataset.tilt = state.tilt.toFixed(1);
         applyPlacedItemTransform(selectedPlacedItem);
         positionItemGizmo();
       }
@@ -1659,13 +1663,16 @@ body {
         }
         const state = {
           scale: Number(piece.dataset.scale || "1"),
-          rotation: Number(piece.dataset.rotation || "0")
+          rotation: Number(piece.dataset.rotation || "0"),
+          tilt: Number(piece.dataset.tilt || "0")
         };
         updater(state);
         state.scale = clamp(state.scale, 0.35, 2.5);
         state.rotation = clamp(state.rotation, -75, 75);
+        state.tilt = clamp(state.tilt, -38, 38);
         piece.dataset.scale = state.scale.toFixed(2);
         piece.dataset.rotation = String(state.rotation);
+        piece.dataset.tilt = state.tilt.toFixed(1);
         applyPlacedItemTransform(piece);
         positionItemGizmo();
       }
@@ -1743,6 +1750,7 @@ body {
         piece.dataset.itemId = item.id;
         piece.dataset.scale = "1";
         piece.dataset.rotation = "0";
+        piece.dataset.tilt = "0";
         piece.draggable = false;
         const pieceWidth = item.src.endsWith(".jpg") ? 180 : 140;
         piece.style.width = pieceWidth + "px";
@@ -1755,7 +1763,7 @@ body {
         const shadow = document.createElement("div");
         shadow.className = "placed-shadow";
         piece._shadowEl = shadow;
-        piece.title = "Drag move | Shift+Drag size | Ctrl+Drag rotate | Wheel size | Ctrl+Wheel rotate | Double-click send back";
+        piece.title = "Drag move | Shift+Drag size | Ctrl+Drag rotate | Side handle = push left/right | Double-click send back";
         piece.addEventListener("dblclick", (event) => {
           event.preventDefault();
           event.stopPropagation();
