@@ -1537,11 +1537,11 @@ body {
         workArea.classList.remove("room-switch");
         void workArea.offsetWidth;
         workArea.classList.add("room-switch");
-        workArea.style.backgroundImage = "url('" + src + "')";
-        workArea.style.backgroundSize = "contain";
-        workArea.style.backgroundPosition = "center center";
-        workArea.style.backgroundRepeat = "no-repeat";
-        workArea.style.backgroundColor = "rgba(8, 10, 18, 0.86)";
+        workArea.style.backgroundImage = "url('" + src + "'), url('Assets/workstation.jpg')";
+        workArea.style.backgroundSize = "contain, cover";
+        workArea.style.backgroundPosition = "center center, center center";
+        workArea.style.backgroundRepeat = "no-repeat, no-repeat";
+        workArea.style.backgroundColor = "transparent";
         roomChosen = true;
       }
 
