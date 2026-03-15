@@ -1399,7 +1399,20 @@ body {
           sections: [
             {
               title: "BEDS",
-              assets: []
+              assets: [
+                "Assets/bed1.png",
+                "Assets/bed2.png",
+                "Assets/bed3.png",
+                "Assets/bed4.png",
+                "Assets/bed5.png",
+                "Assets/bed6.png",
+                "Assets/bed7.png",
+                "Assets/bed8.png",
+                "Assets/bed9.png",
+                "Assets/bed10.png",
+                "Assets/bed11.png",
+                "Assets/bed12.png"
+              ]
             }
           ]
         }
@@ -1506,7 +1519,7 @@ body {
 
       function buildSpec(group, idx) {
         if (group === "beds") {
-          return "Category: Beds | Uploads coming soon";
+          return "Category: Beds | Comfort Layer " + (idx % 4 + 1);
         }
         if (group === "seating") {
           return "Category: Seating | Comfort Grade " + (idx % 5 + 1);
@@ -1519,7 +1532,7 @@ body {
 
       function buildPrice(group, idx) {
         if (group === "beds") {
-          return 0;
+          return 579 + idx * 29;
         }
         const base = group === "seating" ? 349 : group === "tables" ? 229 : 189;
         return base + idx * 19;
