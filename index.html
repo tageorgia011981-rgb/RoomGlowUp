@@ -767,6 +767,45 @@ body {
   transform: translateY(-50%);
 }
 
+.gizmo-actions {
+  position: absolute;
+  left: 50%;
+  bottom: -38px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+  padding: 4px 6px;
+  border-radius: 999px;
+  background: rgba(8, 8, 8, 0.9);
+  border: 1px solid rgba(255, 218, 128, 0.45);
+  pointer-events: auto;
+}
+
+.gizmo-action-btn {
+  border: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  background: rgba(23, 23, 23, 0.95);
+  color: #f7d89e;
+  cursor: pointer;
+}
+
+.gizmo-action-btn:hover {
+  box-shadow: 0 0 8px rgba(255, 220, 135, 0.7);
+}
+
+.gizmo-action-btn.done {
+  width: auto;
+  padding: 0 7px;
+  font-size: 9px;
+  letter-spacing: 0.6px;
+}
+
 #roomItemControls {
   display: none !important;
 }
@@ -1101,6 +1140,15 @@ body {
             <button class="gizmo-handle gizmo-handle-rotate" type="button" data-gizmo="rotate" aria-label="Rotate item">&#8635;</button>
             <button class="gizmo-handle gizmo-handle-push" type="button" data-gizmo="push" aria-label="Push item side">&#8644;</button>
             <button class="gizmo-handle gizmo-handle-resize" type="button" data-gizmo="scale" aria-label="Resize item">&#8645;</button>
+            <div class="gizmo-actions">
+              <button class="gizmo-action-btn" type="button" data-gizmo-action="nudge-left" aria-label="Move left">&#8592;</button>
+              <button class="gizmo-action-btn" type="button" data-gizmo-action="nudge-up" aria-label="Move up">&#8593;</button>
+              <button class="gizmo-action-btn" type="button" data-gizmo-action="nudge-down" aria-label="Move down">&#8595;</button>
+              <button class="gizmo-action-btn" type="button" data-gizmo-action="nudge-right" aria-label="Move right">&#8594;</button>
+              <button class="gizmo-action-btn" type="button" data-gizmo-action="smaller" aria-label="Smaller">−</button>
+              <button class="gizmo-action-btn" type="button" data-gizmo-action="larger" aria-label="Larger">+</button>
+              <button class="gizmo-action-btn done" type="button" data-gizmo-action="hide" aria-label="Done editing">DONE</button>
+            </div>
           </div>
           <div id="roomItemControls" aria-label="Placed item controls">
             <div class="item-controls-title">SELECT ITEM TO EDIT</div>
@@ -1635,6 +1683,21 @@ body {
         positionItemGizmo();
       }
 
+      function nudgeSelectedItem(dx, dy) {
+        if (!selectedPlacedItem) {
+          return;
+        }
+        const maxX = workArea.clientWidth - selectedPlacedItem.clientWidth;
+        const maxY = workArea.clientHeight - selectedPlacedItem.clientHeight;
+        const currentX = parseFloat(selectedPlacedItem.style.left || "0");
+        const currentY = parseFloat(selectedPlacedItem.style.top || "0");
+        const nx = clamp(currentX + dx, 0, maxX);
+        const ny = clamp(currentY + dy, 0, maxY);
+        selectedPlacedItem.style.left = nx + "px";
+        selectedPlacedItem.style.top = ny + "px";
+        positionItemGizmo();
+      }
+
       function positionItemGizmo() {
         if (!selectedPlacedItem) {
           itemGizmo.classList.remove("show");
@@ -1694,9 +1757,13 @@ body {
         piece.dataset.rotation = "0";
         piece.dataset.tilt = "0";
         piece.draggable = false;
-        piece.style.left = Math.max(20, Math.floor(Math.random() * (workArea.clientWidth - 190))) + "px";
-        piece.style.top = Math.max(20, Math.floor(Math.random() * (workArea.clientHeight - 210))) + "px";
-        piece.style.width = item.src.endsWith(".jpg") ? "180px" : "140px";
+        const pieceWidth = item.src.endsWith(".jpg") ? 180 : 140;
+        piece.style.width = pieceWidth + "px";
+        const baseX = (workArea.clientWidth - pieceWidth) / 2;
+        const baseY = (workArea.clientHeight - 180) / 2;
+        const spreadOffset = Math.min(placedItems.children.length * 12, 72);
+        piece.style.left = Math.max(0, Math.floor(baseX + spreadOffset)) + "px";
+        piece.style.top = Math.max(0, Math.floor(baseY + spreadOffset * 0.55)) + "px";
         piece.style.zIndex = String(100 + placedItems.children.length);
         piece.title = "Drag move | Shift+Drag size | Alt+Drag push | Ctrl+Drag rotate | Double-click send back";
         piece.addEventListener("dblclick", (event) => {
@@ -1921,6 +1988,35 @@ body {
         handle.addEventListener("pointercancel", onEnd);
       });
 
+      itemGizmo.addEventListener("click", (event) => {
+        const actionBtn = event.target.closest("button[data-gizmo-action]");
+        if (!actionBtn || !selectedPlacedItem) {
+          return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        const action = actionBtn.dataset.gizmoAction;
+        if (action === "nudge-left") {
+          nudgeSelectedItem(-14, 0);
+        } else if (action === "nudge-right") {
+          nudgeSelectedItem(14, 0);
+        } else if (action === "nudge-up") {
+          nudgeSelectedItem(0, -14);
+        } else if (action === "nudge-down") {
+          nudgeSelectedItem(0, 14);
+        } else if (action === "smaller") {
+          updateSelectedPlacedItem((state) => {
+            state.scale -= 0.08;
+          });
+        } else if (action === "larger") {
+          updateSelectedPlacedItem((state) => {
+            state.scale += 0.08;
+          });
+        } else if (action === "hide") {
+          clearSelectedPlacedItem();
+        }
+      });
+
       function runCatalogFlip() {
         catalog.classList.remove("flipping");
         void catalog.offsetWidth;
@@ -2118,7 +2214,7 @@ body {
         const clickedControls = event.target.closest("#roomItemControls");
         const clickedGizmo = event.target.closest("#itemGizmo");
         if (!clickedItem && !clickedControls && !clickedGizmo) {
-          selectLatestPlacedItemOrClear();
+          clearSelectedPlacedItem();
         }
         if (cabinet.classList.contains("show") && roomChosen && !clickedItem && !clickedControls && !clickedGizmo) {
           openCatalog();
