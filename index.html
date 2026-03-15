@@ -945,37 +945,48 @@ body {
 #decorClosetPopup,
 #galleryPopup {
   position: fixed;
-  top: 170px;
+  top: clamp(128px, 17vh, 188px);
   right: 7vw;
-  width: min(520px, 90vw);
-  background: rgba(15, 15, 15, 0.92);
+  width: min(540px, 92vw);
+  background: linear-gradient(172deg, rgba(22, 22, 22, 0.95), rgba(10, 10, 10, 0.93));
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.62);
   padding: 14px;
   z-index: 58;
   opacity: 0;
-  transform: translateY(-18px);
+  transform: translateY(-14px) scale(0.985);
   pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition: opacity 0.38s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  backdrop-filter: blur(4px) saturate(1.05);
 }
 
 #decorClosetPopup.show,
 #galleryPopup.show {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   pointer-events: auto;
 }
 
 .popup-hero {
   position: relative;
   margin-bottom: 10px;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .popup-hero img {
   width: 100%;
-  border-radius: 8px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
   display: block;
+  transition: opacity 0.35s ease, transform 0.45s ease, filter 0.45s ease;
+}
+
+#decorClosetPopup.scene-switch .popup-hero img {
+  opacity: 0.62;
+  transform: scale(1.02);
+  filter: saturate(1.12) contrast(1.05);
 }
 
 .popup-hero button {
@@ -984,13 +995,49 @@ body {
   right: 12px;
   border: 0;
   border-radius: 999px;
-  background: rgba(17, 17, 17, 0.86);
+  background: linear-gradient(180deg, rgba(26, 26, 26, 0.92), rgba(10, 10, 10, 0.92));
   color: #fff;
   cursor: pointer;
   font-family: "Limelight", serif;
   font-size: 11px;
   letter-spacing: 0.8px;
   padding: 7px 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.popup-hero button:hover,
+.popup-hero button:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 0 11px rgba(169, 231, 255, 0.62);
+  background: linear-gradient(180deg, rgba(39, 39, 39, 0.95), rgba(12, 12, 12, 0.95));
+}
+
+.popup-meta {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff7d7;
+  background: rgba(8, 8, 8, 0.56);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  padding: 5px 10px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(2px);
+}
+
+.popup-title {
+  font-family: "Limelight", serif;
+  font-size: 12px;
+  letter-spacing: 0.7px;
+}
+
+.popup-count {
+  font-size: 10px;
+  letter-spacing: 0.9px;
+  color: rgba(238, 245, 255, 0.86);
 }
 
 .mini-grid {
@@ -1003,7 +1050,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 8px;
   padding: 8px;
-  background: rgba(255, 255, 255, 0.05);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.03));
   text-align: center;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -1012,6 +1059,11 @@ body {
 .mini-item:hover {
   transform: translateY(-3px);
   box-shadow: 0 0 11px rgba(164, 246, 255, 0.8);
+}
+
+.mini-item.active {
+  border-color: rgba(248, 227, 151, 0.9);
+  box-shadow: 0 0 13px rgba(255, 230, 145, 0.55);
 }
 
 .mini-item img {
@@ -1158,6 +1210,10 @@ body {
   <div id="decorClosetPopup">
     <div class="popup-hero">
       <img id="decorScene" src="Assets/decorcloset_entryway.jpg" alt="Decor closet entryway">
+      <div class="popup-meta">
+        <div class="popup-title" id="decorSceneTitle">ENTRYWAY</div>
+        <div class="popup-count" id="decorSceneCount">1 / 5</div>
+      </div>
       <button id="decorDirectoryBtn" type="button">DIRECTORY SIGN</button>
     </div>
     <div class="mini-grid" id="decorMiniGrid"></div>
@@ -1205,6 +1261,10 @@ body {
       const decorPopup = document.getElementById("decorClosetPopup");
       const galleryPopup = document.getElementById("galleryPopup");
       const preview = document.getElementById("itemPreview");
+      const decorSceneImg = document.getElementById("decorScene");
+      const decorSceneTitle = document.getElementById("decorSceneTitle");
+      const decorSceneCount = document.getElementById("decorSceneCount");
+      const decorDirectoryBtn = document.getElementById("decorDirectoryBtn");
 
       const roomImages = {
         living: [
@@ -1377,11 +1437,31 @@ body {
       ];
 
       const decorScenes = [
-        "Assets/decorcloset_entryway.jpg",
-        "Assets/plant_pillowcloset.jpg",
-        "Assets/lightingcloset.jpg",
-        "Assets/curtaincloset.jpg",
-        "Assets/ruggallery.jpg"
+        {
+          src: "Assets/decorcloset_entryway.jpg",
+          title: "ENTRYWAY",
+          alt: "Decor closet entryway"
+        },
+        {
+          src: "Assets/plant_pillowcloset.jpg",
+          title: "PLANTS & PILLOWS",
+          alt: "Plant and pillow closet"
+        },
+        {
+          src: "Assets/lightingcloset.jpg",
+          title: "LIGHTING",
+          alt: "Lighting closet"
+        },
+        {
+          src: "Assets/curtaincloset.jpg",
+          title: "CURTAINS",
+          alt: "Curtain closet"
+        },
+        {
+          src: "Assets/ruggallery.jpg",
+          title: "RUG GALLERY",
+          alt: "Rug gallery"
+        }
       ];
 
       const galleryScenes = [
@@ -2152,10 +2232,44 @@ body {
         decorItems.forEach((item) => {
           const card = document.createElement("div");
           card.className = "mini-item";
+          card.dataset.sceneSrc = item.src;
           card.innerHTML = "<img src='" + item.src + "' alt='" + item.name + "'><p>" + item.name + "</p>";
           bindItemCard(card, item);
+          card.addEventListener("click", () => {
+            const nextSceneIndex = decorScenes.findIndex((scene) => scene.src === item.src);
+            if (nextSceneIndex !== -1) {
+              updateDecorScene(nextSceneIndex, true);
+            }
+          });
           grid.appendChild(card);
         });
+        syncDecorGridHighlight();
+      }
+
+      function syncDecorGridHighlight() {
+        const currentSrc = decorScenes[decorSceneIndex] && decorScenes[decorSceneIndex].src;
+        document.querySelectorAll("#decorMiniGrid .mini-item").forEach((card) => {
+          card.classList.toggle("active", card.dataset.sceneSrc === currentSrc);
+        });
+      }
+
+      function updateDecorScene(nextIndex, animate) {
+        decorSceneIndex = (nextIndex + decorScenes.length) % decorScenes.length;
+        const scene = decorScenes[decorSceneIndex];
+        if (!scene) {
+          return;
+        }
+        if (animate) {
+          decorPopup.classList.add("scene-switch");
+        }
+        decorSceneImg.src = scene.src;
+        decorSceneImg.alt = scene.alt;
+        decorSceneTitle.textContent = scene.title;
+        decorSceneCount.textContent = (decorSceneIndex + 1) + " / " + decorScenes.length;
+        syncDecorGridHighlight();
+        if (animate) {
+          setTimeout(() => decorPopup.classList.remove("scene-switch"), 260);
+        }
       }
 
       function renderGalleryGrid() {
@@ -2184,20 +2298,25 @@ body {
       tabs.decor.addEventListener("click", () => {
         const wasOpen = decorPopup.classList.contains("show");
         closePanels();
-        setActiveTab(tabs.decor);
-        if (!wasOpen) {
-          decorPopup.classList.add("show");
-          window.scrollTo({ top: workspaceSection.offsetTop - 110, behavior: "smooth" });
+        if (wasOpen) {
+          setActiveTab(null);
+          return;
         }
+        setActiveTab(tabs.decor);
+        decorPopup.classList.add("show");
+        const rowTop = workspaceRow.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: Math.max(0, rowTop - 20), behavior: "smooth" });
       });
 
       tabs.gallery.addEventListener("click", () => {
         const wasOpen = galleryPopup.classList.contains("show");
         closePanels();
-        setActiveTab(tabs.gallery);
-        if (!wasOpen) {
-          galleryPopup.classList.add("show");
+        if (wasOpen) {
+          setActiveTab(null);
+          return;
         }
+        setActiveTab(tabs.gallery);
+        galleryPopup.classList.add("show");
       });
 
       tabs.save.addEventListener("click", () => {
@@ -2253,9 +2372,8 @@ body {
       document.getElementById("pagePrev").addEventListener("click", () => nextCatalogPage(-1));
       document.getElementById("pageNext").addEventListener("click", () => nextCatalogPage(1));
 
-      document.getElementById("decorDirectoryBtn").addEventListener("click", () => {
-        decorSceneIndex = (decorSceneIndex + 1) % decorScenes.length;
-        document.getElementById("decorScene").src = decorScenes[decorSceneIndex];
+      decorDirectoryBtn.addEventListener("click", () => {
+        updateDecorScene(decorSceneIndex + 1, true);
       });
 
       document.getElementById("galleryNextBtn").addEventListener("click", () => {
@@ -2264,6 +2382,7 @@ body {
       });
 
       renderCatalog();
+      updateDecorScene(0, false);
       renderDecorGrid();
       renderGalleryGrid();
       renderEstimate();
