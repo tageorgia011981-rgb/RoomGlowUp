@@ -1119,6 +1119,7 @@ body {
         <div id="work-area" title="Click once room is selected to open catalog">
           <div id="itemGizmo" aria-label="Item adjustment handles">
             <button class="gizmo-handle gizmo-handle-rotate" type="button" data-gizmo="rotate" aria-label="Rotate item">&#8635;</button>
+            <button class="gizmo-handle gizmo-handle-push" type="button" data-gizmo="push" aria-label="Push item side to side">&#8644;</button>
             <button class="gizmo-handle gizmo-handle-resize" type="button" data-gizmo="scale" aria-label="Resize item">&#8645;</button>
             <button class="gizmo-handle gizmo-handle-done" type="button" data-gizmo="hide" aria-label="Done editing">DONE</button>
           </div>
@@ -1933,6 +1934,10 @@ body {
         event.preventDefault();
         event.stopPropagation();
         const mode = handle.dataset.gizmo;
+        if (mode === "hide") {
+          clearSelectedPlacedItem();
+          return;
+        }
         let prevX = event.clientX;
         let prevY = event.clientY;
         handle.setPointerCapture(event.pointerId);
