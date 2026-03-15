@@ -1400,18 +1400,18 @@ body {
             {
               title: "BEDS",
               assets: [
-                "Assets/bed1.png",
-                "Assets/bed2.png",
-                "Assets/bed3.png",
-                "Assets/bed4.png",
-                "Assets/bed5.png",
-                "Assets/bed6.png",
-                "Assets/bed7.png",
-                "Assets/bed8.png",
-                "Assets/bed9.png",
-                "Assets/bed10.png",
-                "Assets/bed11.png",
-                "Assets/bed12.png"
+                "Assets/bed1.png?v=1",
+                "Assets/bed2.png?v=1",
+                "Assets/bed3.png?v=1",
+                "Assets/bed4.png?v=1",
+                "Assets/bed5.png?v=1",
+                "Assets/bed6.png?v=1",
+                "Assets/bed7.png?v=1",
+                "Assets/bed8.png?v=1",
+                "Assets/bed9.png?v=1",
+                "Assets/bed10.png?v=1",
+                "Assets/bed11.png?v=1",
+                "Assets/bed12.png?v=1"
               ]
             }
           ]
@@ -1509,6 +1509,7 @@ body {
         return path
           .split("/")
           .pop()
+          .split("?")[0]
           .replace(".png", "")
           .replace(".jpg", "")
           .replace(/[_\d]/g, " ")
