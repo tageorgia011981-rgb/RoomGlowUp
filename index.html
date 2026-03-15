@@ -719,6 +719,17 @@ body {
   filter: drop-shadow(0 0 10px rgba(255, 230, 146, 0.95));
 }
 
+.placed-shadow {
+  position: absolute;
+  width: 120px;
+  height: 14px;
+  border-radius: 999px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.12) 62%, rgba(0, 0, 0, 0) 100%);
+  filter: blur(2px);
+  pointer-events: none;
+  z-index: 1;
+}
+
 #itemGizmo {
   position: absolute;
   display: none;
@@ -1142,10 +1153,8 @@ body {
             <button class="gizmo-handle gizmo-handle-push" type="button" data-gizmo="push" aria-label="Push item side">&#8644;</button>
             <button class="gizmo-handle gizmo-handle-resize" type="button" data-gizmo="scale" aria-label="Resize item">&#8645;</button>
             <div class="gizmo-actions">
-              <button class="gizmo-action-btn" type="button" data-gizmo-action="nudge-left" aria-label="Move left">&#8592;</button>
               <button class="gizmo-action-btn" type="button" data-gizmo-action="nudge-up" aria-label="Move up">&#8593;</button>
               <button class="gizmo-action-btn" type="button" data-gizmo-action="nudge-down" aria-label="Move down">&#8595;</button>
-              <button class="gizmo-action-btn" type="button" data-gizmo-action="nudge-right" aria-label="Move right">&#8594;</button>
               <button class="gizmo-action-btn" type="button" data-gizmo-action="smaller" aria-label="Smaller">−</button>
               <button class="gizmo-action-btn" type="button" data-gizmo-action="larger" aria-label="Larger">+</button>
               <button class="gizmo-action-btn done" type="button" data-gizmo-action="hide" aria-label="Done editing">DONE</button>
@@ -1606,6 +1615,28 @@ body {
         const rotation = Number(piece.dataset.rotation || "0");
         const tilt = Number(piece.dataset.tilt || "0");
         piece.style.transform = "perspective(900px) rotateY(" + tilt + "deg) rotate(" + rotation + "deg) scale(" + scale + ")";
+        updatePlacedItemShadow(piece);
+      }
+
+      function updatePlacedItemShadow(piece) {
+        const shadow = piece && piece._shadowEl;
+        if (!shadow) {
+          return;
+        }
+        const rect = piece.getBoundingClientRect();
+        const areaRect = workArea.getBoundingClientRect();
+        const relativeTop = rect.top - areaRect.top;
+        const depth = clamp(relativeTop / Math.max(1, areaRect.height), 0, 1);
+        const shadowWidth = rect.width * (0.58 + depth * 0.26);
+        const shadowHeight = Math.max(10, rect.height * 0.09);
+        shadow.style.width = shadowWidth + "px";
+        shadow.style.height = shadowHeight + "px";
+        shadow.style.left = (rect.left - areaRect.left + (rect.width - shadowWidth) / 2) + "px";
+        shadow.style.top = (rect.bottom - areaRect.top - shadowHeight * 0.5) + "px";
+        shadow.style.opacity = String(0.18 + depth * 0.3);
+        const tilt = Math.abs(Number(piece.dataset.tilt || "0"));
+        shadow.style.transform = "scaleX(" + (1 + tilt / 95).toFixed(2) + ")";
+        shadow.style.zIndex = String(Math.max(1, Number(piece.style.zIndex || 100) - 1));
       }
 
       function clearSelectedPlacedItem() {
@@ -1696,6 +1727,7 @@ body {
         const ny = clamp(currentY + dy, 0, maxY);
         selectedPlacedItem.style.left = nx + "px";
         selectedPlacedItem.style.top = ny + "px";
+        updatePlacedItemShadow(selectedPlacedItem);
         positionItemGizmo();
       }
 
@@ -1766,6 +1798,9 @@ body {
         piece.style.left = Math.max(0, Math.floor(baseX + spreadOffset)) + "px";
         piece.style.top = Math.max(0, Math.floor(baseY + spreadOffset * 0.55)) + "px";
         piece.style.zIndex = String(100 + placedItems.children.length);
+        const shadow = document.createElement("div");
+        shadow.className = "placed-shadow";
+        piece._shadowEl = shadow;
         piece.title = "Drag move | Shift+Drag size | Alt+Drag push | Ctrl+Drag rotate | Double-click send back";
         piece.addEventListener("dblclick", (event) => {
           event.preventDefault();
@@ -1774,6 +1809,9 @@ body {
           if (itemId) {
             removeEstimate(itemId);
             renderEstimate();
+          }
+          if (piece._shadowEl) {
+            piece._shadowEl.remove();
           }
           piece.remove();
           selectLatestPlacedItemOrClear();
@@ -1799,8 +1837,9 @@ body {
             });
           }
         }, { passive: false });
-        applyPlacedItemTransform(piece);
+        placedItems.appendChild(shadow);
         placedItems.appendChild(piece);
+        applyPlacedItemTransform(piece);
         makeDraggable(piece, workArea);
         selectPlacedItem(piece);
         const workAreaTop = workArea.getBoundingClientRect().top + window.scrollY;
@@ -1831,6 +1870,7 @@ body {
           const highest = Array.from(container.querySelectorAll(".placed-item"))
             .reduce((max, node) => Math.max(max, Number(node.style.zIndex || 0)), 100);
           el.style.zIndex = String(highest + 1);
+          updatePlacedItemShadow(el);
           el.setPointerCapture(event.pointerId);
           startX = event.clientX;
           startY = event.clientY;
@@ -1856,6 +1896,7 @@ body {
             const ny = Math.min(maxY, Math.max(0, originY + dy));
             el.style.left = nx + "px";
             el.style.top = ny + "px";
+            updatePlacedItemShadow(el);
             positionItemGizmo();
           } else if (modifierMode === "scale") {
             updatePlacedItemState(el, (state) => {
@@ -1997,11 +2038,7 @@ body {
         event.preventDefault();
         event.stopPropagation();
         const action = actionBtn.dataset.gizmoAction;
-        if (action === "nudge-left") {
-          nudgeSelectedItem(-14, 0);
-        } else if (action === "nudge-right") {
-          nudgeSelectedItem(14, 0);
-        } else if (action === "nudge-up") {
+        if (action === "nudge-up") {
           nudgeSelectedItem(0, -14);
         } else if (action === "nudge-down") {
           nudgeSelectedItem(0, 14);
