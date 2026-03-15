@@ -779,6 +779,12 @@ body {
   transform: translateY(-50%);
 }
 
+.gizmo-handle-flip {
+  left: -13px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .gizmo-handle-done {
   right: -13px;
   top: -13px;
@@ -1119,6 +1125,7 @@ body {
         <div id="work-area" title="Click once room is selected to open catalog">
           <div id="itemGizmo" aria-label="Item adjustment handles">
             <button class="gizmo-handle gizmo-handle-rotate" type="button" data-gizmo="rotate" aria-label="Rotate item">&#8635;</button>
+            <button class="gizmo-handle gizmo-handle-flip" type="button" data-gizmo="flip" aria-label="Flip left right">&#8646;</button>
             <button class="gizmo-handle gizmo-handle-push" type="button" data-gizmo="push" aria-label="Push item side to side">&#8644;</button>
             <button class="gizmo-handle gizmo-handle-resize" type="button" data-gizmo="scale" aria-label="Resize item">&#8645;</button>
             <button class="gizmo-handle gizmo-handle-done" type="button" data-gizmo="hide" aria-label="Done editing">DONE</button>
@@ -1577,7 +1584,8 @@ body {
         const scale = Number(piece.dataset.scale || "1");
         const rotation = Number(piece.dataset.rotation || "0");
         const tilt = Number(piece.dataset.tilt || "0");
-        piece.style.transform = "perspective(900px) rotateY(" + tilt + "deg) rotate(" + rotation + "deg) scale(" + scale + ")";
+        const flip = Number(piece.dataset.flip || "1");
+        piece.style.transform = "perspective(900px) rotateY(" + tilt + "deg) rotate(" + rotation + "deg) scale(" + scale + ") scaleX(" + flip + ")";
         updatePlacedItemShadow(piece);
       }
 
@@ -1644,7 +1652,8 @@ body {
         const state = {
           scale: Number(selectedPlacedItem.dataset.scale || "1"),
           rotation: Number(selectedPlacedItem.dataset.rotation || "0"),
-          tilt: Number(selectedPlacedItem.dataset.tilt || "0")
+          tilt: Number(selectedPlacedItem.dataset.tilt || "0"),
+          flip: Number(selectedPlacedItem.dataset.flip || "1")
         };
         updater(state);
         state.scale = clamp(state.scale, 0.35, 2.5);
@@ -1653,6 +1662,7 @@ body {
         selectedPlacedItem.dataset.scale = state.scale.toFixed(2);
         selectedPlacedItem.dataset.rotation = String(state.rotation);
         selectedPlacedItem.dataset.tilt = state.tilt.toFixed(1);
+        selectedPlacedItem.dataset.flip = String(state.flip >= 0 ? 1 : -1);
         applyPlacedItemTransform(selectedPlacedItem);
         positionItemGizmo();
       }
@@ -1664,7 +1674,8 @@ body {
         const state = {
           scale: Number(piece.dataset.scale || "1"),
           rotation: Number(piece.dataset.rotation || "0"),
-          tilt: Number(piece.dataset.tilt || "0")
+          tilt: Number(piece.dataset.tilt || "0"),
+          flip: Number(piece.dataset.flip || "1")
         };
         updater(state);
         state.scale = clamp(state.scale, 0.35, 2.5);
@@ -1673,6 +1684,7 @@ body {
         piece.dataset.scale = state.scale.toFixed(2);
         piece.dataset.rotation = String(state.rotation);
         piece.dataset.tilt = state.tilt.toFixed(1);
+        piece.dataset.flip = String(state.flip >= 0 ? 1 : -1);
         applyPlacedItemTransform(piece);
         positionItemGizmo();
       }
@@ -1751,6 +1763,7 @@ body {
         piece.dataset.scale = "1";
         piece.dataset.rotation = "0";
         piece.dataset.tilt = "0";
+        piece.dataset.flip = "1";
         piece.draggable = false;
         const pieceWidth = item.src.endsWith(".jpg") ? 180 : 140;
         piece.style.width = pieceWidth + "px";
@@ -1763,7 +1776,7 @@ body {
         const shadow = document.createElement("div");
         shadow.className = "placed-shadow";
         piece._shadowEl = shadow;
-        piece.title = "Drag move | Shift+Drag size | Ctrl+Drag rotate | Side handle = push left/right | Double-click send back";
+        piece.title = "Drag move | Shift+Drag size | Ctrl+Drag rotate | Side handle = push | Left handle = flip L/R | Double-click send back";
         piece.addEventListener("dblclick", (event) => {
           event.preventDefault();
           event.stopPropagation();
@@ -1944,6 +1957,12 @@ body {
         const mode = handle.dataset.gizmo;
         if (mode === "hide") {
           clearSelectedPlacedItem();
+          return;
+        }
+        if (mode === "flip") {
+          updateSelectedPlacedItem((state) => {
+            state.flip *= -1;
+          });
           return;
         }
         let prevX = event.clientX;
