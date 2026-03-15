@@ -779,43 +779,12 @@ body {
   transform: translateY(-50%);
 }
 
-.gizmo-actions {
-  position: absolute;
-  left: 50%;
-  bottom: -38px;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 4px;
-  padding: 4px 6px;
-  border-radius: 999px;
-  background: rgba(8, 8, 8, 0.9);
-  border: 1px solid rgba(255, 218, 128, 0.45);
-  pointer-events: auto;
-}
-
-.gizmo-action-btn {
-  border: 0;
-  width: 22px;
-  height: 22px;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  background: rgba(23, 23, 23, 0.95);
-  color: #f7d89e;
-  cursor: pointer;
-}
-
-.gizmo-action-btn:hover {
-  box-shadow: 0 0 8px rgba(255, 220, 135, 0.7);
-}
-
-.gizmo-action-btn.done {
-  width: auto;
-  padding: 0 7px;
+.gizmo-handle-done {
+  right: -13px;
+  top: -13px;
+  width: 40px;
   font-size: 9px;
-  letter-spacing: 0.6px;
+  letter-spacing: 0.5px;
 }
 
 #roomItemControls {
@@ -1150,15 +1119,8 @@ body {
         <div id="work-area" title="Click once room is selected to open catalog">
           <div id="itemGizmo" aria-label="Item adjustment handles">
             <button class="gizmo-handle gizmo-handle-rotate" type="button" data-gizmo="rotate" aria-label="Rotate item">&#8635;</button>
-            <button class="gizmo-handle gizmo-handle-push" type="button" data-gizmo="push" aria-label="Push item side">&#8644;</button>
             <button class="gizmo-handle gizmo-handle-resize" type="button" data-gizmo="scale" aria-label="Resize item">&#8645;</button>
-            <div class="gizmo-actions">
-              <button class="gizmo-action-btn" type="button" data-gizmo-action="nudge-up" aria-label="Move up">&#8593;</button>
-              <button class="gizmo-action-btn" type="button" data-gizmo-action="nudge-down" aria-label="Move down">&#8595;</button>
-              <button class="gizmo-action-btn" type="button" data-gizmo-action="smaller" aria-label="Smaller">−</button>
-              <button class="gizmo-action-btn" type="button" data-gizmo-action="larger" aria-label="Larger">+</button>
-              <button class="gizmo-action-btn done" type="button" data-gizmo-action="hide" aria-label="Done editing">DONE</button>
-            </div>
+            <button class="gizmo-handle gizmo-handle-done" type="button" data-gizmo="hide" aria-label="Done editing">DONE</button>
           </div>
           <div id="roomItemControls" aria-label="Placed item controls">
             <div class="item-controls-title">SELECT ITEM TO EDIT</div>
@@ -1613,8 +1575,7 @@ body {
       function applyPlacedItemTransform(piece) {
         const scale = Number(piece.dataset.scale || "1");
         const rotation = Number(piece.dataset.rotation || "0");
-        const tilt = Number(piece.dataset.tilt || "0");
-        piece.style.transform = "perspective(900px) rotateY(" + tilt + "deg) rotate(" + rotation + "deg) scale(" + scale + ")";
+        piece.style.transform = "rotate(" + rotation + "deg) scale(" + scale + ")";
         updatePlacedItemShadow(piece);
       }
 
@@ -1634,8 +1595,7 @@ body {
         shadow.style.left = (rect.left - areaRect.left + (rect.width - shadowWidth) / 2) + "px";
         shadow.style.top = (rect.bottom - areaRect.top - shadowHeight * 0.5) + "px";
         shadow.style.opacity = String(0.18 + depth * 0.3);
-        const tilt = Math.abs(Number(piece.dataset.tilt || "0"));
-        shadow.style.transform = "scaleX(" + (1 + tilt / 95).toFixed(2) + ")";
+        shadow.style.transform = "scaleX(1)";
         shadow.style.zIndex = String(Math.max(1, Number(piece.style.zIndex || 100) - 1));
       }
 
@@ -1681,16 +1641,13 @@ body {
         }
         const state = {
           scale: Number(selectedPlacedItem.dataset.scale || "1"),
-          rotation: Number(selectedPlacedItem.dataset.rotation || "0"),
-          tilt: Number(selectedPlacedItem.dataset.tilt || "0")
+          rotation: Number(selectedPlacedItem.dataset.rotation || "0")
         };
         updater(state);
         state.scale = clamp(state.scale, 0.35, 2.5);
         state.rotation = clamp(state.rotation, -75, 75);
-        state.tilt = clamp(state.tilt, -38, 38);
         selectedPlacedItem.dataset.scale = state.scale.toFixed(2);
         selectedPlacedItem.dataset.rotation = String(state.rotation);
-        selectedPlacedItem.dataset.tilt = state.tilt.toFixed(1);
         applyPlacedItemTransform(selectedPlacedItem);
         positionItemGizmo();
       }
@@ -1701,16 +1658,13 @@ body {
         }
         const state = {
           scale: Number(piece.dataset.scale || "1"),
-          rotation: Number(piece.dataset.rotation || "0"),
-          tilt: Number(piece.dataset.tilt || "0")
+          rotation: Number(piece.dataset.rotation || "0")
         };
         updater(state);
         state.scale = clamp(state.scale, 0.35, 2.5);
         state.rotation = clamp(state.rotation, -75, 75);
-        state.tilt = clamp(state.tilt, -38, 38);
         piece.dataset.scale = state.scale.toFixed(2);
         piece.dataset.rotation = String(state.rotation);
-        piece.dataset.tilt = state.tilt.toFixed(1);
         applyPlacedItemTransform(piece);
         positionItemGizmo();
       }
@@ -1788,7 +1742,6 @@ body {
         piece.dataset.itemId = item.id;
         piece.dataset.scale = "1";
         piece.dataset.rotation = "0";
-        piece.dataset.tilt = "0";
         piece.draggable = false;
         const pieceWidth = item.src.endsWith(".jpg") ? 180 : 140;
         piece.style.width = pieceWidth + "px";
@@ -1801,7 +1754,7 @@ body {
         const shadow = document.createElement("div");
         shadow.className = "placed-shadow";
         piece._shadowEl = shadow;
-        piece.title = "Drag move | Shift+Drag size | Alt+Drag push | Ctrl+Drag rotate | Double-click send back";
+        piece.title = "Drag move | Shift+Drag size | Ctrl+Drag rotate | Wheel size | Ctrl+Wheel rotate | Double-click send back";
         piece.addEventListener("dblclick", (event) => {
           event.preventDefault();
           event.stopPropagation();
@@ -1823,17 +1776,13 @@ body {
             selectPlacedItem(piece);
           }
           const direction = event.deltaY < 0 ? 1 : -1;
-          if (event.shiftKey) {
+          if (event.ctrlKey || event.metaKey) {
             updateSelectedPlacedItem((state) => {
-              state.scale += direction * 0.1;
-            });
-          } else if (event.altKey || event.metaKey) {
-            updateSelectedPlacedItem((state) => {
-              state.tilt += direction * 4;
+              state.rotation += direction * 6;
             });
           } else {
             updateSelectedPlacedItem((state) => {
-              state.rotation += direction * 6;
+              state.scale += direction * 0.1;
             });
           }
         }, { passive: false });
@@ -1888,7 +1837,7 @@ body {
           const dy = event.clientY - startY;
           const stepX = event.clientX - prevX;
           const stepY = event.clientY - prevY;
-          const modifierMode = event.shiftKey ? "scale" : (event.altKey ? "tilt" : ((event.ctrlKey || event.metaKey) ? "rotate" : "move"));
+          const modifierMode = event.shiftKey ? "scale" : ((event.ctrlKey || event.metaKey) ? "rotate" : "move");
           if (modifierMode === "move") {
             const maxX = container.clientWidth - el.clientWidth;
             const maxY = container.clientHeight - el.clientHeight;
@@ -1901,14 +1850,6 @@ body {
           } else if (modifierMode === "scale") {
             updatePlacedItemState(el, (state) => {
               state.scale += -stepY * 0.006;
-            });
-            startX = event.clientX;
-            startY = event.clientY;
-            originX = parseFloat(el.style.left || "0");
-            originY = parseFloat(el.style.top || "0");
-          } else if (modifierMode === "tilt") {
-            updatePlacedItemState(el, (state) => {
-              state.tilt += stepX * 0.22;
             });
             startX = event.clientX;
             startY = event.clientY;
