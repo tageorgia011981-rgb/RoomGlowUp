@@ -193,7 +193,7 @@ body {
 
 .workspace-section {
   width: min(1500px, 96vw);
-  margin: 34vh auto 140px;
+  margin: clamp(150px, 22vh, 260px) auto 140px;
   position: relative;
 }
 
@@ -206,13 +206,13 @@ body {
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(-58px) scaleY(0.9);
+  transform: translateY(-34px) scaleY(0.96);
   transform-origin: top center;
   transition:
-    max-height 0.75s ease,
-    margin 0.75s ease,
-    opacity 0.95s cubic-bezier(0.23, 1, 0.32, 1),
-    transform 0.95s cubic-bezier(0.23, 1, 0.32, 1);
+    max-height 0.62s ease,
+    margin 0.62s ease,
+    opacity 0.68s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.68s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 #catalogOverlay.show {
@@ -229,12 +229,12 @@ body {
   display: block;
   filter: drop-shadow(0 18px 38px rgba(0, 0, 0, 0.62));
   transform-origin: center top;
-  transform: scaleX(0.06);
-  transition: transform 0.95s cubic-bezier(0.2, 1, 0.3, 1);
+  transform: perspective(1400px) rotateX(5deg) scaleX(0.2) translateY(6px);
+  transition: transform 0.72s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 #catalogOverlay.show #catalogBook {
-  transform: scaleX(1);
+  transform: perspective(1400px) rotateX(0deg) scaleX(1) translateY(0);
 }
 
 .catalog-grid {
@@ -253,14 +253,14 @@ body {
 
 .catalog-left {
   left: 12%;
-  transform: translateX(28%) scale(0.94);
-  transition: transform 0.72s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+  transform: translateX(20%) scale(0.96);
+  transition: transform 0.56s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s ease;
 }
 
 .catalog-right {
   right: 12%;
-  transform: translateX(-28%) scale(0.94);
-  transition: transform 0.72s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+  transform: translateX(-20%) scale(0.96);
+  transition: transform 0.56s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s ease;
 }
 
 #catalogOverlay.show .catalog-left,
@@ -270,15 +270,15 @@ body {
 }
 
 #catalogOverlay.show .catalog-right {
-  transition-delay: 0.06s;
+  transition-delay: 0.03s;
 }
 
 #catalogOverlay.flipping .catalog-left {
-  animation: pageFlipLeft 0.55s ease;
+  animation: pageFlipLeft 0.44s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 #catalogOverlay.flipping .catalog-right {
-  animation: pageFlipRight 0.55s ease;
+  animation: pageFlipRight 0.44s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .catalog-item {
@@ -395,14 +395,14 @@ body {
   flex-direction: column;
   gap: 8px;
   opacity: 0;
-  transform: translateX(24px);
-  transition: transform 0.6s ease, opacity 0.6s ease;
+  transform: translateX(18px);
+  transition: transform 0.44s ease, opacity 0.44s ease;
 }
 
 #catalogOverlay.show .catalog-controls {
   opacity: 1;
   transform: translateX(0);
-  transition-delay: 0.2s;
+  transition-delay: 0.12s;
 }
 
 .catalog-control {
@@ -436,12 +436,12 @@ body {
   display: flex;
   gap: 12px;
   opacity: 0;
-  transition: opacity 0.45s ease;
+  transition: opacity 0.35s ease;
 }
 
 #catalogOverlay.show .catalog-page-controls {
   opacity: 1;
-  transition-delay: 0.26s;
+  transition-delay: 0.16s;
 }
 
 .catalog-page-controls button {
@@ -457,13 +457,13 @@ body {
 
 @keyframes pageFlipLeft {
   0% { transform: rotateY(0deg); }
-  45% { transform: rotateY(-68deg); }
+  48% { transform: rotateY(-48deg); }
   100% { transform: rotateY(0deg); }
 }
 
 @keyframes pageFlipRight {
   0% { transform: rotateY(0deg); }
-  45% { transform: rotateY(68deg); }
+  48% { transform: rotateY(48deg); }
   100% { transform: rotateY(0deg); }
 }
 
@@ -486,9 +486,9 @@ body {
   overflow: hidden;
   position: relative;
   opacity: 0;
-  transform: translateX(-112%) rotateY(10deg) scale(0.97);
+  transform: translateX(-108%) rotateY(7deg) scale(0.985);
   transform-origin: left center;
-  transition: max-width 1.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.85s ease, transform 1.25s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: max-width 0.92s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.62s ease, transform 0.92s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
   flex-shrink: 0;
 }
@@ -555,11 +555,11 @@ body {
 
 #rooms-cabinet.show::after {
   opacity: 0.75;
-  animation: cabinetSheen 4.8s ease-in-out infinite;
+  animation: cabinetSheen 5.8s ease-in-out infinite;
 }
 
 #rooms-cabinet.show .cabinet-img {
-  animation: cabinetGlowPulse 3.8s ease-in-out infinite;
+  animation: cabinetGlowPulse 4.8s ease-in-out infinite;
 }
 
 .drawer-zone {
@@ -664,7 +664,7 @@ body {
 }
 
 #work-area.room-switch {
-  animation: roomSweep 0.92s ease;
+  animation: roomSweep 0.64s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @keyframes roomSweep {
@@ -674,14 +674,14 @@ body {
     opacity: 1;
   }
   38% {
-    transform: translateX(52px);
-    filter: blur(4px);
-    opacity: 0.52;
+    transform: translateX(30px);
+    filter: blur(2.2px);
+    opacity: 0.72;
   }
   62% {
-    transform: translateX(-20px);
-    filter: blur(2px);
-    opacity: 0.76;
+    transform: translateX(-10px);
+    filter: blur(1.1px);
+    opacity: 0.88;
   }
   100% {
     transform: translateX(0);
@@ -1524,6 +1524,7 @@ body {
       let gallerySceneIndex = 0;
       let catalogRevealTimer = null;
       let selectedPlacedItem = null;
+      let lastScrollRequest = { top: -1, at: 0 };
 
       const CATALOG_SPREAD_COUNT = 12;
       const ITEMS_PER_PAGE = 6;
@@ -1626,15 +1627,28 @@ body {
         galleryPopup.classList.remove("show");
       }
 
+      function smoothScrollTo(top) {
+        const targetTop = Math.max(0, Math.round(top));
+        const now = performance.now();
+        if (Math.abs(window.scrollY - targetTop) < 18) {
+          return;
+        }
+        if (Math.abs(lastScrollRequest.top - targetTop) < 18 && now - lastScrollRequest.at < 420) {
+          return;
+        }
+        lastScrollRequest = { top: targetTop, at: now };
+        window.scrollTo({
+          top: targetTop,
+          behavior: "smooth"
+        });
+      }
+
       function openRoomsCabinet() {
         closePanels();
         cabinet.classList.add("show");
         setActiveTab(tabs.rooms);
         const rowTop = workspaceRow.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({
-          top: Math.max(0, rowTop - 24),
-          behavior: "smooth"
-        });
+        smoothScrollTo(rowTop - 14);
       }
 
       function hideRoomsCabinet() {
@@ -1658,15 +1672,12 @@ body {
           });
         };
         if (cabinetWasVisible) {
-          catalogRevealTimer = setTimeout(revealCatalog, 620);
+          catalogRevealTimer = setTimeout(revealCatalog, 420);
         } else {
           revealCatalog();
         }
         const sectionTop = workspaceSection.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({
-          top: Math.max(0, sectionTop - 150),
-          behavior: "smooth"
-        });
+        smoothScrollTo(sectionTop - 108);
       }
 
       function setWorkAreaRoom(src) {
@@ -1950,10 +1961,7 @@ body {
         makeDraggable(piece, workArea);
         selectPlacedItem(piece);
         const workAreaTop = workArea.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({
-          top: Math.max(0, workAreaTop - 120),
-          behavior: "smooth"
-        });
+        smoothScrollTo(workAreaTop - 88);
         addEstimate(item);
         renderEstimate();
       }
@@ -2168,7 +2176,7 @@ body {
         catalog.classList.remove("flipping");
         void catalog.offsetWidth;
         catalog.classList.add("flipping");
-        setTimeout(() => catalog.classList.remove("flipping"), 560);
+        setTimeout(() => catalog.classList.remove("flipping"), 430);
       }
 
       function setCatalogTitles(spreadTitle) {
@@ -2349,7 +2357,7 @@ body {
         setActiveTab(tabs.decor);
         decorPopup.classList.add("show");
         const rowTop = workspaceRow.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({ top: Math.max(0, rowTop - 20), behavior: "smooth" });
+        smoothScrollTo(rowTop - 16);
       });
 
       tabs.gallery.addEventListener("click", () => {
