@@ -17,6 +17,7 @@
   --lux-line: rgba(255, 227, 159, 0.35);
   --lux-panel: rgba(14, 14, 14, 0.8);
   --lux-shadow: rgba(0, 0, 0, 0.62);
+  --cabinet-size: 560px;
 }
 
 html,
@@ -574,9 +575,9 @@ body {
 }
 
 #rooms-cabinet {
-  width: 460px;
+  width: var(--cabinet-size);
   max-width: 0;
-  height: 460px;
+  height: var(--cabinet-size);
   overflow: hidden;
   position: relative;
   opacity: 0;
@@ -589,7 +590,7 @@ body {
 }
 
 #rooms-cabinet.show {
-  max-width: 460px;
+  max-width: var(--cabinet-size);
   opacity: 1;
   transform: translateX(0) rotateY(0deg) scale(1);
   pointer-events: auto;
@@ -1206,7 +1207,7 @@ body {
   #rooms-cabinet.show {
     width: 100%;
     max-width: 100%;
-    height: min(84vw, 460px);
+    height: min(90vw, var(--cabinet-size));
     transform: translateY(-20px) rotateY(0deg) scale(1);
   }
 
@@ -1216,7 +1217,7 @@ body {
   }
 
   #rooms-cabinet.show {
-    max-height: 420px;
+    max-height: 540px;
     transform: translateY(0);
   }
 
