@@ -724,8 +724,9 @@ body {
   display: none;
   border: 1px dashed rgba(255, 224, 137, 0.68);
   border-radius: 8px;
-  z-index: 84;
+  z-index: 1200;
   pointer-events: none;
+  box-shadow: 0 0 10px rgba(255, 220, 128, 0.35);
 }
 
 #itemGizmo.show {
@@ -1654,7 +1655,7 @@ body {
         };
         updater(state);
         state.scale = clamp(state.scale, 0.35, 2.5);
-        state.rotation = ((state.rotation % 360) + 360) % 360;
+        state.rotation = clamp(state.rotation, -75, 75);
         state.tilt = clamp(state.tilt, -38, 38);
         selectedPlacedItem.dataset.scale = state.scale.toFixed(2);
         selectedPlacedItem.dataset.rotation = String(state.rotation);
@@ -1674,7 +1675,7 @@ body {
         };
         updater(state);
         state.scale = clamp(state.scale, 0.35, 2.5);
-        state.rotation = ((state.rotation % 360) + 360) % 360;
+        state.rotation = clamp(state.rotation, -75, 75);
         state.tilt = clamp(state.tilt, -38, 38);
         piece.dataset.scale = state.scale.toFixed(2);
         piece.dataset.rotation = String(state.rotation);
