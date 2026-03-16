@@ -199,25 +199,6 @@ body {
   filter: saturate(1.08) contrast(1.04) brightness(1.03);
 }
 
-.pull-tab::after {
-  content: "";
-  position: absolute;
-  top: 8%;
-  left: -36%;
-  width: 30%;
-  height: 86%;
-  transform: rotate(15deg) translateX(0);
-  background: linear-gradient(
-    120deg,
-    rgba(255, 255, 255, 0),
-    rgba(255, 248, 219, 0.66),
-    rgba(255, 255, 255, 0)
-  );
-  opacity: 0;
-  pointer-events: none;
-  transition: transform 0.62s ease, opacity 0.3s ease;
-}
-
 .pull-tab span {
   position: absolute;
   top: 39%;
@@ -240,12 +221,6 @@ body {
 .pull-tab.active {
   transform: translateY(-9px);
   filter: drop-shadow(0 0 10px rgba(164, 255, 197, 0.8)) drop-shadow(0 9px 20px rgba(0, 0, 0, 0.4));
-}
-
-.pull-tab:hover::after,
-.pull-tab.active::after {
-  opacity: 0.88;
-  transform: rotate(15deg) translateX(560%);
 }
 
 .workspace-section {
