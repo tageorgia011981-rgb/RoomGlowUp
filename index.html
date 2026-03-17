@@ -1831,7 +1831,8 @@ body {
           tone: "entryway"
         },
         {
-          src: "Assets/sitestuff_pillows.jpg",
+          src: "Assets/sitestuff_plants.jpg",
+          fallbacks: ["Assets/sitestuff_pillows.jpg", "Assets/plant_pillowcloset.jpg"],
           title: "PLANTS",
           alt: "Plant closet",
           tone: "plants"
@@ -2684,10 +2685,27 @@ body {
           decorPopup.classList.add("scene-switch");
         }
         decorSceneImg.onerror = null;
+        const fallbackQueue = [];
+        if (Array.isArray(scene.fallbacks)) {
+          scene.fallbacks.forEach((candidate) => {
+            if (candidate && candidate !== scene.src) {
+              fallbackQueue.push(candidate);
+            }
+          });
+        }
         if (scene.fallback && scene.fallback !== scene.src) {
+          fallbackQueue.push(scene.fallback);
+        }
+        if (fallbackQueue.length) {
+          let fallbackIndex = 0;
           decorSceneImg.onerror = () => {
-            decorSceneImg.onerror = null;
-            decorSceneImg.src = scene.fallback;
+            if (fallbackIndex >= fallbackQueue.length) {
+              decorSceneImg.onerror = null;
+              return;
+            }
+            const nextSrc = fallbackQueue[fallbackIndex];
+            fallbackIndex += 1;
+            decorSceneImg.src = nextSrc;
           };
         }
         decorSceneImg.src = scene.src;
