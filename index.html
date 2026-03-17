@@ -230,6 +230,13 @@ body {
   width: min(1500px, 96vw);
   margin: clamp(150px, 22vh, 260px) auto 140px;
   position: relative;
+  transition: width 0.38s cubic-bezier(0.22, 1, 0.36, 1), margin 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.decor-popup-open .workspace-section {
+  width: min(1500px, calc(96vw - 640px));
+  margin-left: max(16px, 2vw);
+  margin-right: auto;
 }
 
 #catalogOverlay {
@@ -1070,8 +1077,8 @@ body {
 
 #decorClosetPopup {
   right: max(18px, 2vw);
-  width: min(600px, 40vw);
-  min-width: 470px;
+  width: min(600px, 38vw);
+  min-width: 500px;
   max-height: min(86vh, 900px);
   transform: translateX(18px) scale(0.985);
   display: flex;
@@ -1093,6 +1100,7 @@ body {
 
 #decorClosetPopup .popup-hero {
   margin-bottom: 0;
+  min-height: clamp(390px, 68vh, 760px);
 }
 
 .popup-hero img {
@@ -1104,7 +1112,7 @@ body {
 }
 
 #decorClosetPopup .popup-hero img {
-  height: clamp(330px, 51vh, 560px);
+  height: clamp(390px, 68vh, 760px);
   aspect-ratio: auto;
 }
 
@@ -1237,10 +1245,50 @@ body {
 }
 
 #decorMiniGrid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  max-height: 220px;
-  overflow-y: auto;
-  padding-right: 4px;
+  display: none !important;
+}
+
+.decor-directory-menu {
+  position: absolute;
+  right: 12px;
+  bottom: 56px;
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 190px;
+  max-width: min(56%, 260px);
+  padding: 10px;
+  border-radius: 9px;
+  background: rgba(9, 9, 9, 0.8);
+  border: 1px solid rgba(255, 230, 168, 0.28);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(2px);
+  z-index: 3;
+}
+
+.decor-directory-menu.show {
+  display: flex;
+}
+
+.decor-directory-option {
+  border: 0;
+  border-radius: 7px;
+  background: rgba(28, 28, 28, 0.9);
+  color: #f8e4a9;
+  font-family: "Limelight", serif;
+  font-size: 10px;
+  letter-spacing: 0.7px;
+  text-align: left;
+  padding: 7px 9px;
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+}
+
+.decor-directory-option:hover,
+.decor-directory-option.active {
+  transform: translateX(2px);
+  background: rgba(44, 44, 44, 0.94);
+  box-shadow: 0 0 8px rgba(255, 224, 136, 0.46);
 }
 
 .mini-item {
@@ -1312,12 +1360,7 @@ body {
   }
 
   #decorClosetPopup .popup-hero img {
-    height: clamp(250px, 44vh, 440px);
-  }
-
-  #decorMiniGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-height: 200px;
+    height: clamp(280px, 48vh, 480px);
   }
 
   .popup-scene-story {
@@ -1325,10 +1368,23 @@ body {
     font-size: 9px;
   }
 
+  .decor-directory-menu {
+    min-width: 164px;
+    max-width: min(62%, 240px);
+  }
+
   #roomItemControls {
     right: 10px;
     top: 92px;
     max-width: calc(100vw - 20px);
+  }
+}
+
+@media (max-width: 1520px) {
+  body.decor-popup-open .workspace-section {
+    width: min(1500px, 92vw);
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 </style>
@@ -1435,6 +1491,7 @@ body {
         <div class="popup-count" id="decorSceneCount">1 / 5</div>
       </div>
       <div class="popup-scene-story" id="decorSceneStory">WALK INTO A CURATED ENTRY CLOSET EXPERIENCE.</div>
+      <div class="decor-directory-menu" id="decorDirectoryMenu"></div>
       <button id="decorDirectoryBtn" type="button">DIRECTORY SIGN</button>
     </div>
     <div class="mini-grid" id="decorMiniGrid"></div>
@@ -1486,6 +1543,7 @@ body {
       const decorSceneTitle = document.getElementById("decorSceneTitle");
       const decorSceneCount = document.getElementById("decorSceneCount");
       const decorSceneStory = document.getElementById("decorSceneStory");
+      const decorDirectoryMenu = document.getElementById("decorDirectoryMenu");
       const decorDirectoryBtn = document.getElementById("decorDirectoryBtn");
 
       const roomImages = {
@@ -1856,10 +1914,20 @@ body {
         }
       }
 
+      function closeDecorDirectoryMenu() {
+        if (!decorDirectoryMenu) {
+          return;
+        }
+        decorDirectoryMenu.classList.remove("show");
+        decorDirectoryBtn.setAttribute("aria-expanded", "false");
+      }
+
       function closePanels() {
         catalog.classList.remove("show");
         decorPopup.classList.remove("show");
         galleryPopup.classList.remove("show");
+        document.body.classList.remove("decor-popup-open");
+        closeDecorDirectoryMenu();
       }
 
       function smoothScrollTo(top) {
@@ -2513,6 +2581,24 @@ body {
         renderCatalog();
       }
 
+      function renderDecorDirectoryMenu() {
+        if (!decorDirectoryMenu) {
+          return;
+        }
+        decorDirectoryMenu.innerHTML = "";
+        decorScenes.forEach((scene, index) => {
+          const option = document.createElement("button");
+          option.type = "button";
+          option.className = "decor-directory-option" + (index === decorSceneIndex ? " active" : "");
+          option.textContent = scene.title;
+          option.addEventListener("click", () => {
+            updateDecorScene(index, true);
+            closeDecorDirectoryMenu();
+          });
+          decorDirectoryMenu.appendChild(option);
+        });
+      }
+
       function renderDecorGrid() {
         const grid = document.getElementById("decorMiniGrid");
         grid.innerHTML = "";
@@ -2537,6 +2623,9 @@ body {
         const currentSrc = decorScenes[decorSceneIndex] && decorScenes[decorSceneIndex].src;
         document.querySelectorAll("#decorMiniGrid .mini-item").forEach((card) => {
           card.classList.toggle("active", card.dataset.sceneSrc === currentSrc);
+        });
+        document.querySelectorAll("#decorDirectoryMenu .decor-directory-option").forEach((option, idx) => {
+          option.classList.toggle("active", idx === decorSceneIndex);
         });
       }
 
@@ -2592,6 +2681,7 @@ body {
           return;
         }
         setActiveTab(tabs.decor);
+        document.body.classList.add("decor-popup-open");
         decorPopup.classList.add("show");
         const rowTop = workspaceRow.getBoundingClientRect().top + window.scrollY;
         smoothScrollTo(rowTop - 16);
@@ -2661,8 +2751,22 @@ body {
       document.getElementById("pagePrev").addEventListener("click", () => nextCatalogPage(-1));
       document.getElementById("pageNext").addEventListener("click", () => nextCatalogPage(1));
 
-      decorDirectoryBtn.addEventListener("click", () => {
-        updateDecorScene(decorSceneIndex + 1, true);
+      decorDirectoryBtn.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const willOpen = !decorDirectoryMenu.classList.contains("show");
+        if (willOpen) {
+          renderDecorDirectoryMenu();
+        }
+        decorDirectoryMenu.classList.toggle("show", willOpen);
+        decorDirectoryBtn.setAttribute("aria-expanded", willOpen ? "true" : "false");
+      });
+
+      document.addEventListener("pointerdown", (event) => {
+        const clickedMenu = event.target.closest("#decorDirectoryMenu");
+        const clickedBtn = event.target.closest("#decorDirectoryBtn");
+        if (!clickedMenu && !clickedBtn) {
+          closeDecorDirectoryMenu();
+        }
       });
 
       document.getElementById("galleryNextBtn").addEventListener("click", () => {
@@ -2672,6 +2776,7 @@ body {
 
       renderCatalog();
       updateDecorScene(0, false);
+      renderDecorDirectoryMenu();
       renderDecorGrid();
       renderGalleryGrid();
       renderEstimate();
