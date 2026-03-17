@@ -1173,7 +1173,8 @@ body {
     radial-gradient(circle at 50% 120%, rgba(66, 36, 10, 0.4), transparent 54%);
 }
 
-#decorClosetPopup[data-scene="plants"] .popup-hero::after {
+#decorClosetPopup[data-scene="plants"] .popup-hero::after,
+#decorClosetPopup[data-scene="pillows"] .popup-hero::after {
   background:
     linear-gradient(180deg, rgba(9, 46, 26, 0.1), rgba(0, 0, 0, 0.2) 46%, rgba(0, 0, 0, 0.36)),
     radial-gradient(circle at 50% 120%, rgba(15, 52, 26, 0.42), transparent 54%);
@@ -1267,10 +1268,10 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  top: 10%;
-  height: 80%;
+  top: 18%;
+  height: 64%;
   display: grid;
-  grid-template-rows: repeat(5, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: 0;
   z-index: 4;
 }
@@ -1384,8 +1385,8 @@ body {
   #decorDirectoryHotspots {
     left: 0;
     right: 0;
-    top: 10%;
-    height: 80%;
+    top: 18%;
+    height: 64%;
   }
 
   #roomItemControls {
@@ -1495,18 +1496,15 @@ body {
     <div id="decorClosetPopup">
       <div class="popup-hero">
         <div class="decor-scene-stage">
-          <img id="decorScene" src="Assets/decorcloset_entryway.jpg" alt="Decor closet entryway">
+          <img id="decorScene" src="Assets/sitestuff_pillows.jpg" alt="Pillow closet">
           <div id="decorDirectoryHotspots" aria-label="Decor closet directory board">
-            <button class="decor-directory-zone" type="button" data-scene-index="0" aria-label="ENTRYWAY"></button>
-            <button class="decor-directory-zone" type="button" data-scene-index="1" aria-label="PILLOWS"></button>
-            <button class="decor-directory-zone" type="button" data-scene-index="2" aria-label="LIGHTING"></button>
-            <button class="decor-directory-zone" type="button" data-scene-index="3" aria-label="CURTAINS"></button>
-            <button class="decor-directory-zone" type="button" data-scene-index="4" aria-label="RUG GALLERY"></button>
+            <button class="decor-directory-zone" type="button" data-scene-index="0" aria-label="PILLOWS"></button>
+            <button class="decor-directory-zone" type="button" data-scene-index="1" aria-label="RUG GALLERY"></button>
           </div>
         </div>
         <div class="popup-meta">
-          <div class="popup-title" id="decorSceneTitle">ENTRYWAY</div>
-          <div class="popup-count" id="decorSceneCount">1 / 5</div>
+          <div class="popup-title" id="decorSceneTitle">PILLOWS</div>
+          <div class="popup-count" id="decorSceneCount">1 / 2</div>
         </div>
       </div>
       <div class="mini-grid" id="decorMiniGrid"></div>
@@ -1790,28 +1788,10 @@ body {
 
       const decorScenes = [
         {
-          src: "Assets/decorcloset_entryway.jpg",
-          title: "ENTRYWAY",
-          alt: "Decor closet entryway",
-          tone: "entryway"
-        },
-        {
           src: "Assets/sitestuff_pillows.jpg",
           title: "PILLOWS",
           alt: "Pillow closet",
-          tone: "plants"
-        },
-        {
-          src: "Assets/sitestuff_lighting.jpg",
-          title: "LIGHTING",
-          alt: "Lighting closet",
-          tone: "lighting"
-        },
-        {
-          src: "Assets/curtaincloset.jpg",
-          title: "CURTAINS",
-          alt: "Curtain closet",
-          tone: "curtains"
+          tone: "pillows"
         },
         {
           src: "Assets/ruggallery.jpg",
