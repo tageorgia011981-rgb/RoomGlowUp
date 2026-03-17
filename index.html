@@ -1180,6 +1180,12 @@ body {
     radial-gradient(circle at 50% 120%, rgba(15, 52, 26, 0.42), transparent 54%);
 }
 
+#decorClosetPopup[data-scene="mirrors"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(20, 34, 50, 0.12), rgba(0, 0, 0, 0.2) 46%, rgba(0, 0, 0, 0.36)),
+    radial-gradient(circle at 50% 120%, rgba(28, 48, 70, 0.42), transparent 54%);
+}
+
 #decorClosetPopup[data-scene="lighting"] .popup-hero::after {
   background:
     linear-gradient(180deg, rgba(54, 40, 8, 0.14), rgba(0, 0, 0, 0.18) 46%, rgba(0, 0, 0, 0.34)),
@@ -1266,12 +1272,13 @@ body {
 
 #decorDirectoryHotspots {
   position: absolute;
-  left: 0;
-  right: 0;
+  right: 4%;
+  left: auto;
+  width: 28%;
   top: 18%;
-  height: 64%;
+  height: 62%;
   display: grid;
-  grid-template-rows: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(5, minmax(0, 1fr));
   gap: 0;
   z-index: 4;
 }
@@ -1383,10 +1390,11 @@ body {
   }
 
   #decorDirectoryHotspots {
-    left: 0;
-    right: 0;
+    right: 3%;
+    left: auto;
+    width: 32%;
     top: 18%;
-    height: 64%;
+    height: 62%;
   }
 
   #roomItemControls {
@@ -1496,15 +1504,18 @@ body {
     <div id="decorClosetPopup">
       <div class="popup-hero">
         <div class="decor-scene-stage">
-          <img id="decorScene" src="Assets/sitestuff_pillows.jpg" alt="Pillow closet">
+          <img id="decorScene" src="Assets/decorcloset_entryway.jpg" alt="Decor closet entryway">
           <div id="decorDirectoryHotspots" aria-label="Decor closet directory board">
-            <button class="decor-directory-zone" type="button" data-scene-index="0" aria-label="PILLOWS"></button>
-            <button class="decor-directory-zone" type="button" data-scene-index="1" aria-label="RUG GALLERY"></button>
+            <button class="decor-directory-zone" type="button" data-scene-tone="plants" aria-label="PLANTS"></button>
+            <button class="decor-directory-zone" type="button" data-scene-tone="mirrors" aria-label="MIRRORS"></button>
+            <button class="decor-directory-zone" type="button" data-scene-tone="lighting" aria-label="LIGHTING"></button>
+            <button class="decor-directory-zone" type="button" data-scene-tone="curtains" aria-label="CURTAINS"></button>
+            <button class="decor-directory-zone" type="button" data-scene-tone="rugs" aria-label="RUG GALLERY"></button>
           </div>
         </div>
         <div class="popup-meta">
-          <div class="popup-title" id="decorSceneTitle">PILLOWS</div>
-          <div class="popup-count" id="decorSceneCount">1 / 2</div>
+          <div class="popup-title" id="decorSceneTitle">ENTRYWAY</div>
+          <div class="popup-count" id="decorSceneCount">1 / 6</div>
         </div>
       </div>
       <div class="mini-grid" id="decorMiniGrid"></div>
@@ -1788,10 +1799,35 @@ body {
 
       const decorScenes = [
         {
-          src: "Assets/sitestuff_pillows.jpg",
-          title: "PILLOWS",
-          alt: "Pillow closet",
-          tone: "pillows"
+          src: "Assets/decorcloset_entryway.jpg",
+          title: "ENTRYWAY",
+          alt: "Decor closet entryway",
+          tone: "entryway"
+        },
+        {
+          src: "Assets/plant_pillowcloset.jpg",
+          fallback: "Assets/sitestuff_pillows.jpg",
+          title: "PLANTS",
+          alt: "Plant closet",
+          tone: "plants"
+        },
+        {
+          src: "Assets/sitestuff_mirrors.jpg",
+          title: "MIRRORS",
+          alt: "Mirror closet",
+          tone: "mirrors"
+        },
+        {
+          src: "Assets/sitestuff_lighting.jpg",
+          title: "LIGHTING",
+          alt: "Lighting closet",
+          tone: "lighting"
+        },
+        {
+          src: "Assets/curtaincloset.jpg",
+          title: "CURTAINS",
+          alt: "Curtain closet",
+          tone: "curtains"
         },
         {
           src: "Assets/ruggallery.jpg",
@@ -2614,6 +2650,13 @@ body {
         if (animate) {
           decorPopup.classList.add("scene-switch");
         }
+        decorSceneImg.onerror = null;
+        if (scene.fallback && scene.fallback !== scene.src) {
+          decorSceneImg.onerror = () => {
+            decorSceneImg.onerror = null;
+            decorSceneImg.src = scene.fallback;
+          };
+        }
         decorSceneImg.src = scene.src;
         decorSceneImg.alt = scene.alt;
         decorSceneTitle.textContent = scene.title;
@@ -2726,9 +2769,17 @@ body {
 
       decorDirectoryZones.forEach((zone) => {
         zone.addEventListener("click", () => {
-          const targetSceneIndex = Number(zone.dataset.sceneIndex);
-          if (!Number.isNaN(targetSceneIndex)) {
-            updateDecorScene(targetSceneIndex, true);
+          const targetTone = (zone.dataset.sceneTone || "").trim();
+          if (targetTone) {
+            const targetSceneIndex = decorScenes.findIndex((scene) => scene.tone === targetTone);
+            if (targetSceneIndex !== -1) {
+              updateDecorScene(targetSceneIndex, true);
+            }
+          } else {
+            const targetSceneIndex = Number(zone.dataset.sceneIndex);
+            if (!Number.isNaN(targetSceneIndex)) {
+              updateDecorScene(targetSceneIndex, true);
+            }
           }
         });
       });
