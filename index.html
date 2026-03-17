@@ -1250,29 +1250,36 @@ body {
   display: none !important;
 }
 
-#decorDirectoryBtn {
+#decorDirectoryHotspots {
   position: absolute;
-  right: 8%;
-  top: 18%;
-  width: 24%;
-  height: 64%;
+  right: 4%;
+  top: 12%;
+  width: 34%;
+  height: 78%;
+  display: grid;
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+  gap: 1.5%;
+  z-index: 4;
+}
+
+.decor-directory-zone {
   border: 0;
-  border-radius: 10px;
+  border-radius: 8px;
   background: transparent;
   color: transparent;
   font-size: 0;
   padding: 0;
   box-shadow: none;
   cursor: pointer;
-  z-index: 4;
   -webkit-tap-highlight-color: transparent;
 }
 
-#decorDirectoryBtn:hover,
-#decorDirectoryBtn:focus-visible {
+.decor-directory-zone:hover,
+.decor-directory-zone:focus-visible {
   transform: none;
   box-shadow: none;
   background: transparent;
+  outline: none;
 }
 
 .mini-item {
@@ -1349,11 +1356,11 @@ body {
     height: clamp(460px, 78vh, 860px);
   }
 
-  #decorDirectoryBtn {
-    right: 8%;
-    top: 18%;
-    width: 28%;
-    height: 64%;
+  #decorDirectoryHotspots {
+    right: 4%;
+    top: 12%;
+    width: 36%;
+    height: 78%;
   }
 
   #roomItemControls {
@@ -1467,7 +1474,13 @@ body {
           <div class="popup-title" id="decorSceneTitle">ENTRYWAY</div>
           <div class="popup-count" id="decorSceneCount">1 / 5</div>
         </div>
-        <button id="decorDirectoryBtn" type="button" aria-label="Select decor closet scene"></button>
+        <div id="decorDirectoryHotspots" aria-label="Decor closet directory board">
+          <button class="decor-directory-zone" type="button" data-scene-index="0" aria-label="ENTRYWAY"></button>
+          <button class="decor-directory-zone" type="button" data-scene-index="1" aria-label="PLANTS AND PILLOWS"></button>
+          <button class="decor-directory-zone" type="button" data-scene-index="2" aria-label="LIGHTING"></button>
+          <button class="decor-directory-zone" type="button" data-scene-index="3" aria-label="CURTAINS"></button>
+          <button class="decor-directory-zone" type="button" data-scene-index="4" aria-label="RUG GALLERY"></button>
+        </div>
       </div>
       <div class="mini-grid" id="decorMiniGrid"></div>
     </div>
@@ -1530,7 +1543,7 @@ body {
       const decorSceneImg = document.getElementById("decorScene");
       const decorSceneTitle = document.getElementById("decorSceneTitle");
       const decorSceneCount = document.getElementById("decorSceneCount");
-      const decorDirectoryBtn = document.getElementById("decorDirectoryBtn");
+      const decorDirectoryZones = document.querySelectorAll(".decor-directory-zone");
 
       const roomImages = {
         living: [
@@ -2557,17 +2570,6 @@ body {
         renderCatalog();
       }
 
-      function getDecorSceneIndexFromBoardClick(event) {
-        const rect = decorDirectoryBtn.getBoundingClientRect();
-        const yRatio = (event.clientY - rect.top) / rect.height;
-
-        if (yRatio < 0.14) return 0; // Entryway
-        if (yRatio < 0.34) return 1; // Plants & Pillows
-        if (yRatio < 0.54) return 2; // Lighting
-        if (yRatio < 0.74) return 3; // Curtains
-        return 4; // Rug Gallery
-      }
-
       function renderDecorGrid() {
         const grid = document.getElementById("decorMiniGrid");
         grid.innerHTML = "";
@@ -2699,9 +2701,13 @@ body {
       document.getElementById("pagePrev").addEventListener("click", () => nextCatalogPage(-1));
       document.getElementById("pageNext").addEventListener("click", () => nextCatalogPage(1));
 
-      decorDirectoryBtn.addEventListener("click", (event) => {
-        const targetSceneIndex = getDecorSceneIndexFromBoardClick(event);
-        updateDecorScene(targetSceneIndex, true);
+      decorDirectoryZones.forEach((zone) => {
+        zone.addEventListener("click", () => {
+          const targetSceneIndex = Number(zone.dataset.sceneIndex);
+          if (!Number.isNaN(targetSceneIndex)) {
+            updateDecorScene(targetSceneIndex, true);
+          }
+        });
       });
 
       document.getElementById("galleryNextBtn").addEventListener("click", () => {
