@@ -1255,6 +1255,12 @@ body {
   z-index: 2;
 }
 
+#decorBackBtn {
+  left: 12px;
+  right: auto;
+  bottom: 12px;
+}
+
 .popup-hero button:hover,
 .popup-hero button:focus-visible {
   transform: translateY(-1px);
@@ -1514,6 +1520,7 @@ body {
           <div class="popup-title" id="decorSceneTitle">ENTRYWAY</div>
           <div class="popup-count" id="decorSceneCount">1 / 6</div>
         </div>
+        <button id="decorBackBtn" type="button">BACK TO DIRECTORY</button>
       </div>
       <div class="mini-grid" id="decorMiniGrid"></div>
     </div>
@@ -1583,6 +1590,7 @@ body {
       const decorSceneTitle = document.getElementById("decorSceneTitle");
       const decorSceneCount = document.getElementById("decorSceneCount");
       const decorDirectoryHotspots = document.getElementById("decorDirectoryHotspots");
+      const decorBackBtn = document.getElementById("decorBackBtn");
 
       const roomImages = {
         living: [
@@ -2682,6 +2690,9 @@ body {
         decorSceneTitle.textContent = scene.title;
         decorSceneCount.textContent = (decorSceneIndex + 1) + " / " + decorScenes.length;
         decorPopup.dataset.scene = scene.tone || "entryway";
+        if (decorBackBtn) {
+          decorBackBtn.style.display = scene.tone === "entryway" ? "none" : "inline-block";
+        }
         if (animate) {
           setTimeout(() => decorPopup.classList.remove("scene-switch"), 260);
         }
@@ -2798,6 +2809,13 @@ body {
           if (targetSceneIndex !== -1) {
             updateDecorScene(targetSceneIndex, true);
           }
+        });
+      }
+
+      if (decorBackBtn) {
+        decorBackBtn.addEventListener("click", () => {
+          const directoryIndex = decorScenes.findIndex((scene) => scene.tone === "entryway");
+          updateDecorScene(directoryIndex !== -1 ? directoryIndex : 0, true);
         });
       }
 
