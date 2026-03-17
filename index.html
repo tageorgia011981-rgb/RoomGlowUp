@@ -233,11 +233,6 @@ body {
   transition: width 0.38s cubic-bezier(0.22, 1, 0.36, 1), margin 0.38s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-body.decor-popup-open .workspace-section {
-  width: min(1500px, 96vw);
-  margin: clamp(150px, 22vh, 260px) auto 140px;
-}
-
 #catalogOverlay {
   position: relative;
   width: min(1080px, 95vw);
@@ -560,11 +555,6 @@ body.decor-popup-open .workspace-section {
   display: flex;
   align-items: flex-start;
   gap: 24px;
-  transition: padding-right 0.38s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-body.decor-popup-open .workspace-row {
-  padding-right: clamp(250px, 27vw, 430px);
 }
 
 #rooms-cabinet {
@@ -1064,7 +1054,6 @@ body.decor-popup-open .workspace-row {
   font-size: 14px;
 }
 
-#decorClosetPopup,
 #galleryPopup {
   position: fixed;
   top: clamp(128px, 17vh, 188px);
@@ -1085,7 +1074,6 @@ body.decor-popup-open .workspace-row {
   backdrop-filter: blur(4px) saturate(1.05);
 }
 
-#decorClosetPopup.show,
 #galleryPopup.show {
   opacity: 1;
   transform: translateY(0) scale(1);
@@ -1093,19 +1081,32 @@ body.decor-popup-open .workspace-row {
 }
 
 #decorClosetPopup {
-  right: max(18px, 2vw);
-  width: min(760px, 48vw);
-  min-width: 620px;
-  max-height: min(86vh, 900px);
-  transform: translateX(18px) scale(0.985);
-  display: flex;
+  position: relative;
+  width: min(1380px, 100%);
+  margin: 26px auto 0;
+  background: linear-gradient(172deg, rgba(22, 22, 22, 0.95), rgba(10, 10, 10, 0.93));
+  border: 1px solid rgba(255, 232, 170, 0.24);
+  border-radius: 12px;
+  box-shadow:
+    0 22px 42px rgba(0, 0, 0, 0.62),
+    0 0 0 1px rgba(255, 239, 201, 0.08);
+  padding: 14px;
+  z-index: 12;
+  opacity: 0;
+  transform: translateY(-12px) scale(0.99);
+  pointer-events: none;
+  display: none;
   flex-direction: column;
   gap: 12px;
   overflow: hidden;
 }
 
 #decorClosetPopup.show {
-  transform: translateX(0) scale(1);
+  display: flex;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  animation: decorClosetRise 0.42s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .popup-hero {
@@ -1117,7 +1118,7 @@ body.decor-popup-open .workspace-row {
 
 #decorClosetPopup .popup-hero {
   margin-bottom: 0;
-  min-height: clamp(430px, 72vh, 820px);
+  min-height: clamp(460px, 78vh, 980px);
 }
 
 .popup-hero img {
@@ -1129,7 +1130,7 @@ body.decor-popup-open .workspace-row {
 }
 
 #decorClosetPopup .popup-hero img {
-  height: clamp(430px, 72vh, 820px);
+  height: clamp(460px, 78vh, 980px);
   aspect-ratio: auto;
 }
 
@@ -1246,55 +1247,12 @@ body.decor-popup-open .workspace-row {
   display: none !important;
 }
 
-.decor-directory-menu {
-  position: absolute;
-  right: 8%;
-  bottom: 26%;
-  display: none;
-  flex-direction: column;
-  gap: 6px;
-  min-width: 190px;
-  max-width: min(56%, 260px);
-  padding: 10px;
-  border-radius: 9px;
-  background: rgba(9, 9, 9, 0.8);
-  border: 1px solid rgba(255, 230, 168, 0.28);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.42);
-  backdrop-filter: blur(2px);
-  z-index: 3;
-}
-
-.decor-directory-menu.show {
-  display: flex;
-}
-
-.decor-directory-option {
-  border: 0;
-  border-radius: 7px;
-  background: rgba(28, 28, 28, 0.9);
-  color: #f8e4a9;
-  font-family: "Limelight", serif;
-  font-size: 10px;
-  letter-spacing: 0.7px;
-  text-align: left;
-  padding: 7px 9px;
-  cursor: pointer;
-  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
-}
-
-.decor-directory-option:hover,
-.decor-directory-option.active {
-  transform: translateX(2px);
-  background: rgba(44, 44, 44, 0.94);
-  box-shadow: 0 0 8px rgba(255, 224, 136, 0.46);
-}
-
 #decorDirectoryBtn {
   position: absolute;
-  right: 2%;
-  top: 18%;
-  width: 52%;
-  height: 62%;
+  right: 14%;
+  top: 22%;
+  width: 34%;
+  height: 52%;
   border: 0;
   border-radius: 10px;
   background: transparent;
@@ -1375,37 +1333,41 @@ body.decor-popup-open .workspace-row {
     font-size: 14px;
   }
 
-  body.decor-popup-open .workspace-row {
-    padding-right: 0;
+  #decorClosetPopup {
+    width: 100%;
+    margin-top: 16px;
   }
 
-  #decorClosetPopup {
-    width: min(92vw, 640px);
-    min-width: 0;
-    max-height: min(84vh, 760px);
-    right: 4vw;
+  #decorClosetPopup .popup-hero {
+    min-height: clamp(320px, 62vh, 640px);
   }
 
   #decorClosetPopup .popup-hero img {
-    height: clamp(280px, 48vh, 480px);
-  }
-
-  .decor-directory-menu {
-    min-width: 164px;
-    max-width: min(62%, 240px);
+    height: clamp(320px, 62vh, 640px);
   }
 
   #decorDirectoryBtn {
-    right: 1%;
-    top: 20%;
-    width: 56%;
-    height: 60%;
+    right: 12%;
+    top: 22%;
+    width: 38%;
+    height: 52%;
   }
 
   #roomItemControls {
     right: 10px;
     top: 92px;
     max-width: calc(100vw - 20px);
+  }
+}
+
+@keyframes decorClosetRise {
+  0% {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -1494,6 +1456,18 @@ body.decor-popup-open .workspace-row {
         </div>
       </div>
     </div>
+
+    <div id="decorClosetPopup">
+      <div class="popup-hero">
+        <img id="decorScene" src="Assets/decorcloset_entryway.jpg" alt="Decor closet entryway">
+        <div class="popup-meta">
+          <div class="popup-title" id="decorSceneTitle">ENTRYWAY</div>
+          <div class="popup-count" id="decorSceneCount">1 / 5</div>
+        </div>
+        <button id="decorDirectoryBtn" type="button" aria-label="Select decor closet scene"></button>
+      </div>
+      <div class="mini-grid" id="decorMiniGrid"></div>
+    </div>
   </section>
 
   <div id="receiptPanel">
@@ -1503,19 +1477,6 @@ body.decor-popup-open .workspace-row {
       <div id="receiptLines"></div>
       <div class="receipt-total" id="receiptTotal">TOTAL: $0</div>
     </div>
-  </div>
-
-  <div id="decorClosetPopup">
-    <div class="popup-hero">
-      <img id="decorScene" src="Assets/decorcloset_entryway.jpg" alt="Decor closet entryway">
-      <div class="popup-meta">
-        <div class="popup-title" id="decorSceneTitle">ENTRYWAY</div>
-        <div class="popup-count" id="decorSceneCount">1 / 5</div>
-      </div>
-      <div class="decor-directory-menu" id="decorDirectoryMenu"></div>
-      <button id="decorDirectoryBtn" type="button" aria-label="Open closet directory" aria-expanded="false"></button>
-    </div>
-    <div class="mini-grid" id="decorMiniGrid"></div>
   </div>
 
   <div id="galleryPopup">
@@ -1566,7 +1527,6 @@ body.decor-popup-open .workspace-row {
       const decorSceneImg = document.getElementById("decorScene");
       const decorSceneTitle = document.getElementById("decorSceneTitle");
       const decorSceneCount = document.getElementById("decorSceneCount");
-      const decorDirectoryMenu = document.getElementById("decorDirectoryMenu");
       const decorDirectoryBtn = document.getElementById("decorDirectoryBtn");
 
       const roomImages = {
@@ -1755,18 +1715,18 @@ body.decor-popup-open .workspace-row {
       };
 
       const decorItems = [
-        { id: "decor-lamp-1", name: "Decor Lamp 1", src: "Assets/decor_lamp1.png", specs: "Lighting Decor | Accent Lamp", price: 89 },
-        { id: "decor-lamp-2", name: "Decor Lamp 2", src: "Assets/decor_lamp2.png", specs: "Lighting Decor | Accent Lamp", price: 94 },
-        { id: "decor-lamp-3", name: "Decor Lamp 3", src: "Assets/decor_lamp3.png", specs: "Lighting Decor | Accent Lamp", price: 99 },
-        { id: "decor-lamp-4", name: "Decor Lamp 4", src: "Assets/decor_lamp4.png", specs: "Lighting Decor | Accent Lamp", price: 104 },
-        { id: "decor-lamp-5", name: "Decor Lamp 5", src: "Assets/decor_lamp5.png", specs: "Lighting Decor | Accent Lamp", price: 109 },
-        { id: "decor-lamp-6", name: "Decor Lamp 6", src: "Assets/decor_lamp6.png", specs: "Lighting Decor | Accent Lamp", price: 114 },
-        { id: "decor-lamp-7", name: "Decor Lamp 7", src: "Assets/decor_lamp7.png", specs: "Lighting Decor | Accent Lamp", price: 119 },
-        { id: "decor-lamp-8", name: "Decor Lamp 8", src: "Assets/decor_lamp8.png", specs: "Lighting Decor | Accent Lamp", price: 124 },
-        { id: "decor-lamp-9", name: "Decor Lamp 9", src: "Assets/decor_lamp9.png", specs: "Lighting Decor | Accent Lamp", price: 129 },
-        { id: "decor-lamp-10", name: "Decor Lamp 10", src: "Assets/decor_lamp10.png", specs: "Lighting Decor | Accent Lamp", price: 134 },
-        { id: "decor-lamp-11", name: "Decor Lamp 11", src: "Assets/decor_lamp11.png", specs: "Lighting Decor | Accent Lamp", price: 139 },
-        { id: "decor-lamp-12", name: "Decor Lamp 12", src: "Assets/decor_lamp12.png", specs: "Lighting Decor | Accent Lamp", price: 144 }
+        { id: "decor-pillow-1", name: "Decor Pillow 1", src: "Assets/decor_pillow1.png", specs: "Decor Accent | Pillow", price: 49 },
+        { id: "decor-pillow-2", name: "Decor Pillow 2", src: "Assets/decor_pillow2.png", specs: "Decor Accent | Pillow", price: 52 },
+        { id: "decor-pillow-3", name: "Decor Pillow 3", src: "Assets/decor_pillow3.png", specs: "Decor Accent | Pillow", price: 55 },
+        { id: "decor-pillow-4", name: "Decor Pillow 4", src: "Assets/decor_pillow4.png", specs: "Decor Accent | Pillow", price: 58 },
+        { id: "decor-pillow-5", name: "Decor Pillow 5", src: "Assets/decor_pillow5.png", specs: "Decor Accent | Pillow", price: 61 },
+        { id: "decor-pillow-6", name: "Decor Pillow 6", src: "Assets/decor_pillow6.png", specs: "Decor Accent | Pillow", price: 64 },
+        { id: "decor-pillow-7", name: "Decor Pillow 7", src: "Assets/decor_pillow7.png", specs: "Decor Accent | Pillow", price: 67 },
+        { id: "decor-pillow-8", name: "Decor Pillow 8", src: "Assets/decor_pillow8.png", specs: "Decor Accent | Pillow", price: 70 },
+        { id: "decor-pillow-9", name: "Decor Pillow 9", src: "Assets/decor_pillow9.png", specs: "Decor Accent | Pillow", price: 73 },
+        { id: "decor-pillow-10", name: "Decor Pillow 10", src: "Assets/decor_pillow10.png", specs: "Decor Accent | Pillow", price: 76 },
+        { id: "decor-pillow-11", name: "Decor Pillow 11", src: "Assets/decor_pillow11.png", specs: "Decor Accent | Pillow", price: 79 },
+        { id: "decor-pillow-12", name: "Decor Pillow 12", src: "Assets/decor_pillow12.png", specs: "Decor Accent | Pillow", price: 82 }
       ];
 
       const decorScenes = [
@@ -1777,9 +1737,9 @@ body.decor-popup-open .workspace-row {
           tone: "entryway"
         },
         {
-          src: "Assets/plant_pillowcloset.jpg",
+          src: "Assets/sitestuff_pillows.jpg",
           title: "PLANTS & PILLOWS",
-          alt: "Plant and pillow closet",
+          alt: "Plants and pillows closet",
           tone: "plants"
         },
         {
@@ -1916,20 +1876,10 @@ body.decor-popup-open .workspace-row {
         }
       }
 
-      function closeDecorDirectoryMenu() {
-        if (!decorDirectoryMenu) {
-          return;
-        }
-        decorDirectoryMenu.classList.remove("show");
-        decorDirectoryBtn.setAttribute("aria-expanded", "false");
-      }
-
       function closePanels() {
         catalog.classList.remove("show");
         decorPopup.classList.remove("show");
         galleryPopup.classList.remove("show");
-        document.body.classList.remove("decor-popup-open");
-        closeDecorDirectoryMenu();
       }
 
       function smoothScrollTo(top) {
@@ -2604,22 +2554,15 @@ body.decor-popup-open .workspace-row {
         renderCatalog();
       }
 
-      function renderDecorDirectoryMenu() {
-        if (!decorDirectoryMenu) {
-          return;
-        }
-        decorDirectoryMenu.innerHTML = "";
-        decorScenes.forEach((scene, index) => {
-          const option = document.createElement("button");
-          option.type = "button";
-          option.className = "decor-directory-option" + (index === decorSceneIndex ? " active" : "");
-          option.textContent = scene.title;
-          option.addEventListener("click", () => {
-            updateDecorScene(index, true);
-            closeDecorDirectoryMenu();
-          });
-          decorDirectoryMenu.appendChild(option);
-        });
+      function getDecorSceneIndexFromBoardClick(event) {
+        const rect = decorDirectoryBtn.getBoundingClientRect();
+        const yRatio = (event.clientY - rect.top) / rect.height;
+
+        if (yRatio < 0.14) return 0; // Entryway
+        if (yRatio < 0.34) return 1; // Plants & Pillows
+        if (yRatio < 0.54) return 2; // Lighting
+        if (yRatio < 0.74) return 3; // Curtains
+        return 4; // Rug Gallery
       }
 
       function renderDecorGrid() {
@@ -2628,27 +2571,9 @@ body.decor-popup-open .workspace-row {
         decorItems.forEach((item) => {
           const card = document.createElement("div");
           card.className = "mini-item";
-          card.dataset.sceneSrc = item.src;
           card.innerHTML = "<img src='" + item.src + "' alt='" + item.name + "'><p>" + item.name + "</p>";
           bindItemCard(card, item);
-          card.addEventListener("click", () => {
-            const nextSceneIndex = decorScenes.findIndex((scene) => scene.src === item.src);
-            if (nextSceneIndex !== -1) {
-              updateDecorScene(nextSceneIndex, true);
-            }
-          });
           grid.appendChild(card);
-        });
-        syncDecorGridHighlight();
-      }
-
-      function syncDecorGridHighlight() {
-        const currentSrc = decorScenes[decorSceneIndex] && decorScenes[decorSceneIndex].src;
-        document.querySelectorAll("#decorMiniGrid .mini-item").forEach((card) => {
-          card.classList.toggle("active", card.dataset.sceneSrc === currentSrc);
-        });
-        document.querySelectorAll("#decorDirectoryMenu .decor-directory-option").forEach((option, idx) => {
-          option.classList.toggle("active", idx === decorSceneIndex);
         });
       }
 
@@ -2661,19 +2586,11 @@ body.decor-popup-open .workspace-row {
         if (animate) {
           decorPopup.classList.add("scene-switch");
         }
-        decorSceneImg.onerror = null;
-        if (scene.fallback && scene.fallback !== scene.src) {
-          decorSceneImg.onerror = () => {
-            decorSceneImg.onerror = null;
-            decorSceneImg.src = scene.fallback;
-          };
-        }
         decorSceneImg.src = scene.src;
         decorSceneImg.alt = scene.alt;
         decorSceneTitle.textContent = scene.title;
         decorSceneCount.textContent = (decorSceneIndex + 1) + " / " + decorScenes.length;
         decorPopup.dataset.scene = scene.tone || "entryway";
-        syncDecorGridHighlight();
         if (animate) {
           setTimeout(() => decorPopup.classList.remove("scene-switch"), 260);
         }
@@ -2710,10 +2627,9 @@ body.decor-popup-open .workspace-row {
           return;
         }
         setActiveTab(tabs.decor);
-        document.body.classList.add("decor-popup-open");
         decorPopup.classList.add("show");
-        const rowTop = workspaceRow.getBoundingClientRect().top + window.scrollY;
-        smoothScrollTo(rowTop - 16);
+        const popupTop = decorPopup.getBoundingClientRect().top + window.scrollY;
+        smoothScrollTo(popupTop - 112);
       });
 
       tabs.gallery.addEventListener("click", () => {
@@ -2781,21 +2697,8 @@ body.decor-popup-open .workspace-row {
       document.getElementById("pageNext").addEventListener("click", () => nextCatalogPage(1));
 
       decorDirectoryBtn.addEventListener("click", (event) => {
-        event.stopPropagation();
-        const willOpen = !decorDirectoryMenu.classList.contains("show");
-        if (willOpen) {
-          renderDecorDirectoryMenu();
-        }
-        decorDirectoryMenu.classList.toggle("show", willOpen);
-        decorDirectoryBtn.setAttribute("aria-expanded", willOpen ? "true" : "false");
-      });
-
-      document.addEventListener("pointerdown", (event) => {
-        const clickedMenu = event.target.closest("#decorDirectoryMenu");
-        const clickedBtn = event.target.closest("#decorDirectoryBtn");
-        if (!clickedMenu && !clickedBtn) {
-          closeDecorDirectoryMenu();
-        }
+        const targetSceneIndex = getDecorSceneIndexFromBoardClick(event);
+        updateDecorScene(targetSceneIndex, true);
       });
 
       document.getElementById("galleryNextBtn").addEventListener("click", () => {
@@ -2805,7 +2708,6 @@ body.decor-popup-open .workspace-row {
 
       renderCatalog();
       updateDecorScene(0, false);
-      renderDecorDirectoryMenu();
       renderDecorGrid();
       renderGalleryGrid();
       renderEstimate();
