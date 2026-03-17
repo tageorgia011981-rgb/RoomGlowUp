@@ -1180,8 +1180,7 @@ body.decor-popup-open .workspace-section {
 }
 
 #decorClosetPopup .popup-hero button,
-#decorClosetPopup .popup-meta,
-#decorClosetPopup .popup-scene-story {
+#decorClosetPopup .popup-meta {
   z-index: 2;
 }
 
@@ -1220,24 +1219,6 @@ body.decor-popup-open .workspace-section {
   color: rgba(238, 245, 255, 0.86);
 }
 
-.popup-scene-story {
-  position: absolute;
-  left: 12px;
-  right: 170px;
-  bottom: 12px;
-  color: #fff7df;
-  font-size: 10px;
-  letter-spacing: 0.8px;
-  line-height: 1.45;
-  text-transform: uppercase;
-  background: rgba(8, 8, 8, 0.54);
-  border: 1px solid rgba(255, 230, 168, 0.3);
-  border-radius: 8px;
-  padding: 7px 10px;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.76);
-  backdrop-filter: blur(2px);
-}
-
 .mini-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1250,8 +1231,8 @@ body.decor-popup-open .workspace-section {
 
 .decor-directory-menu {
   position: absolute;
-  right: 12px;
-  bottom: 56px;
+  right: 8%;
+  bottom: 26%;
   display: none;
   flex-direction: column;
   gap: 6px;
@@ -1289,6 +1270,28 @@ body.decor-popup-open .workspace-section {
   transform: translateX(2px);
   background: rgba(44, 44, 44, 0.94);
   box-shadow: 0 0 8px rgba(255, 224, 136, 0.46);
+}
+
+#decorDirectoryBtn {
+  position: absolute;
+  right: 6%;
+  bottom: 8%;
+  width: 36%;
+  height: 16%;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: transparent;
+  font-size: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+#decorDirectoryBtn:hover,
+#decorDirectoryBtn:focus-visible {
+  transform: none;
+  box-shadow: none;
+  background: transparent;
 }
 
 .mini-item {
@@ -1361,11 +1364,6 @@ body.decor-popup-open .workspace-section {
 
   #decorClosetPopup .popup-hero img {
     height: clamp(280px, 48vh, 480px);
-  }
-
-  .popup-scene-story {
-    right: 138px;
-    font-size: 9px;
   }
 
   .decor-directory-menu {
@@ -1490,9 +1488,8 @@ body.decor-popup-open .workspace-section {
         <div class="popup-title" id="decorSceneTitle">ENTRYWAY</div>
         <div class="popup-count" id="decorSceneCount">1 / 5</div>
       </div>
-      <div class="popup-scene-story" id="decorSceneStory">WALK INTO A CURATED ENTRY CLOSET EXPERIENCE.</div>
       <div class="decor-directory-menu" id="decorDirectoryMenu"></div>
-      <button id="decorDirectoryBtn" type="button">DIRECTORY SIGN</button>
+      <button id="decorDirectoryBtn" type="button" aria-label="Open closet directory" aria-expanded="false"></button>
     </div>
     <div class="mini-grid" id="decorMiniGrid"></div>
   </div>
@@ -1542,7 +1539,6 @@ body.decor-popup-open .workspace-section {
       const decorSceneImg = document.getElementById("decorScene");
       const decorSceneTitle = document.getElementById("decorSceneTitle");
       const decorSceneCount = document.getElementById("decorSceneCount");
-      const decorSceneStory = document.getElementById("decorSceneStory");
       const decorDirectoryMenu = document.getElementById("decorDirectoryMenu");
       const decorDirectoryBtn = document.getElementById("decorDirectoryBtn");
 
@@ -1751,36 +1747,30 @@ body.decor-popup-open .workspace-section {
           src: "Assets/decorcloset_entryway.jpg",
           title: "ENTRYWAY",
           alt: "Decor closet entryway",
-          story: "WALK INTO A CURATED ENTRY CLOSET EXPERIENCE.",
           tone: "entryway"
         },
         {
           src: "Assets/plant_pillowcloset.jpg",
           title: "PLANTS & PILLOWS",
           alt: "Plant and pillow closet",
-          story: "SOFT GREENERY, TEXTURE, AND COZY LAYERS.",
           tone: "plants"
         },
         {
           src: "Assets/sitestuff_lighting.jpg",
-          fallback: "Assets/lightingcloset.jpg",
           title: "LIGHTING",
           alt: "Lighting closet",
-          story: "AMBIENT GLOW PIECES TO SET THE ROOM'S MOOD.",
           tone: "lighting"
         },
         {
           src: "Assets/curtaincloset.jpg",
           title: "CURTAINS",
           alt: "Curtain closet",
-          story: "LAYERED DRAPERY STYLES FOR A CUSTOM FINISH.",
           tone: "curtains"
         },
         {
           src: "Assets/ruggallery.jpg",
           title: "RUG GALLERY",
           alt: "Rug gallery",
-          story: "GROUND THE SPACE WITH SIGNATURE RUG STATEMENTS.",
           tone: "rugs"
         }
       ];
@@ -2634,7 +2624,6 @@ body.decor-popup-open .workspace-section {
         decorSceneImg.alt = scene.alt;
         decorSceneTitle.textContent = scene.title;
         decorSceneCount.textContent = (decorSceneIndex + 1) + " / " + decorScenes.length;
-        decorSceneStory.textContent = scene.story || "";
         decorPopup.dataset.scene = scene.tone || "entryway";
         syncDecorGridHighlight();
         if (animate) {
