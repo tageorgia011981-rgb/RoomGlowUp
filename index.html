@@ -1068,11 +1068,31 @@ body {
   pointer-events: auto;
 }
 
+#decorClosetPopup {
+  right: max(18px, 2vw);
+  width: min(600px, 40vw);
+  min-width: 470px;
+  max-height: min(86vh, 900px);
+  transform: translateX(18px) scale(0.985);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+}
+
+#decorClosetPopup.show {
+  transform: translateX(0) scale(1);
+}
+
 .popup-hero {
   position: relative;
   margin-bottom: 10px;
   border-radius: 8px;
   overflow: hidden;
+}
+
+#decorClosetPopup .popup-hero {
+  margin-bottom: 0;
 }
 
 .popup-hero img {
@@ -1083,10 +1103,56 @@ body {
   transition: opacity 0.35s ease, transform 0.45s ease, filter 0.45s ease;
 }
 
+#decorClosetPopup .popup-hero img {
+  height: clamp(330px, 51vh, 560px);
+  aspect-ratio: auto;
+}
+
 #decorClosetPopup.scene-switch .popup-hero img {
   opacity: 0.62;
   transform: scale(1.02);
   filter: saturate(1.12) contrast(1.05);
+}
+
+#decorClosetPopup .popup-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.18) 46%, rgba(0, 0, 0, 0.34)),
+    radial-gradient(circle at 50% 120%, rgba(0, 0, 0, 0.45), transparent 54%);
+}
+
+#decorClosetPopup[data-scene="entryway"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(64, 34, 8, 0.08), rgba(0, 0, 0, 0.2) 46%, rgba(0, 0, 0, 0.36)),
+    radial-gradient(circle at 50% 120%, rgba(66, 36, 10, 0.4), transparent 54%);
+}
+
+#decorClosetPopup[data-scene="plants"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(9, 46, 26, 0.1), rgba(0, 0, 0, 0.2) 46%, rgba(0, 0, 0, 0.36)),
+    radial-gradient(circle at 50% 120%, rgba(15, 52, 26, 0.42), transparent 54%);
+}
+
+#decorClosetPopup[data-scene="lighting"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(54, 40, 8, 0.14), rgba(0, 0, 0, 0.18) 46%, rgba(0, 0, 0, 0.34)),
+    radial-gradient(circle at 50% 120%, rgba(66, 50, 16, 0.44), transparent 56%);
+}
+
+#decorClosetPopup[data-scene="curtains"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(40, 18, 45, 0.14), rgba(0, 0, 0, 0.18) 46%, rgba(0, 0, 0, 0.34)),
+    radial-gradient(circle at 50% 120%, rgba(50, 22, 56, 0.44), transparent 56%);
+}
+
+#decorClosetPopup[data-scene="rugs"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(24, 22, 48, 0.13), rgba(0, 0, 0, 0.18) 46%, rgba(0, 0, 0, 0.34)),
+    radial-gradient(circle at 50% 120%, rgba(33, 29, 72, 0.44), transparent 56%);
 }
 
 .popup-hero button {
@@ -1103,6 +1169,12 @@ body {
   letter-spacing: 0.8px;
   padding: 7px 12px;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+#decorClosetPopup .popup-hero button,
+#decorClosetPopup .popup-meta,
+#decorClosetPopup .popup-scene-story {
+  z-index: 2;
 }
 
 .popup-hero button:hover,
@@ -1140,10 +1212,35 @@ body {
   color: rgba(238, 245, 255, 0.86);
 }
 
+.popup-scene-story {
+  position: absolute;
+  left: 12px;
+  right: 170px;
+  bottom: 12px;
+  color: #fff7df;
+  font-size: 10px;
+  letter-spacing: 0.8px;
+  line-height: 1.45;
+  text-transform: uppercase;
+  background: rgba(8, 8, 8, 0.54);
+  border: 1px solid rgba(255, 230, 168, 0.3);
+  border-radius: 8px;
+  padding: 7px 10px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.76);
+  backdrop-filter: blur(2px);
+}
+
 .mini-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
+}
+
+#decorMiniGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
 .mini-item {
@@ -1205,6 +1302,27 @@ body {
 
   .drawer-zone {
     font-size: 14px;
+  }
+
+  #decorClosetPopup {
+    width: min(92vw, 640px);
+    min-width: 0;
+    max-height: min(84vh, 760px);
+    right: 4vw;
+  }
+
+  #decorClosetPopup .popup-hero img {
+    height: clamp(250px, 44vh, 440px);
+  }
+
+  #decorMiniGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-height: 200px;
+  }
+
+  .popup-scene-story {
+    right: 138px;
+    font-size: 9px;
   }
 
   #roomItemControls {
@@ -1316,6 +1434,7 @@ body {
         <div class="popup-title" id="decorSceneTitle">ENTRYWAY</div>
         <div class="popup-count" id="decorSceneCount">1 / 5</div>
       </div>
+      <div class="popup-scene-story" id="decorSceneStory">WALK INTO A CURATED ENTRY CLOSET EXPERIENCE.</div>
       <button id="decorDirectoryBtn" type="button">DIRECTORY SIGN</button>
     </div>
     <div class="mini-grid" id="decorMiniGrid"></div>
@@ -1366,6 +1485,7 @@ body {
       const decorSceneImg = document.getElementById("decorScene");
       const decorSceneTitle = document.getElementById("decorSceneTitle");
       const decorSceneCount = document.getElementById("decorSceneCount");
+      const decorSceneStory = document.getElementById("decorSceneStory");
       const decorDirectoryBtn = document.getElementById("decorDirectoryBtn");
 
       const roomImages = {
@@ -1588,27 +1708,37 @@ body {
         {
           src: "Assets/decorcloset_entryway.jpg",
           title: "ENTRYWAY",
-          alt: "Decor closet entryway"
+          alt: "Decor closet entryway",
+          story: "WALK INTO A CURATED ENTRY CLOSET EXPERIENCE.",
+          tone: "entryway"
         },
         {
           src: "Assets/plant_pillowcloset.jpg",
           title: "PLANTS & PILLOWS",
-          alt: "Plant and pillow closet"
+          alt: "Plant and pillow closet",
+          story: "SOFT GREENERY, TEXTURE, AND COZY LAYERS.",
+          tone: "plants"
         },
         {
           src: "Assets/lightingcloset.jpg",
           title: "LIGHTING",
-          alt: "Lighting closet"
+          alt: "Lighting closet",
+          story: "AMBIENT GLOW PIECES TO SET THE ROOM'S MOOD.",
+          tone: "lighting"
         },
         {
           src: "Assets/curtaincloset.jpg",
           title: "CURTAINS",
-          alt: "Curtain closet"
+          alt: "Curtain closet",
+          story: "LAYERED DRAPERY STYLES FOR A CUSTOM FINISH.",
+          tone: "curtains"
         },
         {
           src: "Assets/ruggallery.jpg",
           title: "RUG GALLERY",
-          alt: "Rug gallery"
+          alt: "Rug gallery",
+          story: "GROUND THE SPACE WITH SIGNATURE RUG STATEMENTS.",
+          tone: "rugs"
         }
       ];
 
@@ -2423,6 +2553,8 @@ body {
         decorSceneImg.alt = scene.alt;
         decorSceneTitle.textContent = scene.title;
         decorSceneCount.textContent = (decorSceneIndex + 1) + " / " + decorScenes.length;
+        decorSceneStory.textContent = scene.story || "";
+        decorPopup.dataset.scene = scene.tone || "entryway";
         syncDecorGridHighlight();
         if (animate) {
           setTimeout(() => decorPopup.classList.remove("scene-switch"), 260);
