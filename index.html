@@ -1082,7 +1082,7 @@ body {
 
 #decorClosetPopup {
   position: relative;
-  width: min(1380px, 100%);
+  width: min(980px, 74vw);
   margin: 26px auto 0;
   background: linear-gradient(172deg, rgba(22, 22, 22, 0.95), rgba(10, 10, 10, 0.93));
   border: 1px solid rgba(255, 232, 170, 0.24);
@@ -1118,7 +1118,8 @@ body {
 
 #decorClosetPopup .popup-hero {
   margin-bottom: 0;
-  min-height: clamp(460px, 78vh, 980px);
+  min-height: clamp(620px, 88vh, 1160px);
+  background: #070a11;
 }
 
 .popup-hero img {
@@ -1130,8 +1131,10 @@ body {
 }
 
 #decorClosetPopup .popup-hero img {
-  height: clamp(460px, 78vh, 980px);
+  height: clamp(620px, 88vh, 1160px);
   aspect-ratio: auto;
+  object-fit: contain;
+  object-position: center center;
 }
 
 #decorClosetPopup.scene-switch .popup-hero img {
@@ -1249,10 +1252,10 @@ body {
 
 #decorDirectoryBtn {
   position: absolute;
-  right: 14%;
-  top: 22%;
-  width: 34%;
-  height: 52%;
+  right: 8%;
+  top: 18%;
+  width: 24%;
+  height: 64%;
   border: 0;
   border-radius: 10px;
   background: transparent;
@@ -1334,23 +1337,23 @@ body {
   }
 
   #decorClosetPopup {
-    width: 100%;
+    width: min(94vw, 780px);
     margin-top: 16px;
   }
 
   #decorClosetPopup .popup-hero {
-    min-height: clamp(320px, 62vh, 640px);
+    min-height: clamp(460px, 78vh, 860px);
   }
 
   #decorClosetPopup .popup-hero img {
-    height: clamp(320px, 62vh, 640px);
+    height: clamp(460px, 78vh, 860px);
   }
 
   #decorDirectoryBtn {
-    right: 12%;
-    top: 22%;
-    width: 38%;
-    height: 52%;
+    right: 8%;
+    top: 18%;
+    width: 28%;
+    height: 64%;
   }
 
   #roomItemControls {
