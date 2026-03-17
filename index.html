@@ -234,8 +234,8 @@ body {
 }
 
 body.decor-popup-open .workspace-section {
-  width: min(1500px, calc(96vw - 640px));
-  margin-left: max(16px, 2vw);
+  width: min(1500px, calc(96vw - 720px));
+  margin-left: max(12px, 1.5vw);
   margin-right: auto;
 }
 
@@ -995,6 +995,19 @@ body.decor-popup-open .workspace-section {
   line-height: 1.4;
 }
 
+#itemPreview .preview-meta {
+  color: rgba(236, 236, 236, 0.9);
+}
+
+#previewBuy {
+  display: inline-block;
+  margin-top: 6px;
+  color: #ffe4a5;
+  font-size: 11px;
+  letter-spacing: 0.6px;
+  text-decoration: underline;
+}
+
 #receiptPanel {
   position: fixed;
   right: 20px;
@@ -1077,8 +1090,8 @@ body.decor-popup-open .workspace-section {
 
 #decorClosetPopup {
   right: max(18px, 2vw);
-  width: min(600px, 38vw);
-  min-width: 500px;
+  width: min(700px, 44vw);
+  min-width: 560px;
   max-height: min(86vh, 900px);
   transform: translateX(18px) scale(0.985);
   display: flex;
@@ -1388,7 +1401,7 @@ body.decor-popup-open .workspace-section {
   }
 }
 
-@media (max-width: 1520px) {
+@media (max-width: 1200px) {
   body.decor-popup-open .workspace-section {
     width: min(1500px, 92vw);
     margin-left: auto;
@@ -1516,7 +1529,10 @@ body.decor-popup-open .workspace-section {
     <img id="previewImg" src="" alt="Item preview">
     <h3 id="previewName"></h3>
     <p id="previewSpecs"></p>
+    <p class="preview-meta" id="previewBrand"></p>
+    <p class="preview-meta" id="previewSku"></p>
     <p id="previewPrice"></p>
+    <a id="previewBuy" href="#" target="_blank" rel="noopener noreferrer"></a>
     <p>Double-click to place in room</p>
   </div>
 
@@ -2178,10 +2194,31 @@ body.decor-popup-open .workspace-section {
       }
 
       function showPreview(item) {
+        const safeSku = (item.sku || item.id || item.name || "ITEM")
+          .toString()
+          .replace(/\s+/g, "-")
+          .replace(/[^A-Za-z0-9\-_]/g, "")
+          .toUpperCase();
+        const brand = item.brand || "Room Glow Up Partner";
+        const vendor = item.vendor || "Affiliate Marketplace";
+        const buyUrl = item.buyUrl || "";
+
         document.getElementById("previewImg").src = item.src;
         document.getElementById("previewName").textContent = item.name;
         document.getElementById("previewSpecs").textContent = item.specs;
+        document.getElementById("previewBrand").textContent = "Brand: " + brand + " | Seller: " + vendor;
+        document.getElementById("previewSku").textContent = "SKU: " + safeSku;
         document.getElementById("previewPrice").textContent = "Estimated Price: $" + item.price;
+        const buyNode = document.getElementById("previewBuy");
+        if (buyUrl) {
+          buyNode.href = buyUrl;
+          buyNode.textContent = "Shop this item";
+          buyNode.style.display = "inline-block";
+        } else {
+          buyNode.removeAttribute("href");
+          buyNode.textContent = "Purchase link coming soon";
+          buyNode.style.display = "inline-block";
+        }
         preview.classList.add("show");
       }
 
