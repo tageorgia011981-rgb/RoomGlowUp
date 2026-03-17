@@ -234,9 +234,8 @@ body {
 }
 
 body.decor-popup-open .workspace-section {
-  width: min(1500px, calc(96vw - 720px));
-  margin-left: max(12px, 1.5vw);
-  margin-right: auto;
+  width: min(1500px, 96vw);
+  margin: clamp(150px, 22vh, 260px) auto 140px;
 }
 
 #catalogOverlay {
@@ -561,6 +560,11 @@ body.decor-popup-open .workspace-section {
   display: flex;
   align-items: flex-start;
   gap: 24px;
+  transition: padding-right 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.decor-popup-open .workspace-row {
+  padding-right: clamp(250px, 27vw, 430px);
 }
 
 #rooms-cabinet {
@@ -1090,8 +1094,8 @@ body.decor-popup-open .workspace-section {
 
 #decorClosetPopup {
   right: max(18px, 2vw);
-  width: min(700px, 44vw);
-  min-width: 560px;
+  width: min(760px, 48vw);
+  min-width: 620px;
   max-height: min(86vh, 900px);
   transform: translateX(18px) scale(0.985);
   display: flex;
@@ -1113,7 +1117,7 @@ body.decor-popup-open .workspace-section {
 
 #decorClosetPopup .popup-hero {
   margin-bottom: 0;
-  min-height: clamp(390px, 68vh, 760px);
+  min-height: clamp(430px, 72vh, 820px);
 }
 
 .popup-hero img {
@@ -1125,7 +1129,7 @@ body.decor-popup-open .workspace-section {
 }
 
 #decorClosetPopup .popup-hero img {
-  height: clamp(390px, 68vh, 760px);
+  height: clamp(430px, 72vh, 820px);
   aspect-ratio: auto;
 }
 
@@ -1371,6 +1375,10 @@ body.decor-popup-open .workspace-section {
     font-size: 14px;
   }
 
+  body.decor-popup-open .workspace-row {
+    padding-right: 0;
+  }
+
   #decorClosetPopup {
     width: min(92vw, 640px);
     min-width: 0;
@@ -1401,13 +1409,6 @@ body.decor-popup-open .workspace-section {
   }
 }
 
-@media (max-width: 1200px) {
-  body.decor-popup-open .workspace-section {
-    width: min(1500px, 92vw);
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
 </style>
 </head>
 <body>
