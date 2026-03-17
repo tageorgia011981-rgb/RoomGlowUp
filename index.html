@@ -1762,7 +1762,8 @@ body.decor-popup-open .workspace-section {
           tone: "plants"
         },
         {
-          src: "Assets/lightingcloset.jpg",
+          src: "Assets/sitestuff_lighting.jpg",
+          fallback: "Assets/lightingcloset.jpg",
           title: "LIGHTING",
           alt: "Lighting closet",
           story: "AMBIENT GLOW PIECES TO SET THE ROOM'S MOOD.",
@@ -2621,6 +2622,13 @@ body.decor-popup-open .workspace-section {
         }
         if (animate) {
           decorPopup.classList.add("scene-switch");
+        }
+        decorSceneImg.onerror = null;
+        if (scene.fallback && scene.fallback !== scene.src) {
+          decorSceneImg.onerror = () => {
+            decorSceneImg.onerror = null;
+            decorSceneImg.src = scene.fallback;
+          };
         }
         decorSceneImg.src = scene.src;
         decorSceneImg.alt = scene.alt;
