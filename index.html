@@ -1,1 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Room Glow Up - Decor Closet</title>
+<link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Limelight&display=swap)" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: "Limelight", serif;
+    color: #fff;
+    background: url("Assets/mainbackgroundl.jpg") left top no-repeat,
+                url("Assets/mainbackgroundr.jpg") right top no-repeat,
+                url("Assets/mainbackgroundblue.jpg") center top no-repeat;
+    background-size: 33% 100%, 33% 100%, 34% 100%;
+    background-attachment: fixed;
+    text-align: center;
+  }
+
+  header {
+    padding: 50px 10px 30px;
+  }
+
+  header h1 {
+    font-size: clamp(60px, 10vw, 120px);
+    letter-spacing: 8px;
+    margin: 0;
+    text-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+  }
+
+  header h2 {
+    font-size: clamp(20px, 2.5vw, 36px);
+    letter-spacing: 2px;
+    margin: 10px 0 0;
+    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Decor Closet Popup */
+  #decorClosetPopup {
+    position: fixed;
+    top: 170px;
+    right: 7vw;
+    width: min(520px, 90vw);
+    background: rgba(15, 15, 15, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.62);
+    padding: 14px;
+    z-index: 58;
+    transition: opacity 0.4s ease;
+  }
+
+  .popup-hero {
+    position: relative;
+    margin-bottom: 10px;
+  }
+
+  .popup-hero img {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+  }
+
+  .popup-hero .button-group {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    display: flex;
+    gap: 8px;
+  }
+
+  .popup-hero button {
+    border: 0;
+    border-radius: 999px;
+    font-family: "Limelight", serif;
+    font-size: 11px;
+    letter-spacing: 0.8px;
+    padding: 7px 12px;
+    cursor: pointer;
+  }
+
+  #decorDirectoryBtn {
+    background: rgba(17, 17, 17, 0.86);
+    color: #fff;
+  }
+
+  #decorExitBtn {
+    background: rgba(100, 100, 100, 0.85);
+    color: #fff;
+  }
+
+  #decorDirectoryBtn:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  #decorExitBtn:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .mini-grid {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <h1>Room Glow Up</h1>
+    <h2>Where Your Dream Space Comes To Life.</h2>
+  </header>
+
+  <!-- Decor Closet Popup -->
+  <div id="decorClosetPopup">
+    <div class="popup-hero">
+      <img id="decorScene"
+           src="Assets/decorcloset_entryway.jpg"
+           alt="Decor Closet Scene">
+      <div class="button-group">
+        <button id="decorDirectoryBtn" type="button">DIRECTORY SIGN</button>
+        <button id="decorExitBtn" type="button">EXIT</button>
+      </div>
+    </div>
+    <div class="mini-grid" id="decorMiniGrid"></div>
+  </div>
+
+  <script>
+    // Decor Closet images
+    const decorImages = [
+      "Assets/decorcloset_entryway.jpg",
+      "Assets/sitestuff_lighting.jpg",
+      "Assets/sitestuff_mirrors.jpg",
+      "Assets/sitestuff_pillows.jpg",
+      "Assets/sitestuff_plants.jpg"
+    ];
+
+    let currentIndex = 0;
+
+    const decorScene = document.getElementById("decorScene");
+    const decorPopup = document.getElementById("decorClosetPopup");
+
+    // Switch to next decor scene
+    document.getElementById("decorDirectoryBtn").addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % decorImages.length;
+      decorScene.src = decorImages[currentIndex];
+    });
+
+    // Exit the Decor Closet popup
+    document.getElementById("decorExitBtn").addEventListener("click", () => {
+      decorPopup.style.opacity = "0";
+      setTimeout(() => {
+        decorPopup.style.display = "none";
+      }, 400); // fade-out duration matches CSS transition
+    });
+  </script>
+
+</body>
+</html>
 
