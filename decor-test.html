@@ -1,1 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Decor Test</title></head>
+<body style="background:#111;color:#fff;font-family:sans-serif;text-align:center;padding-top:40px">
+  <h2>Decor Closet Test</h2>
+  <img id="decorScene" src="Assets/decorcloset_entryway.jpg" width="400" style="border-radius:8px;display:block;margin:20px auto;">
+  <p><button id="nextBtn" style="padding:8px 14px;">Directory Sign</button></p>
+
+  <script>
+    const images=[
+      "Assets/decorcloset_entryway.jpg",
+      "Assets/sitestuff_lighting.jpg",
+      "Assets/sitestuff_mirrors.jpg",
+      "Assets/sitestuff_pillows.jpg",
+      "Assets/sitestuff_plants.jpg"
+    ];
+    let i=0;
+    document.getElementById("nextBtn").onclick=function(){
+      i=(i+1)%images.length;
+      document.getElementById("decorScene").src=images[i];
+    };
+  </script>
+</body>
+</html>
 
