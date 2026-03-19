@@ -1,110 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Room Glow Up - Decor Closet</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Room Glow Up</title>
 <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Limelight&display=swap)" rel="stylesheet">
 
 <style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
   body {
-    margin: 0;
-    padding: 0;
     font-family: "Limelight", serif;
     color: #fff;
-    background: url("Assets/mainbackgroundl.jpg") left top no-repeat,
-                url("Assets/mainbackgroundr.jpg") right top no-repeat,
-                url("Assets/mainbackgroundblue.jpg") center top no-repeat;
+    background-image:
+      url("Assets/mainbackgroundl.jpg"),
+      url("Assets/mainbackgroundr.jpg"),
+      url("Assets/mainbackgroundblue.jpg");
+    background-repeat: no-repeat;
+    background-position: left top, right top, center top;
     background-size: 33% 100%, 33% 100%, 34% 100%;
     background-attachment: fixed;
-    text-align: center;
+    scroll-behavior: smooth;
   }
 
+  /* HEADER */
   header {
-    padding: 50px 10px 30px;
+    text-align: center;
+    padding: 60px 10px 40px;
   }
-
   header h1 {
     font-size: clamp(60px, 10vw, 120px);
     letter-spacing: 8px;
-    margin: 0;
-    text-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    text-shadow: 0 8px 20px rgba(0,0,0,0.6);
   }
-
   header h2 {
-    font-size: clamp(20px, 2.5vw, 36px);
-    letter-spacing: 2px;
-    margin: 10px 0 0;
-    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.8);
+    margin-top: 10px;
+    font-size: clamp(20px, 2.5vw, 38px);
+    text-shadow: 0 3px 12px rgba(0,0,0,0.8);
   }
 
-  /* Decor Closet Popup */
-  #decorClosetPopup {
-    position: fixed;
-    top: 170px;
-    right: 7vw;
-    width: min(520px, 90vw);
-    background: rgba(15, 15, 15, 0.92);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.62);
-    padding: 14px;
-    z-index: 58;
-    transition: opacity 0.4s ease;
+  /* TAB ROW */
+  nav.tab-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding: 26px 16px 0;
+    margin-bottom: 42px;
   }
-
-  .popup-hero {
+  .pull-tab {
     position: relative;
-    margin-bottom: 10px;
+    width: 180px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    transition: transform 0.3s ease, filter 0.3s ease;
+  }
+  .pull-tab img {
+    width: 100%;
+    display: block;
+  }
+  .pull-tab span {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 16px;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+    pointer-events: none;
+  }
+  .pull-tab:hover,
+  .pull-tab.active {
+    transform: translateY(-6px);
+    filter: drop-shadow(0 0 8px rgba(164,255,197,0.8));
   }
 
-  .popup-hero img {
+  /* WORKSPACE SECTION */
+  .workspace-section {
+    width: min(1500px, 95%);
+    margin: 0 auto;
+    text-align: center;
+  }
+  #work-area {
+    width: 100%;
+    max-width: 1000px;
+    height: 600px;
+    background: url("Assets/workstation.jpg") center/cover no-repeat;
+    border: 3px solid rgba(255,255,255,0.22);
+    box-shadow: 0 18px 45px rgba(0,0,0,0.65);
+    margin: 0 auto;
+  }
+
+  /* DECOR CLOSET (below workspace) */
+  #decorClosetSection {
+    margin-top: 120px;
+    padding: 30px 20px 100px;
+    text-align: center;
+    background: rgba(10,10,10,0.6);
+    box-shadow: 0 0 40px rgba(0,0,0,0.6) inset;
+  }
+  #decorClosetSection h2 {
+    font-size: 32px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+  #decorClosetBox {
+    display: inline-block;
+    background: rgba(15,15,15,0.92);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.62);
+    padding: 14px;
+    width: min(520px, 90%);
+  }
+  #decorScene {
     width: 100%;
     border-radius: 8px;
     display: block;
   }
-
-  .popup-hero .button-group {
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
+  .button-group {
+    margin-top: 12px;
     display: flex;
-    gap: 8px;
+    justify-content: center;
+    gap: 12px;
   }
-
-  .popup-hero button {
+  .button-group button {
     border: 0;
     border-radius: 999px;
     font-family: "Limelight", serif;
-    font-size: 11px;
+    font-size: 13px;
     letter-spacing: 0.8px;
-    padding: 7px 12px;
+    padding: 8px 16px;
     cursor: pointer;
-  }
-
-  #decorDirectoryBtn {
-    background: rgba(17, 17, 17, 0.86);
     color: #fff;
+    transition: background 0.25s;
   }
-
-  #decorExitBtn {
-    background: rgba(100, 100, 100, 0.85);
-    color: #fff;
-  }
-
-  #decorDirectoryBtn:hover {
-    background: rgba(255, 255, 255, 0.15);
-  }
-
-  #decorExitBtn:hover {
-    background: rgba(255, 255, 255, 0.25);
-  }
-
-  .mini-grid {
-    display: none;
-  }
+  #decorDirectoryBtn { background: rgba(17,17,17,0.86); }
+  #decorDirectoryBtn:hover { background: rgba(255,255,255,0.15); }
+  #decorExitBtn { background: rgba(100,100,100,0.85); }
+  #decorExitBtn:hover { background: rgba(255,255,255,0.25); }
 </style>
 </head>
+
 <body>
 
   <header>
@@ -112,22 +152,38 @@
     <h2>Where Your Dream Space Comes To Life.</h2>
   </header>
 
-  <!-- Decor Closet Popup -->
-  <div id="decorClosetPopup">
-    <div class="popup-hero">
+  <!-- Tabs -->
+  <nav class="tab-row">
+    <button class="pull-tab" type="button"><img src="Assets/roomscabinet_pulltab.png" alt=""><span>ROOMS</span></button>
+    <button class="pull-tab" type="button"><img src="Assets/roomscabinet_pulltab.png" alt=""><span>FURNITURE CATALOG</span></button>
+    <button class="pull-tab active" type="button"><img src="Assets/roomscabinet_pulltab.png" alt=""><span>DECOR CLOSET</span></button>
+    <button class="pull-tab" type="button"><img src="Assets/roomscabinet_pulltab.png" alt=""><span>GALLERY</span></button>
+    <button class="pull-tab" type="button"><img src="Assets/roomscabinet_pulltab.png" alt=""><span>SAVE/CHECKOUT</span></button>
+  </nav>
+
+  <!-- Workspace -->
+  <section class="workspace-section">
+    <div id="work-area"></div>
+  </section>
+
+  <!-- Decor Closet section -->
+  <section id="decorClosetSection">
+    <h2>Decor Closet</h2>
+
+    <div id="decorClosetBox">
       <img id="decorScene"
            src="Assets/decorcloset_entryway.jpg"
            alt="Decor Closet Scene">
+
       <div class="button-group">
         <button id="decorDirectoryBtn" type="button">DIRECTORY SIGN</button>
         <button id="decorExitBtn" type="button">EXIT</button>
       </div>
     </div>
-    <div class="mini-grid" id="decorMiniGrid"></div>
-  </div>
+  </section>
 
   <script>
-    // Decor Closet images
+    // Decor Closet image cycle
     const decorImages = [
       "Assets/decorcloset_entryway.jpg",
       "Assets/sitestuff_lighting.jpg",
@@ -139,23 +195,23 @@
     let currentIndex = 0;
 
     const decorScene = document.getElementById("decorScene");
-    const decorPopup = document.getElementById("decorClosetPopup");
+    const closetSection = document.getElementById("decorClosetSection");
 
-    // Switch to next decor scene
+    // Next decor room when clicking Directory Sign
     document.getElementById("decorDirectoryBtn").addEventListener("click", () => {
       currentIndex = (currentIndex + 1) % decorImages.length;
       decorScene.src = decorImages[currentIndex];
     });
 
-    // Exit the Decor Closet popup
+    // Exit: hide the closet and scroll up
     document.getElementById("decorExitBtn").addEventListener("click", () => {
-      decorPopup.style.opacity = "0";
+      closetSection.style.opacity = "0";
       setTimeout(() => {
-        decorPopup.style.display = "none";
-      }, 400); // fade-out duration matches CSS transition
+        closetSection.style.display = "none";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 400);
     });
   </script>
 
 </body>
 </html>
-
