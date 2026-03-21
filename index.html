@@ -6,7 +6,6 @@
 <title>Room Glow Up</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Jacques+Francois+Shadow&display=swap" rel="stylesheet">
 
 <style>
 
@@ -19,7 +18,6 @@ min-height:100%;
 font-family:"Limelight",serif;
 color:#fff;
 overflow-x:hidden;
-scroll-behavior:smooth;
 
 /* CLEAN BACKGROUND */
 background-image:
@@ -30,53 +28,36 @@ url("Assets/mainbackground_blue.jpg");
 background-repeat:no-repeat,no-repeat,no-repeat;
 background-position:left top,right top,center top;
 background-size:33% 100%,33% 100%,34% 100%;
-background-attachment:fixed;
 }
 
-/* ===== HERO ===== */
+/* ===== HEADER ===== */
 
 .hero{
 text-align:center;
-padding:56px 20px 10px;
+padding:50px 20px;
 }
 
-.hero h1{
-margin:0;
-font-size:clamp(56px,10vw,136px);
-letter-spacing:7px;
-text-shadow:0 8px 20px rgba(0,0,0,0.55);
-}
+.hero h1{font-size:90px;margin:0;}
+.hero h2{font-size:28px;margin-top:10px;}
 
-.hero h2{
-margin:16px 0 0;
-font-size:clamp(20px,2.2vw,38px);
-letter-spacing:2px;
-text-shadow:0 2px 10px rgba(0,0,0,0.7);
-}
-
-/* ===== TOP TABS ===== */
+/* ===== TABS ===== */
 
 .tab-row{
 display:flex;
 justify-content:center;
 gap:30px;
-flex-wrap:wrap;
-padding:26px 16px 0;
-margin-bottom:42px;
+padding-top:20px;
 }
 
 .pull-tab{
 position:relative;
 width:210px;
-border:0;
-background:transparent;
+border:none;
+background:none;
 cursor:pointer;
 }
 
-.pull-tab img{
-width:100%;
-display:block;
-}
+.pull-tab img{width:100%;}
 
 .pull-tab span{
 position:absolute;
@@ -86,33 +67,20 @@ align-items:center;
 justify-content:center;
 color:#fff;
 font-size:18px;
-letter-spacing:1px;
-text-shadow:0 3px 12px rgba(0,0,0,0.85);
-}
-
-/* ===== WORKSPACE ===== */
-
-.workspace-section{
-width:min(1500px,96vw);
-margin:34vh auto 140px;
-position:relative;
-}
-
-.workspace-row{
-display:flex;
-gap:24px;
+text-shadow:0 3px 12px rgba(0,0,0,.85);
 }
 
 /* ===== WORK AREA ===== */
 
+.workspace-section{
+width:95%;
+margin:120px auto;
+}
+
 #work-area{
-position:relative;
-width:100%;
-min-height:640px;
+height:600px;
 background:url("Assets/workstation.jpg") center/cover no-repeat;
-border:3px solid rgba(255,255,255,0.22);
-box-shadow:0 18px 45px rgba(0,0,0,0.65);
-overflow:hidden;
+position:relative;
 }
 
 #placedItems{position:absolute;inset:0;}
@@ -123,49 +91,39 @@ width:140px;
 cursor:grab;
 }
 
-/* ===== DECOR ===== */
+/* ===== DECOR UNDER WORKSPACE ===== */
 
 #decorClosetPopup{
-position:fixed;
-top:170px;
-right:7vw;
-width:min(520px,90vw);
-background:rgba(15,15,15,0.92);
-padding:14px;
-opacity:0;
-pointer-events:none;
-transition:.4s;
+position:relative;
+width:100%;
+margin-top:40px;
+display:none;
 }
 
-#decorClosetPopup.show{
-opacity:1;
-pointer-events:auto;
-}
+#decorClosetPopup.show{display:block;}
 
 .popup-hero img{
 width:100%;
-border-radius:8px;
+display:block;
 }
 
+/* ===== ITEMS ON SHELVES ===== */
+
 .mini-grid{
-width:100%;
-height:420px;
-display:grid;
-grid-template-columns:repeat(6,1fr);
-grid-template-rows:repeat(2,1fr);
-gap:10px;
-padding:20px;
+position:absolute;
+inset:0;
 }
 
 .mini-item{
+position:absolute;
+width:14%;
 display:flex;
-align-items:flex-end;
 justify-content:center;
 cursor:pointer;
 }
 
 .mini-item img{
-max-height:120px;
+width:100%;
 object-fit:contain;
 }
 
@@ -173,32 +131,14 @@ object-fit:contain;
 
 #itemPreview{
 position:fixed;
-right:18px;
-bottom:18px;
-width:260px;
-background:rgba(0,0,0,0.85);
+bottom:20px;
+right:20px;
+background:#000;
 padding:10px;
 display:none;
 }
 
 #itemPreview.show{display:block;}
-
-/* ===== RECEIPT ===== */
-
-#receiptPanel{
-position:fixed;
-right:20px;
-top:110px;
-width:360px;
-transform:scaleY(0);
-opacity:0;
-transition:.5s;
-}
-
-#receiptPanel.show{
-transform:scaleY(1);
-opacity:1;
-}
 
 </style>
 </head>
@@ -210,68 +150,35 @@ opacity:1;
 <h2>Where Your Dream Space Comes To Life.</h2>
 </header>
 
-<!-- ===== TABS RESTORED ===== -->
-
 <nav class="tab-row">
-<button class="pull-tab" id="roomsTab">
-<img src="Assets/roomscabinet_pulltab.png">
-<span>ROOMS</span>
-</button>
-
-<button class="pull-tab" id="catalogTab">
-<img src="Assets/roomscabinet_pulltab.png">
-<span>FURNITURE CATALOG</span>
-</button>
-
-<button class="pull-tab" id="decorTab">
-<img src="Assets/roomscabinet_pulltab.png">
-<span>DECOR CLOSET</span>
-</button>
-
-<button class="pull-tab" id="galleryTab">
-<img src="Assets/roomscabinet_pulltab.png">
-<span>GALLERY</span>
-</button>
-
-<button class="pull-tab" id="saveTab">
-<img src="Assets/roomscabinet_pulltab.png">
-<span>SAVE/CHECKOUT</span>
-</button>
+<button class="pull-tab" id="roomsTab"><img src="Assets/roomscabinet_pulltab.png"><span>ROOMS</span></button>
+<button class="pull-tab" id="catalogTab"><img src="Assets/roomscabinet_pulltab.png"><span>FURNITURE CATALOG</span></button>
+<button class="pull-tab" id="decorTab"><img src="Assets/roomscabinet_pulltab.png"><span>DECOR CLOSET</span></button>
+<button class="pull-tab" id="galleryTab"><img src="Assets/roomscabinet_pulltab.png"><span>GALLERY</span></button>
+<button class="pull-tab" id="saveTab"><img src="Assets/roomscabinet_pulltab.png"><span>SAVE/CHECKOUT</span></button>
 </nav>
 
 <section class="workspace-section">
-
-<div class="workspace-row">
 
 <div id="work-area">
 <div id="placedItems"></div>
 </div>
 
-</div>
-</section>
-
-<!-- ===== DECOR POPUP ===== -->
-
+<!-- DECOR -->
 <div id="decorClosetPopup">
 <div class="popup-hero">
-<img src="Assets/sitestuff_pillows.jpg">
+<img id="decorScene" src="Assets/decorcloset_entryway.jpg">
 </div>
+
 <div class="mini-grid" id="decorMiniGrid"></div>
 </div>
 
-<!-- ===== PREVIEW ===== -->
+</section>
 
+<!-- PREVIEW -->
 <div id="itemPreview">
 <img id="previewImg">
 <h3 id="previewName"></h3>
-<p id="previewPrice"></p>
-</div>
-
-<!-- ===== RECEIPT ===== -->
-
-<div id="receiptPanel">
-<div id="receiptLines"></div>
-<div id="receiptTotal">TOTAL: $0</div>
 </div>
 
 <script>
@@ -283,93 +190,86 @@ for(let i=1;i<=12;i++){
 pillows.push({
 id:"p"+i,
 name:"Pillow "+i,
-src:"Assets/decor_pillow"+i+".png",
-price:25
+src:"Assets/decor_pillow"+i+".png"
 });
 }
 
-let estimate=new Map();
+/* ===== STATES ===== */
 
-/* ===== DECOR RENDER ===== */
+let view="directory";
 
-function renderDecor(){
-const grid=document.getElementById("decorMiniGrid");
-grid.innerHTML="";
+/* ===== DECOR TAB ===== */
 
-pillows.forEach(item=>{
-const card=document.createElement("div");
-card.className="mini-item";
-card.innerHTML="<img src='"+item.src+"'>";
+decorTab.onclick=()=>{
+decorClosetPopup.classList.add("show");
+view="directory";
+decorScene.src="Assets/decorcloset_entryway.jpg";
+decorMiniGrid.innerHTML="";
+};
 
-card.onmouseenter=()=>showPreview(item);
-card.onmouseleave=hidePreview;
-card.ondblclick=()=>placeItem(item);
+/* ===== OPEN PILLOWS ===== */
 
-grid.appendChild(card);
+function openPillows(){
+view="pillows";
+decorScene.src="Assets/sitestuff_pillows.jpg";
+renderPillows();
+}
+
+/* ===== RENDER PILLOWS ON SHELVES ===== */
+
+function renderPillows(){
+decorMiniGrid.innerHTML="";
+
+const rows=["18%","38%","58%","78%"];
+
+pillows.forEach((item,i)=>{
+const row=Math.floor(i/6);
+const col=i%6;
+
+const el=document.createElement("div");
+el.className="mini-item";
+
+el.style.top=rows[row];
+el.style.left=(col*16+4)+"%";
+
+el.innerHTML="<img src='"+item.src+"'>";
+
+el.onmouseenter=()=>showPreview(item);
+el.onmouseleave=()=>itemPreview.classList.remove("show");
+el.ondblclick=()=>place(item);
+
+decorMiniGrid.appendChild(el);
 });
 }
+
+/* ===== CLICK DIRECTORY → PILLOWS ===== */
+
+document.addEventListener("click",e=>{
+if(view==="directory"){
+openPillows();
+}
+});
 
 /* ===== PREVIEW ===== */
 
 function showPreview(item){
 previewImg.src=item.src;
 previewName.textContent=item.name;
-previewPrice.textContent="$"+item.price;
 itemPreview.classList.add("show");
-}
-
-function hidePreview(){
-itemPreview.classList.remove("show");
 }
 
 /* ===== PLACE ===== */
 
-function placeItem(item){
+function place(item){
 const el=document.createElement("img");
 el.src=item.src;
 el.className="placed-item";
 
-el.style.left=Math.random()*300+"px";
+el.style.left=Math.random()*400+"px";
 el.style.top=Math.random()*300+"px";
 
 placedItems.appendChild(el);
-
-addEstimate(item);
 }
-
-/* ===== RECEIPT ===== */
-
-function addEstimate(item){
-if(!estimate.has(item.id)){
-estimate.set(item.id,{name:item.name,price:item.price,qty:1});
-}else{
-estimate.get(item.id).qty++;
-}
-renderReceipt();
-}
-
-function renderReceipt(){
-let total=0;
-receiptLines.innerHTML="";
-
-estimate.forEach(v=>{
-total+=v.price*v.qty;
-receiptLines.innerHTML+=`<div>${v.name} x${v.qty}</div>`;
-});
-
-receiptTotal.textContent="TOTAL: $"+total;
-}
-
-/* ===== EVENTS ===== */
-
-decorTab.onclick=()=>{
-decorClosetPopup.classList.toggle("show");
-renderDecor();
-};
-
-saveTab.onclick=()=>{
-receiptPanel.classList.toggle("show");
-};
 
 </script>
 
