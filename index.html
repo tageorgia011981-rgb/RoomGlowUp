@@ -2,135 +2,142 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Room Glow Up</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jacques+Francois+Shadow&display=swap" rel="stylesheet">
 
 <style>
 
-* {
-  box-sizing: border-box;
+* { box-sizing: border-box; }
+
+html,body{
+margin:0;
+padding:0;
+min-height:100%;
+font-family:"Limelight",serif;
+color:#fff;
+overflow-x:hidden;
+scroll-behavior:smooth;
+
+/* ✅ CLEAN BACKGROUND */
+background-image:
+url("Assets/mainbackground_curtainl.jpg"),
+url("Assets/mainbackground_curtainr.jpg"),
+url("Assets/mainbackground_blue.jpg");
+
+background-repeat:no-repeat,no-repeat,no-repeat;
+background-position:left top,right top,center top;
+background-size:33% 100%,33% 100%,34% 100%;
+background-attachment:fixed;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
-  font-family: "Limelight", serif;
-  color: #fff;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
+/* ===== ORIGINAL STYLES KEPT ===== */
 
-  /* ✅ CLEANED BACKGROUND */
-  background-image:
-    url("Assets/mainbackground_curtainl.jpg"),
-    url("Assets/mainbackground_curtainr.jpg"),
-    url("Assets/mainbackground_blue.jpg");
+.hero{text-align:center;padding:56px 20px 10px;}
+.hero h1{margin:0;font-size:clamp(56px,10vw,136px);}
+.hero h2{margin:16px 0 0;font-size:clamp(20px,2.2vw,38px);}
 
-  background-repeat: no-repeat, no-repeat, no-repeat;
-  background-position: left top, right top, center top;
-  background-size: 33% 100%, 33% 100%, 34% 100%;
-  background-attachment: fixed;
+.tab-row{display:flex;justify-content:center;gap:30px;padding:26px 16px 0;}
+.pull-tab{position:relative;width:210px;background:transparent;border:0;cursor:pointer;}
+.pull-tab img{width:100%;}
+.pull-tab span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+
+#work-area{
+position:relative;
+width:100%;
+min-height:640px;
+background:url("Assets/workstation.jpg") center/cover no-repeat;
+overflow:hidden;
 }
 
-.hero {
-  text-align: center;
-  padding: 56px 20px 10px;
+#placedItems{position:absolute;inset:0;}
+
+.placed-item{
+position:absolute;
+width:140px;
+cursor:grab;
 }
 
-.hero h1 {
-  margin: 0;
-  font-size: clamp(56px, 10vw, 136px);
+/* ===== DECOR CLOSET ===== */
+
+#decorClosetPopup{
+position:fixed;
+top:170px;
+right:7vw;
+width:min(520px,90vw);
+background:rgba(15,15,15,0.92);
+padding:14px;
+opacity:0;
+pointer-events:none;
+transition:.4s;
 }
 
-.hero h2 {
-  margin: 16px 0 0;
-  font-size: clamp(20px, 2.2vw, 38px);
+#decorClosetPopup.show{
+opacity:1;
+pointer-events:auto;
 }
 
-.tab-row {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  padding: 26px 16px 0;
+.popup-hero img{
+width:100%;
+border-radius:8px;
 }
 
-.pull-tab {
-  position: relative;
-  width: 210px;
-  background: transparent;
-  border: 0;
-  cursor: pointer;
+/* SHELF GRID */
+
+.mini-grid{
+position:relative;
+width:100%;
+height:420px;
+display:grid;
+grid-template-columns:repeat(6,1fr);
+grid-template-rows:repeat(2,1fr);
+gap:10px;
+padding:20px;
 }
 
-.pull-tab img {
-  width: 100%;
+.mini-item{
+display:flex;
+align-items:flex-end;
+justify-content:center;
+cursor:pointer;
 }
 
-.pull-tab span {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.mini-item img{
+max-height:120px;
+object-fit:contain;
 }
 
-.workspace-section {
-  width: min(1500px, 96vw);
-  margin: 34vh auto 140px;
+/* ===== PREVIEW ===== */
+
+#itemPreview{
+position:fixed;
+right:18px;
+bottom:18px;
+width:260px;
+background:rgba(0,0,0,0.85);
+padding:10px;
+display:none;
 }
 
-.workspace-row {
-  display: flex;
-  gap: 24px;
+#itemPreview.show{display:block;}
+
+/* ===== RECEIPT ===== */
+
+#receiptPanel{
+position:fixed;
+right:20px;
+top:110px;
+width:360px;
+transform:scaleY(0);
+opacity:0;
+transition:.5s;
 }
 
-#work-area {
-  position: relative;
-  width: 100%;
-  min-height: 640px;
-  background: url("Assets/workstation.jpg") center/cover no-repeat;
-  overflow: hidden;
-}
-
-#placedItems {
-  position: absolute;
-  inset: 0;
-}
-
-.placed-item {
-  position: absolute;
-  width: 140px;
-  cursor: grab;
-}
-
-#itemPreview {
-  position: fixed;
-  right: 18px;
-  bottom: 18px;
-  width: 260px;
-  background: rgba(0,0,0,0.85);
-  padding: 10px;
-  display: none;
-}
-
-#itemPreview.show {
-  display: block;
-}
-
-#receiptPanel {
-  position: fixed;
-  right: 20px;
-  top: 110px;
-  width: 360px;
-  transform: scaleY(0);
-  opacity: 0;
-  transition: .5s;
-}
-
-#receiptPanel.show {
-  transform: scaleY(1);
-  opacity: 1;
+#receiptPanel.show{
+transform:scaleY(1);
+opacity:1;
 }
 
 </style>
@@ -142,6 +149,145 @@ html, body {
 <h1>Room Glow Up</h1>
 <h2>Where Your Dream Space Comes To Life.</h2>
 </header>
+
+<nav class="tab-row">
+<button class="pull-tab" id="decorTab">
+<img src="Assets/roomscabinet_pulltab.png">
+<span>DECOR CLOSET</span>
+</button>
+
+<button class="pull-tab" id="saveTab">
+<img src="Assets/roomscabinet_pulltab.png">
+<span>SAVE/CHECKOUT</span>
+</button>
+</nav>
+
+<div id="work-area">
+<div id="placedItems"></div>
+</div>
+
+<!-- DECOR POPUP -->
+<div id="decorClosetPopup">
+
+<div class="popup-hero">
+<img src="Assets/sitestuff_pillows.jpg">
+</div>
+
+<div class="mini-grid" id="decorMiniGrid"></div>
+
+</div>
+
+<!-- PREVIEW -->
+<div id="itemPreview">
+<img id="previewImg">
+<h3 id="previewName"></h3>
+<p id="previewPrice"></p>
+</div>
+
+<!-- RECEIPT -->
+<div id="receiptPanel">
+<div id="receiptLines"></div>
+<div id="receiptTotal">TOTAL: $0</div>
+</div>
+
+<script>
+
+/* ===== PILLOWS ===== */
+
+const pillows = [];
+for(let i=1;i<=12;i++){
+pillows.push({
+id:"p"+i,
+name:"Pillow "+i,
+src:"Assets/decor_pillow"+i+".png",
+price:25
+});
+}
+
+let estimate=new Map();
+
+/* ===== RENDER ===== */
+
+function renderDecor(){
+const grid=document.getElementById("decorMiniGrid");
+grid.innerHTML="";
+
+pillows.forEach(item=>{
+const card=document.createElement("div");
+card.className="mini-item";
+card.innerHTML="<img src='"+item.src+"'>";
+
+card.onmouseenter=()=>showPreview(item);
+card.onmouseleave=hidePreview;
+card.ondblclick=()=>placeItem(item);
+
+grid.appendChild(card);
+});
+}
+
+/* ===== PREVIEW ===== */
+
+function showPreview(item){
+previewImg.src=item.src;
+previewName.textContent=item.name;
+previewPrice.textContent="$"+item.price;
+itemPreview.classList.add("show");
+}
+
+function hidePreview(){
+itemPreview.classList.remove("show");
+}
+
+/* ===== PLACE ===== */
+
+function placeItem(item){
+const el=document.createElement("img");
+el.src=item.src;
+el.className="placed-item";
+
+el.style.left=Math.random()*300+"px";
+el.style.top=Math.random()*300+"px";
+
+placedItems.appendChild(el);
+
+addEstimate(item);
+}
+
+/* ===== RECEIPT ===== */
+
+function addEstimate(item){
+if(!estimate.has(item.id)){
+estimate.set(item.id,{name:item.name,price:item.price,qty:1});
+}else{
+estimate.get(item.id).qty++;
+}
+renderReceipt();
+}
+
+function renderReceipt(){
+let total=0;
+receiptLines.innerHTML="";
+
+estimate.forEach(v=>{
+total+=v.price*v.qty;
+receiptLines.innerHTML+=`<div>${v.name} x${v.qty}</div>`;
+});
+
+receiptTotal.textContent="TOTAL: $"+total;
+}
+
+/* ===== EVENTS ===== */
+
+decorTab.onclick=()=>{
+decorClosetPopup.classList.toggle("show");
+renderDecor();
+};
+
+saveTab.onclick=()=>{
+receiptPanel.classList.toggle("show");
+};
+
+</script>
 
 </body>
 </html>
