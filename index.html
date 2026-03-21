@@ -1,122 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
 <title>Room Glow Up</title>
-<link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Limelight&display=swap)" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
+
 <style>
-*{box-sizing:border-box;}
-html,body{
-  margin:0;
-  padding:0;
-  min-height:100%;
-  font-family:"Limelight",serif;
-  color:#fff;
-  overflow-x:hidden;
-  scroll-behavior:smooth;
-  background-image:
-    url("Assets/mainbackgroundl.jpg"),
-    url("Assets/mainbackground_curtainl.jpg"),
-    url("Assets/mainbackgroundr.jpg"),
-    url("Assets/mainbackground_curtainr.jpg"),
-    url("Assets/mainbackgroundblue.jpg"),
-    url("Assets/mainbackground_blue.jpg");
-  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,no-repeat;
-  background-position:left top,left top,right top,right top,center top,center top;
-  background-size:33% 100%,33% 100%,33% 100%,33% 100%,34% 100%,34% 100%;
-  background-attachment:fixed;
+
+* {
+  box-sizing: border-box;
 }
-.hero{text-align:center;padding:56px 20px 10px;}
-.hero h1{margin:0;font-size:clamp(56px,10vw,136px);letter-spacing:7px;text-shadow:0 8px 20px rgba(0,0,0,0.55);}
-.hero h2{margin:16px 0 0;font-size:clamp(20px,2.2vw,38px);letter-spacing:2px;text-shadow:0 2px 10px rgba(0,0,0,0.7);}
-.tab-row{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;padding:26px 16px 0;margin-bottom:42px;}
-.pull-tab{position:relative;width:210px;border:0;background:transparent;cursor:pointer;transition:transform .34s,filter .34s;}
-.pull-tab img{width:100%;display:block;}
-.pull-tab span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;font-size:18px;letter-spacing:1px;text-shadow:0 3px 12px rgba(0,0,0,0.85);pointer-events:none;}
-.pull-tab:hover,.pull-tab.active{transform:translateY(-9px);filter:drop-shadow(0 0 10px rgba(164,255,197,0.8));}
-.workspace-section{width:min(1500px,96vw);margin:34vh auto 140px;position:relative;}
-.workspace-row{display:flex;align-items:flex-start;gap:24px;}
-#work-area{position:relative;width:100%;min-height:640px;background:url("Assets/workstation.jpg") center/cover no-repeat;
-border:3px solid rgba(255,255,255,0.22);box-shadow:0 18px 45px rgba(0,0,0,0.65);cursor:pointer;}
-#decorClosetPopup{position:fixed;top:170px;right:7vw;width:min(520px,90vw);background:rgba(15,15,15,0.92);
-border:1px solid rgba(255,255,255,0.2);border-radius:12px;box-shadow:0 20px 40px rgba(0,0,0,0.62);padding:14px;z-index:58;
-opacity:0;transform:translateY(-18px);pointer-events:none;transition:opacity .4s,transform .4s;}
-#decorClosetPopup.show{opacity:1;transform:translateY(0);pointer-events:auto;}
-.popup-hero{position:relative;margin-bottom:10px;}
-.popup-hero img{width:100%;border-radius:8px;display:block;}
-.popup-hero .button-group{position:absolute;bottom:12px;right:12px;display:flex;gap:8px;}
-.popup-hero button{border:0;border-radius:999px;background:rgba(17,17,17,0.86);color:#fff;cursor:pointer;
-font-family:"Limelight",serif;font-size:11px;letter-spacing:.8px;padding:7px 12px;}
-#decorExitBtn{background:rgba(100,100,100,0.85);}
-#decorExitBtn:hover{background:rgba(255,255,255,0.25);}
-#decorDirectoryBtn:hover{background:rgba(255,255,255,0.15);}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: "Limelight", serif;
+  color: #fff;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+
+  /* ✅ CLEANED BACKGROUND */
+  background-image:
+    url("Assets/mainbackground_curtainl.jpg"),
+    url("Assets/mainbackground_curtainr.jpg"),
+    url("Assets/mainbackground_blue.jpg");
+
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-position: left top, right top, center top;
+  background-size: 33% 100%, 33% 100%, 34% 100%;
+  background-attachment: fixed;
+}
+
+.hero {
+  text-align: center;
+  padding: 56px 20px 10px;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(56px, 10vw, 136px);
+}
+
+.hero h2 {
+  margin: 16px 0 0;
+  font-size: clamp(20px, 2.2vw, 38px);
+}
+
+.tab-row {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 26px 16px 0;
+}
+
+.pull-tab {
+  position: relative;
+  width: 210px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.pull-tab img {
+  width: 100%;
+}
+
+.pull-tab span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.workspace-section {
+  width: min(1500px, 96vw);
+  margin: 34vh auto 140px;
+}
+
+.workspace-row {
+  display: flex;
+  gap: 24px;
+}
+
+#work-area {
+  position: relative;
+  width: 100%;
+  min-height: 640px;
+  background: url("Assets/workstation.jpg") center/cover no-repeat;
+  overflow: hidden;
+}
+
+#placedItems {
+  position: absolute;
+  inset: 0;
+}
+
+.placed-item {
+  position: absolute;
+  width: 140px;
+  cursor: grab;
+}
+
+#itemPreview {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 260px;
+  background: rgba(0,0,0,0.85);
+  padding: 10px;
+  display: none;
+}
+
+#itemPreview.show {
+  display: block;
+}
+
+#receiptPanel {
+  position: fixed;
+  right: 20px;
+  top: 110px;
+  width: 360px;
+  transform: scaleY(0);
+  opacity: 0;
+  transition: .5s;
+}
+
+#receiptPanel.show {
+  transform: scaleY(1);
+  opacity: 1;
+}
+
 </style>
 </head>
 
 <body>
+
 <header class="hero">
-  <h1>Room Glow Up</h1>
-  <h2>Where Your Dream Space Comes To Life.</h2>
+<h1>Room Glow Up</h1>
+<h2>Where Your Dream Space Comes To Life.</h2>
 </header>
 
-<nav class="tab-row">
-  <button class="pull-tab" id="roomsTab" type="button"><img src="Assets/roomscabinet_pulltab.png" alt=""><span>ROOMS</span></button>
-  <button class="pull-tab" id="catalogTab" type="button"><img src="Assets/roomscabinet_pulltab.png" alt=""><span>FURNITURE CATALOG</span></button>
-  <button class="pull-tab" id="decorTab" type="button"><img src="Assets/roomscabinet_pulltab.png" alt=""><span>DECOR CLOSET</span></button>
-  <button class="pull-tab" id="galleryTab" type="button"><img src="Assets/roomscabinet_pulltab.png" alt=""><span>GALLERY</span></button>
-  <button class="pull-tab" id="saveTab" type="button"><img src="Assets/roomscabinet_pulltab.png" alt=""><span>SAVE/CHECKOUT</span></button>
-</nav>
-
-<section class="workspace-section">
-  <div class="workspace-row">
-    <div id="work-area" title="Click once room is selected to open catalog">
-      <div id="placedItems"></div>
-    </div>
-  </div>
-</section>
-
-<!-- Decor Closet -->
-<div id="decorClosetPopup">
-  <div class="popup-hero">
-    <img id="decorScene" src="Assets/decorcloset_entryway.jpg" alt="Decor closet entryway">
-    <div class="button-group">
-      <button id="decorDirectoryBtn" type="button">DIRECTORY SIGN</button>
-      <button id="decorExitBtn" type="button">EXIT</button>
-    </div>
-  </div>
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded",()=>{
-  const tabs={
-    decor:document.getElementById("decorTab")
-  };
-  const decorPopup=document.getElementById("decorClosetPopup");
-  const decorScene=document.getElementById("decorScene");
-  const decorImages=[
-    "Assets/decorcloset_entryway.jpg",
-    "Assets/sitestuff_lighting.jpg",
-    "Assets/sitestuff_mirrors.jpg",
-    "Assets/sitestuff_pillows.jpg",
-    "Assets/sitestuff_plants.jpg"
-  ];
-  let current=0;
-
-  // Open closet
-  tabs.decor.addEventListener("click",()=>decorPopup.classList.add("show"));
-
-  // Cycle images
-  document.getElementById("decorDirectoryBtn").addEventListener("click",()=>{
-    current=(current+1)%decorImages.length;
-    decorScene.src=decorImages[current];
-  });
-
-  // Exit
-  document.getElementById("decorExitBtn").addEventListener("click",()=>{
-    decorPopup.classList.remove("show");
-  });
-});
-</script>
 </body>
 </html>
