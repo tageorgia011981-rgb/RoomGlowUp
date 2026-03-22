@@ -204,29 +204,44 @@ roomsTab.onclick = () => {
   cabinet.classList.toggle("show");
 };
 
+/* ROOM IMAGE SETS — each drawer cycles through its options on click */
+
+const roomImages = {
+  living: [
+    "Assets/ROOMS_livingroom1.jpg",
+    "Assets/ROOMS_livingroom2.jpg",
+    "Assets/ROOMS_livingroom3.jpg",
+    "Assets/ROOMS_livingroom5.jpg"
+  ],
+  bedroom: [
+    "Assets/ROOMS_bedroom1.jpg",
+    "Assets/ROOMS_bedroom2.jpg",
+    "Assets/ROOMS_bedroom3.jpg"
+  ],
+  dining: [
+    "Assets/ROOMS_diningroom1.jpg",
+    "Assets/ROOMS_diningroom2.jpg"
+  ],
+  spare: [
+    "Assets/ROOMS_bathroom1.jpg",
+    "Assets/ROOMS_kitchen1.jpg",
+    "Assets/ROOMS_office1.jpg"
+  ]
+};
+
+const roomIndex = { living: 0, bedroom: 0, dining: 0, spare: 0 };
+
 /* DRAWER CLICK */
 
 document.querySelectorAll(".drawer-zone").forEach(drawer => {
   drawer.addEventListener("click", () => {
-
     const room = drawer.dataset.room;
+    if (!room || !roomImages[room]) return;
 
-    if (room === "living") {
-      workArea.style.backgroundImage = "url('Assets/room_living.png')";
-    }
-
-    if (room === "bedroom") {
-      workArea.style.backgroundImage = "url('Assets/room_bedroom.png')";
-    }
-
-    if (room === "dining") {
-      workArea.style.backgroundImage = "url('Assets/room_dining.png')";
-    }
-
-    if (room === "spare") {
-      workArea.style.backgroundImage = "url('Assets/room_spare.png')";
-    }
-
+    const imgs = roomImages[room];
+    const idx  = roomIndex[room];
+    workArea.style.backgroundImage = "url('" + imgs[idx] + "')";
+    roomIndex[room] = (idx + 1) % imgs.length;
   });
 });
 
