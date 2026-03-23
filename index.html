@@ -2315,9 +2315,6 @@ body {
         },
         tables: {
           sections: [
-
-        tables: {
-          sections: [
             {
               title: "COFFEE TABLES",
               assets: [
@@ -2674,8 +2671,6 @@ body {
         return Math.min(max, Math.max(min, value));
       }
 
-      function applyPlacedItemTransform(piece) {
-        const scale = Number(piece.dataset.scale || "1");
       function applyPlacedItemTransform(piece) {
         const scale = Number(piece.dataset.scale || "1");
         const rotation = Number(piece.dataset.rotation || "0");
@@ -3051,10 +3046,6 @@ body {
             state.tilt += 5;
           });
         } else if (action === "rotate-left") {
-          updateSelectedPlacedItem((state) => {
-            state.rotation -= 5;
-          });
-        } else if (action === "rotate-right") {
           updateSelectedPlacedItem((state) => {
             state.rotation -= 5;
           });
