@@ -490,9 +490,11 @@
       color: #2f2016;
       font-family: "Times New Roman", serif;
       overflow: auto;
-      padding-right: 8px;
+      padding: 10px 12px;
       font-size: 0.92rem;
       line-height: 1.45;
+      background: rgba(245, 226, 196, 0.72);
+      border-radius: 14px;
     }
 
     .receipt-content h3 {
@@ -872,14 +874,14 @@
       const card = document.createElement("article");
       card.className = "item-card";
       card.innerHTML = '<img src="' + item.src + '" alt="' + item.name + '"><p>' + item.name + "</p>";
-      card.addEventListener("click", () => {
+      card.addEventListener("click", (event) => {
         document.querySelectorAll(type === "furniture" ? "#furnitureGrid .item-card" : "#decorGrid .item-card")
           .forEach((el) => el.classList.remove("selected"));
         card.classList.add("selected");
         previewItem(item, type);
-      });
-      card.addEventListener("dblclick", () => {
-        placeItemInRoom(item);
+        if (event.detail >= 2) {
+          placeItemInRoom(item);
+        }
       });
       return card;
     }
