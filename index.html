@@ -1,0 +1,95 @@
+# Room Glow Up
+
+## Cursor Cloud specific instructions
+
+This is a zero-dependency, static HTML/CSS/JS website. There are no build tools, package managers, frameworks, or backend services.
+
+### Running the development server
+
+Serve the repository root with any static HTTP server. The simplest option:
+
+```
+python3 -m http.server 8080
+```
+
+Then open `http://localhost:8080/index.html` in a browser.
+
+### Key files
+
+- `index.html` — main application (inline CSS + vanilla JS)
+- `decor-test.html` — standalone test page for the Decor Closet image cycling feature
+- `Assets/` — all image assets (PNG furniture/decor items, JPG room backgrounds and UI elements)
+
+### Notes
+
+- There is no linter, test runner, or build step configured in this project.
+- The Google Fonts CDN (`Limelight` font) is loaded at runtime; the page still renders without internet but falls back to `serif`.
+- Opening `index.html` via `file://` may cause CORS issues with image loading in some browsers; always use an HTTP server.
+
+index.html
+
++32
+-17
+roomsTab.onclick = () => {
+  cabinet.classList.toggle("show");
+};
+
+/* ROOM IMAGE SETS — each drawer cycles through its options on click */
+
+const roomImages = {
+  living: [
+    "Assets/ROOMS_livingroom1.jpg",
+    "Assets/ROOMS_livingroom2.jpg",
+    "Assets/ROOMS_livingroom3.jpg",
+    "Assets/ROOMS_livingroom5.jpg"
+  ],
+  bedroom: [
+    "Assets/ROOMS_bedroom1.jpg",
+    "Assets/ROOMS_bedroom2.jpg",
+    "Assets/ROOMS_bedroom3.jpg"
+  ],
+  dining: [
+    "Assets/ROOMS_diningroom1.jpg",
+    "Assets/ROOMS_diningroom2.jpg"
+  ],
+  spare: [
+    "Assets/ROOMS_bathroom1.jpg",
+    "Assets/ROOMS_kitchen1.jpg",
+    "Assets/ROOMS_office1.jpg"
+  ]
+};
+
+const roomIndex = { living: 0, bedroom: 0, dining: 0, spare: 0 };
+
+/* DRAWER CLICK */
+
+document.querySelectorAll(".drawer-zone").forEach(drawer => {
+  drawer.addEventListener("click", () => {
+
+    const room = drawer.dataset.room;
+    if (!room || !roomImages[room]) return;
+
+    if (room === "living") {
+      workArea.style.backgroundImage = "url('Assets/room_living.png')";
+    }
+
+    if (room === "bedroom") {
+      workArea.style.backgroundImage = "url('Assets/room_bedroom.png')";
+    }
+
+    if (room === "dining") {
+      workArea.style.backgroundImage = "url('Assets/room_dining.png')";
+    }
+
+    if (room === "spare") {
+      workArea.style.backgroundImage = "url('Assets/room_spare.png')";
+    }
+
+    const imgs = roomImages[room];
+    const idx  = roomIndex[room];
+    workArea.style.backgroundImage = "url('" + imgs[idx] + "')";
+    roomIndex[room] = (idx + 1) % imgs.length;
+  });
+});
+
+</script>
