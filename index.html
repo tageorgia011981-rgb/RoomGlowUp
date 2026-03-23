@@ -1,95 +1,3460 @@
-# Room Glow Up
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Room Glow Up</title>
+<link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jacques+Francois+Shadow&display=swap" rel="stylesheet">
+<style>
+* {
+  box-sizing: border-box;
+}
 
-## Cursor Cloud specific instructions
+:root {
+  --lux-gold: #f1d58f;
+  --lux-gold-soft: #ffecc4;
+  --lux-line: rgba(255, 227, 159, 0.35);
+  --lux-panel: rgba(14, 14, 14, 0.8);
+  --lux-shadow: rgba(0, 0, 0, 0.62);
+  --cabinet-size: 560px;
+}
 
-This is a zero-dependency, static HTML/CSS/JS website. There are no build tools, package managers, frameworks, or backend services.
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: "Limelight", serif;
+  color: #fff;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  background-color: #05070d;
+  background-image:
+    url("Assets/mainbackgroundl.jpg"),
+    url("Assets/mainbackground_curtainl.jpg"),
+    url("Assets/mainbackgroundr.jpg"),
+    url("Assets/mainbackground_curtainr.jpg"),
+    url("Assets/mainbackgroundblue.jpg"),
+    url("Assets/mainbackground_blue.jpg");
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-position: left top, left top, right top, right top, center top, center top;
+  background-size: 33% 100%, 33% 100%, 33% 100%, 33% 100%, 34% 100%, 34% 100%;
+  background-attachment: fixed;
+}
 
-### Running the development server
+.hero {
+  text-align: center;
+  padding: 56px 20px 14px;
+  position: relative;
+}
 
-Serve the repository root with any static HTTP server. The simplest option:
+.hero h1 {
+  margin: 0;
+  font-size: clamp(56px, 10vw, 136px);
+  letter-spacing: 7px;
+  background: linear-gradient(
+    115deg,
+    #fff8d7 0%,
+    #ffd7f3 22%,
+    #fff4a8 48%,
+    #b7f6ff 70%,
+    #fff8d7 100%
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+  text-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.45),
+    0 10px 24px rgba(0, 0, 0, 0.6),
+    0 0 18px rgba(255, 232, 160, 0.55),
+    0 0 38px rgba(255, 149, 229, 0.5);
+  animation: glamShift 5s ease-in-out infinite, glamPulse 2.7s ease-in-out infinite;
+}
 
-```
-python3 -m http.server 8080
-```
+.hero h2 {
+  margin: 16px 0 0;
+  font-size: clamp(20px, 2.2vw, 38px);
+  letter-spacing: 2.6px;
+  color: #fff8f2;
+  text-shadow:
+    0 0 10px rgba(188, 255, 250, 0.62),
+    0 0 18px rgba(255, 186, 238, 0.52),
+    0 2px 12px rgba(0, 0, 0, 0.7);
+  animation: subtitleGlow 3.2s ease-in-out infinite;
+}
 
-Then open `http://localhost:8080/index.html` in a browser.
+.hero::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  transform: translateX(-50%);
+  width: min(920px, 92vw);
+  height: 170px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 10% 40%, rgba(255, 245, 173, 0.35) 0 2px, transparent 4px),
+    radial-gradient(circle at 24% 18%, rgba(163, 247, 255, 0.3) 0 1.7px, transparent 4px),
+    radial-gradient(circle at 40% 62%, rgba(255, 186, 235, 0.3) 0 2px, transparent 4px),
+    radial-gradient(circle at 58% 28%, rgba(255, 252, 202, 0.3) 0 2px, transparent 4px),
+    radial-gradient(circle at 76% 44%, rgba(168, 234, 255, 0.32) 0 2px, transparent 4px),
+    radial-gradient(circle at 88% 20%, rgba(255, 181, 231, 0.3) 0 1.8px, transparent 4px);
+  filter: drop-shadow(0 0 10px rgba(255, 215, 153, 0.45));
+  animation: glitterDrift 4.6s ease-in-out infinite;
+}
 
-### Key files
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  transform: translateX(-50%);
+  width: min(640px, 72vw);
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 230, 167, 0.86) 22%,
+    rgba(189, 238, 255, 0.78) 50%,
+    rgba(255, 230, 167, 0.86) 78%,
+    rgba(255, 255, 255, 0)
+  );
+  filter: drop-shadow(0 0 7px rgba(255, 228, 152, 0.5));
+  pointer-events: none;
+}
 
-- `index.html` — main application (inline CSS + vanilla JS)
-- `decor-test.html` — standalone test page for the Decor Closet image cycling feature
-- `Assets/` — all image assets (PNG furniture/decor items, JPG room backgrounds and UI elements)
+@keyframes glamShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 
-### Notes
+@keyframes glamPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.014);
+    filter: brightness(1.14);
+  }
+}
 
-- There is no linter, test runner, or build step configured in this project.
-- The Google Fonts CDN (`Limelight` font) is loaded at runtime; the page still renders without internet but falls back to `serif`.
-- Opening `index.html` via `file://` may cause CORS issues with image loading in some browsers; always use an HTTP server.
+@keyframes subtitleGlow {
+  0%,
+  100% {
+    opacity: 0.94;
+    letter-spacing: 2.4px;
+  }
+  50% {
+    opacity: 1;
+    letter-spacing: 3px;
+  }
+}
 
-index.html
+@keyframes glitterDrift {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-4px);
+  }
+}
 
-+32
--17
-roomsTab.onclick = () => {
-  cabinet.classList.toggle("show");
-};
+.tab-row {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  padding: 26px 16px 0;
+  margin-bottom: 14px;
+}
 
-/* ROOM IMAGE SETS — each drawer cycles through its options on click */
+.main-menu-row {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 26px;
+}
 
-const roomImages = {
-  living: [
-    "Assets/ROOMS_livingroom1.jpg",
-    "Assets/ROOMS_livingroom2.jpg",
-    "Assets/ROOMS_livingroom3.jpg",
-    "Assets/ROOMS_livingroom5.jpg"
-  ],
-  bedroom: [
-    "Assets/ROOMS_bedroom1.jpg",
-    "Assets/ROOMS_bedroom2.jpg",
-    "Assets/ROOMS_bedroom3.jpg"
-  ],
-  dining: [
-    "Assets/ROOMS_diningroom1.jpg",
-    "Assets/ROOMS_diningroom2.jpg"
-  ],
-  spare: [
-    "Assets/ROOMS_bathroom1.jpg",
-    "Assets/ROOMS_kitchen1.jpg",
-    "Assets/ROOMS_office1.jpg"
-  ]
-};
+#mainMenuBtn {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 20px;
+  background: linear-gradient(180deg, rgba(22, 22, 22, 0.92), rgba(10, 10, 10, 0.95));
+  color: #f6de9f;
+  font-family: "Limelight", serif;
+  font-size: 13px;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  box-shadow:
+    0 0 0 1px rgba(255, 222, 138, 0.28),
+    0 8px 18px rgba(0, 0, 0, 0.36);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-const roomIndex = { living: 0, bedroom: 0, dining: 0, spare: 0 };
+#mainMenuBtn:hover,
+#mainMenuBtn:focus-visible {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 10px rgba(255, 227, 154, 0.42),
+    0 10px 18px rgba(0, 0, 0, 0.4);
+}
 
-/* DRAWER CLICK */
+.pull-tab {
+  position: relative;
+  width: 210px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  filter: drop-shadow(0 11px 16px rgba(0, 0, 0, 0.44));
+  transition: transform 0.34s ease, filter 0.34s ease;
+}
 
-document.querySelectorAll(".drawer-zone").forEach(drawer => {
-  drawer.addEventListener("click", () => {
+.pull-tab img {
+  width: 100%;
+  display: block;
+  filter: saturate(1.08) contrast(1.04) brightness(1.03);
+}
 
-    const room = drawer.dataset.room;
-    if (!room || !roomImages[room]) return;
+.pull-tab span {
+  position: absolute;
+  top: 39%;
+  left: 50%;  text-align: center;
+  color: #fff;
+  font-size: 18px;
+  letter-spacing: 1px;
+  line-height: 1.05;
+  white-space: nowrap;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85);
+  pointer-events: none;
+}
 
-    if (room === "living") {
-      workArea.style.backgroundImage = "url('Assets/room_living.png')";
-    }
+.pull-tab:hover,
+.pull-tab.active {
+  transform: translateY(-9px);
+  filter:
+    drop-shadow(0 0 7px rgba(255, 255, 255, 0.58))
+    drop-shadow(0 0 12px rgba(255, 255, 255, 0.28))
+    drop-shadow(0 9px 20px rgba(0, 0, 0, 0.4));
+}
 
-    if (room === "bedroom") {
-      workArea.style.backgroundImage = "url('Assets/room_bedroom.png')";
-    }
+.workspace-section {
+  width: min(1500px, 96vw);
+  margin: clamp(150px, 22vh, 260px) auto 140px;
+  position: relative;
+  transition: width 0.38s cubic-bezier(0.22, 1, 0.36, 1), margin 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
 
-    if (room === "dining") {
-      workArea.style.backgroundImage = "url('Assets/room_dining.png')";
-    }
+#catalogOverlay {
+  position: relative;
+  width: min(1080px, 95vw);
+  margin: 0 auto 0;
+  border-radius: 18px;
+  box-shadow:
+    0 26px 44px rgba(0, 0, 0, 0.34),
+    0 0 0 1px rgba(255, 236, 190, 0.08);
+  max-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(28px, -14px, 0);
+  transform-origin: right center;
+  perspective: 2000px;
+  transition:
+    max-height 0.62s ease,
+    margin 0.62s ease,
+    opacity 0.68s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.68s cubic-bezier(0.22, 1, 0.36, 1);
+}
 
-    if (room === "spare") {
-      workArea.style.backgroundImage = "url('Assets/room_spare.png')";
-    }
+#catalogOverlay.show {
+  max-height: 1200px;
+  margin: 0 auto 64px;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate3d(0, 0, 0);
+}
 
-    const imgs = roomImages[room];
-    const idx  = roomIndex[room];
-    workArea.style.backgroundImage = "url('" + imgs[idx] + "')";
-    roomIndex[room] = (idx + 1) % imgs.length;
-  });
-});
+#catalogOverlay::before {
+  content: "";
+  position: absolute;
+  left: 49.2%;
+  top: 8%;
+  width: 1.6%;
+  height: 74%;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 234, 173, 0.55),
+    rgba(106, 84, 30, 0.55) 45%,
+    rgba(255, 234, 173, 0.52)
+  );
+  box-shadow: 0 0 14px rgba(255, 225, 132, 0.22);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  z-index: 6;
+}
 
-</script>
+#catalogOverlay.show::before {
+  opacity: 0.82;
+}
+
+#catalogBook {
+  width: 100%;
+  display: block;
+  filter: drop-shadow(0 18px 38px rgba(0, 0, 0, 0.62));
+  transform-origin: right center;
+  backface-visibility: hidden;
+  transform: rotateY(-84deg) rotateX(1deg) translateX(2%) scale(0.985);
+  transition: transform 0.78s cubic-bezier(0.2, 0.9, 0.25, 1);
+}
+
+#catalogOverlay.show #catalogBook {
+  transform: rotateY(0deg) rotateX(0deg) translateX(0) scale(1);
+}
+
+.catalog-grid {
+  position: absolute;
+  top: 12%;
+  width: 36%;
+  height: 52%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 10px;
+  opacity: 0;
+  transition: opacity 0.55s ease;
+}
+
+.catalog-left {
+  left: 12%;
+  transform-origin: right center;
+  transform: translateX(34%) rotateY(16deg) scale(0.96);
+  transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.48s ease;
+}
+
+.catalog-right {
+  right: 12%;
+  transform-origin: right center;
+  transform: translateX(12%) rotateY(10deg) scale(0.96);
+  transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.48s ease;
+}
+
+#catalogOverlay.show .catalog-left,
+#catalogOverlay.show .catalog-right {
+  opacity: 1;
+  transform: translateX(0) rotateY(0deg) scale(1);
+}
+
+#catalogOverlay.show .catalog-right {
+  transition-delay: 0.08s;
+}
+
+#catalogOverlay.flipping .catalog-left {
+  animation: pageFlipLeft 0.44s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#catalogOverlay.flipping .catalog-right {
+  animation: pageFlipRight 0.44s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.catalog-item {
+  border: 1px solid var(--lux-line);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(18, 18, 18, 0.65), rgba(8, 8, 8, 0.52));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+  cursor: pointer;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 10px 16px rgba(0, 0, 0, 0.18);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.catalog-item:hover {
+  transform: translateY(-4px) scale(1.02);
+  border-color: rgba(255, 229, 150, 0.75);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 236, 176, 0.32),
+    0 0 14px rgba(139, 243, 255, 0.52);
+}
+
+.catalog-item img {
+  max-width: 100%;
+  max-height: 86px;
+  object-fit: contain;
+}
+
+.catalog-item.placeholder {
+  border-style: dashed;
+  background: rgba(20, 20, 20, 0.35);
+  box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.09);
+}
+
+.catalog-item-placeholder {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: rgba(255, 245, 214, 0.85);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.catalog-page-title {
+  position: absolute;
+  top: 6%;
+  width: 34%;
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 1.2px;
+  color: #efcc6d;
+  text-shadow:
+    0 0 8px rgba(255, 224, 148, 0.42),
+    0 1px 5px rgba(0, 0, 0, 0.85);
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.catalog-title-left {
+  left: 12%;
+}
+
+.catalog-title-right {
+  right: 12%;
+}
+
+#catalogOverlay.show .catalog-page-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.catalog-subcats {
+  position: absolute;
+  top: 9.6%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 64%;
+  z-index: 9;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+#catalogOverlay.show .catalog-subcats {
+  opacity: 1;
+}
+
+.catalog-subcat-btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 4px 9px;
+  background: rgba(10, 10, 10, 0.82);
+  color: #f1d283;
+  font-family: "Limelight", serif;
+  font-size: 9px;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.catalog-subcat-btn:hover,
+.catalog-subcat-btn.active {
+  transform: translateY(-1px);
+  box-shadow: 0 0 8px rgba(255, 221, 129, 0.72);
+}
+
+.catalog-controls {
+  position: absolute;
+  right: -8px;
+  top: 20%;
+  display: flex;
+  transform: translate(-50%, -50%);
+  width: 88%;
+  display: block;
+  font-family: "Jacques Francois Shadow", serif;
+  text-align: center;
+ 
+ text-align: center;
+  color: #fff;
+  font-size: 18px;
+  letter-spacing: 1px;
+  line-height: 1.05;
+  white-space: nowrap;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85);
+  pointer-events: none;
+}
+
+.pull-tab:hover,
+.pull-tab.active {
+  transform: translateY(-9px);
+  filter:
+    drop-shadow(0 0 7px rgba(255, 255, 255, 0.58))
+    drop-shadow(0 0 12px rgba(255, 255, 255, 0.28))
+    drop-shadow(0 9px 20px rgba(0, 0, 0, 0.4));
+}
+
+.workspace-section {
+  width: min(1500px, 96vw);
+  margin: clamp(150px, 22vh, 260px) auto 140px;
+  position: relative;
+  transition: width 0.38s cubic-bezier(0.22, 1, 0.36, 1), margin 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#catalogOverlay {
+  position: relative;
+  width: min(1080px, 95vw);
+  margin: 0 auto 0;
+  border-radius: 18px;
+  box-shadow:
+    0 26px 44px rgba(0, 0, 0, 0.34),
+    0 0 0 1px rgba(255, 236, 190, 0.08);
+  max-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(28px, -14px, 0);
+  transform-origin: right center;
+  perspective: 2000px;
+  transition:
+    max-height 0.62s ease,
+    margin 0.62s ease,
+    opacity 0.68s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.68s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#catalogOverlay.show {
+  max-height: 1200px;
+  margin: 0 auto 64px;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate3d(0, 0, 0);
+}
+
+#catalogOverlay::before {
+  content: "";
+  position: absolute;
+  left: 49.2%;
+  top: 8%;
+  width: 1.6%;
+  height: 74%;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 234, 173, 0.55),
+    rgba(106, 84, 30, 0.55) 45%,
+    rgba(255, 234, 173, 0.52)
+  );
+  box-shadow: 0 0 14px rgba(255, 225, 132, 0.22);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  z-index: 6;
+}
+
+#catalogOverlay.show::before {
+  opacity: 0.82;
+}
+
+#catalogBook {
+  width: 100%;
+  display: block;
+  filter: drop-shadow(0 18px 38px rgba(0, 0, 0, 0.62));
+  transform-origin: right center;
+  backface-visibility: hidden;
+  transform: rotateY(-84deg) rotateX(1deg) translateX(2%) scale(0.985);
+  transition: transform 0.78s cubic-bezier(0.2, 0.9, 0.25, 1);
+}
+
+#catalogOverlay.show #catalogBook {
+  transform: rotateY(0deg) rotateX(0deg) translateX(0) scale(1);
+}
+
+.catalog-grid {
+  position: absolute;
+  top: 12%;
+  width: 36%;
+  height: 52%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 10px;
+  opacity: 0;
+  transition: opacity 0.55s ease;
+}
+
+.catalog-left {
+  left: 12%;
+  transform-origin: right center;
+  transform: translateX(34%) rotateY(16deg) scale(0.96);
+  transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.48s ease;
+}
+
+.catalog-right {
+  right: 12%;
+  transform-origin: right center;
+  transform: translateX(12%) rotateY(10deg) scale(0.96);
+  transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.48s ease;
+}
+
+#catalogOverlay.show .catalog-left,
+#catalogOverlay.show .catalog-right {
+  opacity: 1;
+  transform: translateX(0) rotateY(0deg) scale(1);
+}
+
+#catalogOverlay.show .catalog-right {
+  transition-delay: 0.08s;
+}
+
+#catalogOverlay.flipping .catalog-left {
+  animation: pageFlipLeft 0.44s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#catalogOverlay.flipping .catalog-right {
+  animation: pageFlipRight 0.44s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.catalog-item {
+  border: 1px solid var(--lux-line);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(18, 18, 18, 0.65), rgba(8, 8, 8, 0.52));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+  cursor: pointer;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 10px 16px rgba(0, 0, 0, 0.18);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.catalog-item:hover {
+  transform: translateY(-4px) scale(1.02);
+  border-color: rgba(255, 229, 150, 0.75);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 236, 176, 0.32),
+    0 0 14px rgba(139, 243, 255, 0.52);
+}
+
+.catalog-item img {
+  max-width: 100%;
+  max-height: 86px;
+  object-fit: contain;
+}
+
+.catalog-item.placeholder {
+  border-style: dashed;
+  background: rgba(20, 20, 20, 0.35);
+  box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.09);
+}
+
+.catalog-item-placeholder {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: rgba(255, 245, 214, 0.85);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.catalog-page-title {
+  position: absolute;
+  top: 6%;
+  width: 34%;
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 1.2px;
+  color: #efcc6d;
+  text-shadow:
+    0 0 8px rgba(255, 224, 148, 0.42),
+    0 1px 5px rgba(0, 0, 0, 0.85);
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.catalog-title-left {
+  left: 12%;
+}
+
+.catalog-title-right {
+  right: 12%;
+}
+
+#catalogOverlay.show .catalog-page-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.catalog-subcats {
+  position: absolute;
+  top: 9.6%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 64%;
+  z-index: 9;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+#catalogOverlay.show .catalog-subcats {
+  opacity: 1;
+}
+
+.catalog-subcat-btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 4px 9px;
+  background: rgba(10, 10, 10, 0.82);
+  color: #f1d283;
+  font-family: "Limelight", serif;
+  font-size: 9px;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.catalog-subcat-btn:hover,
+.catalog-subcat-btn.active {
+  transform: translateY(-1px);
+  box-shadow: 0 0 8px rgba(255, 221, 129, 0.72);
+}
+
+.catalog-controls {
+  position: absolute;
+  right: -8px;
+  top: 20%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 0;
+  transform: translateX(18px);
+  transition: transform 0.44s ease, opacity 0.44s ease;
+}
+
+#catalogOverlay.show .catalog-controls {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.12s;
+}
+
+.catalog-control {
+  border: 0;
+  cursor: pointer;
+  border-radius: 7px 0 0 7px;
+  background: linear-gradient(180deg, rgba(21, 21, 21, 0.95), rgba(10, 10, 10, 0.95));
+  color: var(--lux-gold);
+  padding: 7px 10px;
+  font-family: "Limelight", serif;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.catalog-control:hover,
+.catalog-control.active {
+  transform: translateX(-4px);
+  box-shadow: 0 0 10px rgba(253, 236, 164, 0.7);
+}
+
+.catalog-control.flip {
+  animation: tabFlip 0.45s ease;
+}
+
+.catalog-page-controls {
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+#catalogOverlay.show .catalog-page-controls {
+  opacity: 1;
+  transition-delay: 0.16s;
+}
+
+.catalog-page-controls button {
+  border: 0;
+  border-radius: 999px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  background: linear-gradient(180deg, rgba(22, 22, 22, 0.9), rgba(8, 8, 8, 0.9));
+  color: var(--lux-gold-soft);
+  font-size: 18px;
+  box-shadow:
+    0 0 0 1px rgba(255, 226, 141, 0.26),
+    0 6px 10px rgba(0, 0, 0, 0.35);
+}
+
+@keyframes pageFlipLeft {
+  0% { transform: rotateY(0deg); }
+  48% { transform: rotateY(-48deg); }
+  100% { transform: rotateY(0deg); }
+}
+
+@keyframes pageFlipRight {
+  0% { transform: rotateY(0deg); }
+  48% { transform: rotateY(48deg); }
+  100% { transform: rotateY(0deg); }
+}
+
+@keyframes tabFlip {
+  0% { transform: rotateX(0deg); }
+  50% { transform: rotateX(85deg); }
+  100% { transform: rotateX(0deg); }
+}
+
+.workspace-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+#rooms-cabinet {
+  width: var(--cabinet-size);
+  max-width: 0;
+  height: var(--cabinet-size);
+  overflow: hidden;
+  position: relative;
+  opacity: 0;
+  transform: translateX(-108%) rotateY(7deg) scale(0.985);
+  transform-origin: left center;
+  transition: max-width 0.92s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.62s ease, transform 0.92s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  flex-shrink: 0;
+  filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.34));
+}
+
+#rooms-cabinet.show {
+  max-width: var(--cabinet-size);
+  opacity: 1;
+  transform: translateX(0) rotateY(0deg) scale(1);
+  pointer-events: auto;
+}
+
+.cabinet-img {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter:
+    saturate(1.12)
+    contrast(1.08)
+    brightness(1.03)
+    drop-shadow(0 26px 30px rgba(0, 0, 0, 0.62))
+    drop-shadow(12px 0 10px rgba(0, 0, 0, 0.28));
+}
+
+#rooms-cabinet::before {
+  content: "";
+  position: absolute;
+  left: 6%;
+  right: 5%;
+  top: 5%;
+  bottom: 4%;
+  border-radius: 30px;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    radial-gradient(circle at 15% 18%, rgba(255, 241, 199, 0.35), transparent 34%),
+    radial-gradient(circle at 82% 20%, rgba(175, 233, 255, 0.3), transparent 38%),
+    radial-gradient(circle at 52% 78%, rgba(255, 197, 237, 0.2), transparent 42%);
+  filter: blur(10px);
+  opacity: 0.9;
+}
+
+#rooms-cabinet::after {
+  content: "";
+  position: absolute;
+  top: -28%;
+  left: -55%;
+  width: 78%;
+  height: 155%;
+  pointer-events: none;
+  z-index: 3;
+  background: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 46%,
+    rgba(255, 250, 224, 0.45) 50%,
+    rgba(255, 255, 255, 0) 54%
+  );
+  opacity: 0;
+  transform: rotate(12deg) translateX(0);
+}
+
+#rooms-cabinet.show::after {
+  opacity: 0.75;
+  animation: cabinetSheen 5.8s ease-in-out infinite;
+}
+
+#rooms-cabinet.show .cabinet-img {
+  animation: cabinetGlowPulse 4.8s ease-in-out infinite;
+}
+
+.drawer-zone {
+  position: absolute;
+  left: 13%;
+  width: 74%;
+  height: 9.4%;
+  border: 0;
+  background: transparent;
+  color: transparent;
+  font-family: "Limelight", serif;
+  letter-spacing: 1px;
+  cursor: pointer;
+  font-size: 0;
+  text-shadow: none;
+  outline: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  opacity: 0;
+  transition: none;
+  z-index: 4;
+}
+
+.drawer-zone:hover,
+.drawer-zone.active {
+  transform: none;
+  box-shadow: none;
+  background: transparent;
+  opacity: 0;
+}
+
+.drawer-zone:focus-visible {
+  box-shadow: none;
+  background: transparent;
+  opacity: 0;
+}
+
+.drawer-living {
+  top: 21.2%;
+}
+
+.drawer-bedroom {
+  top: 54.4%;
+}
+
+.drawer-dining {
+  top: 37.8%;
+}
+
+.drawer-spare {
+  top: 71%;
+}
+
+.drawer-upload {
+  top: 87.2%;
+}
+
+@keyframes cabinetSheen {
+  0% {
+    transform: rotate(12deg) translateX(-8%);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.7;
+  }
+  52% {
+    transform: rotate(12deg) translateX(175%);
+    opacity: 0.75;
+  }
+  68%,
+  100% {
+    transform: rotate(12deg) translateX(210%);
+    opacity: 0;
+  }
+}
+
+@keyframes cabinetGlowPulse {
+  0%,
+  100% {
+    filter: saturate(1.1) contrast(1.04) brightness(1.02);
+  }
+  50% {
+    filter: saturate(1.16) contrast(1.08) brightness(1.07);
+  }
+}
+
+.workspace-shell {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+#work-area {
+  position: relative;
+  width: 100%;
+  min-height: 640px;
+  background: #0b0f17 url("Assets/workstation.jpg") center/cover no-repeat;
+  border: 3px solid rgba(255, 242, 194, 0.24);
+  border-radius: 12px;
+  box-shadow:
+    0 26px 55px rgba(0, 0, 0, 0.66),
+    0 0 0 1px rgba(255, 228, 145, 0.14);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+#work-area::before {
+  content: "";
+#work-area::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 28%),
+    radial-gradient(circle at 50% 120%, rgba(0, 0, 0, 0.32), transparent 54%);
+  z-index: 1;
+}
+
+#work-area.room-switch {
+  animation: roomSweep 0.64s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes roomSweep {
+  0% {
+    transform: translateX(0);
+    filter: blur(0);
+    opacity: 1;
+  }
+  38% {
+    transform: translateX(30px);
+    filter: blur(2.2px);
+    opacity: 0.72;
+  }
+  62% {
+    transform: translateX(-10px);
+    filter: blur(1.1px);
+    opacity: 0.88;
+  }
+  100% {
+    transform: translateX(0);
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+#placedItems {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.placed-item {
+  position: absolute;
+  width: 140px;
+  max-width: 26%;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  -webkit-user-drag: none;
+  transition: filter 0.18s ease, transform 0.16s ease;
+  transform-origin: center center;
+}
+
+.placed-item:active {
+  cursor: grabbing;
+}
+
+.placed-item:hover {
+  filter: drop-shadow(0 0 7px rgba(163, 234, 255, 0.95));
+}
+
+.placed-item.selected {
+  filter: drop-shadow(0 0 10px rgba(255, 230, 146, 0.95));
+}
+
+.placed-shadow {
+  position: absolute;
+  width: 120px;
+  height: 14px;
+  border-radius: 999px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.12) 62%, rgba(0, 0, 0, 0) 100%);
+  filter: blur(2px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+#itemGizmo {
+  position: absolute;
+  display: none;
+  border: 1px dashed rgba(255, 224, 137, 0.68);
+  border-radius: 8px;
+  z-index: 1200;
+  pointer-events: none;
+  box-shadow: 0 0 10px rgba(255, 220, 128, 0.35);
+}
+
+#itemGizmo.show {
+  display: block;
+}
+
+.gizmo-handle {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(12, 12, 12, 0.94);
+  color: #f7d98f;
+  font-family: "Limelight", serif;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 9px rgba(255, 218, 128, 0.72);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.gizmo-handle-resize {
+  right: -13px;
+  bottom: -13px;
+}
+
+.gizmo-handle-rotate {
+  left: 50%;
+  top: -13px;
+  transform: translateX(-50%);
+}
+
+.gizmo-handle-push {
+  right: -13px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.gizmo-handle-flip {
+  left: -13px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.gizmo-handle-done {
+  right: -13px;
+  top: -13px;
+  width: 40px;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+}
+
+#roomItemControls {
+  display: none !important;
+}
+
+#roomItemControls.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.item-controls-title {
+  width: 100%;
+  text-align: right;
+  color: #fbe3a0;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+  margin-bottom: 2px;
+}
+
+.item-controls-hint {
+  width: 100%;
+  text-align: right;
+  color: rgba(245, 229, 171, 0.9);
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
+  margin-top: -1px;
+  margin-bottom: 4px;
+}
+
+.item-control-btn {
+  border: 0;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 7px 11px;
+  background: rgba(14, 14, 14, 0.92);
+  color: #f8d57b;
+  font-family: "Limelight", serif;
+  font-size: 10.5px;
+  letter-spacing: 0.7px;
+  box-shadow: 0 0 9px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 219, 121, 0.28);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.item-control-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 11px rgba(255, 223, 128, 0.75);
+}
+
+.item-control-btn.rotate-btn {
+  font-size: 18px;
+  line-height: 1;
+  width: 34px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+#itemPreview {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 270px;
+  border-radius: 12px;
+  background: linear-gradient(170deg, rgba(16, 16, 16, 0.9), rgba(8, 8, 8, 0.84));
+  border: 1px solid rgba(255, 226, 145, 0.3);
+  backdrop-filter: blur(3px);
+  padding: 10px;
+  box-shadow:
+    0 18px 34px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 238, 190, 0.08);
+  display: none;
+  z-index: 60;
+}
+
+#itemPreview.show {
+  display: block;
+}
+
+#itemPreview img {
+  width: 100%;
+  max-height: 140px;
+  object-fit: contain;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 7px;
+  border: 1px solid rgba(255, 236, 191, 0.2);
+}
+
+#itemPreview h3 {
+  margin: 8px 0 6px;
+  font-size: 13px;
+}
+
+#itemPreview p {
+  margin: 2px 0;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+#itemPreview .preview-meta {
+  color: rgba(236, 236, 236, 0.9);
+}
+
+#previewBuy {
+  display: inline-block;
+  margin-top: 6px;
+  color: #ffe4a5;
+  font-size: 11px;
+  letter-spacing: 0.6px;
+  text-decoration: underline;
+}
+
+#receiptPanel {
+  position: fixed;
+  right: 20px;
+  top: 110px;
+  width: 360px;
+  transform: scaleY(0);
+  transform-origin: top center;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.55s ease, opacity 0.55s ease;
+  z-index: 55;
+  filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.44));
+}
+
+#receiptPanel.show {
+  transform: scaleY(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#receiptPanel img {
+  width: 100%;
+  display: block;
+}
+
+.receipt-content {
+  position: absolute;
+  inset: 15% 14% 12% 14%;
+  color: #2d1e05;
+  overflow-y: auto;
+  font-size: 12px;
+}
+
+.receipt-content h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  margin: 4px 0;
+}
+
+.receipt-total {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(45, 30, 5, 0.45);
+  font-size: 14px;
+}
+
+#galleryPopup {
+  position: fixed;
+  top: clamp(128px, 17vh, 188px);
+  right: 7vw;
+  width: min(540px, 92vw);
+  background: linear-gradient(172deg, rgba(22, 22, 22, 0.95), rgba(10, 10, 10, 0.93));
+  border: 1px solid rgba(255, 232, 170, 0.24);
+  border-radius: 12px;
+  box-shadow:
+    0 22px 42px rgba(0, 0, 0, 0.62),
+    0 0 0 1px rgba(255, 239, 201, 0.08);
+  padding: 14px;
+  z-index: 58;
+  opacity: 0;
+  transform: translateY(-14px) scale(0.985);
+  pointer-events: none;
+  transition: opacity 0.38s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  backdrop-filter: blur(4px) saturate(1.05);
+}
+
+#galleryPopup.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+#decorClosetPopup {
+  position: relative;
+  width: min(980px, 74vw);
+  margin: 26px auto 0;
+  background: linear-gradient(172deg, rgba(22, 22, 22, 0.95), rgba(10, 10, 10, 0.93));
+  border: 1px solid rgba(255, 232, 170, 0.24);
+  border-radius: 12px;
+  box-shadow:
+    0 22px 42px rgba(0, 0, 0, 0.62),
+    0 0 0 1px rgba(255, 239, 201, 0.08);
+  padding: 14px;
+  z-index: 12;
+  opacity: 0;
+  transform: translateY(-12px) scale(0.99);
+  pointer-events: none;
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+}
+
+#decorClosetPopup.show {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  animation: decorClosetRise 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.popup-hero {
+  position: relative;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+#decorClosetPopup .popup-hero {
+  margin-bottom: 0;
+  min-height: clamp(620px, 88vh, 1160px);
+  background: #070a11;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#decorClosetPopup .decor-scene-stage {
+  position: relative;
+  height: clamp(620px, 88vh, 1160px);
+  max-width: 100%;
+  display: inline-block;
+  z-index: 2;
+}
+
+.popup-hero img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.35s ease, transform 0.45s ease, filter 0.45s ease;
+}
+
+#decorClosetPopup .popup-hero img {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  aspect-ratio: auto;
+  object-fit: contain;
+  object-position: center center;
+}
+
+#decorClosetPopup.scene-switch .popup-hero img {
+  opacity: 0.62;
+  transform: scale(1.02);
+  filter: saturate(1.12) contrast(1.05);
+}
+
+#decorClosetPopup .popup-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.18) 46%, rgba(0, 0, 0, 0.34)),
+    radial-gradient(circle at 50% 120%, rgba(0, 0, 0, 0.45), transparent 54%);
+}
+
+#decorClosetPopup[data-scene="entryway"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(64, 34, 8, 0.08), rgba(0, 0, 0, 0.2) 46%, rgba(0, 0, 0, 0.36)),
+    radial-gradient(circle at 50% 120%, rgba(66, 36, 10, 0.4), transparent 54%);
+}
+
+#decorClosetPopup[data-scene="plants"] .popup-hero::after,
+#decorClosetPopup[data-scene="pillows"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(9, 46, 26, 0.1), rgba(0, 0, 0, 0.2) 46%, rgba(0, 0, 0, 0.36)),
+    radial-gradient(circle at 50% 120%, rgba(15, 52, 26, 0.42), transparent 54%);
+}
+
+#decorClosetPopup[data-scene="mirrors"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(20, 34, 50, 0.12), rgba(0, 0, 0, 0.2) 46%, rgba(0, 0, 0, 0.36)),
+    radial-gradient(circle at 50% 120%, rgba(28, 48, 70, 0.42), transparent 54%);
+}
+
+#decorClosetPopup[data-scene="lighting"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(54, 40, 8, 0.14), rgba(0, 0, 0, 0.18) 46%, rgba(0, 0, 0, 0.34)),
+    radial-gradient(circle at 50% 120%, rgba(66, 50, 16, 0.44), transparent 56%);
+}
+
+#decorClosetPopup[data-scene="curtains"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(40, 18, 45, 0.14), rgba(0, 0, 0, 0.18) 46%, rgba(0, 0, 0, 0.34)),
+    radial-gradient(circle at 50% 120%, rgba(50, 22, 56, 0.44), transparent 56%);
+}
+
+#decorClosetPopup[data-scene="rugs"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(24, 22, 48, 0.13), rgba(0, 0, 0, 0.18) 46%, rgba(0, 0, 0, 0.34)),
+    radial-gradient(circle at 50% 120%, rgba(33, 29, 72, 0.44), transparent 56%);
+}
+
+.popup-hero button {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(26, 26, 26, 0.92), rgba(10, 10, 10, 0.92));
+  color: #fff;
+  cursor: pointer;
+  font-family: "Limelight", serif;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  padding: 7px 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+#decorClosetPopup .popup-hero button,
+#decorClosetPopup .popup-meta {
+  z-index: 2;
+}
+
+#decorBackBtn {
+  left: 12px;
+  right: auto;
+  bottom: 12px;
+}
+
+.popup-hero button:hover,
+.popup-hero button:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 0 11px rgba(169, 231, 255, 0.62);
+  background: linear-gradient(180deg, rgba(39, 39, 39, 0.95), rgba(12, 12, 12, 0.95));
+}
+
+.popup-meta {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff7d7;
+  background: rgba(8, 8, 8, 0.56);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  padding: 5px 10px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(2px);
+}
+
+.popup-title {
+  font-family: "Limelight", serif;
+  font-size: 12px;
+  letter-spacing: 0.7px;
+}
+
+.popup-count {
+  font-size: 10px;
+  letter-spacing: 0.9px;
+  color: rgba(238, 245, 255, 0.86);
+}
+
+.mini-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+#decorMiniGrid {
+  display: none !important;
+}
+
+#decorDirectoryHotspots {
+  position: absolute;
+  right: 8%;
+  left: auto;
+  width: 34%;
+  top: 18%;
+  height: 62%;
+  z-index: 4;
+}
+
+#decorDirectoryHotspots .decor-directory-zone {
+  position: absolute;
+  left: 0;
+  right: 0;
+  cursor: pointer;
+  background: transparent;
+}
+
+#decorDirectoryHotspots .zone-plants { top: 0; height: 20%; }
+#decorDirectoryHotspots .zone-mirrors { top: 20%; height: 20%; }
+#decorDirectoryHotspots .zone-lighting { top: 40%; height: 20%; }
+#decorDirectoryHotspots .zone-curtains { top: 60%; height: 20%; }
+#decorDirectoryHotspots .zone-rugs { top: 80%; height: 20%; }
+
+.mini-item {
+  border: 1px solid rgba(255, 235, 176, 0.24);
+  border-radius: 8px;
+  padding: 8px;
+  background: linear-gradient(180deg, rgba(255, 245, 214, 0.09), rgba(255, 255, 255, 0.03));
+  text-align: center;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.mini-item:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 231, 151, 0.72);
+  box-shadow: 0 0 11px rgba(164, 246, 255, 0.6);
+}
+
+.mini-item.active {
+  border-color: rgba(248, 227, 151, 0.9);
+  box-shadow: 0 0 13px rgba(255, 230, 145, 0.55);
+}
+
+.mini-item img {
+  width: 100%;
+  max-height: 86px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.mini-item p {
+  margin: 6px 0 0;
+  font-size: 11px;
+}
+
+@media (max-width: 1200px) {
+  .workspace-row {
+    flex-direction: column;
+  }
+
+  #rooms-cabinet,
+  #rooms-cabinet.show {
+    width: 100%;
+    max-width: 100%;
+    height: min(90vw, var(--cabinet-size));
+    transform: translateY(-20px) rotateY(0deg) scale(1);
+  }
+
+  #rooms-cabinet {
+    max-height: 0;
+    transition: max-height 0.7s ease, opacity 0.5s ease;
+  }
+
+  #rooms-cabinet.show {
+    max-height: 540px;
+    transform: translateY(0);
+  }
+
+  .drawer-zone {
+    font-size: 14px;
+  }
+
+  #decorClosetPopup {
+    width: min(94vw, 780px);
+    margin-top: 16px;
+  }}
+
+.receipt-total {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(45, 30, 5, 0.45);
+  font-size: 14px;
+}
+
+#galleryPopup {
+  position: fixed;
+  top: clamp(128px, 17vh, 188px);
+  right: 7vw;
+  width: min(540px, 92vw);
+  background: linear-gradient(172deg, rgba(22, 22, 22, 0.95), rgba(10, 10, 10, 0.93));
+  border: 1px solid rgba(255, 232, 170, 0.24);
+  border-radius: 12px;
+  box-shadow:
+    0 22px 42px rgba(0, 0, 0, 0.62),
+    0 0 0 1px rgba(255, 239, 201, 0.08);
+  padding: 14px;
+  z-index: 58;
+  opacity: 0;
+  transform: translateY(-14px) scale(0.985);
+  pointer-events: none;
+  transition: opacity 0.38s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  backdrop-filter: blur(4px) saturate(1.05);
+}
+
+#galleryPopup.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+#decorClosetPopup {
+  position: relative;
+  width: min(980px, 74vw);
+  margin: 26px auto 0;
+  background: linear-gradient(172deg, rgba(22, 22, 22, 0.95), rgba(10, 10, 10, 0.93));
+  border: 1px solid rgba(255, 232, 170, 0.24);
+  border-radius: 12px;
+  box-shadow:
+    0 22px 42px rgba(0, 0, 0, 0.62),
+    0 0 0 1px rgba(255, 239, 201, 0.08);
+  padding: 14px;
+  z-index: 12;
+  opacity: 0;
+  transform: translateY(-12px) scale(0.99);
+  pointer-events: none;
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+}
+
+#decorClosetPopup.show {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  animation: decorClosetRise 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.popup-hero {
+  position: relative;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+#decorClosetPopup .popup-hero {
+  margin-bottom: 0;
+  min-height: clamp(620px, 88vh, 1160px);
+  background: #070a11;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#decorClosetPopup .decor-scene-stage {
+  position: relative;
+  height: clamp(620px, 88vh, 1160px);
+  max-width: 100%;
+  display: inline-block;
+  z-index: 2;
+}
+
+.popup-hero img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.35s ease, transform 0.45s ease, filter 0.45s ease;
+}
+
+#decorClosetPopup .popup-hero img {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  aspect-ratio: auto;
+  object-fit: contain;
+  object-position: center center;
+}
+
+#decorClosetPopup.scene-switch .popup-hero img {
+  opacity: 0.62;
+  transform: scale(1.02);
+  filter: saturate(1.12) contrast(1.05);
+}
+
+#decorClosetPopup .popup-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.18) 46%, rgba(0, 0, 0, 0.34)),
+    radial-gradient(circle at 50% 120%, rgba(0, 0, 0, 0.45), transparent 54%);
+}
+
+#decorClosetPopup[data-scene="entryway"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(64, 34, 8, 0.08), rgba(0, 0, 0, 0.2) 46%, rgba(0, 0, 0, 0.36)),
+    radial-gradient(circle at 50% 120%, rgba(66, 36, 10, 0.4), transparent 54%);
+}
+
+#decorClosetPopup[data-scene="plants"] .popup-hero::after,
+#decorClosetPopup[data-scene="pillows"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(9, 46, 26, 0.1), rgba(0, 0, 0, 0.2) 46%, rgba(0, 0, 0, 0.36)),
+    radial-gradient(circle at 50% 120%, rgba(15, 52, 26, 0.42), transparent 54%);
+}
+
+#decorClosetPopup[data-scene="mirrors"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(20, 34, 50, 0.12), rgba(0, 0, 0, 0.2) 46%, rgba(0, 0, 0, 0.36)),
+    radial-gradient(circle at 50% 120%, rgba(28, 48, 70, 0.42), transparent 54%);
+}
+
+#decorClosetPopup[data-scene="lighting"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(54, 40, 8, 0.14), rgba(0, 0, 0, 0.18) 46%, rgba(0, 0, 0, 0.34)),
+    radial-gradient(circle at 50% 120%, rgba(66, 50, 16, 0.44), transparent 56%);
+}
+
+#decorClosetPopup[data-scene="curtains"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(40, 18, 45, 0.14), rgba(0, 0, 0, 0.18) 46%, rgba(0, 0, 0, 0.34)),
+    radial-gradient(circle at 50% 120%, rgba(50, 22, 56, 0.44), transparent 56%);
+}
+
+#decorClosetPopup[data-scene="rugs"] .popup-hero::after {
+  background:
+    linear-gradient(180deg, rgba(24, 22, 48, 0.13), rgba(0, 0, 0, 0.18) 46%, rgba(0, 0, 0, 0.34)),
+    radial-gradient(circle at 50% 120%, rgba(33, 29, 72, 0.44), transparent 56%);
+}
+
+.popup-hero button {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(26, 26, 26, 0.92), rgba(10, 10, 10, 0.92));
+  color: #fff;
+  cursor: pointer;
+  font-family: "Limelight", serif;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  padding: 7px 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+#decorClosetPopup .popup-hero button,
+#decorClosetPopup .popup-meta {
+  z-index: 2;
+}
+
+#decorBackBtn {
+  left: 12px;
+  right: auto;
+  bottom: 12px;
+}
+
+.popup-hero button:hover,
+.popup-hero button:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 0 11px rgba(169, 231, 255, 0.62);
+  background: linear-gradient(180deg, rgba(39, 39, 39, 0.95), rgba(12, 12, 12, 0.95));
+}
+
+.popup-meta {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff7d7;
+  background: rgba(8, 8, 8, 0.56);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  padding: 5px 10px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(2px);
+}
+
+.popup-title {
+  font-family: "Limelight", serif;
+  font-size: 12px;
+  letter-spacing: 0.7px;
+}
+
+.popup-count {
+  font-size: 10px;
+  letter-spacing: 0.9px;
+  color: rgba(238, 245, 255, 0.86);
+}
+
+.mini-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+#decorMiniGrid {
+  display: none !important;
+}
+
+#decorDirectoryHotspots {
+  position: absolute;
+  right: 8%;
+  left: auto;
+  width: 34%;
+  top: 18%;
+  height: 62%;
+  z-index: 4;
+}
+
+#decorDirectoryHotspots .decor-directory-zone {
+  position: absolute;
+  left: 0;
+  right: 0;
+  cursor: pointer;
+  background: transparent;
+}
+
+#decorDirectoryHotspots .zone-plants { top: 0; height: 20%; }
+#decorDirectoryHotspots .zone-mirrors { top: 20%; height: 20%; }
+#decorDirectoryHotspots .zone-lighting { top: 40%; height: 20%; }
+#decorDirectoryHotspots .zone-curtains { top: 60%; height: 20%; }
+#decorDirectoryHotspots .zone-rugs { top: 80%; height: 20%; }
+
+.mini-item {
+  border: 1px solid rgba(255, 235, 176, 0.24);
+  border-radius: 8px;
+  padding: 8px;
+  background: linear-gradient(180deg, rgba(255, 245, 214, 0.09), rgba(255, 255, 255, 0.03));
+  text-align: center;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.mini-item:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 231, 151, 0.72);
+  box-shadow: 0 0 11px rgba(164, 246, 255, 0.6);
+}
+
+.mini-item.active {
+  border-color: rgba(248, 227, 151, 0.9);
+  box-shadow: 0 0 13px rgba(255, 230, 145, 0.55);
+}
+
+.mini-item img {
+  width: 100%;
+  max-height: 86px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.mini-item p {
+  margin: 6px 0 0;
+  font-size: 11px;
+}
+
+@media (max-width: 1200px) {
+  .workspace-row {
+    flex-direction: column;
+  }
+
+  #rooms-cabinet,
+  #rooms-cabinet.show {
+    width: 100%;
+    max-width: 100%;
+    height: min(90vw, var(--cabinet-size));
+    transform: translateY(-20px) rotateY(0deg) scale(1);
+  }
+
+  #rooms-cabinet {
+    max-height: 0;
+    transition: max-height 0.7s ease, opacity 0.5s ease;
+  }
+
+  #rooms-cabinet.show {
+    max-height: 540px;
+    transform: translateY(0);
+  }
+
+  .drawer-zone {
+    font-size: 14px;
+  }
+
+  #decorClosetPopup {
+    width: min(94vw, 780px);
+    margin-top: 16px;
+  }  #decorClosetPopup .popup-hero {
+    min-height: clamp(460px, 78vh, 860px);
+  }
+
+  #decorClosetPopup .decor-scene-stage {
+    height: clamp(460px, 78vh, 860px);
+  }
+
+  #decorClosetPopup .popup-hero img {
+    height: 100%;
+  }
+
+  #decorDirectoryHotspots {
+    right: 6%;
+    left: auto;
+    width: 36%;
+    top: 18%;
+    height: 62%;
+  }
+
+  #roomItemControls {
+    right: 10px;
+    top: 92px;
+    max-width: calc(100vw - 20px);
+  }
+}
+
+@keyframes decorClosetRise {
+  0% {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+</style>
+</head>
+<body>
+  <header class="hero">
+    <h1>Room Glow Up</h1>
+    <h2>Where Your Dream Space Comes To Life.</h2>
+  </header>
+
+  <nav class="tab-row">
+    <button class="pull-tab" id="roomsTab" type="button">
+      <img src="Assets/roomscabinet_pulltab.png" alt="Rooms tab">
+      <span>ROOMS</span>
+    </button>
+    <button class="pull-tab" id="catalogTab" type="button">
+      <img src="Assets/roomscabinet_pulltab.png" alt="Furniture Catalog tab">
+      <span>FURNITURE<br>CATALOG</span>
+    </button>
+    <button class="pull-tab" id="decorTab" type="button">
+      <img src="Assets/roomscabinet_pulltab.png" alt="Decor Closet tab">
+      <span>DECOR<br>CLOSET</span>
+    </button>
+    <button class="pull-tab" id="galleryTab" type="button">
+      <img src="Assets/roomscabinet_pulltab.png" alt="Gallery tab">
+      <span>GALLERY</span>
+    </button>
+    <button class="pull-tab" id="saveTab" type="button">
+      <img src="Assets/roomscabinet_pulltab.png" alt="Save checkout tab">
+      <span>SAVE/<br>CHECKOUT</span>
+    </button>
+  </nav>
+  <div class="main-menu-row">
+    <button id="mainMenuBtn" type="button">BACK TO MAIN MENU</button>
+  </div>
+
+  <section class="workspace-section" id="workspaceSection">
+    <div id="catalogOverlay">
+      <img src="Assets/furniturecatalog.png" id="catalogBook" alt="Furniture catalog">
+      <div class="catalog-page-title catalog-title-left" id="catalogTitleLeft">COUCHES</div>
+      <div class="catalog-page-title catalog-title-right" id="catalogTitleRight">ARMCHAIRS</div>
+      <div class="catalog-subcats" id="catalogSubcats"></div>
+      <div class="catalog-grid catalog-left" id="catalogLeft"></div>
+      <div class="catalog-grid catalog-right" id="catalogRight"></div>
+      <div class="catalog-controls">
+        <button class="catalog-control active" id="tabSeating" type="button">SEATING</button>
+        <button class="catalog-control" id="tabTables" type="button">TABLES</button>
+        <button class="catalog-control" id="tabStorage" type="button">STORAGE</button>
+        <button class="catalog-control" id="tabBeds" type="button">BEDS</button>
+      </div>
+      <div class="catalog-page-controls">
+        <button id="pagePrev" type="button" aria-label="Previous page">&#8592;</button>
+        <button id="pageNext" type="button" aria-label="Next page">&#8594;</button>
+      </div>
+    </div>
+
+    <div class="workspace-row">
+      <aside id="rooms-cabinet">
+        <img src="Assets/rooms_cabinet.png" class="cabinet-img" alt="Rooms cabinet"
+          onerror="this.onerror=null;this.src='Assets/ROOMS_cabinet.png';">
+        <button class="drawer-zone drawer-living" data-room="living" type="button" aria-label="LIVINGROOM"></button>
+        <button class="drawer-zone drawer-dining" data-room="dining" type="button" aria-label="DININGROOM"></button>
+        <button class="drawer-zone drawer-bedroom" data-room="bedroom" type="button" aria-label="BEDROOM"></button>
+        <button class="drawer-zone drawer-spare" data-room="spare" type="button" aria-label="SPAREROOM"></button>
+        <button class="drawer-zone drawer-upload" id="uploadDrawer" type="button" aria-label="UPLOAD YOURS"></button>
+      </aside>
+
+      <div class="workspace-shell">
+        <div id="work-area" title="Click once room is selected to open catalog">
+          <div id="itemGizmo" aria-label="Item adjustment handles">
+            <button class="gizmo-handle gizmo-handle-rotate" type="button" data-gizmo="rotate" aria-label="Rotate item">&#8635;</button>
+            <button class="gizmo-handle gizmo-handle-flip" type="button" data-gizmo="flip" aria-label="Flip left right">&#8646;</button>
+            <button class="gizmo-handle gizmo-handle-push" type="button" data-gizmo="push" aria-label="Push item side to side">&#8644;</button>
+            <button class="gizmo-handle gizmo-handle-resize" type="button" data-gizmo="scale" aria-label="Resize item">&#8645;</button>
+            <button class="gizmo-handle gizmo-handle-done" type="button" data-gizmo="hide" aria-label="Done editing">DONE</button>
+          </div>
+          <div id="roomItemControls" aria-label="Placed item controls">
+            <div class="item-controls-title">SELECT ITEM TO EDIT</div>
+            <div class="item-controls-hint">WHEEL: ROTATE | SHIFT+WHEEL: SIZE | ALT+WHEEL: PUSH</div>
+            <button class="item-control-btn" type="button" data-edit="enlarge">ENLARGE</button>
+            <button class="item-control-btn" type="button" data-edit="shrink">SHRINK</button>
+            <button class="item-control-btn" type="button" data-edit="push-left">PUSH LEFT</button>
+            <button class="item-control-btn" type="button" data-edit="push-right">PUSH RIGHT</button>
+            <button class="item-control-btn rotate-btn" type="button" data-edit="rotate-left" aria-label="Rotate Left" title="Rotate Left">&#10226;</button>
+            <button class="item-control-btn rotate-btn" type="button" data-edit="rotate-right" aria-label="Rotate Right" title="Rotate Right">&#10227;</button>
+          </div>
+          <div id="placedItems"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="decorClosetPopup">
+      <div class="popup-hero">
+        <div class="decor-scene-stage">
+          <img id="decorScene" src="Assets/decorcloset_entryway.jpg" alt="Decor closet entryway">
+          <div id="decorDirectoryHotspots" aria-label="Decor closet directory board">
+            <div class="decor-directory-zone zone-plants" data-scene-tone="plants" role="button" tabindex="0" aria-label="PLANTS"></div>
+            <div class="decor-directory-zone zone-mirrors" data-scene-tone="mirrors" role="button" tabindex="0" aria-label="MIRRORS"></div>
+            <div class="decor-directory-zone zone-lighting" data-scene-tone="lighting" role="button" tabindex="0" aria-label="LIGHTING"></div>
+            <div class="decor-directory-zone zone-curtains" data-scene-tone="curtains" role="button" tabindex="0" aria-label="CURTAINS"></div>
+            <div class="decor-directory-zone zone-rugs" data-scene-tone="rugs" role="button" tabindex="0" aria-label="RUG GALLERY"></div>
+          </div>
+        </div>
+        <div class="popup-meta">
+          <div class="popup-title" id="decorSceneTitle">ENTRYWAY</div>
+          <div class="popup-count" id="decorSceneCount">1 / 6</div>
+        </div>
+        <button id="decorBackBtn" type="button">BACK TO DIRECTORY</button>
+      </div>
+      <div class="mini-grid" id="decorMiniGrid"></div>
+    </div>
+  </section>
+
+  <div id="receiptPanel">
+    <img src="Assets/scrollreceipt.png" alt="Scroll receipt">
+    <div class="receipt-content">
+      <h3>Design Estimate</h3>
+      <div id="receiptLines"></div>
+      <div class="receipt-total" id="receiptTotal">TOTAL: $0</div>
+    </div>
+  </div>
+
+  <div id="galleryPopup">
+    <div class="popup-hero">
+      <img id="galleryScene" src="Assets/galleryentrance2.jpg" alt="Gallery preview">
+      <button id="galleryNextBtn" type="button">NEXT VIEW</button>
+    </div>
+    <div class="mini-grid" id="galleryMiniGrid"></div>
+  </div>
+
+  <div id="itemPreview">
+    <img id="previewImg" src="" alt="Item preview">
+    <h3 id="previewName"></h3>
+    <p id="previewSpecs"></p>
+    <p class="preview-meta" id="previewBrand"></p>
+    <p class="preview-meta" id="previewSku"></p>
+    <p id="previewPrice"></p>
+    <a id="previewBuy" href="#" target="_blank" rel="noopener noreferrer"></a>
+    <p>Double-click to place in room</p>
+  </div>
+
+  <input type="file" id="roomUpload" accept="image/*" hidden>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+      window.scrollTo(0, 0);
+
+      const tabs = {
+        rooms: document.getElementById("roomsTab"),
+        catalog: document.getElementById("catalogTab"),
+        decor: document.getElementById("decorTab"),
+        gallery: document.getElementById("galleryTab"),
+        save: document.getElementById("saveTab")
+      };
+      const mainMenuBtn = document.getElementById("mainMenuBtn");
+
+      const cabinet = document.getElementById("rooms-cabinet");
+      const workArea = document.getElementById("work-area");
+      const placedItems = document.getElementById("placedItems");
+      const itemGizmo = document.getElementById("itemGizmo");
+      const roomItemControls = document.getElementById("roomItemControls");
+      const catalogSubcats = document.getElementById("catalogSubcats");
+      const catalog = document.getElementById("catalogOverlay");
+      const roomUpload = document.getElementById("roomUpload");
+      const workspaceSection = document.getElementById("workspaceSection");
+      const workspaceRow = document.querySelector(".workspace-row");
+      const receiptPanel = document.getElementById("receiptPanel");
+      const decorPopup = document.getElementById("decorClosetPopup");
+      const galleryPopup = document.getElementById("galleryPopup");
+      const preview = document.getElementById("itemPreview");
+      const decorSceneImg = document.getElementById("decorScene");
+      const decorSceneTitle = document.getElementById("decorSceneTitle");
+      const decorSceneCount = document.getElementById("decorSceneCount");
+      const decorDirectoryHotspots = document.getElementById("decorDirectoryHotspots");
+      const decorDirectoryZones = document.querySelectorAll("#decorDirectoryHotspots .decor-directory-zone");
+      const decorBackBtn = document.getElementById("decorBackBtn");
+
+      const roomImages = {
+        living: [
+          "Assets/ROOMS_livingroom5.jpg",
+          "Assets/ROOMS_livingroom2.jpg",
+          "Assets/ROOMS_livingroom3.jpg"
+        ],
+        bedroom: [
+          "Assets/ROOMS_bedroom1.jpg",
+          "Assets/ROOMS_bedroom2.jpg",
+          "Assets/ROOMS_bedroom3.jpg"
+        ],
+        dining: [
+          "Assets/ROOMS_diningroom1.jpg",
+          "Assets/ROOMS_diningroom2.jpg"
+        ],
+        spare: [
+          "Assets/ROOMS_bathroom1.jpg",
+          "Assets/ROOMS_kitchen1.jpg",
+          "Assets/ROOMS_office1.jpg"
+        ]
+      };
+
+      const roomImageFallbacks = {
+        "Assets/ROOMS_livingroom5.jpg": "Assets/ROOMS_livingroom1.jpg"
+      };
+
+      const drawerIndexes = {
+        living: -1,
+        bedroom: -1,
+        dining: -1,
+        spare: -1
+      };
+
+      const catalogConfig = {
+        seating: {
+          sections: [
+            {
+              title: "COUCHES",
+              assets: [
+                "Assets/seating_couch1.png",
+                "Assets/seating_couch2.png",
+                "Assets/seating_couch3.png",
+                "Assets/seating_couch4.png",
+                "Assets/seating_couch5.png",
+                "Assets/seating_couch6.png",
+                "Assets/seating_couch7.png",
+                "Assets/seating_couch8.png",
+                "Assets/seating_couch9.png",
+                "Assets/seating_couch10.png",
+                "Assets/seating_couch11.png",
+                "Assets/seating_couch12.png"
+              ]
+            },
+            {
+              title: "ARMCHAIRS",
+              assets: [
+                "Assets/seating_armchair1.png",
+                "Assets/seating_armchair2.png",
+                "Assets/seating_armchair3.png",
+                "Assets/seating_armchair4.png",
+                "Assets/seating_armchair5.png",
+                "Assets/seating_armchair6.png",
+                "Assets/seating_armchair7.png",
+                "Assets/seating_armchair8.png",
+                "Assets/seating_armchair9.png",
+                "Assets/seating_armchair10.png",
+                "Assets/seating_armchair12.png",
+                "Assets/seating_armchair14.png"
+              ]
+            },
+            {
+              title: "BARSTOOLS",
+              assets: [
+                "Assets/seating_barstool1.png",
+                "Assets/seating_barstool2.png",
+                "Assets/seating_barstool3.png",
+                "Assets/seating_barstool4.png",
+                "Assets/seating_barstool5.png",
+                "Assets/seating_barstool6.png",
+                "Assets/seating_barstool7.png",
+                "Assets/seating_barstool8.png",
+                "Assets/seating_barstool9.png",
+                "Assets/seating_barstool10.png",
+                "Assets/seating_barstool11.png",
+                "Assets/seating_barstool12.png"
+              ]
+            },
+            {
+              title: "OTTOMANS",
+              assets: [
+                "Assets/seating_ottoman1.png",
+                "Assets/seating_ottoman2.png",
+                "Assets/seating_ottoman3.png",
+                "Assets/seating_ottoman4.png",
+                "Assets/seating_ottoman5.png",
+                "Assets/seating_ottoman6.png",
+                "Assets/seating_ottoman7.png",
+                "Assets/seating_ottoman8.png",
+                "Assets/seating_ottoman9.png",
+                "Assets/seating_ottoman10.png"
+              ]
+            },
+            {
+              title: "BENCHES",
+              assets: [
+                "Assets/seating_bench1.png",
+                "Assets/seating_bench2.png",
+                "Assets/seating_bench3.png",
+                "Assets/seating_bench4.png",
+                "Assets/seating_bench5.png",
+                "Assets/seating_bench6.png",
+                "Assets/seating_bench7.png",
+                "Assets/seating_bench8.png",
+                "Assets/seating_bench9.png",
+                "Assets/seating_bench10.png",
+                "Assets/seating_bench11.png",
+                "Assets/seating_bench12.png"
+              ]
+            }
+          ]
+        },
+        tables: {
+          sections: [
+
+        tables: {
+          sections: [
+            {
+              title: "COFFEE TABLES",
+              assets: [
+                "Assets/table_coffee2.png",
+                "Assets/tables_coffee3.png",
+                "Assets/tables_coffee4.png",
+                "Assets/table_coffee5.png",
+                "Assets/tables_shelf.png"
+              ]
+            }
+          ]
+        },
+        storage: {
+          sections: [
+            {
+              title: "CABINETS",
+              assets: [
+                "Assets/storage_cabinet1.png?v=1",
+                "Assets/storage_cabinet2.png?v=1",
+                "Assets/storage_cabinet3.png?v=1",
+                "Assets/storage_cabinet4.png?v=1",
+                "Assets/storage_cabinet5.png?v=1",
+                "Assets/storage_cabinet6.png?v=1",
+                "Assets/storage_cabinet7.png?v=1",
+                "Assets/storage_cabinet8.png?v=1",
+                "Assets/storage_cabinet9.png?v=1",
+                "Assets/storage_cabinet10.png?v=1",
+                "Assets/storage_cabinet11.png?v=1",
+                "Assets/storage_cabinet12.png?v=1"
+              ]
+            },
+            {
+              title: "SIDEBOARDS",
+              assets: [
+                "Assets/storage_sideboard1.png?v=1",
+                "Assets/storage_sideboard2.png?v=1",
+                "Assets/storage_sideboard3.png?v=1",
+                "Assets/storage_sideboard4.png?v=1",
+                "Assets/storage_sideboard5.png?v=1",
+                "Assets/storage_sideboard6.png?v=1",
+                "Assets/storage_sideboard7.png?v=1",
+                "Assets/storage_sideboard8.png?v=1",
+                "Assets/storage_sideboard9.png?v=1",
+                "Assets/storage_sideboard10.png?v=1",
+                "Assets/storage_sideboard11.png?v=1",
+                "Assets/storage_sideboard12.png?v=1"
+              ]
+            }
+          ]
+        },
+        beds: {
+          sections: [
+            {
+              title: "BEDS",
+              assets: [
+                "Assets/bed1.png?v=1",
+                "Assets/bed2.png?v=1",
+                "Assets/bed3.png?v=1",
+                "Assets/bed4.png?v=1",
+                "Assets/bed5.png?v=1",
+                "Assets/bed6.png?v=1",
+                "Assets/bed7.png?v=1",
+                "Assets/bed8.png?v=1",
+                "Assets/bed9.png?v=1",
+                "Assets/bed10.png?v=1",
+                "Assets/bed11.png?v=1",
+                "Assets/bed12.png?v=1"
+              ]
+            }
+          ]
+        }
+      };
+
+      const decorItems = [
+        { id: "decor-pillow-1", name: "Decor Pillow 1", src: "Assets/decor_pillow1.png", specs: "Decor Accent | Pillow", price: 49 },
+        { id: "decor-pillow-2", name: "Decor Pillow 2", src: "Assets/decor_pillow2.png", specs: "Decor Accent | Pillow", price: 52 },
+        { id: "decor-pillow-3", name: "Decor Pillow 3", src: "Assets/decor_pillow3.png", specs: "Decor Accent | Pillow", price: 55 },
+        { id: "decor-pillow-4", name: "Decor Pillow 4", src: "Assets/decor_pillow4.png", specs: "Decor Accent | Pillow", price: 58 },
+        { id: "decor-pillow-5", name: "Decor Pillow 5", src: "Assets/decor_pillow5.png", specs: "Decor Accent | Pillow", price: 61 },
+        { id: "decor-pillow-6", name: "Decor Pillow 6", src: "Assets/decor_pillow6.png", specs: "Decor Accent | Pillow", price: 64 },
+        { id: "decor-pillow-7", name: "Decor Pillow 7", src: "Assets/decor_pillow7.png", specs: "Decor Accent | Pillow", price: 67 },
+        { id: "decor-pillow-8", name: "Decor Pillow 8", src: "Assets/decor_pillow8.png", specs: "Decor Accent | Pillow", price: 70 },
+        { id: "decor-pillow-9", name: "Decor Pillow 9", src: "Assets/decor_pillow9.png", specs: "Decor Accent | Pillow", price: 73 },
+        { id: "decor-pillow-10", name: "Decor Pillow 10", src: "Assets/decor_pillow10.png", specs: "Decor Accent | Pillow", price: 76 },
+        { id: "decor-pillow-11", name: "Decor Pillow 11", src: "Assets/decor_pillow11.png", specs: "Decor Accent | Pillow", price: 79 },
+        { id: "decor-pillow-12", name: "Decor Pillow 12", src: "Assets/decor_pillow12.png", specs: "Decor Accent | Pillow", price: 82 }
+      ];
+
+      const decorScenes = [
+        {
+          src: "Assets/decorcloset_entryway.jpg",
+          title: "ENTRYWAY",
+          alt: "Decor closet entryway",
+          tone: "entryway"
+        },
+        {
+          src: "Assets/sitestuff_plants.jpg",
+          fallbacks: ["Assets/sitestuff_pillows.jpg", "Assets/plant_pillowcloset.jpg"],
+          title: "PLANTS",
+          alt: "Plant closet",
+          tone: "plants"
+        },
+        {
+          src: "Assets/sitestuff_mirrors.jpg",
+          title: "MIRRORS",
+          alt: "Mirror closet",
+          tone: "mirrors"
+        },
+        {
+          src: "Assets/sitestuff_lighting.jpg",
+          title: "LIGHTING",
+          alt: "Lighting closet",
+          tone: "lighting"
+        },
+        {
+          src: "Assets/curtaincloset.jpg",
+          title: "CURTAINS",
+          alt: "Curtain closet",
+          tone: "curtains"
+        },
+        {
+          src: "Assets/ruggallery.jpg",
+          title: "RUG GALLERY",
+          alt: "Rug gallery",
+          tone: "rugs"
+        }
+      ];
+
+      const galleryScenes = [
+        "Assets/galleryentrance2.jpg",
+        "Assets/galleryentrance3.jpg",
+        "Assets/inspo_gallery1.jpg",
+        "Assets/inspo_gallery2.jpg",
+        "Assets/inspo_gallery3.jpg",
+        "Assets/inspo_gallery4.jpg"
+      ];
+
+      const estimate = new Map();
+      let roomChosen = false;
+      let currentCategory = "seating";
+      let pageIndex = 0;
+      let decorSceneIndex = 0;
+      let gallerySceneIndex = 0;
+      let catalogRevealTimer = null;
+      let selectedPlacedItem = null;
+      let lastScrollRequest = { top: -1, at: 0 };
+
+      const CATALOG_SPREAD_COUNT = 12;
+      const ITEMS_PER_PAGE = 6;
+
+      const catalogData = Object.fromEntries(
+        Object.entries(catalogConfig).map(([key, definition]) => {
+          const mapped = buildCatalogSectionsFromConfig(key, definition);
+          return [key, mapped];
+        })
+      );
+
+      function formatItemName(path) {
+        return path
+          .split("/")
+          .pop()
+          .split("?")[0]
+          .replace(".png", "")
+          .replace(".jpg", "")
+          .replace(/[_\d]/g, " ")
+          .replace(/\s+/g, " ")
+          .trim()
+          .toUpperCase();
+      }
+
+      function buildSpec(group, idx) {
+        if (group === "beds") {
+          return "Category: Beds | Comfort Layer " + (idx % 4 + 1);
+        }
+        if (group === "seating") {
+          return "Category: Seating | Comfort Grade " + (idx % 5 + 1);
+        }
+        if (group === "tables") {
+          return "Category: Tables | Surface: Engineered Wood";
+        }
+        return "Category: Storage | Multi-use organization";
+      }
+
+      function buildPrice(group, idx) {
+        if (group === "beds") {
+          return 579 + idx * 29;
+        }
+        const base = group === "seating" ? 349 : group === "tables" ? 229 : 189;
+        return base + idx * 19;
+      }
+
+      function buildSectionItems(category, section, sectionIndex) {
+        const assets = section.assets || [];
+        const visibleAssets = assets.slice(0, CATALOG_SPREAD_COUNT);
+        const items = visibleAssets.map((src, idx) => ({
+          id: category + "-" + sectionIndex + "-" + idx,
+          name: formatItemName(src),
+          src,
+          specs: buildSpec(category, idx),
+          price: buildPrice(category, idx),
+          placeholder: false
+        }));
+
+        while (items.length < CATALOG_SPREAD_COUNT) {
+          const placeholderIndex = items.length;
+          items.push({
+            id: category + "-" + sectionIndex + "-placeholder-" + placeholderIndex,
+            name: "COMING SOON",
+            src: "",
+            specs: "Add more " + section.title.toLowerCase() + " assets.",
+            price: 0,
+            placeholder: true,
+            placeholderText: section.title + " COMING SOON"
+          });
+        }
+
+        return items;
+      }
+
+      function buildCatalogSectionsFromConfig(category, definition) {
+        const sections = (definition.sections || []).map((section, sectionIndex) => ({
+          title: section.title,
+          items: buildSectionItems(category, section, sectionIndex)
+        }));
+
+        if (sections.length) {
+          return sections;
+        }
+
+        return [{
+          title: category.toUpperCase(),
+          items: buildSectionItems(category, { title: category.toUpperCase(), assets: [] }, 0)
+        }];
+      }
+
+      function setActiveTab(tabEl) {
+        Object.values(tabs).forEach((tab) => tab.classList.remove("active"));
+        if (tabEl) {
+          tabEl.classList.add("active");
+        }
+      }
+
+      function closePanels() {
+        catalog.classList.remove("show");
+        decorPopup.classList.remove("show");
+        galleryPopup.classList.remove("show");
+      }
+
+      function returnToMainMenu() {
+        closePanels();
+        hideRoomsCabinet();
+        receiptPanel.classList.remove("show");
+        setActiveTab(null);
+        smoothScrollTo(0);
+      }
+
+      function smoothScrollTo(top) {
+        const targetTop = Math.max(0, Math.round(top));
+        const now = performance.now();
+        if (Math.abs(window.scrollY - targetTop) < 18) {
+          return;
+        }
+        if (Math.abs(lastScrollRequest.top - targetTop) < 18 && now - lastScrollRequest.at < 420) {
+          return;
+        }
+        lastScrollRequest = { top: targetTop, at: now };
+        window.scrollTo({
+          top: targetTop,
+          behavior: "smooth"
+        });
+      }
+
+      function openRoomsCabinet() {
+        closePanels();
+        cabinet.classList.add("show");
+        setActiveTab(tabs.rooms);
+        const rowTop = workspaceRow.getBoundingClientRect().top + window.scrollY;
+        smoothScrollTo(rowTop - 14);
+      }
+
+      function hideRoomsCabinet() {
+        cabinet.classList.remove("show");
+      }
+
+      function openCatalog() {
+        closePanels();
+        const cabinetWasVisible = cabinet.classList.contains("show");
+        hideRoomsCabinet();
+        setActiveTab(tabs.catalog);
+        if (catalogRevealTimer) {
+          clearTimeout(catalogRevealTimer);
+        }
+        const revealCatalog = () => {
+          renderCatalog();
+          catalog.classList.remove("show");
+          void catalog.offsetWidth;
+          requestAnimationFrame(() => {
+            catalog.classList.add("show");
+          });
+        };
+        if (cabinetWasVisible) {
+          catalogRevealTimer = setTimeout(revealCatalog, 420);
+        } else {
+          revealCatalog();
+        }
+        const sectionTop = workspaceSection.getBoundingClientRect().top + window.scrollY;
+        smoothScrollTo(sectionTop - 108);
+      }
+
+      function setWorkAreaRoom(src) {
+        workArea.classList.remove("room-switch");
+        void workArea.offsetWidth;
+        workArea.classList.add("room-switch");
+        const fallback = roomImageFallbacks[src];
+        if (fallback) {
+          workArea.style.backgroundImage = "url('" + src + "'), url('" + fallback + "')";
+          workArea.style.backgroundSize = "cover, cover";
+          workArea.style.backgroundPosition = "center center, center center";
+          workArea.style.backgroundRepeat = "no-repeat, no-repeat";
+        } else {
+          workArea.style.backgroundImage = "url('" + src + "')";
+          workArea.style.backgroundSize = "cover";
+          workArea.style.backgroundPosition = "center center";
+          workArea.style.backgroundRepeat = "no-repeat";
+        }
+        workArea.style.backgroundColor = "transparent";
+        roomChosen = true;
+      }
+
+      function addEstimate(item) {
+        if (!estimate.has(item.id)) {
+          estimate.set(item.id, {
+            name: item.name,
+            price: item.price,
+            qty: 1
+          });
+        } else {
+          estimate.get(item.id).qty += 1;
+        }
+      }
+
+      function removeEstimate(itemId) {
+        if (!estimate.has(itemId)) {
+          return;
+        }
+        const entry = estimate.get(itemId);
+        entry.qty -= 1;
+        if (entry.qty <= 0) {
+          estimate.delete(itemId);
+        }
+      }
+
+      function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+      }
+
+      function applyPlacedItemTransform(piece) {
+        const scale = Number(piece.dataset.scale || "1");
+      function applyPlacedItemTransform(piece) {
+        const scale = Number(piece.dataset.scale || "1");
+        const rotation = Number(piece.dataset.rotation || "0");
+        const tilt = Number(piece.dataset.tilt || "0");
+        const flip = Number(piece.dataset.flip || "1");
+        piece.style.transform = "perspective(900px) rotateY(" + tilt + "deg) rotate(" + rotation + "deg) scale(" + scale + ") scaleX(" + flip + ")";
+        updatePlacedItemShadow(piece);
+      }
+
+      function updatePlacedItemShadow(piece) {
+        const shadow = piece && piece._shadowEl;
+        if (!shadow) {
+          return;
+        }
+        const rect = piece.getBoundingClientRect();
+        const areaRect = workArea.getBoundingClientRect();
+        const relativeTop = rect.top - areaRect.top;
+        const depth = clamp(relativeTop / Math.max(1, areaRect.height), 0, 1);
+        const shadowWidth = rect.width * (0.58 + depth * 0.26);
+        const shadowHeight = Math.max(10, rect.height * 0.09);
+        shadow.style.width = shadowWidth + "px";
+        shadow.style.height = shadowHeight + "px";
+        shadow.style.left = (rect.left - areaRect.left + (rect.width - shadowWidth) / 2) + "px";
+        shadow.style.top = (rect.bottom - areaRect.top - shadowHeight * 0.5) + "px";
+        shadow.style.opacity = String(0.18 + depth * 0.3);
+        shadow.style.transform = "scaleX(1)";
+        shadow.style.zIndex = String(Math.max(1, Number(piece.style.zIndex || 100) - 1));
+      }
+
+      function clearSelectedPlacedItem() {
+        if (selectedPlacedItem) {
+          selectedPlacedItem.classList.remove("selected");
+        }
+        selectedPlacedItem = null;
+        itemGizmo.classList.remove("show");
+      }
+
+      function selectPlacedItem(piece) {
+        if (selectedPlacedItem && selectedPlacedItem !== piece) {
+          selectedPlacedItem.classList.remove("selected");
+        }
+        selectedPlacedItem = piece;
+        selectedPlacedItem.classList.add("selected");
+        positionItemGizmo();
+        itemGizmo.classList.add("show");
+      }
+
+      function selectLatestPlacedItemOrClear() {
+        const items = Array.from(placedItems.querySelectorAll(".placed-item"));
+        if (!items.length) {
+          clearSelectedPlacedItem();
+          return;
+        }
+        const latest = items.reduce((best, node) => {
+          const z = Number(node.style.zIndex || 0);
+          if (!best || z > Number(best.style.zIndex || 0)) {
+            return node;
+          }
+          return best;
+        }, null);
+        if (latest) {
+          selectPlacedItem(latest);
+        }
+      }
+
+      function updateSelectedPlacedItem(updater) {
+        if (!selectedPlacedItem) {
+          return;
+        }
+        const state = {
+          scale: Number(selectedPlacedItem.dataset.scale || "1"),
+          rotation: Number(selectedPlacedItem.dataset.rotation || "0"),
+          tilt: Number(selectedPlacedItem.dataset.tilt || "0"),
+          flip: Number(selectedPlacedItem.dataset.flip || "1")
+        };
+        updater(state);
+        state.scale = clamp(state.scale, 0.35, 2.5);
+        state.rotation = clamp(state.rotation, -75, 75);
+        state.tilt = clamp(state.tilt, -38, 38);
+        selectedPlacedItem.dataset.scale = state.scale.toFixed(2);
+        selectedPlacedItem.dataset.rotation = String(state.rotation);
+        selectedPlacedItem.dataset.tilt = state.tilt.toFixed(1);
+        selectedPlacedItem.dataset.flip = String(state.flip >= 0 ? 1 : -1);
+        applyPlacedItemTransform(selectedPlacedItem);
+        positionItemGizmo();
+      }
+
+      function updatePlacedItemState(piece, updater) {
+        if (!piece) {
+          return;
+        }
+        const state = {
+          scale: Number(piece.dataset.scale || "1"),
+          rotation: Number(piece.dataset.rotation || "0"),
+          tilt: Number(piece.dataset.tilt || "0"),
+          flip: Number(piece.dataset.flip || "1")
+        };
+        updater(state);
+        state.scale = clamp(state.scale, 0.35, 2.5);
+        state.rotation = clamp(state.rotation, -75, 75);
+        state.tilt = clamp(state.tilt, -38, 38);
+        piece.dataset.scale = state.scale.toFixed(2);
+        piece.dataset.rotation = String(state.rotation);
+        piece.dataset.tilt = state.tilt.toFixed(1);
+        piece.dataset.flip = String(state.flip >= 0 ? 1 : -1);
+        applyPlacedItemTransform(piece);
+        positionItemGizmo();
+      }
+
+      function nudgeSelectedItem(dx, dy) {
+        if (!selectedPlacedItem) {
+          return;
+        }
+        const maxX = workArea.clientWidth - selectedPlacedItem.clientWidth;
+        const maxY = workArea.clientHeight - selectedPlacedItem.clientHeight;
+        const currentX = parseFloat(selectedPlacedItem.style.left || "0");
+        const currentY = parseFloat(selectedPlacedItem.style.top || "0");
+        const nx = clamp(currentX + dx, 0, maxX);
+        const ny = clamp(currentY + dy, 0, maxY);
+        selectedPlacedItem.style.left = nx + "px";
+        selectedPlacedItem.style.top = ny + "px";
+        updatePlacedItemShadow(selectedPlacedItem);
+        positionItemGizmo();
+      }
+
+      function positionItemGizmo() {
+        if (!selectedPlacedItem) {
+          itemGizmo.classList.remove("show");
+          return;
+        }
+        const itemRect = selectedPlacedItem.getBoundingClientRect();
+        const areaRect = workArea.getBoundingClientRect();
+        itemGizmo.style.left = (itemRect.left - areaRect.left) + "px";
+        itemGizmo.style.top = (itemRect.top - areaRect.top) + "px";
+        itemGizmo.style.width = itemRect.width + "px";
+        itemGizmo.style.height = itemRect.height + "px";
+      }
+
+      function renderEstimate() {
+        const lines = document.getElementById("receiptLines");
+        const totalNode = document.getElementById("receiptTotal");
+        lines.innerHTML = "";
+        let total = 0;
+
+        if (!estimate.size) {
+          lines.innerHTML = "<div class='receipt-row'><span>No items yet.</span><span>$0</span></div>";
+          totalNode.textContent = "TOTAL: $0";
+          return;
+        }
+
+        estimate.forEach((entry) => {
+          const subtotal = entry.qty * entry.price;
+          total += subtotal;
+          const row = document.createElement("div");
+          row.className = "receipt-row";
+          row.innerHTML = "<span>" + entry.name + " x" + entry.qty + "</span><span>$" + subtotal + "</span>";
+          lines.appendChild(row);
+        });
+
+        totalNode.textContent = "TOTAL: $" + total;
+      }
+
+      function showPreview(item) {
+        const safeSku = (item.sku || item.id || item.name || "ITEM")
+          .toString()
+          .replace(/\s+/g, "-")
+          .replace(/[^A-Za-z0-9\-_]/g, "")
+          .toUpperCase();
+        const brand = item.brand || "Room Glow Up Partner";
+        const vendor = item.vendor || "Affiliate Marketplace";
+        const buyUrl = item.buyUrl || "";
+
+        document.getElementById("previewImg").src = item.src;
+        document.getElementById("previewName").textContent = item.name;
+        document.getElementById("previewSpecs").textContent = item.specs;
+        document.getElementById("previewBrand").textContent = "Brand: " + brand + " | Seller: " + vendor;
+        document.getElementById("previewSku").textContent = "SKU: " + safeSku;
+        document.getElementById("previewPrice").textContent = "Estimated Price: $" + item.price;
+        const buyNode = document.getElementById("previewBuy");
+        if (buyUrl) {
+          buyNode.href = buyUrl;
+          buyNode.textContent = "Shop this item";
+          buyNode.style.display = "inline-block";
+        } else {
+          buyNode.removeAttribute("href");
+          buyNode.textContent = "Purchase link coming soon";
+          buyNode.style.display = "inline-block";
+        }
+        preview.classList.add("show");
+      }
+
+      function hidePreview() {
+        preview.classList.remove("show");
+      }
+
+      function placeInRoom(item) {
+        const piece = document.createElement("img");
+        piece.src = item.src;
+        piece.alt = item.name;
+        piece.className = "placed-item";
+        piece.dataset.itemId = item.id;
+        piece.dataset.scale = "1";
+        piece.dataset.rotation = "0";
+        piece.dataset.tilt = "0";
+        piece.dataset.flip = "1";
+        piece.draggable = false;
+        const pieceWidth = item.src.endsWith(".jpg") ? 180 : 140;
+        piece.style.width = pieceWidth + "px";
+        const baseX = (workArea.clientWidth - pieceWidth) / 2;
+        const baseY = (workArea.clientHeight - 180) / 2;
+        const spreadOffset = Math.min(placedItems.children.length * 12, 72);
+        piece.style.left = Math.max(0, Math.floor(baseX + spreadOffset)) + "px";
+        piece.style.top = Math.max(0, Math.floor(baseY + spreadOffset * 0.55)) + "px";
+        piece.style.zIndex = String(100 + placedItems.children.length);
+        const shadow = document.createElement("div");
+        shadow.className = "placed-shadow";
+        piece._shadowEl = shadow;
+        piece.title = "Drag move | Shift+Drag size | Ctrl+Drag rotate | Side handle = push | Left handle = flip L/R | Double-click send back";
+        piece.addEventListener("dblclick", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          const itemId = piece.dataset.itemId;
+          if (itemId) {
+            removeEstimate(itemId);
+            renderEstimate();
+          }
+          if (piece._shadowEl) {
+            piece._shadowEl.remove();
+          }
+          piece.remove();
+          selectLatestPlacedItemOrClear();
+        });
+        piece.addEventListener("wheel", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          if (selectedPlacedItem !== piece) {
+            selectPlacedItem(piece);
+          }
+          const direction = event.deltaY < 0 ? 1 : -1;
+          if (event.ctrlKey || event.metaKey) {
+            updateSelectedPlacedItem((state) => {
+              state.rotation += direction * 6;
+            });
+          } else {
+            updateSelectedPlacedItem((state) => {
+              state.scale += direction * 0.1;
+            });
+          }
+        }, { passive: false });
+        placedItems.appendChild(shadow);
+        placedItems.appendChild(piece);
+        applyPlacedItemTransform(piece);
+        makeDraggable(piece, workArea);
+        selectPlacedItem(piece);
+        const workAreaTop = workArea.getBoundingClientRect().top + window.scrollY;
+        smoothScrollTo(workAreaTop - 88);
+        addEstimate(item);
+        renderEstimate();
+      }
+
+      function makeDraggable(el, container) {
+        let dragging = false;
+        let startX = 0;
+        let startY = 0;
+        let originX = 0;
+        let originY = 0;
+        let prevX = 0;
+        let prevY = 0;
+
+        el.addEventListener("pointerdown", (event) => {
+          if (event.button !== undefined && event.button !== 0) {
+            return;
+          }
+          event.preventDefault();
+          dragging = true;
+          selectPlacedItem(el);
+          const highest = Array.from(container.querySelectorAll(".placed-item"))
+            .reduce((max, node) => Math.max(max, Number(node.style.zIndex || 0)), 100);
+          el.style.zIndex = String(highest + 1);
+          updatePlacedItemShadow(el);
+          el.setPointerCapture(event.pointerId);
+          startX = event.clientX;
+          startY = event.clientY;
+          prevX = event.clientX;
+          prevY = event.clientY;
+          originX = parseFloat(el.style.left || "0");
+          originY = parseFloat(el.style.top || "0");
+        });
+
+        el.addEventListener("pointermove", (event) => {
+          if (!dragging) {
+            return;
+          }
+          const dx = event.clientX - startX;
+          const dy = event.clientY - startY;
+          const stepX = event.clientX - prevX;
+          const stepY = event.clientY - prevY;
+          const modifierMode = event.shiftKey ? "scale" : ((event.ctrlKey || event.metaKey) ? "rotate" : "move");
+          if (modifierMode === "move") {
+            const maxX = container.clientWidth - el.clientWidth;
+            const maxY = container.clientHeight - el.clientHeight;
+            const nx = Math.min(maxX, Math.max(0, originX + dx));
+            const ny = Math.min(maxY, Math.max(0, originY + dy));
+            el.style.left = nx + "px";
+            el.style.top = ny + "px";
+            updatePlacedItemShadow(el);
+            positionItemGizmo();
+          } else if (modifierMode === "scale") {
+            updatePlacedItemState(el, (state) => {
+              state.scale += -stepY * 0.006;
+            });
+            startX = event.clientX;
+            startY = event.clientY;
+            originX = parseFloat(el.style.left || "0");
+            originY = parseFloat(el.style.top || "0");
+          } else if (modifierMode === "rotate") {
+            updatePlacedItemState(el, (state) => {
+              state.rotation += stepX * 0.65;
+            });
+            startX = event.clientX;
+            startY = event.clientY;
+            originX = parseFloat(el.style.left || "0");
+            originY = parseFloat(el.style.top || "0");
+          }
+          prevX = event.clientX;
+          prevY = event.clientY;
+        });
+
+        const stopDragging = (event) => {
+          if (dragging) {
+            dragging = false;
+            if (el.hasPointerCapture && el.hasPointerCapture(event.pointerId)) {
+              el.releasePointerCapture(event.pointerId);
+            }
+          }
+        };
+
+        el.addEventListener("pointerup", stopDragging);
+        el.addEventListener("pointercancel", stopDragging);
+      }
+
+      function bindItemCard(card, item) {
+        if (item.placeholder) {
+          return;
+        }
+        card.addEventListener("mouseenter", () => showPreview(item));
+        card.addEventListener("mouseleave", hidePreview);
+        card.addEventListener("dblclick", () => placeInRoom(item));
+      }
+
+      roomItemControls.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-edit]");
+        if (!button) {
+          return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        const action = button.dataset.edit;
+        if (action === "enlarge") {
+          updateSelectedPlacedItem((state) => {
+            state.scale += 0.12;
+          });
+        } else if (action === "shrink") {
+          updateSelectedPlacedItem((state) => {
+            state.scale -= 0.12;
+          });
+        } else if (action === "push-left") {
+          updateSelectedPlacedItem((state) => {
+            state.tilt -= 5;
+          });
+        } else if (action === "push-right") {
+          updateSelectedPlacedItem((state) => {
+            state.tilt += 5;
+          });
+        } else if (action === "rotate-left") {
+          updateSelectedPlacedItem((state) => {
+            state.rotation -= 5;
+          });
+        } else if (action === "rotate-right") {
+          updateSelectedPlacedItem((state) => {
+            state.rotation -= 5;
+          });
+        } else if (action === "rotate-right") {
+          updateSelectedPlacedItem((state) => {
+            state.rotation += 5;
+          });
+        }
+      });
+
+      itemGizmo.addEventListener("pointerdown", (event) => {
+        const handle = event.target.closest(".gizmo-handle");
+        if (!handle || !selectedPlacedItem) {
+          return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        const mode = handle.dataset.gizmo;
+        if (mode === "hide") {
+          clearSelectedPlacedItem();
+          return;
+        }
+        if (mode === "flip") {
+          updateSelectedPlacedItem((state) => {
+            state.flip *= -1;
+          });
+          return;
+        }
+        let prevX = event.clientX;
+        let prevY = event.clientY;
+        handle.setPointerCapture(event.pointerId);
+
+        const onMove = (moveEvent) => {
+          const dx = moveEvent.clientX - prevX;
+          const dy = moveEvent.clientY - prevY;
+          if (mode === "rotate") {
+            updateSelectedPlacedItem((state) => {
+              state.rotation += dx * 0.85;
+            });
+          } else if (mode === "push") {
+            updateSelectedPlacedItem((state) => {
+              state.tilt += dx * 0.35;
+            });
+          } else if (mode === "scale") {
+            updateSelectedPlacedItem((state) => {
+              state.scale += -dy * 0.008;
+            });
+          }
+          prevX = moveEvent.clientX;
+          prevY = moveEvent.clientY;
+        };
+
+        const onEnd = (endEvent) => {
+          if (handle.hasPointerCapture && handle.hasPointerCapture(endEvent.pointerId)) {
+            handle.releasePointerCapture(endEvent.pointerId);
+          }
+          handle.removeEventListener("pointermove", onMove);
+          handle.removeEventListener("pointerup", onEnd);
+          handle.removeEventListener("pointercancel", onEnd);
+        };
+
+        handle.addEventListener("pointermove", onMove);
+        handle.addEventListener("pointerup", onEnd);
+        handle.addEventListener("pointercancel", onEnd);
+      });
+
+      itemGizmo.addEventListener("click", (event) => {
+        const actionBtn = event.target.closest("button[data-gizmo-action]");
+        if (!actionBtn || !selectedPlacedItem) {
+          return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        const action = actionBtn.dataset.gizmoAction;
+        if (action === "nudge-up") {
+          nudgeSelectedItem(0, -14);
+        } else if (action === "nudge-down") {
+          nudgeSelectedItem(0, 14);
+        } else if (action === "smaller") {
+          updateSelectedPlacedItem((state) => {
+            state.scale -= 0.08;
+          });
+        } else if (action === "larger") {
+          updateSelectedPlacedItem((state) => {
+            state.scale += 0.08;
+          });
+        } else if (action === "hide") {
+          clearSelectedPlacedItem();
+        }
+      });
+
+      function runCatalogFlip() {
+        catalog.classList.remove("flipping");
+        void catalog.offsetWidth;
+        catalog.classList.add("flipping");
+        setTimeout(() => catalog.classList.remove("flipping"), 430);
+      }
+
+      function setCatalogTitles(spreadTitle) {
+        if (!spreadTitle) {
+          document.getElementById("catalogTitleLeft").textContent = "";
+          document.getElementById("catalogTitleRight").textContent = "";
+          return;
+        }
+        document.getElementById("catalogTitleLeft").textContent = spreadTitle + " • PAGE 1";
+        document.getElementById("catalogTitleRight").textContent = spreadTitle + " • PAGE 2";
+      }
+
+      function renderCatalogSubcats(spreads) {
+        catalogSubcats.innerHTML = "";
+        if (!spreads || spreads.length <= 1) {
+          catalogSubcats.style.display = "none";
+          return;
+        }
+        catalogSubcats.style.display = "flex";
+        spreads.forEach((spread, index) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "catalog-subcat-btn" + (index === pageIndex ? " active" : "");
+          btn.textContent = spread.title;
+          btn.addEventListener("click", () => {
+            if (pageIndex === index) {
+              return;
+            }
+            pageIndex = index;
+            runCatalogFlip();
+            renderCatalog();
+          });
+          catalogSubcats.appendChild(btn);
+        });
+      }
+
+      function renderCatalog() {
+        const left = document.getElementById("catalogLeft");
+        const right = document.getElementById("catalogRight");
+        left.innerHTML = "";
+        right.innerHTML = "";
+        const spreads = catalogData[currentCategory] || [];
+        if (!spreads.length) {
+          setCatalogTitles("");
+          renderCatalogSubcats([]);
+          return;
+        }
+        pageIndex = Math.max(0, Math.min(spreads.length - 1, pageIndex));
+        const spread = spreads[pageIndex];
+        setCatalogTitles(spread.title || "");
+        renderCatalogSubcats(spreads);
+        const visible = spread.items || [];
+
+        visible.slice(0, ITEMS_PER_PAGE).forEach((item) => left.appendChild(buildCatalogCard(item)));
+        visible.slice(ITEMS_PER_PAGE, CATALOG_SPREAD_COUNT).forEach((item) => right.appendChild(buildCatalogCard(item)));
+      }
+
+      function buildCatalogCard(item) {
+        const card = document.createElement("div");
+        card.className = "catalog-item" + (item.placeholder ? " placeholder" : "");
+        if (item.placeholder) {
+          card.innerHTML = "<div class='catalog-item-placeholder'>" + (item.placeholderText || "COMING SOON") + "</div>";
+        } else {
+          card.innerHTML = "<img src='" + item.src + "' alt='" + item.name + "'>";
+        }
+        bindItemCard(card, item);
+        return card;
+      }
+
+      function setCategory(category) {
+        currentCategory = category;
+        pageIndex = 0;
+        document.querySelectorAll(".catalog-control").forEach((btn) => btn.classList.remove("active"));
+        if (category === "seating") {
+          document.getElementById("tabSeating").classList.add("active");
+        } else if (category === "tables") {
+          document.getElementById("tabTables").classList.add("active");
+        } else if (category === "storage") {
+          document.getElementById("tabStorage").classList.add("active");
+        } else {
+          document.getElementById("tabBeds").classList.add("active");
+        }
+        const activeButton = document.querySelector(".catalog-control.active");
+        if (activeButton) {
+          activeButton.classList.remove("flip");
+          void activeButton.offsetWidth;
+          activeButton.classList.add("flip");
+          setTimeout(() => activeButton.classList.remove("flip"), 500);
+        }
+        runCatalogFlip();
+        renderCatalog();
+      }
+
+      function nextCatalogPage(step) {
+        const spreads = catalogData[currentCategory] || [];
+        const maxPage = Math.max(0, spreads.length - 1);
+        pageIndex = Math.max(0, Math.min(maxPage, pageIndex + step));
+        runCatalogFlip();
+        renderCatalog();
+      }
+
+      function renderDecorGrid() {
+        const grid = document.getElementById("decorMiniGrid");
+        grid.innerHTML = "";
+        decorItems.forEach((item) => {
+          const card = document.createElement("div");
+          card.className = "mini-item";
+          card.innerHTML = "<img src='" + item.src + "' alt='" + item.name + "'><p>" + item.name + "</p>";
+          bindItemCard(card, item);
+          grid.appendChild(card);
+        });
+      }
+
+      function updateDecorScene(nextIndex, animate) {
+        decorSceneIndex = (nextIndex + decorScenes.length) % decorScenes.length;
+        const scene = decorScenes[decorSceneIndex];
+        if (!scene) {
+          return;
+        }
+        if (animate) {
+          decorPopup.classList.add("scene-switch");
+        }
+        decorSceneImg.onerror = null;
+        const fallbackQueue = [];
+        if (Array.isArray(scene.fallbacks)) {
+          scene.fallbacks.forEach((candidate) => {
+            if (candidate && candidate !== scene.src) {
+              fallbackQueue.push(candidate);
+            }
+          });
+        }
+        if (scene.fallback && scene.fallback !== scene.src) {
+          fallbackQueue.push(scene.fallback);
+        }
+        if (fallbackQueue.length) {
+          let fallbackIndex = 0;
+          decorSceneImg.onerror = () => {
+            if (fallbackIndex >= fallbackQueue.length) {
+              decorSceneImg.onerror = null;
+              return;
+            }
+            const nextSrc = fallbackQueue[fallbackIndex];
+            fallbackIndex += 1;
+            decorSceneImg.src = nextSrc;
+          };
+        }
+        decorSceneImg.src = scene.src;
+        decorSceneImg.alt = scene.alt;
+        decorSceneTitle.textContent = scene.title;
+        decorSceneCount.textContent = (decorSceneIndex + 1) + " / " + decorScenes.length;
+        decorPopup.dataset.scene = scene.tone || "entryway";
+        if (decorBackBtn) {
+          decorBackBtn.style.display = scene.tone === "entryway" ? "none" : "inline-block";
+        }
+        if (animate) {
+          setTimeout(() => decorPopup.classList.remove("scene-switch"), 260);
+        }
+      }
+
+      function renderGalleryGrid() {
+        const galleryItems = galleryScenes.slice(2).map((src, idx) => ({
+          id: "gallery-" + idx,
+          name: "Inspo Gallery " + (idx + 1),
+          src,
+          specs: "Gallery inspiration panel",
+          price: 0
+        }));
+        const grid = document.getElementById("galleryMiniGrid");
+        grid.innerHTML = "";
+        galleryItems.forEach((item) => {
+          const card = document.createElement("div");
+          card.className = "mini-item";
+          card.innerHTML = "<img src='" + item.src + "' alt='" + item.name + "'><p>" + item.name + "</p>";
+          card.addEventListener("mouseenter", () => showPreview(item));
+          card.addEventListener("mouseleave", hidePreview);
+          grid.appendChild(card);
+        });
+      }
+
+      tabs.rooms.addEventListener("click", openRoomsCabinet);
+      tabs.catalog.addEventListener("click", openCatalog);
+
+      tabs.decor.addEventListener("click", () => {
+        const wasOpen = decorPopup.classList.contains("show");
+        closePanels();
+        if (wasOpen) {
+          setActiveTab(null);
+          return;
+        }
+        setActiveTab(tabs.decor);
+        decorPopup.classList.add("show");
+        const popupTop = decorPopup.getBoundingClientRect().top + window.scrollY;
+        smoothScrollTo(popupTop - 112);
+      });
+
+      tabs.gallery.addEventListener("click", () => {
+        const wasOpen = galleryPopup.classList.contains("show");
+        closePanels();
+        if (wasOpen) {
+          setActiveTab(null);
+          return;
+        }
+        setActiveTab(tabs.gallery);
+        galleryPopup.classList.add("show");
+      });
+
+      tabs.save.addEventListener("click", () => {
+        setActiveTab(tabs.save);
+        receiptPanel.classList.toggle("show");
+        renderEstimate();
+      });
+
+      document.querySelectorAll(".drawer-zone[data-room]").forEach((drawer) => {
+        drawer.addEventListener("click", () => {
+          const roomType = drawer.dataset.room;
+          drawerIndexes[roomType] = (drawerIndexes[roomType] + 1) % roomImages[roomType].length;
+          setWorkAreaRoom(roomImages[roomType][drawerIndexes[roomType]]);
+          drawer.classList.add("active");
+          setTimeout(() => drawer.classList.remove("active"), 280);
+        });
+      });
+
+      document.getElementById("uploadDrawer").addEventListener("click", () => {
+        roomUpload.click();
+      });
+
+      roomUpload.addEventListener("change", (event) => {
+        const file = event.target.files && event.target.files[0];
+        if (!file) {
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = (loadEvent) => {
+          setWorkAreaRoom(loadEvent.target.result);
+        };
+        reader.readAsDataURL(file);
+      });
+
+      workArea.addEventListener("click", (event) => {
+        const clickedItem = event.target.closest(".placed-item");
+        const clickedControls = event.target.closest("#roomItemControls");
+        const clickedGizmo = event.target.closest("#itemGizmo");
+        if (!clickedItem && !clickedControls && !clickedGizmo) {
+          clearSelectedPlacedItem();
+        }
+        if (cabinet.classList.contains("show") && roomChosen && !clickedItem && !clickedControls && !clickedGizmo) {
+          openCatalog();
+        }
+      });
+
+      window.addEventListener("resize", positionItemGizmo);
+
+      document.getElementById("tabSeating").addEventListener("click", () => setCategory("seating"));
+      document.getElementById("tabTables").addEventListener("click", () => setCategory("tables"));
+      document.getElementById("tabStorage").addEventListener("click", () => setCategory("storage"));
+      document.getElementById("tabBeds").addEventListener("click", () => setCategory("beds"));
+      document.getElementById("pagePrev").addEventListener("click", () => nextCatalogPage(-1));
+      document.getElementById("pageNext").addEventListener("click", () => nextCatalogPage(1));
+      mainMenuBtn.addEventListener("click", returnToMainMenu);
+
+      function goToDecorTone(targetTone) {
+        if (!targetTone) {
+          return;
+        }
+        const targetSceneIndex = decorScenes.findIndex((scene) => scene.tone === targetTone);
+        if (targetSceneIndex !== -1) {
+          updateDecorScene(targetSceneIndex, true);
+        }
+      }
+
+      decorDirectoryZones.forEach((zone) => {
+        zone.addEventListener("click", () => {
+          const targetTone = (zone.dataset.sceneTone || "").trim();
+          if (!targetTone) {
+            return;
+          }
+          goToDecorTone(targetTone);
+        });
+        zone.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            const targetTone = (zone.dataset.sceneTone || "").trim();
+            goToDecorTone(targetTone);
+          }
+        });      });
+
+      if (decorBackBtn) {
+        decorBackBtn.addEventListener("click", () => {
+          const directoryIndex = decorScenes.findIndex((scene) => scene.tone === "entryway");
+          updateDecorScene(directoryIndex !== -1 ? directoryIndex : 0, true);
+        });
+      }
+
+      document.getElementById("galleryNextBtn").addEventListener("click", () => {
+        gallerySceneIndex = (gallerySceneIndex + 1) % galleryScenes.length;
+        document.getElementById("galleryScene").src = galleryScenes[gallerySceneIndex];
+      });
+
+      renderCatalog();
+      updateDecorScene(0, false);
+      renderDecorGrid();
+      renderGalleryGrid();
+      renderEstimate();
+    });
+  </script>
+</body>
+</html>
