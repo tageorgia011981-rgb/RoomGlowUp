@@ -47,6 +47,18 @@
       display: block;
       filter: saturate(1.05) contrast(1.04);
       background: radial-gradient(circle at center, rgba(30, 33, 44, 0.82), rgba(8, 11, 20, 0.95));
+      transform: scale(1.01) translateX(0);
+      opacity: 1;
+      transition: transform 0.68s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s ease;
+    }
+
+    .gallery-stage img.scene-enter {
+      transform: scale(1.035) translateX(1.2%);
+      opacity: 0.35;
+    }
+
+    .gallery-stage img.scene-idle {
+      animation: sceneFloat 6.4s ease-in-out infinite;
     }
 
     .gallery-overlay {
@@ -90,6 +102,15 @@
       bottom: 18px;
       display: flex;
       gap: 10px;
+      opacity: 1;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      transform: translateY(0);
+    }
+
+    .gallery-stage.ui-hidden .gallery-controls,
+    .gallery-stage.ui-hidden .gallery-meta {
+      opacity: 0;
+      transform: translateY(8px);
     }
 
     .gallery-btn {
@@ -117,6 +138,39 @@
         0 10px 20px rgba(0, 0, 0, 0.42);
     }
 
+    .gallery-autoplay {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      border: 0;
+      border-radius: 999px;
+      font-family: "Limelight", serif;
+      font-size: 10px;
+      letter-spacing: 0.7px;
+      color: #dff6ff;
+      background: rgba(8, 8, 8, 0.5);
+      border: 1px solid rgba(189, 240, 255, 0.36);
+      padding: 7px 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .gallery-autoplay:hover,
+    .gallery-autoplay:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 0 10px rgba(167, 234, 255, 0.6);
+    }
+
+    @keyframes sceneFloat {
+      0%,
+      100% {
+        transform: scale(1.01) translateX(0);
+      }
+      50% {
+        transform: scale(1.03) translateX(-0.6%);
+      }
+    }
+
     @media (max-width: 900px) {
       .gallery-stage {
         width: 96vw;
@@ -137,6 +191,7 @@
       <button class="gallery-btn" id="backBtn" type="button">BACK TO MAIN</button>
       <button class="gallery-btn" id="nextBtn" type="button">NEXT VIEW</button>
     </div>
+    <button class="gallery-autoplay" id="autoplayBtn" type="button" aria-pressed="true">AUTO WALK: ON</button>
   </main>
 
   <script>
@@ -153,30 +208,90 @@
     ];
 
     let sceneIndex = 0;
+    let autoplayEnabled = true;
+    let autoplayTimer = null;
+    let uiTimer = null;
+    let isTransitioning = false;
 
+    const stage = document.querySelector(".gallery-stage");
     const hero = document.getElementById("galleryHero");
     const title = document.getElementById("galleryTitle");
     const count = document.getElementById("galleryCount");
+    const autoplayBtn = document.getElementById("autoplayBtn");
 
-    function setScene(nextIndex) {
+    function updateAutoplayButton() {
+      autoplayBtn.textContent = autoplayEnabled ? "AUTO WALK: ON" : "AUTO WALK: OFF";
+      autoplayBtn.setAttribute("aria-pressed", autoplayEnabled ? "true" : "false");
+    }
+
+    function scheduleAutoplay() {
+      if (autoplayTimer) {
+        clearTimeout(autoplayTimer);
+      }
+      if (!autoplayEnabled) {
+        return;
+      }
+      autoplayTimer = setTimeout(() => {
+        setScene(sceneIndex + 1, true);
+      }, 5600);
+    }
+
+    function showUiTemporarily() {
+      stage.classList.remove("ui-hidden");
+      if (uiTimer) {
+        clearTimeout(uiTimer);
+      }
+      uiTimer = setTimeout(() => {
+        stage.classList.add("ui-hidden");
+      }, 2200);
+    }
+
+    function setScene(nextIndex, fromAutoplay) {
+      if (isTransitioning) {
+        return;
+      }
+      isTransitioning = true;
       sceneIndex = (nextIndex + scenes.length) % scenes.length;
       const scene = scenes[sceneIndex];
       hero.onerror = null;
+      hero.classList.remove("scene-idle");
+      hero.classList.add("scene-enter");
       hero.src = scene.src;
       hero.alt = scene.title;
       title.textContent = scene.title;
       count.textContent = (sceneIndex + 1) + " / " + scenes.length;
+      setTimeout(() => {
+        hero.classList.remove("scene-enter");
+        hero.classList.add("scene-idle");
+        isTransitioning = false;
+      }, 360);
+      if (!fromAutoplay) {
+        showUiTemporarily();
+      }
+      scheduleAutoplay();
     }
 
     document.getElementById("nextBtn").addEventListener("click", () => {
-      setScene(sceneIndex + 1);
+      setScene(sceneIndex + 1, false);
     });
 
     document.getElementById("backBtn").addEventListener("click", () => {
       window.location.href = "index.html";
     });
 
-    setScene(0);
+    autoplayBtn.addEventListener("click", () => {
+      autoplayEnabled = !autoplayEnabled;
+      updateAutoplayButton();
+      showUiTemporarily();
+      scheduleAutoplay();
+    });
+
+    stage.addEventListener("mousemove", showUiTemporarily);
+    stage.addEventListener("touchstart", showUiTemporarily, { passive: true });
+    stage.addEventListener("click", showUiTemporarily);
+
+    updateAutoplayButton();
+    setScene(0, false);
   </script>
 </body>
 </html>
