@@ -1615,6 +1615,135 @@ body {
   font-size: 11px;
 }
 
+/* Immersive gallery mode (view-only, no item choosing) */
+#galleryPopup {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: clamp(18px, 3vw, 38px);
+  background:
+    radial-gradient(circle at 50% 20%, rgba(74, 116, 171, 0.26), transparent 56%),
+    linear-gradient(180deg, rgba(2, 5, 12, 0.92), rgba(3, 4, 9, 0.96));
+  z-index: 88;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1.015);
+  transition: opacity 0.4s ease, transform 0.44s cubic-bezier(0.22, 1, 0.36, 1);
+  backdrop-filter: blur(6px);
+}
+
+#galleryPopup.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+.gallery-hero {
+  position: relative;
+  width: min(1500px, 96vw);
+  height: min(84vh, 900px);
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 228, 162, 0.24);
+  box-shadow:
+    0 32px 52px rgba(0, 0, 0, 0.64),
+    0 0 0 1px rgba(255, 240, 199, 0.08);
+  background: #05070f;
+}
+
+.gallery-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  display: block;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#galleryPopup.scene-switch .gallery-hero img {
+  opacity: 0.72;
+  transform: scale(1.01);
+}
+
+.gallery-meta {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff7d7;
+  background: rgba(8, 8, 8, 0.56);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  padding: 6px 11px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(2px);
+}
+
+.gallery-title {
+  font-family: "Limelight", serif;
+  font-size: 12px;
+  letter-spacing: 0.7px;
+}
+
+.gallery-count {
+  font-size: 10px;
+  letter-spacing: 0.9px;
+  color: rgba(238, 245, 255, 0.86);
+}
+
+.gallery-controls {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+}
+
+#galleryPrevBtn,
+#galleryNextBtn,
+#galleryCloseBtn {
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(26, 26, 26, 0.92), rgba(10, 10, 10, 0.92));
+  color: #fff;
+  cursor: pointer;
+  font-family: "Limelight", serif;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  padding: 8px 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+#galleryCloseBtn {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  z-index: 2;
+}
+
+#galleryPrevBtn:hover,
+#galleryPrevBtn:focus-visible,
+#galleryNextBtn:hover,
+#galleryNextBtn:focus-visible,
+#galleryCloseBtn:hover,
+#galleryCloseBtn:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 0 11px rgba(169, 231, 255, 0.62);
+  background: linear-gradient(180deg, rgba(39, 39, 39, 0.95), rgba(12, 12, 12, 0.95));
+}
+
+#galleryMiniGrid {
+  display: none !important;
+}
+
 @media (max-width: 1200px) {
   .workspace-row {
     flex-direction: column;
@@ -2123,11 +2252,18 @@ body {
   </div>
 
   <div id="galleryPopup">
-    <div class="popup-hero">
-      <img id="galleryScene" src="Assets/galleryentrance2.jpg" alt="Gallery preview">
-      <button id="galleryNextBtn" type="button">NEXT VIEW</button>
+    <div class="gallery-stage">
+      <div class="popup-hero">
+        <img id="galleryScene" src="Assets/galleryentrance2.jpg" alt="Gallery preview">
+        <div class="popup-meta">
+          <div class="popup-title" id="gallerySceneTitle">GALLERY ENTRANCE</div>
+          <div class="popup-count" id="gallerySceneCount">1 / 6</div>
+        </div>
+        <button id="galleryBackBtn" type="button">BACK TO ROOM</button>
+        <button id="galleryNextBtn" type="button">NEXT VIEW</button>
+      </div>
+      <div class="mini-grid" id="galleryMiniGrid"></div>
     </div>
-    <div class="mini-grid" id="galleryMiniGrid"></div>
   </div>
 
   <div id="itemPreview">
@@ -2179,6 +2315,9 @@ body {
       const decorDirectoryHotspots = document.getElementById("decorDirectoryHotspots");
       const decorDirectoryZones = document.querySelectorAll("#decorDirectoryHotspots .decor-directory-zone");
       const decorBackBtn = document.getElementById("decorBackBtn");
+      const gallerySceneImg = document.getElementById("galleryScene");
+      const gallerySceneTitle = document.getElementById("gallerySceneTitle");
+      const gallerySceneCount = document.getElementById("gallerySceneCount");
 
       const roomImages = {
         living: [
@@ -2432,12 +2571,12 @@ body {
       ];
 
       const galleryScenes = [
-        "Assets/galleryentrance2.jpg",
-        "Assets/galleryentrance3.jpg",
-        "Assets/inspo_gallery1.jpg",
-        "Assets/inspo_gallery2.jpg",
-        "Assets/inspo_gallery3.jpg",
-        "Assets/inspo_gallery4.jpg"
+        { src: "Assets/galleryentrance2.jpg", title: "GALLERY ENTRANCE", alt: "Gallery entrance view 1" },
+        { src: "Assets/galleryentrance3.jpg", title: "GALLERY ENTRANCE", alt: "Gallery entrance view 2" },
+        { src: "Assets/inspo_gallery1.jpg", title: "MOOD BOARD ONE", alt: "Inspo gallery one" },
+        { src: "Assets/inspo_gallery2.jpg", title: "MOOD BOARD TWO", alt: "Inspo gallery two" },
+        { src: "Assets/inspo_gallery3.jpg", title: "MOOD BOARD THREE", alt: "Inspo gallery three" },
+        { src: "Assets/inspo_gallery4.jpg", title: "MOOD BOARD FOUR", alt: "Inspo gallery four" }
       ];
 
       const estimate = new Map();
@@ -3289,22 +3428,43 @@ body {
         }
       }
 
+      function setGalleryScene(nextIndex, animate) {
+        gallerySceneIndex = (nextIndex + galleryScenes.length) % galleryScenes.length;
+        const scene = galleryScenes[gallerySceneIndex];
+        const gallerySceneEl = document.getElementById("galleryScene");
+        const galleryTitleEl = document.getElementById("gallerySceneTitle");
+        const galleryCountEl = document.getElementById("gallerySceneCount");
+        if (!scene || !gallerySceneEl) {
+          return;
+        }
+        if (animate) {
+          galleryPopup.classList.add("scene-switch");
+        }
+        gallerySceneEl.src = scene.src;
+        gallerySceneEl.alt = scene.alt || scene.title || "Gallery scene";
+        if (galleryTitleEl) {
+          galleryTitleEl.textContent = scene.title || "GALLERY VIEW";
+        }
+        if (galleryCountEl) {
+          galleryCountEl.textContent = (gallerySceneIndex + 1) + " / " + galleryScenes.length;
+        }
+        document.querySelectorAll("#galleryMiniGrid .mini-item").forEach((node, idx) => {
+          node.classList.toggle("active", idx === gallerySceneIndex);
+        });
+        if (animate) {
+          setTimeout(() => galleryPopup.classList.remove("scene-switch"), 220);
+        }
+      }
+
       function renderGalleryGrid() {
-        const galleryItems = galleryScenes.slice(2).map((src, idx) => ({
-          id: "gallery-" + idx,
-          name: "Inspo Gallery " + (idx + 1),
-          src,
-          specs: "Gallery inspiration panel",
-          price: 0
-        }));
         const grid = document.getElementById("galleryMiniGrid");
         grid.innerHTML = "";
-        galleryItems.forEach((item) => {
-          const card = document.createElement("div");
+        galleryScenes.forEach((scene, idx) => {
+          const card = document.createElement("button");
+          card.type = "button";
           card.className = "mini-item";
-          card.innerHTML = "<img src='" + item.src + "' alt='" + item.name + "'><p>" + item.name + "</p>";
-          card.addEventListener("mouseenter", () => showPreview(item));
-          card.addEventListener("mouseleave", hidePreview);
+          card.innerHTML = "<img src='" + scene.src + "' alt='" + (scene.title || ("Gallery View " + (idx + 1))) + "'><p>" + (scene.title || ("GALLERY VIEW " + (idx + 1))) + "</p>";
+          card.addEventListener("click", () => setGalleryScene(idx, true));
           grid.appendChild(card);
         });
       }
@@ -3334,6 +3494,8 @@ body {
         }
         setActiveTab(tabs.gallery);
         galleryPopup.classList.add("show");
+        setGalleryScene(gallerySceneIndex, false);
+        hidePreview();
       });
 
       tabs.save.addEventListener("click", () => {
@@ -3424,14 +3586,19 @@ body {
       }
 
       document.getElementById("galleryNextBtn").addEventListener("click", () => {
-        gallerySceneIndex = (gallerySceneIndex + 1) % galleryScenes.length;
-        document.getElementById("galleryScene").src = galleryScenes[gallerySceneIndex];
+        setGalleryScene(gallerySceneIndex + 1, true);
+      });
+
+      document.getElementById("galleryBackBtn").addEventListener("click", () => {
+        galleryPopup.classList.remove("show");
+        setActiveTab(null);
       });
 
       renderCatalog();
       updateDecorScene(0, false);
       renderDecorGrid();
       renderGalleryGrid();
+      setGalleryScene(0, false);
       renderEstimate();
     });
   </script>
