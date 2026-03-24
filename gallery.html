@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Room Glow Up | Gallery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family: "Limelight", serif;
+      color: #fff;
+      background: #080b14;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .gallery-stage {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.5)),
+        #05070d;
+    }
+
+    .gallery-stage img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(1.05) contrast(1.04);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 18% 16%, rgba(255, 224, 153, 0.2), transparent 35%),
+        radial-gradient(circle at 82% 84%, rgba(152, 228, 255, 0.2), transparent 34%);
+    }
+
+    .gallery-meta {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: rgba(8, 8, 8, 0.48);
+      border: 1px solid rgba(255, 236, 191, 0.3);
+      border-radius: 999px;
+      padding: 8px 14px;
+      backdrop-filter: blur(2px);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    .gallery-title {
+      letter-spacing: 0.8px;
+      font-size: 13px;
+      color: #f7df9d;
+    }
+
+    .gallery-count {
+      font-size: 11px;
+      color: rgba(236, 246, 255, 0.9);
+    }
+
+    .gallery-controls {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .gallery-btn {
+      border: 0;
+      border-radius: 999px;
+      font-family: "Limelight", serif;
+      font-size: 11px;
+      letter-spacing: 0.8px;
+      color: #ffe2a5;
+      background: linear-gradient(180deg, rgba(20, 20, 20, 0.93), rgba(8, 8, 8, 0.93));
+      padding: 8px 14px;
+      cursor: pointer;
+      box-shadow:
+        0 0 0 1px rgba(255, 224, 146, 0.32),
+        0 10px 20px rgba(0, 0, 0, 0.42);
+      pointer-events: auto;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .gallery-btn:hover,
+    .gallery-btn:focus-visible {
+      transform: translateY(-2px);
+      box-shadow:
+        0 0 10px rgba(168, 236, 255, 0.65),
+        0 10px 20px rgba(0, 0, 0, 0.42);
+    }
+  </style>
+</head>
+<body>
+  <main class="gallery-stage" aria-label="Gallery immersive page">
+    <img id="galleryHero" src="Assets/gallerydoors.jpg" alt="Gallery doors">
+    <div class="gallery-overlay"></div>
+    <div class="gallery-meta">
+      <span class="gallery-title" id="galleryTitle">GALLERY DOORS</span>
+      <span class="gallery-count" id="galleryCount">1 / 7</span>
+    </div>
+    <div class="gallery-controls">
+      <button class="gallery-btn" id="backBtn" type="button">BACK TO MAIN</button>
+      <button class="gallery-btn" id="nextBtn" type="button">NEXT VIEW</button>
+    </div>
+  </main>
+
+  <script>
+    const scenes = [
+      { src: "Assets/gallerydoors.jpg", title: "GALLERY DOORS" },
+      { src: "Assets/galleryentrance2.jpg", title: "GALLERY ENTRANCE I" },
+      { src: "Assets/galleryentrance3.jpg", title: "GALLERY ENTRANCE II" },
+      { src: "Assets/inspo_gallery1.jpg", title: "INSPO GALLERY I" },
+      { src: "Assets/inspo_gallery2.jpg", title: "INSPO GALLERY II" },
+      { src: "Assets/inspo_gallery3.jpg", title: "INSPO GALLERY III" },
+      { src: "Assets/inspo_gallery4.jpg", title: "INSPO GALLERY IV" }
+    ];
+
+    let sceneIndex = 0;
+
+    const hero = document.getElementById("galleryHero");
+    const title = document.getElementById("galleryTitle");
+    const count = document.getElementById("galleryCount");
+
+    function setScene(nextIndex) {
+      sceneIndex = (nextIndex + scenes.length) % scenes.length;
+      const scene = scenes[sceneIndex];
+      hero.src = scene.src;
+      hero.alt = scene.title;
+      title.textContent = scene.title;
+      count.textContent = (sceneIndex + 1) + " / " + scenes.length;
+    }
+
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      setScene(sceneIndex + 1);
+    });
+
+    document.getElementById("backBtn").addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>

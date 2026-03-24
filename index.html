@@ -3486,16 +3486,7 @@ body {
       });
 
       tabs.gallery.addEventListener("click", () => {
-        const wasOpen = galleryPopup.classList.contains("show");
-        closePanels();
-        if (wasOpen) {
-          setActiveTab(null);
-          return;
-        }
-        setActiveTab(tabs.gallery);
-        galleryPopup.classList.add("show");
-        setGalleryScene(gallerySceneIndex, false);
-        hidePreview();
+        window.location.href = "gallery.html";
       });
 
       tabs.save.addEventListener("click", () => {
