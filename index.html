@@ -1501,6 +1501,16 @@ body {
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
+#galleryPopup #galleryBackBtn {
+  left: 12px;
+  right: auto;
+}
+
+#galleryPopup #galleryNextBtn {
+  right: 12px;
+  left: auto;
+}
+
 #decorClosetPopup .popup-hero button,
 #decorClosetPopup .popup-meta {
   z-index: 2;
@@ -1707,9 +1717,8 @@ body {
   gap: 8px;
 }
 
-#galleryPrevBtn,
-#galleryNextBtn,
-#galleryCloseBtn {
+#galleryBackBtn,
+#galleryNextBtn {
   border: 0;
   border-radius: 999px;
   background: linear-gradient(180deg, rgba(26, 26, 26, 0.92), rgba(10, 10, 10, 0.92));
@@ -1722,19 +1731,10 @@ body {
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
-#galleryCloseBtn {
-  position: absolute;
-  left: 16px;
-  bottom: 16px;
-  z-index: 2;
-}
-
-#galleryPrevBtn:hover,
-#galleryPrevBtn:focus-visible,
+#galleryBackBtn:hover,
+#galleryBackBtn:focus-visible,
 #galleryNextBtn:hover,
-#galleryNextBtn:focus-visible,
-#galleryCloseBtn:hover,
-#galleryCloseBtn:focus-visible {
+#galleryNextBtn:focus-visible {
   transform: translateY(-1px);
   box-shadow: 0 0 11px rgba(169, 231, 255, 0.62);
   background: linear-gradient(180deg, rgba(39, 39, 39, 0.95), rgba(12, 12, 12, 0.95));
