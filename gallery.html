@@ -241,7 +241,17 @@
 
     function applySceneImage(scene) {
       hero.onerror = null;
+      hero.onload = null;
       const fallbackQueue = Array.isArray(scene.fallbacks) ? [...scene.fallbacks] : [];
+      const originalTitle = scene.title;
+      hero.onload = () => {
+        hero.onload = null;
+        if (hero.src && hero.src.indexOf("galleryentrance2.jpg") !== -1 && scene.src.indexOf("galleryentrance1.jpg") !== -1) {
+          title.textContent = "GALLERY ENTRANCE I/II";
+        } else {
+          title.textContent = originalTitle;
+        }
+      };
       if (fallbackQueue.length) {
         hero.onerror = () => {
           if (!fallbackQueue.length) {
@@ -270,7 +280,10 @@
 
     function goToScene(nextIndex) {
       const wrapped = (nextIndex + scenes.length) % scenes.length;
-      window.location.href = "gallery.html?scene=" + wrapped;
+      // Keep scene changes in-page to avoid host/router error pages.
+      history.replaceState(null, "", "gallery.html?scene=" + wrapped);
+      renderScene(wrapped);
+      showUiTemporarily();
     }
 
     document.getElementById("prevBtn").addEventListener("click", () => {
