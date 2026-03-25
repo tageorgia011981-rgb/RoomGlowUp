@@ -1,0 +1,362 @@
+# Gallery Handoff (Full Code Reference)
+
+This file gathers the full gallery-related code so you can review it in one place.
+
+## 1) Gallery tab routing in `index.html`
+
+Location: `index.html` (Gallery tab click behavior)
+
+```js
+tabs.gallery.addEventListener("click", () => {
+  window.location.href = "gallery.html";
+});
+```
+
+Notes:
+- Clicking the top `GALLERY` tab now routes to `gallery.html`.
+- It no longer opens the old inline popup flow for this path.
+
+---
+
+## 2) Gallery tab and legacy popup markup in `index.html`
+
+Location: `index.html` (top tab + legacy popup markup still present in file)
+
+```html
+<button class="pull-tab" id="galleryTab" type="button">
+  <img src="Assets/roomscabinet_pulltab.png" alt="Gallery tab">
+  <span>GALLERY</span>
+</button>
+```
+
+```html
+<div id="galleryPopup">
+  <div class="popup-hero">
+    <img id="galleryScene" src="Assets/galleryentrance2.jpg" alt="Gallery preview">
+    <div class="popup-meta gallery-meta-chip">
+      <div class="popup-title" id="gallerySceneTitle">GALLERY ENTRANCE</div>
+      <div class="popup-count" id="gallerySceneCount">1 / 6</div>
+    </div>
+    <button id="galleryNextBtn" type="button">NEXT VIEW</button>
+  </div>
+  <div class="mini-grid" id="galleryMiniGrid"></div>
+</div>
+```
+
+Notes:
+- This legacy popup block remains in `index.html` but current routing uses `gallery.html`.
+- You can remove legacy gallery popup code later if you want cleanup.
+
+---
+
+## 3) Full `gallery.html` (current live gallery experience)
+
+Location: `gallery.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Room Glow Up | Gallery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family: "Limelight", serif;
+      color: #fff;
+      background: #080b14;
+    }
+
+    body {
+      overflow: hidden;
+    }
+
+    .gallery-stage {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.5)),
+        #05070d;
+      box-shadow: none;
+    }
+
+    .gallery-stage img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+      filter: saturate(1.05) contrast(1.04);
+      background: #080b14;
+      transform: scale(1.01) translateX(0);
+      opacity: 1;
+      transition: transform 0.68s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s ease;
+    }
+
+    .gallery-stage img.scene-enter {
+      transform: scale(1.035) translateX(1.2%);
+      opacity: 0.35;
+    }
+
+    .gallery-stage img.scene-idle {
+      animation: sceneFloat 6.4s ease-in-out infinite;
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 18% 16%, rgba(255, 224, 153, 0.2), transparent 35%),
+        radial-gradient(circle at 82% 84%, rgba(152, 228, 255, 0.2), transparent 34%);
+    }
+
+    .gallery-meta {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: rgba(8, 8, 8, 0.48);
+      border: 1px solid rgba(255, 236, 191, 0.3);
+      border-radius: 999px;
+      padding: 8px 14px;
+      backdrop-filter: blur(2px);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    .gallery-title {
+      letter-spacing: 0.8px;
+      font-size: 13px;
+      color: #f7df9d;
+    }
+
+    .gallery-count {
+      font-size: 11px;
+      color: rgba(236, 246, 255, 0.9);
+    }
+
+    .gallery-controls {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      display: flex;
+      gap: 10px;
+      opacity: 1;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      transform: translateY(0);
+    }
+
+    .gallery-stage.ui-hidden .gallery-controls,
+    .gallery-stage.ui-hidden .gallery-meta {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    .gallery-btn {
+      border: 0;
+      border-radius: 999px;
+      font-family: "Limelight", serif;
+      font-size: 11px;
+      letter-spacing: 0.8px;
+      color: #ffe2a5;
+      background: linear-gradient(180deg, rgba(20, 20, 20, 0.93), rgba(8, 8, 8, 0.93));
+      padding: 8px 14px;
+      cursor: pointer;
+      box-shadow:
+        0 0 0 1px rgba(255, 224, 146, 0.32),
+        0 10px 20px rgba(0, 0, 0, 0.42);
+      pointer-events: auto;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .gallery-btn:hover,
+    .gallery-btn:focus-visible {
+      transform: translateY(-2px);
+      box-shadow:
+        0 0 10px rgba(168, 236, 255, 0.65),
+        0 10px 20px rgba(0, 0, 0, 0.42);
+    }
+
+    .gallery-autoplay {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      border: 0;
+      border-radius: 999px;
+      font-family: "Limelight", serif;
+      font-size: 10px;
+      letter-spacing: 0.7px;
+      color: #dff6ff;
+      background: rgba(8, 8, 8, 0.5);
+      border: 1px solid rgba(189, 240, 255, 0.36);
+      padding: 7px 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .gallery-autoplay:hover,
+    .gallery-autoplay:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 0 10px rgba(167, 234, 255, 0.6);
+    }
+
+    @keyframes sceneFloat {
+      0%,
+      100% {
+        transform: scale(1.01) translateX(0);
+      }
+      50% {
+        transform: scale(1.03) translateX(-0.6%);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .gallery-meta {
+        top: 12px;
+        left: 12px;
+        padding: 7px 11px;
+      }
+
+      .gallery-controls {
+        right: 12px;
+        bottom: 12px;
+        gap: 8px;
+      }
+
+      .gallery-btn {
+        font-size: 10px;
+        padding: 7px 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="gallery-stage" aria-label="Gallery immersive page">
+    <img id="galleryHero" src="Assets/gallerydoors.jpg" alt="Gallery doors">
+    <div class="gallery-overlay"></div>
+    <div class="gallery-meta">
+      <span class="gallery-title" id="galleryTitle">GALLERY DOORS</span>
+      <span class="gallery-count" id="galleryCount">1 / 3</span>
+    </div>
+    <div class="gallery-controls">
+      <button class="gallery-btn" id="prevBtn" type="button">PREV VIEW</button>
+      <button class="gallery-btn" id="backBtn" type="button">BACK TO MAIN</button>
+      <button class="gallery-btn" id="nextBtn" type="button">NEXT VIEW</button>
+    </div>
+  </main>
+
+  <script>
+    const scenes = [
+      { src: "Assets/gallerydoors.jpg", title: "GALLERY DOORS" },
+      {
+        src: "Assets/galleryentrance1.jpg",
+        title: "GALLERY ENTRANCE I"
+      },
+      {
+        src: "Assets/galleryentrance2.jpg",
+        title: "GALLERY ENTRANCE II"
+      }
+    ];
+
+    const stage = document.querySelector(".gallery-stage");
+    const hero = document.getElementById("galleryHero");
+    const title = document.getElementById("galleryTitle");
+    const count = document.getElementById("galleryCount");
+    const params = new URLSearchParams(window.location.search);
+    const requestedScene = Number.parseInt(params.get("scene") || "0", 10);
+    const sceneIndex = Number.isFinite(requestedScene)
+      ? Math.max(0, Math.min(scenes.length - 1, requestedScene))
+      : 0;
+
+    function showUiTemporarily() {
+      stage.classList.remove("ui-hidden");
+      clearTimeout(showUiTemporarily._timer);
+      showUiTemporarily._timer = setTimeout(() => {
+        stage.classList.add("ui-hidden");
+      }, 2200);
+    }
+
+    function renderScene(index) {
+      const scene = scenes[index];
+      hero.onerror = null;
+      hero.classList.remove("scene-idle");
+      hero.classList.add("scene-enter");
+      hero.src = scene.src;
+      hero.alt = scene.title;
+      title.textContent = scene.title;
+      count.textContent = (index + 1) + " / " + scenes.length;
+      setTimeout(() => {
+        hero.classList.remove("scene-enter");
+        hero.classList.add("scene-idle");
+      }, 360);
+    }
+
+    function goToScene(nextIndex) {
+      const wrapped = (nextIndex + scenes.length) % scenes.length;
+      window.location.href = "gallery.html?scene=" + wrapped;
+    }
+
+    document.getElementById("prevBtn").addEventListener("click", () => {
+      goToScene(sceneIndex - 1);
+    });
+
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      goToScene(sceneIndex + 1);
+    });
+
+    document.getElementById("backBtn").addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+
+    stage.addEventListener("mousemove", showUiTemporarily);
+    stage.addEventListener("touchstart", showUiTemporarily, { passive: true });
+    stage.addEventListener("click", showUiTemporarily);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") {
+        goToScene(sceneIndex + 1);
+      } else if (event.key === "ArrowLeft") {
+        goToScene(sceneIndex - 1);
+      }
+    });
+
+    renderScene(sceneIndex);
+    showUiTemporarily();
+  </script>
+</body>
+</html>
+```
+
+---
+
+## 4) Scene assets expected for gallery flow
+
+Current sequence in `gallery.html`:
+1. `Assets/gallerydoors.jpg`
+2. `Assets/galleryentrance1.jpg`
+3. `Assets/galleryentrance2.jpg`
+
+If you replace these files (or update scene list), the flow will keep working.
+
+---
+
+## 5) Quick preview URLs
+
+- Main site: `https://tageorgia011981-rgb.github.io/RoomGlowUp/`
+- Gallery page: `https://tageorgia011981-rgb.github.io/RoomGlowUp/gallery.html`
+
+If GitHub Pages is delayed, use commit-pinned CDN preview:
+- `https://cdn.jsdelivr.net/gh/tageorgia011981-rgb/RoomGlowUp@66c00f4/gallery.html`
