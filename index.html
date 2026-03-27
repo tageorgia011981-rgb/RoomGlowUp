@@ -2152,7 +2152,7 @@ body {
       <img src="Assets/roomscabinet_pulltab.png" alt="Decor Closet tab">
       <span>DECOR<br>CLOSET</span>
     </button>
-    <button class="pull-tab" id="galleryTab" type="button">
+   <button class="pull-tab" onclick="activateGalleryMode()">Gallery</button>
       <img src="Assets/roomscabinet_pulltab.png" alt="Gallery tab">
       <span>GALLERY</span>
     </button>
@@ -3593,5 +3593,39 @@ body {
       renderEstimate();
     });
   </script>
+  <div id="galleryDoorZone"></div>
+
+<style>
+#galleryDoorZone {
+  position: fixed;
+  top: 20%;
+  left: 35%;
+  width: 30%;
+  height: 60%;
+  z-index: 999;
+  cursor: pointer;
+  display: none;
+}
+</style>
+
+<script>
+let galleryStep = 0;
+
+function activateGalleryMode() {
+  document.body.style.backgroundImage = 'url("Assets/gallerydoors.jpg")';
+  document.getElementById("galleryDoorZone").style.display = "block";
+  galleryStep = 0;
+}
+
+document.getElementById("galleryDoorZone").addEventListener("click", function () {
+  if (galleryStep === 0) {
+    document.body.style.backgroundImage = 'url("Assets/galleryentrance1.jpg")';
+    galleryStep = 1;
+  } else if (galleryStep === 1) {
+    document.body.style.backgroundImage = 'url("Assets/galleryentrance2.jpg")';
+    galleryStep = 2;
+  }
+});
+</script>
 </body>
 </html>
