@@ -151,6 +151,94 @@ width:140px;
 cursor:grab;
 }
 
+/* GALLERY OVERLAY */
+
+#gallery-overlay{
+display:none;
+position:fixed;
+inset:0;
+z-index:1000;
+background:rgba(0,0,0,.85);
+justify-content:center;
+align-items:center;
+flex-direction:column;
+}
+
+#gallery-overlay.open{
+display:flex;
+}
+
+#gallery-frame{
+position:relative;
+max-width:85vw;
+max-height:80vh;
+cursor:pointer;
+}
+
+#gallery-frame img{
+max-width:85vw;
+max-height:80vh;
+border-radius:10px;
+box-shadow:0 0 40px rgba(255,255,255,.15);
+object-fit:contain;
+}
+
+#gallery-close{
+position:absolute;
+top:-18px;
+right:-18px;
+width:40px;
+height:40px;
+border-radius:50%;
+border:2px solid #fff;
+background:rgba(0,0,0,.7);
+color:#fff;
+font-size:22px;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:1001;
+}
+
+#gallery-close:hover{
+background:#fff;
+color:#000;
+}
+
+#gallery-nav{
+display:flex;
+gap:20px;
+margin-top:18px;
+align-items:center;
+}
+
+.gallery-arrow{
+background:none;
+border:2px solid rgba(255,255,255,.5);
+border-radius:50%;
+width:48px;
+height:48px;
+color:#fff;
+font-size:26px;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+transition:.2s;
+}
+
+.gallery-arrow:hover{
+border-color:#fff;
+background:rgba(255,255,255,.15);
+}
+
+#gallery-counter{
+font-size:16px;
+letter-spacing:2px;
+opacity:.8;
+}
+
 </style>
 </head>
 
@@ -192,6 +280,19 @@ cursor:grab;
 </div>
 
 </section>
+
+<!-- GALLERY OVERLAY -->
+<div id="gallery-overlay">
+<div id="gallery-frame">
+<button id="gallery-close">&times;</button>
+<img id="gallery-img" src="Assets/gallerydoors.jpg" alt="Inspiration Gallery">
+</div>
+<div id="gallery-nav">
+<button class="gallery-arrow" id="gallery-prev">&#8249;</button>
+<span id="gallery-counter"></span>
+<button class="gallery-arrow" id="gallery-next">&#8250;</button>
+</div>
+</div>
 
 <script>
 
@@ -244,6 +345,57 @@ document.querySelectorAll(".drawer-zone").forEach(drawer => {
     roomIndex[room] = (idx + 1) % imgs.length;
   });
 });
+
+/* GALLERY */
+
+const galleryImages = [
+  "Assets/gallerydoors.jpg",
+  "Assets/galleryentrance2.jpg",
+  "Assets/galleryentrance3.jpg",
+  "Assets/inspo_gallery1.jpg",
+  "Assets/inspo_gallery2.jpg",
+  "Assets/inspo_gallery3.jpg",
+  "Assets/inspo_gallery4.jpg"
+];
+
+let galleryIdx = 0;
+const galleryOverlay = document.getElementById("gallery-overlay");
+const galleryImg     = document.getElementById("gallery-img");
+const galleryCounter = document.getElementById("gallery-counter");
+
+function updateGallery() {
+  galleryImg.src = galleryImages[galleryIdx];
+  galleryCounter.textContent = (galleryIdx + 1) + " / " + galleryImages.length;
+}
+
+galleryTab.onclick = () => {
+  galleryIdx = 0;
+  updateGallery();
+  galleryOverlay.classList.add("open");
+};
+
+document.getElementById("gallery-close").onclick = () => {
+  galleryOverlay.classList.remove("open");
+};
+
+galleryOverlay.onclick = (e) => {
+  if (e.target === galleryOverlay) galleryOverlay.classList.remove("open");
+};
+
+document.getElementById("gallery-next").onclick = () => {
+  galleryIdx = (galleryIdx + 1) % galleryImages.length;
+  updateGallery();
+};
+
+document.getElementById("gallery-prev").onclick = () => {
+  galleryIdx = (galleryIdx - 1 + galleryImages.length) % galleryImages.length;
+  updateGallery();
+};
+
+galleryImg.onclick = () => {
+  galleryIdx = (galleryIdx + 1) % galleryImages.length;
+  updateGallery();
+};
 
 </script>
 
