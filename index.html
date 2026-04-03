@@ -62,7 +62,7 @@
         .drawer-zone { position: absolute; left: 7%; width: 86%; height: 17%; background: transparent; border: none; cursor: pointer; }
         .drawer-living { top: 1%; } .drawer-bedroom { top: 21%; } .drawer-dining { top: 41%; } .drawer-spare { top: 61%; } .drawer-upload { top: 81%; }
 
-        /* WORK AREA & LOBBY BOARD HITS */
+        /* WORK AREA */
         .workspace-shell { flex: 1; position: relative; }
         #work-area { 
             height: 640px; background: url("Assets/workstation.jpg") center/cover no-repeat; 
@@ -70,29 +70,31 @@
         }
 
         /* LOBBY BOARD CLICK ZONES */
-        .board-hit { 
-            position: absolute; background: transparent; border: none; cursor: pointer; 
-            /* These show only when on the lobby background */
-            display: none; 
-        }
+        .board-hit { position: absolute; background: transparent; border: none; cursor: pointer; display: none; }
         .is-lobby .board-hit { display: block; }
-        
-        /* ADJUST THESE TO MATCH YOUR IMAGE BOARD POSITIONS */
         .hit-entry { width: 20%; height: 20%; top: 10%; left: 10%; }
         .hit-bedroom { width: 20%; height: 20%; top: 10%; left: 40%; }
         .hit-living { width: 20%; height: 20%; top: 10%; left: 70%; }
 
-        /* COMPACT DECOR CLOSET */
+        /* DECOR CLOSET - SIZED TO MATCH WORKSPACE */
         #decorClosetPopup { 
-            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 90%; height: 200px; background: rgba(15, 15, 15, 0.98);
-            border: 2px solid #fff; border-bottom: none; box-shadow: 0 -5px 25px rgba(0,0,0,0.9);
-            display: none; z-index: 100; border-radius: 12px 12px 0 0;
+            position: absolute; 
+            bottom: 0; 
+            left: 0; 
+            width: 100%; /* Matches the exact width of its parent (workspace-shell) */
+            height: 200px; 
+            background: rgba(15, 15, 15, 0.98);
+            border: 2px solid #fff; 
+            border-bottom: none; 
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.9);
+            display: none; 
+            z-index: 100; 
+            border-radius: 12px 12px 0 0;
         }
         #decorClosetPopup.show { display: block; }
         
         .closet-nav {
-            display: flex; background: #222; padding: 5px; gap: 10px; border-bottom: 1px solid #444;
+            display: flex; background: #222; padding: 5px; gap: 10px; border-bottom: 1px solid #444; align-items: center;
         }
         .closet-nav button {
             background: #444; color: #fff; border: none; padding: 4px 10px; cursor: pointer;
@@ -103,12 +105,12 @@
         .popup-container { position: relative; width: 100%; height: calc(100% - 35px); overflow-y: auto; }
         #decorScene { width: 100%; display: block; }
 
-        .close-closet { margin-left: auto; background: #b00 !important; }
+        .close-closet { margin-left: auto; background: #b00 !important; font-weight: bold; }
 
         #placedItems { position: absolute; inset: 0; pointer-events: none; }
     </style>
 </head>
-<body class="is-lobby"> <!-- Default class for Lobby interaction -->
+<body class="is-lobby">
 
 <header class="hero">
     <h1>Room Glow Up</h1>
@@ -142,17 +144,18 @@
                 <button class="board-hit hit-living" onclick="changeCloset('decorcloset_living.jpg')"></button>
 
                 <div id="placedItems"></div>
-                
-                <div id="decorClosetPopup">
-                    <div class="closet-nav">
-                        <button onclick="changeCloset('decorcloset_entryway.jpg')">Entryway</button>
-                        <button onclick="changeCloset('decorcloset_bedroom.jpg')">Bedroom</button>
-                        <button onclick="changeCloset('decorcloset_living.jpg')">Living</button>
-                        <button class="close-closet" id="closeCloset">CLOSE X</button>
-                    </div>
-                    <div class="popup-container">
-                        <img id="decorScene" src="Assets/decorcloset_entryway.jpg">
-                    </div>
+            </div>
+
+            <!-- DECOR CLOSET ATTACHED TO WORKSPACE WIDTH -->
+            <div id="decorClosetPopup">
+                <div class="closet-nav">
+                    <button onclick="changeCloset('decorcloset_entryway.jpg')">Entryway</button>
+                    <button onclick="changeCloset('decorcloset_bedroom.jpg')">Bedroom</button>
+                    <button onclick="changeCloset('decorcloset_living.jpg')">Living</button>
+                    <button class="close-closet" id="closeCloset">CLOSE X</button>
+                </div>
+                <div class="popup-container">
+                    <img id="decorScene" src="Assets/decorcloset_entryway.jpg">
                 </div>
             </div>
         </div>
@@ -184,7 +187,6 @@
             const roomImg = drawer.getAttribute("data-room");
             if (roomImg) {
                 workArea.style.backgroundImage = `url('Assets/${roomImg}')`;
-                // Remove lobby class if they leave the lobby board
                 document.body.classList.remove("is-lobby");
             }
         };
@@ -196,7 +198,7 @@
 
     function changeCloset(fileName) {
         decorScene.src = `Assets/${fileName}`;
-        decorClosetPopup.classList.add("show"); // Ensure it opens when board is clicked
+        decorClosetPopup.classList.add("show");
     }
 </script>
 
