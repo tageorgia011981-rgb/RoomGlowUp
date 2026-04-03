@@ -18,7 +18,7 @@
 
 /* --- SITE SCROLL & BACKGROUND --- */
 html, body {
-  margin: 0; padding: 0; min-height: 160vh;
+  margin: 0; padding: 0; min-height: 120vh;
   font-family: "Limelight", serif;
   color: #fff;
   overflow-x: hidden;
@@ -31,176 +31,132 @@ html, body {
   background-position: left top, right top, center top;
   background-size: 33% 100%, 33% 100%, 34% 100%;
   background-attachment: fixed;
-  scroll-behavior: smooth;
 }
 
 /* --- THE HEADER --- */
 .hero { text-align: center; padding: 30px 20px 10px; position: relative; z-index: 10; }
 .hero h1 {
-  margin: 0; font-size: clamp(40px, 7vw, 100px); letter-spacing: 5px;
-  background: linear-gradient(115deg, #fff8d7 0%, #ffd7f3 22%, #fff4a8 48%, #b7f6ff 70%, #fff8d7 100%);
+  margin: 0; font-size: clamp(40px, 7vw, 90px);
+  background: linear-gradient(115deg, #fff8d7, #ffd7f3, #fff4a8, #b7f6ff, #fff8d7);
   background-size: 200% 200%;
   -webkit-background-clip: text; background-clip: text; color: transparent;
   animation: glamShift 5s ease-in-out infinite;
 }
-
-@keyframes glamShift { 
-  0% { background-position: 0% 50%; } 
-  50% { background-position: 100% 50%; } 
-  100% { background-position: 0% 50%; } 
-}
+@keyframes glamShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
 /* --- NAVIGATION TABS --- */
 .tab-row { 
   display: flex; justify-content: center; gap: 15px; 
-  padding: 10px 16px; position: relative; z-index: 150; 
+  padding: 10px; position: relative; z-index: 1000; 
 }
 .pull-tab {
-  position: relative; width: 160px; border: 0; background: transparent; cursor: pointer;
-  transition: transform 0.3s ease;
+  position: relative; width: 150px; border: 0; background: transparent; cursor: pointer;
 }
 .pull-tab img { width: 100%; display: block; }
 .pull-tab span {
   position: absolute; top: 38%; left: 50%; transform: translate(-50%, -50%);
   width: 85%; font-family: "Jacques Francois Shadow", serif; text-align: center;
-  color: #fff; font-size: 13px; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+  color: #fff; font-size: 13px; text-shadow: 0 2px 5px #000;
 }
-.pull-tab:hover { transform: translateY(-5px); }
 
-/* --- THE PULPIT STAND & GLIDE LOGIC --- */
+/* --- THE STAGE --- */
 .stage-container {
   width: 100%; display: flex; justify-content: center; 
-  margin-top: 10px; position: relative;
-  perspective: 2000px; /* Essential for 3D page turning */
+  margin-top: 20px; position: relative;
+  perspective: 2000px;
 }
-
 .pulpit-unit {
   display: flex; align-items: flex-start;
   position: relative;
-  transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
-
 .pulpit-unit.pushed { transform: translateX(200px); }
 
-/* CABINET (Slides from Left) */
+/* CABINET sliding from left */
 #rooms-cabinet {
   position: absolute; right: 100%; top: 0;
   width: var(--cabinet-width); opacity: 0;
-  transform: translateX(40px);
-  transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+  transform: translateX(50px);
+  transition: all 0.6s ease;
   pointer-events: none;
-  z-index: 90;
+  z-index: 500;
 }
 #rooms-cabinet.show { opacity: 1; transform: translateX(0); pointer-events: auto; }
 
-/* --- THE 3D CATALOG BOOK --- */
+/* THE WORKSPACE */
+.stand-base { width: min(1000px, 90vw); position: relative; }
+
+/* 3D CATALOG BOOK (Now sitting on TOP of work area) */
 #catalog-book {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%); /* Center on work area */
-  width: 90%; height: 85%;
-  perspective: 2000px;
+  width: 100%; height: 450px;
+  position: absolute; bottom: 98%; left: 0;
+  z-index: 800;
   opacity: 0; visibility: hidden;
-  transition: opacity 0.5s ease;
-  z-index: 100;
+  transform: rotateX(-90deg);
+  transform-origin: bottom center;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
 }
-#catalog-book.show { opacity: 1; visibility: visible; }
+#catalog-book.show { opacity: 1; visibility: visible; transform: rotateX(0deg); }
 
-/* The container for pages, anchored in the center */
 .book-spine {
-  width: 100%; height: 100%;
-  position: relative;
-  transform-origin: center center;
-  transform: rotateX(15deg); /* Tilted like it's on a stand */
+  width: 100%; height: 100%; position: relative; transform-style: preserve-3d;
 }
 
-/* Page base properties */
 .page {
-  position: absolute;
-  width: 50%; height: 100%;
-  top: 0;
-  background-size: cover;
-  transition: transform 1.2s cubic-bezier(0.6, 0.04, 0.35, 1);
+  position: absolute; width: 50%; height: 100%; top: 0;
+  background-size: 100% 100%; background-repeat: no-repeat;
+  transition: transform 1s ease-in-out;
   transform-style: preserve-3d;
-  filter: drop-shadow(0 5px 15px rgba(0,0,0,0.4));
-}
-
-/* Base page (Back of the open book, always visible when open) */
-.page-base-left {
-  left: 0;
-  background-image: url('Assets/catalog_base.png'); /* Back left page */
-  border-radius: 5px 0 0 5px;
-}
-.page-base-right {
-  right: 0;
-  background-image: url('Assets/catalog_base.png'); /* Back right page */
-  border-radius: 0 5px 5px 0;
-}
-
-/* The page that turns (Right page turning Left) */
-.page-cover {
-  right: 0;
-  transform-origin: left center;
-  border-radius: 0 5px 5px 0;
-  background-image: url('Assets/catalog_closed_right.png'); /* Front right closed cover */
-  z-index: 5;
-}
-
-/* Inside of the cover page (Left Inside) - flipped */
-.page-cover::after {
-  content: '';
-  position: absolute; width: 100%; height: 100%; top: 0; left: 0;
-  background-image: url('Assets/catalog_inside_left.png'); /* Page 1 inside left */
-  border-radius: 5px 0 0 5px;
-  transform: rotateY(180deg);
   backface-visibility: hidden;
 }
 
-/* Book Animation triggers */
-#catalog-book.animate-open .page-cover {
-  transform: rotateY(-180deg); /* Turn Left */
+.page-base-left { left: 0; background-image: url('Assets/catalog_base.png'); border-radius: 5px 0 0 5px; }
+.page-base-right { right: 0; background-image: url('Assets/catalog_base.png'); border-radius: 0 5px 5px 0; }
+
+.page-cover {
+  right: 0; transform-origin: left center;
+  background-image: url('Assets/catalog_closed_right.png');
+  z-index: 5;
 }
 
-/* Furniture Grid inside Pages */
+/* Page 1 (The back of the cover) */
+.page-cover::after {
+  content: ''; position: absolute; width: 100%; height: 100%; top: 0; left: 0;
+  background-image: url('Assets/catalog_inside_left.png');
+  transform: rotateY(180deg); backface-visibility: hidden;
+}
+
+#catalog-book.animate-open .page-cover { transform: rotateY(-180deg); }
+
+/* Grid logic */
 .catalog-grid {
-  position: absolute; top: 15%; width: 75%; height: 65%;
-  display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr);
-  gap: 15px;
+  position: absolute; top: 15%; width: 75%; height: 70%;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
 }
-.left-pg { left: 9%; }
-.right-pg { right: 9%; }
+.left-pg { left: 10%; }
+.right-pg { right: 10%; }
+.slot { cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.slot img { max-width: 90%; max-height: 80px; object-fit: contain; }
 
-.slot { 
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-}
-.slot:hover { transform: scale(1.1); }
-.slot img { max-width: 90%; max-height: 85px; object-fit: contain; }
-
-/* THE WORK-AREA (Pulpit Surface) */
+/* THE WORK-AREA */
 #work-area {
-  width: min(1100px, 94vw);
-  height: 720px;
+  width: 100%; height: 650px;
   background: #0b0f17 url("Assets/homepage_loaded.webp") center/cover no-repeat;
-  border: 12px solid var(--pulpit-frame);
-  border-bottom: 40px solid var(--pulpit-base); 
+  border: 10px solid var(--pulpit-frame);
+  border-bottom: 30px solid var(--pulpit-base);
   border-radius: 4px;
-  box-shadow: 0 40px 100px rgba(0,0,0,0.9);
-  position: relative;
-  transition: background-image 0.4s ease;
-  cursor: pointer;
-  z-index: 10;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+  position: relative; z-index: 10;
 }
 
-.placed-item { position: absolute; width: 180px; cursor: grab; z-index: 15; }
+.placed-item { position: absolute; width: 150px; cursor: grab; z-index: 20; }
 .hit-zone { position: absolute; cursor: pointer; z-index: 5; }
 
 </style>
 </head>
 <body>
 
-<header class="hero">
-  <h1>Room Glow Up</h1>
-</header>
+<header class="hero"><h1>Room Glow Up</h1></header>
 
 <nav class="tab-row">
   <button class="pull-tab" id="roomsBtn"><img src="Assets/roomscabinet_pulltab.png"><span>ROOMS</span></button>
@@ -217,39 +173,29 @@ html, body {
       <img src="Assets/rooms_cabinet_open.webp" style="width:100%;">
       <div class="hit-zone" style="top:21%; left:15%; width:70%; height:12%;" onclick="selectRoom('living')"></div>
       <div class="hit-zone" style="top:38%; left:15%; width:70%; height:12%;" onclick="selectRoom('bedroom')"></div>
-      <div class="hit-zone" style="top:55%; left:15%; width:70%; height:12%;" onclick="cycleCategory('kitchen')"></div>
+      <div class="hit-zone" style="top:55%; left:15%; width:70%; height:12%;" onclick="selectRoom('kitchen')"></div>
     </aside>
 
     <div class="stand-base">
-      
-      <div id="work-area" onclick="closeAll()">
-        
-        <div id="catalog-book">
-          <div class="book-spine">
-            
-            <div class="page page-base-left">
-              <div class="catalog-grid left-pg">
-                <div class="slot" onclick="addItem('furniture1.png')"><img src="Assets/furniture1.png"></div>
-                <div class="slot" onclick="addItem('furniture2.png')"><img src="Assets/furniture2.png"></div>
-                <div class="slot" onclick="addItem('furniture3.png')"><img src="Assets/furniture3.png"></div>
-                <div class="slot" onclick="addItem('furniture4.png')"><img src="Assets/furniture4.png"></div>
-              </div>
+      <div id="catalog-book">
+        <div class="book-spine">
+          <div class="page page-base-left">
+            <div class="catalog-grid left-pg">
+              <div class="slot" onclick="addItem('furniture1.png')"><img src="Assets/furniture1.png"></div>
+              <div class="slot" onclick="addItem('furniture2.png')"><img src="Assets/furniture2.png"></div>
             </div>
-            
-            <div class="page page-base-right">
-              <div class="catalog-grid right-pg">
-                <div class="slot" onclick="addItem('furniture5.png')"><img src="Assets/furniture5.png"></div>
-                <div class="slot" onclick="addItem('furniture6.png')"><img src="Assets/furniture6.png"></div>
-                <div class="slot" onclick="addItem('furniture7.png')"><img src="Assets/furniture7.png"></div>
-                <div class="slot" onclick="addItem('furniture8.png')"><img src="Assets/furniture8.png"></div>
-              </div>
-            </div>
-
-            <div class="page page-cover"></div>
-            
           </div>
+          <div class="page page-base-right">
+            <div class="catalog-grid right-pg">
+              <div class="slot" onclick="addItem('furniture3.png')"><img src="Assets/furniture3.png"></div>
+              <div class="slot" onclick="addItem('furniture4.png')"><img src="Assets/furniture4.png"></div>
+            </div>
+          </div>
+          <div class="page page-cover"></div>
         </div>
+      </div>
 
+      <div id="work-area">
         <div id="placedItems"></div>
       </div>
     </div>
@@ -272,56 +218,31 @@ html, body {
   };
   let indices = { living: 0, bedroom: 0, kitchen: 0 };
 
-  // Manual toggle for Rooms Cabinet
-  roomsBtn.onclick = (e) => {
-    e.stopPropagation();
-    closeAll(); // Always hide other panel first
+  roomsBtn.onclick = () => {
+    catalogBook.classList.remove('show');
+    catalogBook.classList.remove('animate-open');
     roomsCabinet.classList.toggle('show');
-    checkPush();
+    glideContainer.classList.toggle('pushed', roomsCabinet.classList.contains('show'));
   };
 
-  // Manual toggle for Catalog (Only if book state allows it)
-  catalogBtn.onclick = (e) => {
-    e.stopPropagation();
+  catalogBtn.onclick = () => {
     roomsCabinet.classList.remove('show');
-    checkPush();
+    glideContainer.classList.remove('pushed');
     catalogBook.classList.toggle('show');
-    catalogBook.classList.toggle('animate-open'); // Start turning page
+    setTimeout(() => { catalogBook.classList.toggle('animate-open'); }, 10);
   };
 
   function selectRoom(cat) {
-    // 1. Cycle images
     indices[cat] = (indices[cat] + 1) % rooms[cat].length;
     workArea.style.backgroundImage = `url('Assets/${rooms[cat][indices[cat]]}')`;
-    
-    // 2. Hide Cabinet
     roomsCabinet.classList.remove('show');
-    checkPush();
-
-    // 3. Reveal and Animate Book automatically
+    glideContainer.classList.remove('pushed');
+    
+    // Auto-open book
     setTimeout(() => {
       catalogBook.classList.add('show');
-      setTimeout(() => {
-        catalogBook.classList.add('animate-open'); // Turn the page
-      }, 300);
-    }, 500);
-  }
-
-  function checkPush() {
-    if (roomsCabinet.classList.contains('show')) {
-      glideContainer.classList.add('pushed');
-    } else {
-      glideContainer.classList.remove('pushed');
-    }
-  }
-
-  function closeAll() {
-    roomsCabinet.classList.remove('show');
-    checkPush();
-    catalogBook.classList.remove('animate-open');
-    setTimeout(() => {
-       catalogBook.classList.remove('show');
-    }, 1200); // Wait for turn back animation
+      setTimeout(() => { catalogBook.classList.add('animate-open'); }, 300);
+    }, 400);
   }
 
   function addItem(imgName) {
@@ -331,12 +252,11 @@ html, body {
     img.style.left = '100px'; img.style.top = '100px';
     
     img.onmousedown = function(e) {
-      e.stopPropagation(); // Don't close book while dragging item
-      let shiftX = e.clientX - img.getBoundingClientRect().left;
-      let shiftY = e.clientY - img.getBoundingClientRect().top;
+      let sX = e.clientX - img.getBoundingClientRect().left;
+      let sY = e.clientY - img.getBoundingClientRect().top;
       function moveAt(pageX, pageY) {
-        img.style.left = pageX - workArea.offsetLeft - shiftX + 'px';
-        img.style.top = pageY - workArea.offsetTop - shiftY + 'px';
+        img.style.left = pageX - workArea.offsetLeft - sX + 'px';
+        img.style.top = pageY - workArea.offsetTop - sY + 'px';
       }
       document.onmousemove = (e) => moveAt(e.pageX, e.pageY);
       img.onmouseup = () => { document.onmousemove = null; };
