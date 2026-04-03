@@ -29,7 +29,6 @@
             margin: 0;
             line-height: 1;
             text-transform: uppercase;
-            /* POLISHED SILVER GRADIENT */
             background: linear-gradient(
                 to bottom, 
                 #555 0%, 
@@ -42,13 +41,11 @@
             );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* BLACK SHADOW FOR THE LIFT */
             filter: drop-shadow(6px 6px 0px rgba(0,0,0,1)) 
                     drop-shadow(0px 0px 20px rgba(0,0,0,0.5));
             letter-spacing: 3px;
         }
         
-        /* SILVER SUB-HEADER WITH LIFT */
         .hero h2 {
             font-size: 34px; 
             margin-top: 15px;
@@ -59,7 +56,7 @@
             letter-spacing: 1px;
         }
 
-        /* TABS - LABELS CENTERED IN HOLDERS */
+        /* TABS - BIGGER LABELS FILLING HOLDERS */
         .tab-row { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
         .pull-tab { position: relative; width: 180px; background: none; border: none; cursor: pointer; padding: 0; }
         .pull-tab img { width: 100%; display: block; }
@@ -73,12 +70,13 @@
             align-items: center; 
             justify-content: center; 
             font-family: "Limelight", serif;
-            font-size: 14px; 
+            font-size: 18px; /* INCREASED SIZE TO FILL */
             color: #fff; 
             text-shadow: 2px 2px 3px #000;
-            /* PULLS TEXT UP INTO HOLDER AREA */
-            padding-bottom: 25px; 
+            padding-bottom: 22px; /* ADJUSTED TO CENTER IN THE HOLDER SLOT */
             pointer-events: none;
+            text-align: center;
+            line-height: 1.1;
         }
 
         /* WORKSPACE */
