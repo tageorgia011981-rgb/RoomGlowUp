@@ -13,8 +13,6 @@
   --lux-gold: #f1d58f;
   --lux-gold-soft: #ffecc4;
   --lux-line: rgba(255, 227, 159, 0.35);
-  --lux-panel: rgba(14, 14, 14, 0.8);
-  --lux-shadow: rgba(0, 0, 0, 0.62);
   --cabinet-size: 560px;
 }
 
@@ -22,12 +20,10 @@ html, body {
   margin: 0; padding: 0; min-height: 100%;
   font-family: "Limelight", serif;
   color: #fff;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
   background-color: #05070d;
-  background-image:
-    url("Assets/mainbackground_curtainl.jpg"),
-    url("Assets/mainbackground_curtainr.jpg"),
+  background-image: 
+    url("Assets/mainbackground_curtainl.jpg"), 
+    url("Assets/mainbackground_curtainr.jpg"), 
     url("Assets/mainbackground_blue.jpg");
   background-repeat: no-repeat;
   background-position: left top, right top, center top;
@@ -35,82 +31,88 @@ html, body {
   background-attachment: fixed;
 }
 
-/* --- HERO SECTION --- */
+/* --- HERO --- */
 .hero { text-align: center; padding: 56px 20px 14px; position: relative; }
 .hero h1 {
   margin: 0; font-size: clamp(56px, 10vw, 136px); letter-spacing: 7px;
   background: linear-gradient(115deg, #fff8d7 0%, #ffd7f3 22%, #fff4a8 48%, #b7f6ff 70%, #fff8d7 100%);
   background-size: 200% 200%;
   -webkit-background-clip: text; background-clip: text; color: transparent;
-  text-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
-  animation: glamShift 5s ease-in-out infinite, glamPulse 2.7s ease-in-out infinite;
-}
-.hero h2 {
-  margin: 16px 0 0; font-size: clamp(20px, 2.2vw, 38px); letter-spacing: 2.6px;
-  color: #fff8f2; text-shadow: 0 0 10px rgba(188, 255, 250, 0.62);
-  animation: subtitleGlow 3.2s ease-in-out infinite;
+  animation: glamShift 5s ease-in-out infinite;
 }
 
 @keyframes glamShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-@keyframes glamPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.014); } }
-@keyframes subtitleGlow { 0%, 100% { opacity: 0.94; } 50% { opacity: 1; letter-spacing: 3px; } }
 
 /* --- TABS --- */
-.tab-row { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; padding: 26px 16px; }
+.tab-row { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; padding: 26px 16px; }
 .pull-tab {
-  position: relative; width: 210px; border: 0; background: transparent; cursor: pointer;
+  position: relative; width: 190px; border: 0; background: transparent; cursor: pointer;
+  filter: drop-shadow(0 11px 16px rgba(0, 0, 0, 0.44));
   transition: transform 0.34s ease;
 }
-.pull-tab img { width: 100%; display: block; filter: saturate(1.1); }
+.pull-tab img { width: 100%; display: block; }
 .pull-tab span {
   position: absolute; top: 39%; left: 50%; transform: translate(-50%, -50%);
   width: 88%; font-family: "Jacques Francois Shadow", serif; text-align: center;
-  color: #fff; font-size: 18px; text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85);
+  color: #fff; font-size: clamp(12px, 1.5vw, 16px); text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85);
 }
-.pull-tab:hover { transform: translateY(-9px); filter: drop-shadow(0 0 10px #fff); }
+.pull-tab:hover { transform: translateY(-9px); filter: brightness(1.2); }
+
+/* --- CATALOG OVERLAY --- */
+#catalogOverlay {
+  position: absolute; top: 220px; left: 50%; transform: translateX(-50%) scale(0.9);
+  width: min(1080px, 95vw); z-index: 100;
+  max-height: 0; opacity: 0; visibility: hidden;
+  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#catalogOverlay.show { max-height: 1200px; opacity: 1; visibility: visible; transform: translateX(-50%) scale(1); }
+
+.catalog-grid {
+  position: absolute; top: 18%; width: 36%; height: 55%;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+}
+.catalog-left { left: 12%; }
+.catalog-right { right: 12%; }
+
+.catalog-item {
+  border: 1px solid var(--lux-line); border-radius: 10px;
+  background: rgba(18, 18, 18, 0.65); padding: 8px; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.catalog-item img { max-width: 90%; max-height: 70px; object-fit: contain; }
+.catalog-item span { font-size: 10px; color: var(--lux-gold); margin-top: 5px; text-align: center; }
 
 /* --- WORKSPACE & CABINET --- */
-.workspace-section { width: min(1500px, 96vw); margin: 50px auto; position: relative; }
+.workspace-section { width: min(1500px, 96vw); margin: 40px auto; position: relative; }
 .workspace-row { display: flex; align-items: flex-start; gap: 24px; }
 
 #rooms-cabinet {
   width: var(--cabinet-size); max-width: 0; height: var(--cabinet-size);
   overflow: hidden; position: relative; opacity: 0;
-  transform: translateX(-108%); transition: 0.92s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateX(-108%); transition: 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 #rooms-cabinet.show { max-width: var(--cabinet-size); opacity: 1; transform: translateX(0); }
 
-.cabinet-img { width: 100%; height: 100%; object-fit: contain; z-index: 2; position: relative; }
+.cabinet-img { width: 100%; height: 100%; object-fit: contain; position: relative; z-index: 2; }
 
-/* DRAWER CLICK ZONES */
-.drawer-zone { position: absolute; left: 13%; width: 74%; height: 9.4%; z-index: 10; cursor: pointer; background: rgba(255,0,0,0); }
+/* DRAWER ZONES */
+.drawer-zone { position: absolute; left: 13%; width: 74%; height: 9.4%; z-index: 10; cursor: pointer; }
 .drawer-living { top: 21.2%; }
 .drawer-dining { top: 37.8%; }
 .drawer-bedroom { top: 54.4%; }
 .drawer-spare { top: 71%; }
 .drawer-upload { top: 87.2%; }
 
-/* --- WORK AREA --- */
-.workspace-shell { position: relative; flex: 1; }
 #work-area {
-  width: 100%; min-height: 640px; background: #0b0f17 url("Assets/workstation.jpg") center/cover no-repeat;
-  border: 3px solid rgba(255, 242, 194, 0.24); border-radius: 12px;
-  box-shadow: 0 26px 55px rgba(0, 0, 0, 0.66); overflow: hidden;
+  flex: 1; min-height: 640px; background: #0b0f17 url("Assets/workstation.jpg") center/cover no-repeat;
+  border: 3px solid rgba(255, 242, 194, 0.24); border-radius: 12px; position: relative;
 }
 
-/* --- CATALOG OVERLAY --- */
-#catalogOverlay {
-  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-  width: min(1080px, 95vw); z-index: 100;
-  max-height: 0; opacity: 0; visibility: hidden; overflow: hidden;
-  transition: all 0.6s ease;
-}
-#catalogOverlay.show { max-height: 1000px; opacity: 1; visibility: visible; }
-#catalogBook { width: 100%; display: block; }
+.placed-item { position: absolute; width: 120px; cursor: grab; }
 
 @media (max-width: 1200px) {
   .workspace-row { flex-direction: column; }
-  #rooms-cabinet.show { width: 100%; height: auto; }
+  #rooms-cabinet.show { width: 100%; height: auto; max-width: 100%; }
 }
 </style>
 </head>
@@ -122,25 +124,46 @@ html, body {
 </header>
 
 <nav class="tab-row">
-  <button class="pull-tab" id="roomsTab"><img src="Assets/roomscabinet_pulltab.png"><span>ROOMS</span></button>
-  <button class="pull-tab" id="catalogTab"><img src="Assets/roomscabinet_pulltab.png"><span>FURNITURE CATALOG</span></button>
-  <button class="pull-tab" id="decorTab"><img src="Assets/roomscabinet_pulltab.png"><span>DECOR CLOSET</span></button>
-  <button class="pull-tab" id="galleryTab"><img src="Assets/roomscabinet_pulltab.png"><span>GALLERY</span></button>
+  <button class="pull-tab" id="roomsTab">
+    <img src="Assets/roomscabinet_pulltab.png"><span>ROOMS</span>
+  </button>
+  <button class="pull-tab" id="catalogTab">
+    <img src="Assets/roomscabinet_pulltab.png"><span>FURNITURE CATALOG</span>
+  </button>
+  <button class="pull-tab" id="decorTab">
+    <img src="Assets/roomscabinet_pulltab.png"><span>DECOR CLOSET</span>
+  </button>
+  <button class="pull-tab" id="saveTab">
+    <img src="Assets/roomscabinet_pulltab.png"><span>SAVE PROJECT</span>
+  </button>
 </nav>
 
 <section class="workspace-section">
   <div id="catalogOverlay">
-    <img id="catalogBook" src="Assets/catalog_base.png">
+    <img src="Assets/catalog_base.png" style="width:100%;">
+    
+    <div class="catalog-grid catalog-left">
+      <div class="catalog-item" onclick="placeItem('chair1.png')"><img src="Assets/chair1.png"><span>Luxe Chair</span></div>
+      <div class="catalog-item" onclick="placeItem('sofa1.png')"><img src="Assets/sofa1.png"><span>Gilded Sofa</span></div>
+      <div class="catalog-item" onclick="placeItem('table1.png')"><img src="Assets/table1.png"><span>Marble Table</span></div>
+      <div class="catalog-item" onclick="placeItem('lamp1.png')"><img src="Assets/lamp1.png"><span>Glow Lamp</span></div>
+    </div>
+    
+    <div class="catalog-grid catalog-right">
+      <div class="catalog-item" onclick="placeItem('bed1.png')"><img src="Assets/bed1.png"><span>Royal Bed</span></div>
+      <div class="catalog-item" onclick="placeItem('plant1.png')"><img src="Assets/plant1.png"><span>Tall Palm</span></div>
+      <div class="catalog-item" onclick="placeItem('rug1.png')"><img src="Assets/rug1.png"><span>Silk Rug</span></div>
+      <div class="catalog-item" onclick="placeItem('mirror1.png')"><img src="Assets/mirror1.png"><span>Gold Mirror</span></div>
+    </div>
   </div>
 
   <div class="workspace-row">
     <aside id="rooms-cabinet">
-      <img src="Assets/rooms_cabinet.png" class="cabinet-img">
-      <div class="drawer-zone drawer-living" data-room="livingroom.jpg"></div>
-      <div class="drawer-zone drawer-bedroom" data-room="bedroom.jpg"></div>
-      <div class="drawer-zone drawer-dining" data-room="diningroom.jpg"></div>
-      <div class="drawer-zone drawer-spare" data-room="spareroom.jpg"></div>
-      <div class="drawer-zone drawer-upload"></div>
+      <img src="Assets/roomscabinet_main.png" class="cabinet-img">
+      <div class="drawer-zone drawer-living" onclick="changeRoom('livingroom.jpg')"></div>
+      <div class="drawer-zone drawer-dining" onclick="changeRoom('diningroom.jpg')"></div>
+      <div class="drawer-zone drawer-bedroom" onclick="changeRoom('bedroom.jpg')"></div>
+      <div class="drawer-zone drawer-spare" onclick="changeRoom('spareroom.jpg')"></div>
     </aside>
 
     <div class="workspace-shell">
@@ -154,10 +177,12 @@ html, body {
 <script>
   const roomsTab = document.getElementById('roomsTab');
   const catalogTab = document.getElementById('catalogTab');
+  const saveTab = document.getElementById('saveTab');
   const roomsCabinet = document.getElementById('rooms-cabinet');
   const catalogOverlay = document.getElementById('catalogOverlay');
   const workArea = document.getElementById('work-area');
 
+  // Tab Navigation Logic
   roomsTab.onclick = () => {
     roomsCabinet.classList.toggle('show');
     catalogOverlay.classList.remove('show');
@@ -168,16 +193,37 @@ html, body {
     roomsCabinet.classList.remove('show');
   };
 
-  // Room Switching Logic
-  document.querySelectorAll('.drawer-zone').forEach(zone => {
-    zone.onclick = () => {
-      const room = zone.getAttribute('data-room');
-      if(room) {
-        workArea.style.backgroundImage = `url('Assets/${room}')`;
-        roomsCabinet.classList.remove('show');
+  saveTab.onclick = () => {
+    alert("Project Saved Successfully!");
+  };
+
+  function changeRoom(img) {
+    workArea.style.backgroundImage = `url('Assets/${img}')`;
+    roomsCabinet.classList.remove('show');
+  }
+
+  function placeItem(imgName) {
+    const img = document.createElement('img');
+    img.src = `Assets/${imgName}`;
+    img.className = 'placed-item';
+    img.style.left = '100px';
+    img.style.top = '100px';
+    
+    // Simple Dragging Logic
+    img.onmousedown = function(event) {
+      let shiftX = event.clientX - img.getBoundingClientRect().left;
+      let shiftY = event.clientY - img.getBoundingClientRect().top;
+      function moveAt(pageX, pageY) {
+        img.style.left = pageX - workArea.offsetLeft - shiftX + 'px';
+        img.style.top = pageY - workArea.offsetTop - shiftY + 'px';
       }
+      document.onmousemove = (e) => moveAt(e.pageX, e.pageY);
+      img.onmouseup = () => document.onmousemove = null;
     };
-  });
+
+    document.getElementById('placedItems').appendChild(img);
+    catalogOverlay.classList.remove('show');
+  }
 </script>
 
 </body>
