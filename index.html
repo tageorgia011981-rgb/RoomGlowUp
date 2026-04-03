@@ -19,41 +19,78 @@
             background-size: 33% 100%, 33% 100%, 34% 100%;
         }
 
-        /* HEADER - BIGGER & SHINING */
+        /* HEADER - METALLIC GOLD SHINE */
         .hero {
             text-align: center;
             padding: 80px 20px;
         }
         .hero h1 {
-            font-size: 150px; /* MASSIVE SIZE */
+            font-size: 160px; 
             margin: 0;
             line-height: 1.1;
-            /* GOLD SHINE GRADIENT */
-            background: linear-gradient(180deg, #fff9c4 0%, #ffd700 45%, #b8860b 100%);
+            font-weight: bold;
+            /* MULTI-STOP METALLIC GRADIENT */
+            background: linear-gradient(
+                to bottom, 
+                #bf953f 0%, 
+                #fcf6ba 25%, 
+                #b38728 50%, 
+                #fcf6ba 75%, 
+                #bf953f 100%
+            );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* MULTI-LAYER DROP SHADOWS */
-            filter: drop-shadow(8px 8px 0px rgba(0,0,0,0.8)) 
-                    drop-shadow(0px 0px 30px rgba(255, 215, 0, 0.4));
-            letter-spacing: 4px;
+            /* THE "SHINE" & DEPTH */
+            filter: drop-shadow(4px 4px 0px rgba(0,0,0,1)) 
+                    drop-shadow(0px 0px 25px rgba(255, 223, 0, 0.6));
+            letter-spacing: 5px;
+            text-transform: uppercase;
         }
         
-        /* SUB HEADER - BIGGER & CLEARER */
+        /* SUB HEADER - MATCHING SHINE */
         .hero h2 {
-            font-size: 42px; /* INCREASED SIZE */
-            margin-top: 25px;
-            color: #ffffff;
-            /* SHARP DROP SHADOW FOR READABILITY */
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.9), 0px 0px 15px rgba(0,0,0,0.5);
+            font-size: 46px; 
+            margin-top: 15px;
+            background: linear-gradient(to bottom, #ffffff 0%, #d1d1d1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(3px 3px 5px rgba(0,0,0,1));
             letter-spacing: 2px;
-            font-weight: normal;
         }
 
-        /* TABS */
-        .tab-row { display: flex; justify-content: center; gap: 25px; margin-top: 20px; }
-        .pull-tab { position: relative; width: 200px; background: none; border: none; cursor: pointer; }
-        .pull-tab img { width: 100%; }
-        .pull-tab span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+        /* TABS - LABELS CENTERED IN HOLDERS */
+        .tab-row { 
+            display: flex; 
+            justify-content: center; 
+            gap: 25px; 
+            margin-top: 20px; 
+        }
+        .pull-tab { 
+            position: relative; 
+            width: 200px; 
+            background: none; 
+            border: none; 
+            cursor: pointer; 
+            padding: 0;
+        }
+        .pull-tab img { 
+            width: 100%; 
+            display: block;
+        }
+        .pull-tab span { 
+            position: absolute; 
+            inset: 0; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-family: "Limelight", serif;
+            font-size: 16px; 
+            color: #fff; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            text-align: center;
+            padding: 0 10px;
+            pointer-events: none; /* Allows click to go through to button */
+        }
 
         /* WORKSPACE */
         .workspace-section { width: 95%; margin: 80px auto; }
