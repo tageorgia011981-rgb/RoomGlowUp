@@ -33,9 +33,9 @@ html, body {
 }
 
 /* --- THE HEADER --- */
-.hero { text-align: center; padding: 40px 20px 10px; position: relative; z-index: 10; }
+.hero { text-align: center; padding: 30px 20px 10px; position: relative; z-index: 10; }
 .hero h1 {
-  margin: 0; font-size: clamp(50px, 8vw, 110px); letter-spacing: 5px;
+  margin: 0; font-size: clamp(40px, 7vw, 100px); letter-spacing: 5px;
   background: linear-gradient(115deg, #fff8d7 0%, #ffd7f3 22%, #fff4a8 48%, #b7f6ff 70%, #fff8d7 100%);
   background-size: 200% 200%;
   -webkit-background-clip: text; background-clip: text; color: transparent;
@@ -48,7 +48,7 @@ html, body {
   100% { background-position: 0% 50%; } 
 }
 
-/* --- NAVIGATION TABS --- */
+/* --- NAVIGATION TABS (Top Layer) --- */
 .tab-row { 
   display: flex; justify-content: center; gap: 20px; 
   padding: 10px 16px; position: relative; z-index: 100; 
@@ -65,85 +65,74 @@ html, body {
 }
 .pull-tab:hover { transform: translateY(-5px); }
 
-/* --- MAIN CONTENT WRAPPER --- */
-.main-stage {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 5px;
-  position: relative;
+/* --- THE PULPIT STAND & GLIDE LOGIC --- */
+.stage-container {
+  width: 100%; display: flex; justify-content: center; 
+  margin-top: 10px; position: relative;
 }
 
-.glide-row {
-  display: flex;
-  align-items: flex-start;
+.pulpit-unit {
+  display: flex; align-items: flex-start;
   position: relative;
   transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.glide-row.pushed { transform: translateX(200px); }
+.pulpit-unit.pushed { transform: translateX(200px); }
 
-/* CABINET (SLIDES FROM LEFT) */
+/* CABINET (Slides from Left) */
 #rooms-cabinet {
-  position: absolute;
-  right: 100%;
-  top: 0;
-  width: var(--cabinet-width);
-  opacity: 0;
+  position: absolute; right: 100%; top: 0;
+  width: var(--cabinet-width); opacity: 0;
   transform: translateX(40px);
   transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
   pointer-events: none;
 }
 #rooms-cabinet.show { opacity: 1; transform: translateX(0); pointer-events: auto; }
 
-/* --- THE PULPIT / WORKSPACE AREA --- */
-.pulpit-container {
-  width: min(1150px, 94vw);
-  display: flex;
-  flex-direction: column; /* Stacks Catalog on top of Work Area */
-  align-items: center;
+/* THE WORKSPACE (The Stand Base) */
+.stand-base {
+  width: min(1100px, 94vw);
+  display: flex; flex-direction: column; align-items: center;
   position: relative;
 }
 
-/* CATALOG (Anchored on top of workspace, under tabs) */
-#catalog-header {
-  width: 95%;
+/* CATALOG (Anchored at the top of the stand, UNDER tabs) */
+#catalog-topper {
+  width: 100%;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
   transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
   position: relative;
   z-index: 80;
+  background: transparent;
 }
-#catalog-header.show {
-  max-height: 450px;
+#catalog-topper.show {
+  max-height: 480px;
   opacity: 1;
-  margin-bottom: -15px; /* Subtle overlap onto the stand */
+  margin-bottom: -5px; /* Sits flush on top of the work-area */
 }
 
-.catalog-bg { width: 100%; display: block; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); }
+.catalog-img { width: 100%; display: block; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.6)); }
 
+/* Catalog Click Zones */
 .catalog-grid {
-  position: absolute; top: 18%; width: 38%; height: 60%;
+  position: absolute; top: 15%; width: 38%; height: 60%;
   display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
 }
-.left-page { left: 8%; }
-.right-page { right: 8%; }
-.item-slot {
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: transform 0.2s;
-}
-.item-slot:hover { transform: scale(1.1); }
-.item-slot img { max-height: 70px; object-fit: contain; }
+.left-pg { left: 8%; }
+.right-pg { right: 8%; }
+.slot { cursor: pointer; transition: 0.2s; }
+.slot:hover { transform: scale(1.1); }
 
-/* WORK AREA (The Base Stand) */
+/* THE WORK-AREA (Pulpit Surface) */
 #work-area {
   width: 100%;
   height: 700px;
   background: #0b0f17 url("Assets/homepage_loaded.webp") center/cover no-repeat;
   border: 12px solid #1a1e26;
-  border-bottom: 30px solid #14171d;
-  border-radius: 8px;
+  border-bottom: 30px solid #14171d; /* Heavy pulpit base */
+  border-radius: 4px;
   box-shadow: 0 40px 80px rgba(0,0,0,0.8);
   position: relative;
   transition: background-image 0.4s ease;
@@ -151,7 +140,7 @@ html, body {
 }
 
 .placed-item { position: absolute; width: 160px; cursor: grab; }
-.touch-zone { position: absolute; cursor: pointer; z-index: 5; }
+.drawer-hit { position: absolute; cursor: pointer; z-index: 5; }
 
 </style>
 </head>
@@ -168,26 +157,26 @@ html, body {
   <button class="pull-tab" id="saveBtn"><img src="Assets/roomscabinet_pulltab.png"><span>SAVE</span></button>
 </nav>
 
-<section class="main-stage">
-  <div class="glide-row" id="glideContainer">
+<section class="stage-container">
+  <div class="pulpit-unit" id="glideContainer">
     
     <aside id="rooms-cabinet">
       <img src="Assets/rooms_cabinet_open.webp" style="width:100%;">
-      <div class="touch-zone" style="top:21%; left:15%; width:70%; height:12%;" onclick="cycleCategory('living')"></div>
-      <div class="touch-zone" style="top:38%; left:15%; width:70%; height:12%;" onclick="cycleCategory('bedroom')"></div>
-      <div class="touch-zone" style="top:55%; left:15%; width:70%; height:12%;" onclick="cycleCategory('kitchen')"></div>
+      <div class="drawer-hit" style="top:21%; left:15%; width:70%; height:12%;" onclick="cycleCategory('living')"></div>
+      <div class="drawer-hit" style="top:38%; left:15%; width:70%; height:12%;" onclick="cycleCategory('bedroom')"></div>
+      <div class="drawer-hit" style="top:55%; left:15%; width:70%; height:12%;" onclick="cycleCategory('kitchen')"></div>
     </aside>
 
-    <div class="pulpit-container">
-      <div id="catalog-header">
-        <img src="Assets/catalog_base.png" class="catalog-bg">
-        <div class="catalog-grid left-page">
-          <div class="item-slot" onclick="addItem('furniture1.png')"><img src="Assets/furniture1.png"></div>
-          <div class="item-slot" onclick="addItem('furniture2.png')"><img src="Assets/furniture2.png"></div>
+    <div class="stand-base">
+      <div id="catalog-topper">
+        <img src="Assets/catalog_base.png" class="catalog-img">
+        <div class="catalog-grid left-pg">
+           <div class="slot" onclick="addItem('furniture1.png')"><img src="Assets/furniture1.png" style="width:100%;"></div>
+           <div class="slot" onclick="addItem('furniture2.png')"><img src="Assets/furniture2.png" style="width:100%;"></div>
         </div>
-        <div class="catalog-grid right-page">
-          <div class="item-slot" onclick="addItem('furniture3.png')"><img src="Assets/furniture3.png"></div>
-          <div class="item-slot" onclick="addItem('furniture4.png')"><img src="Assets/furniture4.png"></div>
+        <div class="catalog-grid right-pg">
+           <div class="slot" onclick="addItem('furniture3.png')"><img src="Assets/furniture3.png" style="width:100%;"></div>
+           <div class="slot" onclick="addItem('furniture4.png')"><img src="Assets/furniture4.png" style="width:100%;"></div>
         </div>
       </div>
 
@@ -204,7 +193,7 @@ html, body {
   const catalogBtn = document.getElementById('catalogBtn');
   const glideContainer = document.getElementById('glideContainer');
   const roomsCabinet = document.getElementById('rooms-cabinet');
-  const catalogHeader = document.getElementById('catalog-header');
+  const catalogTopper = document.getElementById('catalog-topper');
   const workArea = document.getElementById('work-area');
 
   const rooms = {
@@ -215,7 +204,7 @@ html, body {
   let indices = { living: 0, bedroom: 0, kitchen: 0 };
 
   roomsBtn.onclick = () => {
-    catalogHeader.classList.remove('show');
+    catalogTopper.classList.remove('show');
     roomsCabinet.classList.toggle('show');
     glideContainer.classList.toggle('pushed');
   };
@@ -223,7 +212,7 @@ html, body {
   catalogBtn.onclick = () => {
     roomsCabinet.classList.remove('show');
     glideContainer.classList.remove('pushed');
-    catalogHeader.classList.toggle('show');
+    catalogTopper.classList.toggle('show');
   };
 
   function cycleCategory(cat) {
@@ -234,7 +223,7 @@ html, body {
   function closeAll() {
     roomsCabinet.classList.remove('show');
     glideContainer.classList.remove('pushed');
-    catalogHeader.classList.remove('show');
+    catalogTopper.classList.remove('show');
   }
 
   function addItem(imgName) {
