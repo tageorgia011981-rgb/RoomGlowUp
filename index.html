@@ -13,7 +13,7 @@
 
 :root {
   --lux-gold: #f1d58f;
-  --cabinet-size: 560px;
+  --cabinet-width: 560px;
 }
 
 html, body {
@@ -23,6 +23,7 @@ html, body {
   font-family: "Limelight", serif;
   color: #fff;
   overflow-x: hidden;
+  scroll-behavior: smooth; 
   background-color: #05070d;
   background-image:
     url("Assets/mainbackground_curtainl.jpg"),
@@ -47,18 +48,10 @@ html, body {
   color: transparent;
   animation: glamShift 5s ease-in-out infinite;
 }
-.hero h2 {
-  margin: 10px 0 0;
-  font-size: clamp(18px, 2vw, 32px);
-  color: #fff8f2;
-  text-shadow: 0 0 10px rgba(188, 255, 250, 0.6);
-  animation: subtitleGlow 3s ease-in-out infinite;
-}
 
 @keyframes glamShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@keyframes subtitleGlow { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
 
-/* --- UNIFORM VINTAGE PULL TABS --- */
+/* --- NAVIGATION TABS --- */
 .tab-row { 
   display: flex; 
   justify-content: center; 
@@ -76,24 +69,20 @@ html, body {
   cursor: pointer; 
   transition: transform 0.3s ease;
 }
-.pull-tab img { 
-  width: 100%; 
-  display: block; 
-  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
-}
+.pull-tab img { width: 100%; display: block; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
 .pull-tab span { 
   position: absolute; 
   top: 45%; 
   left: 50%; 
   transform: translate(-50%, -50%); 
-  width: 80%; /* Narrower width forces wrapping for longer titles */
+  width: 80%;
   text-align: center;
   color: #fff; 
-  font-size: 18px; /* Bigger Font */
-  font-weight: 900; /* Bolder Font */
-  line-height: 1.1; /* Tighter line height for stacked words */
+  font-size: 18px; 
+  font-weight: 900; 
+  line-height: 1.1; 
   letter-spacing: 1.5px;
-  text-shadow: 0 2px 8px rgba(0,0,0,1), 0 0 5px rgba(0,0,0,0.8);
+  text-shadow: 0 2px 8px rgba(0,0,0,1);
   pointer-events: none;
   text-transform: uppercase;
   display: flex;
@@ -102,24 +91,39 @@ html, body {
 }
 .pull-tab:hover { transform: translateY(-8px); }
 
-/* --- WORKSPACE --- */
-.workspace-section { width: 95%; margin: 40px auto; position: relative; }
-.workspace-row { display: flex; align-items: flex-start; gap: 20px; }
+/* --- WORKSPACE LAYOUT --- */
+.workspace-section { 
+  width: 98%; 
+  margin: 40px auto; 
+  position: relative; 
+  overflow: hidden; 
+}
+.workspace-row { 
+  display: flex; 
+  justify-content: flex-end; /* Keeps everything anchored right */
+  align-items: flex-start;
+  transition: all 0.8s ease-in-out;
+}
 
 #rooms-cabinet {
-  width: var(--cabinet-size);
-  max-width: 0;
-  height: var(--cabinet-size);
-  overflow: hidden;
+  width: var(--cabinet-width);
+  height: 600px;
+  margin-right: -560px; /* Hidden off-screen to the left of the work area */
   opacity: 0;
-  transition: max-width 0.8s ease, opacity 0.5s ease;
+  visibility: hidden;
+  transition: margin-right 0.8s ease, opacity 0.5s ease;
   position: relative;
   flex-shrink: 0;
 }
-#rooms-cabinet.show { max-width: var(--cabinet-size); opacity: 1; }
+#rooms-cabinet.show { 
+  margin-right: 20px; /* Slides in and pushes the work area over */
+  opacity: 1; 
+  visibility: visible;
+}
 
 .cabinet-img { width: 100%; height: 100%; object-fit: contain; }
 
+/* DRAWER HITBOXES */
 .drawer-zone {
   position: absolute;
   left: 13%; width: 74%; height: 9%;
@@ -132,12 +136,14 @@ html, body {
 .drawer-spare { top: 71%; }
 
 #work-area {
-  flex: 1;
+  flex: 1; /* Takes up remaining space */
+  min-width: 800px; /* Prevents shrinking */
   height: 600px;
   background: #111 url("Assets/workstation.jpg") center/cover no-repeat;
   border: 2px solid rgba(255, 230, 150, 0.3);
   border-radius: 10px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  transition: flex 0.8s ease;
 }
 
 /* --- GALLERY --- */
@@ -166,7 +172,6 @@ html, body {
 
 <header class="hero">
   <h1>Room Glow Up</h1>
-  <h2>Where your dream space comes to life</h2>
 </header>
 
 <nav class="tab-row">
@@ -192,7 +197,7 @@ html, body {
   </button>
 </nav>
 
-<section class="workspace-section">
+<section class="workspace-section" id="workspace">
   <div class="workspace-row">
     <div id="rooms-cabinet">
       <img src="Assets/rooms_cabinet.png" class="cabinet-img" alt="Rooms Cabinet">
@@ -218,16 +223,22 @@ html, body {
 const roomsTab = document.getElementById("roomsTab");
 const cabinet = document.getElementById("rooms-cabinet");
 const workArea = document.getElementById("work-area");
+const workspace = document.getElementById("workspace");
 
-// Toggle Cabinet
-roomsTab.onclick = () => cabinet.classList.toggle("show");
+// Toggle Cabinet + Smooth Scroll
+roomsTab.onclick = () => {
+  cabinet.classList.toggle("show");
+  if (cabinet.classList.contains("show")) {
+    workspace.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+};
 
-// Room Cycling
+// FULL ASSET LINEUP
 const roomImages = {
-  living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg"],
-  bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg"],
-  dining: ["Assets/ROOMS_diningroom1.jpg"],
-  spare: ["Assets/ROOMS_bathroom1.jpg"]
+  living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg", "Assets/ROOMS_livingroom3.jpg", "Assets/ROOMS_livingroom5.jpg"],
+  bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg", "Assets/ROOMS_bedroom3.jpg"],
+  dining: ["Assets/ROOMS_diningroom1.jpg", "Assets/ROOMS_diningroom2.jpg"],
+  spare: ["Assets/ROOMS_bathroom1.jpg", "Assets/ROOMS_kitchen1.jpg"]
 };
 const roomIndex = { living: 0, bedroom: 0, dining: 0, spare: 0 };
 
@@ -240,7 +251,7 @@ document.querySelectorAll(".drawer-zone").forEach(drawer => {
   };
 });
 
-// Gallery Logic
+// GALLERY WALKTHROUGH
 const galleryImages = ["Assets/gallerydoors.jpg", "Assets/galleryentrance1.jpg", "Assets/galleryentrance2.jpg"];
 let gIdx = 0;
 const gOverlay = document.getElementById("gallery-overlay");
