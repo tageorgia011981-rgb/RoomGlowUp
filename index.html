@@ -39,7 +39,7 @@ html, body {
   background-attachment: fixed;
 }
 
-/* --- HEADER STYLES --- */
+/* --- GLAM HEADER STYLES --- */
 .hero { text-align: center; padding: 56px 20px 14px; position: relative; }
 .hero h1 {
   margin: 0;
@@ -67,15 +67,49 @@ html, body {
 @keyframes glamPulse { 0%, 100% { transform: scale(1); filter: brightness(1); } 50% { transform: scale(1.014); filter: brightness(1.14); } }
 @keyframes subtitleGlow { 0%, 100% { opacity: 0.94; letter-spacing: 2.4px; } 50% { opacity: 1; letter-spacing: 3px; } }
 
-/* --- TABS --- */
-.tab-row { display: flex; justify-content: center; gap: 30px; padding: 26px 16px; }
-.pull-tab { position: relative; width: 210px; border: 0; background: transparent; cursor: pointer; transition: transform 0.34s ease; }
-.pull-tab img { width: 100%; display: block; }
-.pull-tab span { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-size: 18px; text-shadow: 0 3px 12px rgba(0,0,0,0.85); pointer-events: none; }
-.pull-tab:hover { transform: translateY(-9px); }
+/* --- VINTAGE PULL HANDLE TABS --- */
+.tab-row { 
+  display: flex; 
+  justify-content: center; 
+  gap: 30px; 
+  padding: 26px 16px 0; 
+  margin-bottom: 14px;
+}
+.pull-tab { 
+  position: relative; 
+  width: 210px; 
+  border: 0; 
+  background: transparent; 
+  cursor: pointer; 
+  filter: drop-shadow(0 11px 16px rgba(0, 0, 0, 0.44));
+  transition: transform 0.34s ease, filter 0.34s ease; 
+}
+.pull-tab img { 
+  width: 100%; 
+  display: block; 
+  filter: saturate(1.08) contrast(1.04) brightness(1.03);
+}
+.pull-tab span { 
+  position: absolute; 
+  top: 39%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  width: 88%;
+  display: block;
+  text-align: center;
+  color: #fff; 
+  font-size: 18px; 
+  letter-spacing: 1px;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.85); 
+  pointer-events: none; 
+}
+.pull-tab:hover, .pull-tab.active { 
+  transform: translateY(-9px); 
+  filter: drop-shadow(0 0 7px rgba(255, 255, 255, 0.58)) drop-shadow(0 9px 20px rgba(0, 0, 0, 0.4));
+}
 
 /* --- WORKSPACE & CABINET --- */
-.workspace-section { width: 95%; margin: 80px auto; }
+.workspace-section { width: 95%; margin: 150px auto 140px; position: relative; }
 .workspace-row { display: flex; align-items: flex-start; gap: 24px; }
 
 #rooms-cabinet {
@@ -84,18 +118,25 @@ html, body {
   height: var(--cabinet-size);
   overflow: hidden;
   opacity: 0;
-  transform: translateX(-50px);
-  transition: max-width 0.8s ease, opacity 0.6s ease, transform 0.8s ease;
+  transform: translateX(-108%) rotateY(7deg) scale(0.985);
+  transform-origin: left center;
+  transition: max-width 0.92s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.62s ease, transform 0.92s cubic-bezier(0.22, 1, 0.36, 1);
   position: relative;
   flex-shrink: 0;
+  pointer-events: none;
 }
 #rooms-cabinet.show {
   max-width: var(--cabinet-size);
   opacity: 1;
-  transform: translateX(0);
+  transform: translateX(0) rotateY(0deg) scale(1);
   pointer-events: auto;
 }
-.cabinet-img { width: 100%; height: 100%; object-fit: contain; }
+.cabinet-img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: contain; 
+  filter: drop-shadow(0 26px 30px rgba(0, 0, 0, 0.62));
+}
 
 .drawer-zone {
   position: absolute;
@@ -111,45 +152,37 @@ html, body {
 #work-area {
   flex: 1;
   height: 640px;
-  background: url("Assets/workstation.jpg") center/cover no-repeat;
+  background: #0b0f17 url("Assets/workstation.jpg") center/cover no-repeat;
   border: 3px solid rgba(255, 242, 194, 0.24);
   border-radius: 12px;
   position: relative;
+  box-shadow: 0 26px 55px rgba(0, 0, 0, 0.66);
 }
 
-/* --- FIXED GALLERY WALKTHROUGH (SCALED DOWN) --- */
+/* --- GALLERY OVERLAY --- */
 #gallery-overlay {
   display: none;
   position: fixed;
   inset: 0;
   z-index: 3000;
   background-color: #000;
-  background-size: contain; /* This stops the zooming/cropping */
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  transition: background-image 0.5s ease-in-out;
 }
 #gallery-overlay.open { display: flex; flex-direction: column; }
-
 #gallery-close {
   position: fixed; top: 20px; right: 20px;
   width: 50px; height: 50px; border-radius: 50%;
   background: rgba(0,0,0,0.6); color: #fff; border: 2px solid #fff;
   font-size: 30px; cursor: pointer; z-index: 3001;
 }
-
-#gallery-trigger-area {
-  flex: 1;
-  cursor: pointer;
-}
-
+#gallery-trigger-area { flex: 1; cursor: pointer; }
 #gallery-footer {
   padding: 20px;
   background: rgba(0,0,0,0.7);
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 30px;
 }
 </style>
 </head>
@@ -158,7 +191,7 @@ html, body {
 
 <header class="hero">
   <h1>Room Glow Up</h1>
-  <h2>Design Your Atmosphere</h2>
+  <h2>Where your dream space comes to life</h2>
 </header>
 
 <div class="tab-row">
@@ -169,6 +202,10 @@ html, body {
   <button class="pull-tab" id="galleryTab">
     <img src="Assets/tab_gold.png" alt="Tab">
     <span>GALLERY</span>
+  </button>
+  <button class="pull-tab" id="decorTab">
+    <img src="Assets/tab_gold.png" alt="Tab">
+    <span>DECOR</span>
   </button>
 </div>
 
@@ -192,7 +229,7 @@ html, body {
   <button id="gallery-close">&times;</button>
   <div id="gallery-trigger-area"></div>
   <div id="gallery-footer">
-    <span id="gallery-counter" style="font-size:20px; letter-spacing:4px; color:#f1d58f;"></span>
+    <span id="gallery-counter" style="font-size:20px; color:#f1d58f; letter-spacing:4px;"></span>
   </div>
 </div>
 
@@ -201,12 +238,13 @@ const roomsTab = document.getElementById("roomsTab");
 const cabinet = document.getElementById("rooms-cabinet");
 const workArea = document.getElementById("work-area");
 
-/* CABINET LOGIC */
+/* CABINET TOGGLE */
 roomsTab.onclick = () => {
   cabinet.classList.toggle("show");
+  roomsTab.classList.toggle("active");
 };
 
-/* ROOM IMAGE CYCLING */
+/* ROOM CYCLING */
 const roomImages = {
   living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg", "Assets/ROOMS_livingroom3.jpg", "Assets/ROOMS_livingroom5.jpg"],
   bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg", "Assets/ROOMS_bedroom3.jpg"],
@@ -225,12 +263,8 @@ document.querySelectorAll(".drawer-zone").forEach(drawer => {
   };
 });
 
-/* GALLERY WALKTHROUGH LOGIC */
-const galleryFlow = [
-  "Assets/gallerydoors.jpg",
-  "Assets/galleryentrance1.jpg",
-  "Assets/galleryentrance2.jpg"
-];
+/* GALLERY LOGIC */
+const galleryFlow = ["Assets/gallerydoors.jpg", "Assets/galleryentrance1.jpg", "Assets/galleryentrance2.jpg"];
 let flowIdx = 0;
 const galleryTab = document.getElementById("galleryTab");
 const galleryOverlay = document.getElementById("gallery-overlay");
@@ -253,7 +287,6 @@ galleryTrigger.onclick = () => {
     flowIdx++;
     updateFlow();
   } else {
-    // Optional: add a "You have arrived" message or fade in the gallery items here
     galleryCounter.textContent = "YOU HAVE ARRIVED";
   }
 };
