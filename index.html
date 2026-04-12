@@ -83,17 +83,22 @@ html, body {
 }
 .pull-tab span { 
   position: absolute; 
-  top: 42%; 
+  top: 45%; 
   left: 50%; 
   transform: translate(-50%, -50%); 
-  width: 85%;
+  width: 80%; /* Narrower width forces wrapping for longer titles */
   text-align: center;
   color: #fff; 
-  font-size: 14px; 
-  letter-spacing: 1px;
-  text-shadow: 0 2px 8px rgba(0,0,0,1);
+  font-size: 18px; /* Bigger Font */
+  font-weight: 900; /* Bolder Font */
+  line-height: 1.1; /* Tighter line height for stacked words */
+  letter-spacing: 1.5px;
+  text-shadow: 0 2px 8px rgba(0,0,0,1), 0 0 5px rgba(0,0,0,0.8);
   pointer-events: none;
   text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .pull-tab:hover { transform: translateY(-8px); }
 
@@ -166,23 +171,23 @@ html, body {
 
 <nav class="tab-row">
   <button class="pull-tab" id="roomsTab">
-    <img src="Assets/pulltab.png" alt="Pull Tab">
+    <img src="Assets/pulltab.png" alt="Handle">
     <span>ROOMS</span>
   </button>
   <button class="pull-tab" id="catalogTab">
-    <img src="Assets/pulltab.png" alt="Pull Tab">
+    <img src="Assets/pulltab.png" alt="Handle">
     <span>FURNITURE CATALOG</span>
   </button>
   <button class="pull-tab" id="decorTab">
-    <img src="Assets/pulltab.png" alt="Pull Tab">
+    <img src="Assets/pulltab.png" alt="Handle">
     <span>DECOR CLOSET</span>
   </button>
   <button class="pull-tab" id="galleryTab">
-    <img src="Assets/pulltab.png" alt="Pull Tab">
+    <img src="Assets/pulltab.png" alt="Handle">
     <span>GALLERY</span>
   </button>
   <button class="pull-tab" id="saveTab">
-    <img src="Assets/pulltab.png" alt="Pull Tab">
+    <img src="Assets/pulltab.png" alt="Handle">
     <span>SAVE / CHECKOUT</span>
   </button>
 </nav>
