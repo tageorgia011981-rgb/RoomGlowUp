@@ -159,15 +159,28 @@ html, body {
   position: fixed;
   inset: 0;
   z-index: 5000;
-  background-color: #000;
-  /* Use 90% size to fill the screen mostly without stretching edges */
-  background-size: 90% auto; 
+  background-color: rgba(0,0,0,0.95);
+  /* 85% is the sweet spot for immersion without stretching */
+  background-size: 85% 85%; 
   background-position: center;
   background-repeat: no-repeat;
-  /* Subtle vignette for immersion */
-  box-shadow: inset 0 0 150px rgba(0,0,0,1);
+  /* Darken the edges for focus */
+  box-shadow: inset 0 0 100px rgba(0,0,0,1);
 }
 #gallery-overlay.open { display: flex; flex-direction: column; }
+
+/* Background Blur Layer to fill the gaps */
+#gallery-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: inherit;
+  background-size: cover;
+  filter: blur(30px);
+  opacity: 0.3;
+  z-index: -1;
+}
+
 #gallery-close {
   position: fixed; top: 20px; right: 20px;
   width: 45px; height: 45px; border-radius: 50%;
