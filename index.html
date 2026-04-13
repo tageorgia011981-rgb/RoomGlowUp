@@ -3,296 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Furniture Catalog Pedestal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <title>Room Glow Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Limelight&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gold: #d4af37;
-            --black: #000000;
-        }
+        * { box-sizing: border-box; }
+        :root { --lux-gold: #f1d58f; }
 
-        /* Essential for transparency and overlaying on your site */
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            font-family: 'Special Elite', cursive;
-            overflow: hidden;
-            background: transparent; 
+            margin: 0; padding: 0; min-height: 100%;
+            font-family: "Special Elite", serif;
+            color: #fff; overflow-x: hidden; scroll-behavior: smooth;
+            background-color: #05070d;
+            background-image: url("Assets/mainbackgroundl.jpg"), url("Assets/mainbackgroundr.jpg"), url("Assets/mainbackgroundblue.jpg");
+            background-repeat: no-repeat;
+            background-position: left top, right top, center top;
+            background-size: 33% 100%, 33% 100%, 34% 100%;
+            background-attachment: fixed;
         }
 
-        /* --- THE CATALOG OVERLAY --- */
-        #catalog-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* Semi-transparent black to let your site's background peek through */
-            background: rgba(0, 0, 0, 0.75); 
-            display: none; 
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            perspective: 2500px;
+        /* --- HEADLINERS --- */
+        .hero { text-align: center; padding: 60px 20px 20px; z-index: 10; position: relative; }
+        .hero h1 {
+            margin: 0; font-family: "Limelight", serif;
+            font-size: clamp(60px, 10vw, 120px);
+            letter-spacing: 8px; color: var(--lux-gold);
+            text-transform: uppercase; text-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        .hero h2 {
+            margin: 10px 0 0; font-size: 28px; color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
 
-        /* The Pedestal - Raised top half to show images clearly */
-        #pedestal {
-            position: relative;
-            width: 1000px;
-            height: 650px;
-            transform: rotateX(20deg); 
-            transform-style: preserve-3d;
-            margin-bottom: 50px; /* Space for the work area visible underneath */
+        /* --- MASTER PULL TABS --- */
+        .nav-row { display: flex; justify-content: center; gap: 20px; padding: 30px; z-index: 100; position: relative; }
+        .pull-tab {
+            background: transparent; border: none; cursor: pointer;
+            width: 210px; position: relative; transition: transform 0.3s ease;
         }
-
-        #book {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            transition: transform 0.8s ease;
+        .pull-tab img { width: 100%; display: block; }
+        .pull-tab span {
+            position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%);
+            width: 90%; text-align: center; color: #fff; font-weight: bold;
+            font-size: 14px; text-transform: uppercase; pointer-events: none;
         }
+        .pull-tab:hover { transform: translateY(-10px); }
 
-        /* Interior Page Spread */
-        #interior {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: url('furniturecatalog.png') no-repeat center center;
-            background-size: cover;
-            display: flex;
-            padding: 40px;
-            box-sizing: border-box;
-            box-shadow: 0 30px 70px rgba(0,0,0,0.9);
-            border-radius: 4px;
+        /* --- WORKSPACE & CABINET --- */
+        .workspace-section { width: 95%; margin: 20px auto; position: relative; }
+        
+        /* The Furniture Catalog Book (Above Workarea) */
+        #catalog-book-wrap {
+            width: 900px; height: 0; margin: 0 auto; overflow: hidden;
+            transition: height 0.8s ease, margin 0.5s ease;
+            perspective: 2000px; position: relative;
         }
+        #catalog-book-wrap.open { height: 500px; margin-bottom: 40px; }
 
-        /* Cover - Opens Right-to-Left */
-        #cover {
-            position: absolute;
-            width: 50%;
-            height: 100%;
-            right: 0;
-            background: #0a0a0a;
-            color: var(--gold);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-left: 6px solid #222;
-            z-index: 100;
-            transform-origin: left;
-            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            backface-visibility: hidden;
-            border: 1px solid #1a1a1a;
+        .workspace-row { display: flex; justify-content: center; align-items: flex-start; transition: all 0.5s ease; }
+
+        #rooms-cabinet {
+            width: 0; opacity: 0; height: 600px;
+            transition: width 0.8s ease, opacity 0.5s ease;
+            position: relative; flex-shrink: 0; overflow: hidden;
         }
+        #rooms-cabinet.active { width: 500px; opacity: 1; margin-right: 20px; }
 
-        #book.book-open #cover {
-            transform: rotateY(-170deg);
+        /* Drawer Zones */
+        .drawer-btn {
+            position: absolute; left: 15%; width: 70%; height: 10%;
+            background: transparent; border: none; cursor: pointer; z-index: 10;
         }
+        .dr-living { top: 21%; } .dr-dining { top: 38%; }
+        .dr-bedroom { top: 54%; } .dr-spare { top: 71%; }
 
-        /* Page Headers */
-        .gold-header {
-            position: absolute;
-            top: 45px;
-            width: 40%;
-            text-align: center;
-            color: var(--gold);
-            font-size: 1.4rem;
-            text-transform: uppercase;
-            pointer-events: none;
-        }
-        #l-head { left: 6%; }
-        #r-head { right: 6%; }
-
-        /* Item Grid - 6 Per Page */
-        .page-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(2, 1fr);
-            gap: 15px;
-            width: 42%;
-            height: 75%;
-            margin-top: 80px;
-        }
-        #l-page { margin-right: auto; }
-        #r-page { margin-left: auto; }
-
-        .slot { 
-            text-align: center; 
+        #work-area {
+            flex: 1; height: 600px; border: 3px solid var(--lux-gold);
+            background: #111 url('Assets/workstation.jpg') center/cover;
+            position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
             cursor: pointer;
         }
-        .slot img { 
-            width: 110px; 
-            height: 110px; 
-            object-fit: contain; 
-        }
-        .label { font-size: 9px; color: #333; margin-top: 5px; text-transform: uppercase; }
 
-        /* Navigation Side Tabs */
-        .side-tabs {
-            position: absolute;
-            right: -45px;
-            top: 80px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+        /* --- RECEIPT SCROLL --- */
+        #receipt-wrap {
+            position: absolute; top: 120px; right: 50px;
+            width: 300px; height: 0; overflow: hidden;
+            transition: height 1s ease; z-index: 200;
         }
-
-        .tab {
-            background: var(--black);
-            color: var(--gold);
-            border: 1px solid var(--gold);
-            padding: 18px 8px;
-            writing-mode: vertical-rl;
-            cursor: pointer;
-            font-size: 11px;
-            border-radius: 0 5px 5px 0;
-        }
-
-        /* Sub-Navigation Buttons (Ottomans, Barstools, etc.) */
-        #sub-nav {
-            position: absolute;
-            bottom: -80px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-        }
-
-        .sub-btn {
-            background: #000;
-            color: var(--gold);
-            border: 1px solid var(--gold);
-            padding: 8px 15px;
-            cursor: pointer;
-            font-family: inherit;
-        }
-
-        #close-btn {
-            position: absolute;
-            top: -60px;
-            right: 0;
-            color: var(--gold);
-            cursor: pointer;
-            border: 1px solid var(--gold);
-            padding: 5px 10px;
-            background: black;
-        }
+        #receipt-wrap.active { height: 800px; }
     </style>
 </head>
 <body>
 
-    <div id="catalog-overlay">
-        <div id="pedestal">
-            <div id="close-btn" onclick="closeCatalog()">CLOSE X</div>
-            
-            <div id="book">
-                <div id="cover" onclick="this.parentElement.classList.add('book-open')">
-                    <div style="border: 2px solid var(--gold); padding: 30px; text-align: center;">
-                        <h2 style="margin:0">FURNITURE</h2>
-                        <p style="margin:5px 0 0 0; font-size:10px; letter-spacing:4px;">CATALOG</p>
-                    </div>
-                </div>
+<header class="hero">
+    <h1>Room Glow Up</h1>
+    <h2>Where Your Dream Space Comes To Life</h2>
+</header>
 
-                <div id="interior">
-                    <div id="l-head" class="gold-header"></div>
-                    <div id="r-head" class="gold-header"></div>
+<nav class="nav-row">
+    <button class="pull-tab" id="roomsTab">
+        <img src="Assets/pulltab.png"><span>ROOMS</span>
+    </button>
+    <button class="pull-tab" id="catalogTab">
+        <img src="Assets/pulltab.png"><span>FURNITURE CATALOG</span>
+    </button>
+    <button class="pull-tab" id="decorTab">
+        <img src="Assets/pulltab.png"><span>DECOR CLOSET</span>
+    </button>
+    <button class="pull-tab" id="galleryTab">
+        <img src="Assets/pulltab.png"><span>GALLERY</span>
+    </button>
+    <button class="pull-tab" id="saveTab">
+        <img src="Assets/pulltab.png"><span>SAVE/CHECKOUT</span>
+    </button>
+</nav>
 
-                    <div id="l-page" class="page-grid"></div>
-                    <div id="r-page" class="page-grid"></div>
+<div id="receipt-wrap">
+    <img src="Assets/scrollreceipt.png" style="width:100%;">
+</div>
 
-                    <div class="side-tabs">
-                        <div class="tab" onclick="setCategory('seating')">SEATING</div>
-                        <div class="tab" onclick="setCategory('storage')">STORAGE</div>
-                        <div class="tab" onclick="setCategory('tables')">TABLES</div>
-                        <div class="tab" onclick="setCategory('beds')">BEDS</div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="sub-nav">
-                <button class="sub-btn" onclick="render('seating_couch', 'Couches', 'Styles')">COUCHES</button>
-                <button class="sub-btn" onclick="render('seating_armchair', 'Armchairs', 'Styles')">ARMCHAIRS</button>
-                <button class="sub-btn" onclick="render('seating_bench', 'Benches', 'Styles')">BENCHES</button>
-                <button class="sub-btn" onclick="render('seating_barstool', 'Barstools', 'Styles')">BARSTOOLS</button>
-                <button class="sub-btn" onclick="render('seating_ottoman', 'Ottomans', 'Styles')">OTTOMANS</button>
-                <button class="sub-btn" onclick="render('seating_dining', 'Dining Chairs', 'Empty')">DINING</button>
-            </div>
-        </div>
+<section class="workspace-section">
+    <div id="catalog-book-wrap">
+        <img src="Assets/furniture_catalog_book.png" style="width:100%;" id="catalogBook">
     </div>
 
-    <script>
-        const overlay = document.getElementById('catalog-overlay');
-        const lPage = document.getElementById('l-page');
-        const rPage = document.getElementById('r-page');
-        const lHead = document.getElementById('l-head');
-        const rHead = document.getElementById('r-head');
+    <div class="workspace-row">
+        <div id="rooms-cabinet">
+            <img src="Assets/rooms_cabinet.png" style="height:100%;">
+            <button class="drawer-btn dr-living" onclick="cycleRoom('living')"></button>
+            <button class="drawer-btn dr-dining" onclick="cycleRoom('dining')"></button>
+            <button class="drawer-btn dr-bedroom" onclick="cycleRoom('bedroom')"></button>
+            <button class="drawer-btn dr-spare" onclick="cycleRoom('spare')"></button>
+        </div>
 
-        // Call showCatalog() when your room choice cabinet finishes its glide
-        function showCatalog() {
-            overlay.style.display = 'flex';
+        <div id="work-area" onclick="closeCabinetOpenCatalog()"></div>
+    </div>
+</section>
+
+<script>
+    const cabinet = document.getElementById('rooms-cabinet');
+    const catalog = document.getElementById('catalog-book-wrap');
+    const workArea = document.getElementById('work-area');
+    const receipt = document.getElementById('receipt-wrap');
+
+    // 1. Rooms Pull Tab Logic
+    document.getElementById('roomsTab').onclick = () => {
+        cabinet.classList.toggle('active');
+        document.getElementById('workspace').scrollIntoView({behavior: 'smooth'});
+    };
+
+    // 2. Room Data & Cycling
+    const roomFiles = {
+        living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg", "Assets/ROOMS_livingroom3.jpg"],
+        dining: ["Assets/ROOMS_diningroom1.jpg", "Assets/ROOMS_diningroom2.jpg"],
+        bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg", "Assets/ROOMS_bedroom3.jpg"],
+        spare: ["Assets/ROOM_bathroom.jpg", "Assets/ROOMS_kitchen1.jpg", "Assets/Rooms_office.jpg"]
+    };
+    let roomIdx = { living:0, dining:0, bedroom:0, spare:0 };
+
+    function cycleRoom(type) {
+        const list = roomFiles[type];
+        workArea.style.backgroundImage = `url('${list[roomIdx[type]]}')`;
+        roomIdx[type] = (roomIdx[type] + 1) % list.length;
+    }
+
+    // 3. Close Cabinet, Open Catalog
+    function closeCabinetOpenCatalog() {
+        if(cabinet.classList.contains('active')) {
+            cabinet.classList.remove('active');
+            setTimeout(() => {
+                catalog.classList.add('open');
+            }, 600);
         }
+    }
 
-        function closeCatalog() {
-            overlay.style.display = 'none';
-            document.getElementById('book').classList.remove('book-open');
-        }
+    // 4. Save/Checkout Logic
+    document.getElementById('saveTab').onclick = () => {
+        receipt.classList.toggle('active');
+    };
 
-        // DOUBLE CLICK logic to send item to your work area
-        function sendToWorkArea(imgSrc) {
-            console.log("Sending to workarea:", imgSrc);
-            // This links to your existing placement function
-            if (typeof window.addItemToRoom === "function") {
-                window.addItemToRoom(imgSrc);
-            }
-        }
+    // Catalog & Decor Closet interactivity (Double click logic)
+    function addItem(src) {
+        const img = document.createElement('img');
+        img.src = src;
+        img.style.position = 'absolute';
+        img.style.width = '150px';
+        img.style.cursor = 'move';
+        img.onmousedown = dragMouseDown; // You can add your existing drag script here
+        workArea.appendChild(img);
+        // Logic to add to Design Bill would go here
+    }
 
-        function render(prefix, headL, headR) {
-            lPage.innerHTML = '';
-            rPage.innerHTML = '';
-            lHead.innerText = headL;
-            rHead.innerText = headR;
+    // Placeholder for Draggable Script
+    function dragMouseDown(e) { /* existing drag logic */ }
 
-            let limit = (prefix === 'seating_dining') ? 7 : 12;
-
-            for (let i = 1; i <= 12; i++) {
-                const slot = document.createElement('div');
-                slot.className = 'slot';
-
-                if (i <= limit) {
-                    const imgSrc = `${prefix}${i}.png`;
-                    slot.innerHTML = `
-                        <img src="${imgSrc}" ondblclick="sendToWorkArea('${imgSrc}')">
-                        <div class="label">${prefix.split('_')[1]} No. ${i}</div>
-                    `;
-                } else {
-                    slot.innerHTML = `<div style="height:110px; width:110px; border: 1px dashed rgba(0,0,0,0.1);"></div>`;
-                }
-
-                if (i <= 6) lPage.appendChild(slot);
-                else rPage.appendChild(slot);
-            }
-        }
-
-        function setCategory(cat) {
-            if (cat === 'seating') {
-                document.getElementById('sub-nav').style.visibility = 'visible';
-                render('seating_couch', 'Couches', 'Selections');
-            } else {
-                document.getElementById('sub-nav').style.visibility = 'hidden';
-                lHead.innerText = cat.toUpperCase();
-                rHead.innerText = "COLLECTION";
-                lPage.innerHTML = '<div style="color:var(--gold); grid-column: span 3; padding-top: 40px;">COMING SOON</div>';
-                rPage.innerHTML = '';
-            }
-        }
-
-        // Initialize Seating View
-        render('seating_couch', 'Couches', 'Selections');
-    </script>
+</script>
 </body>
 </html>
