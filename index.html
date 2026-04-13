@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Room Glow Up</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Jacques+Francois+Shadow&display=swap" rel="stylesheet">
 
 <style>
 * { box-sizing: border-box; }
@@ -20,7 +20,7 @@ html, body {
   margin: 0;
   padding: 0;
   min-height: 100%;
-  font-family: "Limelight", serif;
+  font-family: "Special Elite", courier, serif;
   color: #fff;
   overflow-x: hidden;
   scroll-behavior: smooth; 
@@ -39,6 +39,7 @@ html, body {
 .hero { text-align: center; padding: 40px 20px 10px; position: relative; z-index: 10; }
 .hero h1 {
   margin: 0;
+  font-family: "Limelight", serif;
   font-size: clamp(50px, 8vw, 110px);
   letter-spacing: 5px;
   background: linear-gradient(115deg, #fff8d7 0%, #ffd7f3 22%, #fff4a8 48%, #b7f6ff 70%, #fff8d7 100%);
@@ -48,8 +49,16 @@ html, body {
   color: transparent;
   animation: glamShift 5s ease-in-out infinite;
 }
+.hero h2 {
+  margin: 10px 0 0;
+  font-size: clamp(18px, 2vw, 32px);
+  color: #fff8f2;
+  text-shadow: 0 0 10px rgba(188, 255, 250, 0.6);
+  animation: subtitleGlow 3s ease-in-out infinite;
+}
 
 @keyframes glamShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+@keyframes subtitleGlow { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
 
 /* --- NAVIGATION TABS --- */
 .tab-row { 
@@ -72,17 +81,17 @@ html, body {
 .pull-tab img { width: 100%; display: block; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
 .pull-tab span { 
   position: absolute; 
-  top: 45%; 
+  top: 48%; 
   left: 50%; 
   transform: translate(-50%, -50%); 
-  width: 80%;
+  width: 72%;
   text-align: center;
   color: #fff; 
-  font-size: 18px; 
-  font-weight: 900; 
-  line-height: 1.1; 
-  letter-spacing: 1.5px;
-  text-shadow: 0 2px 8px rgba(0,0,0,1);
+  font-size: 17px; 
+  font-weight: bold; 
+  line-height: 1.0; 
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 6px rgba(0,0,0,1);
   pointer-events: none;
   text-transform: uppercase;
   display: flex;
@@ -100,15 +109,14 @@ html, body {
 }
 .workspace-row { 
   display: flex; 
-  justify-content: flex-end; /* Keeps everything anchored right */
+  justify-content: flex-end; 
   align-items: flex-start;
-  transition: all 0.8s ease-in-out;
 }
 
 #rooms-cabinet {
   width: var(--cabinet-width);
   height: 600px;
-  margin-right: -560px; /* Hidden off-screen to the left of the work area */
+  margin-right: -560px; 
   opacity: 0;
   visibility: hidden;
   transition: margin-right 0.8s ease, opacity 0.5s ease;
@@ -116,14 +124,13 @@ html, body {
   flex-shrink: 0;
 }
 #rooms-cabinet.show { 
-  margin-right: 20px; /* Slides in and pushes the work area over */
+  margin-right: 20px; 
   opacity: 1; 
   visibility: visible;
 }
 
 .cabinet-img { width: 100%; height: 100%; object-fit: contain; }
 
-/* DRAWER HITBOXES */
 .drawer-zone {
   position: absolute;
   left: 13%; width: 74%; height: 9%;
@@ -136,8 +143,8 @@ html, body {
 .drawer-spare { top: 71%; }
 
 #work-area {
-  flex: 1; /* Takes up remaining space */
-  min-width: 800px; /* Prevents shrinking */
+  flex: 1;
+  min-width: 800px; 
   height: 600px;
   background: #111 url("Assets/workstation.jpg") center/cover no-repeat;
   border: 2px solid rgba(255, 230, 150, 0.3);
@@ -146,25 +153,34 @@ html, body {
   transition: flex 0.8s ease;
 }
 
-/* --- GALLERY --- */
+/* --- THE "IN BETWEEN" GALLERY --- */
 #gallery-overlay {
   display: none;
   position: fixed;
   inset: 0;
   z-index: 5000;
   background-color: #000;
-  background-size: contain;
+  /* Use 90% size to fill the screen mostly without stretching edges */
+  background-size: 90% auto; 
   background-position: center;
   background-repeat: no-repeat;
+  /* Subtle vignette for immersion */
+  box-shadow: inset 0 0 150px rgba(0,0,0,1);
 }
 #gallery-overlay.open { display: flex; flex-direction: column; }
 #gallery-close {
   position: fixed; top: 20px; right: 20px;
   width: 45px; height: 45px; border-radius: 50%;
   background: rgba(0,0,0,0.7); color: #fff; border: 2px solid #fff;
-  font-size: 24px; cursor: pointer;
+  font-size: 24px; cursor: pointer; z-index: 5001;
 }
-#gallery-footer { padding: 20px; background: rgba(0,0,0,0.8); text-align: center; }
+#gallery-footer { 
+  margin-top: auto; 
+  padding: 30px; 
+  background: linear-gradient(transparent, rgba(0,0,0,0.9)); 
+  text-align: center; 
+}
+
 </style>
 </head>
 
@@ -172,6 +188,7 @@ html, body {
 
 <header class="hero">
   <h1>Room Glow Up</h1>
+  <h2>Where your dream space comes to life</h2>
 </header>
 
 <nav class="tab-row">
@@ -215,7 +232,7 @@ html, body {
   <button id="gallery-close">&times;</button>
   <div id="gallery-trigger" style="flex:1; cursor:pointer;"></div>
   <div id="gallery-footer">
-    <span id="gallery-counter" style="color:var(--lux-gold); letter-spacing:2px;"></span>
+    <span id="gallery-counter" style="color:var(--lux-gold); letter-spacing:2px; font-size: 20px;"></span>
   </div>
 </div>
 
@@ -225,7 +242,6 @@ const cabinet = document.getElementById("rooms-cabinet");
 const workArea = document.getElementById("work-area");
 const workspace = document.getElementById("workspace");
 
-// Toggle Cabinet + Smooth Scroll
 roomsTab.onclick = () => {
   cabinet.classList.toggle("show");
   if (cabinet.classList.contains("show")) {
@@ -233,7 +249,6 @@ roomsTab.onclick = () => {
   }
 };
 
-// FULL ASSET LINEUP
 const roomImages = {
   living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg", "Assets/ROOMS_livingroom3.jpg", "Assets/ROOMS_livingroom5.jpg"],
   bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg", "Assets/ROOMS_bedroom3.jpg"],
@@ -251,7 +266,6 @@ document.querySelectorAll(".drawer-zone").forEach(drawer => {
   };
 });
 
-// GALLERY WALKTHROUGH
 const galleryImages = ["Assets/gallerydoors.jpg", "Assets/galleryentrance1.jpg", "Assets/galleryentrance2.jpg"];
 let gIdx = 0;
 const gOverlay = document.getElementById("gallery-overlay");
