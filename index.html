@@ -11,92 +11,101 @@
             --black: #000000;
         }
 
-        body {
+        body, html {
             margin: 0;
-            background-color: transparent; /* Allows integration with your work area */
+            padding: 0;
+            width: 100%;
+            height: 100%;
             font-family: 'Special Elite', cursive;
-            display: flex;
+            overflow: hidden;
+            background: transparent;
+        }
+
+        /* --- CATALOG OVERLAY --- */
+        #catalog-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none; 
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            z-index: 9999;
             perspective: 2500px;
-            overflow: hidden;
         }
 
-        /* The Pedestal - provides the raised top perspective */
+        /* The Pedestal - Raised at the top half */
         #pedestal {
             position: relative;
-            width: 1050px;
+            width: 1000px;
             height: 650px;
-            transform: rotateX(20deg); /* Tilts the top half away for visibility */
+            transform: rotateX(22deg); 
             transform-style: preserve-3d;
         }
 
-        /* The Book Body */
         #book {
             position: relative;
-            width: 1000px;
-            height: 600px;
-            margin: 0 auto;
+            width: 100%;
+            height: 100%;
             transform-style: preserve-3d;
-            transition: transform 0.6s ease;
+            transition: transform 0.8s ease;
         }
 
-        /* Interior Spread (The background image) */
+        /* Interior Background */
         #interior {
             position: absolute;
             width: 100%;
             height: 100%;
             background: url('furniturecatalog.png') no-repeat center center;
             background-size: cover;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
             display: flex;
             padding: 40px;
             box-sizing: border-box;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.8);
             border-radius: 4px;
         }
 
-        /* Front Cover - Opens Right to Left */
+        /* Cover: Opens Right-to-Left */
         #cover {
             position: absolute;
-            width: 50%; /* Covers the right page of the spread */
+            width: 50%;
             height: 100%;
             right: 0;
             background: #0a0a0a;
             color: var(--gold);
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            border: 1px solid #1a1a1a;
-            border-left: 6px solid #222; /* The Spine hinge */
-            z-index: 10;
-            transform-origin: left; 
+            border-left: 6px solid #222;
+            z-index: 100;
+            transform-origin: left;
             transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             backface-visibility: hidden;
+            border: 1px solid #1a1a1a;
         }
 
-        /* Triggered class for when the room is clicked */
-        .book-open #cover {
-            transform: rotateY(-175deg);
+        #book.book-open #cover {
+            transform: rotateY(-170deg);
         }
 
-        /* Gold Headers */
+        /* Gold Page Headers */
         .gold-header {
             position: absolute;
-            top: 40px;
+            top: 45px;
             width: 40%;
             text-align: center;
             color: var(--gold);
             font-size: 1.4rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            pointer-events: none;
         }
         #l-head { left: 6%; }
         #r-head { right: 6%; }
 
-        /* Item Grid */
+        /* Furniture Grid */
         .page-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -104,36 +113,29 @@
             gap: 15px;
             width: 42%;
             height: 75%;
-            margin-top: 75px;
+            margin-top: 80px;
         }
         #l-page { margin-right: auto; }
         #r-page { margin-left: auto; }
 
-        .slot {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        .slot { 
+            text-align: center; 
+            cursor: cell; /* Indicates selection capability */
         }
-
-        .slot img {
-            width: 110px;
-            height: 110px;
-            object-fit: contain;
+        .slot img { 
+            width: 110px; 
+            height: 110px; 
+            object-fit: contain; 
+            transition: transform 0.2s;
         }
-
-        .label {
-            font-size: 9px;
-            color: #222;
-            margin-top: 5px;
-            text-transform: uppercase;
-        }
+        .slot img:hover { transform: scale(1.1); }
+        .label { font-size: 9px; color: #333; margin-top: 5px; text-transform: uppercase; }
 
         /* Side Navigation Tabs */
-        .tabs-container {
+        .side-tabs {
             position: absolute;
             right: -45px;
-            top: 60px;
+            top: 80px;
             display: flex;
             flex-direction: column;
             gap: 6px;
@@ -148,15 +150,14 @@
             cursor: pointer;
             font-size: 11px;
             border-radius: 0 5px 5px 0;
-            transition: 0.3s;
+            transition: transform 0.2s;
         }
+        .tab:hover { transform: translateX(4px); }
 
-        .tab:hover { transform: translateX(5px); background: #111; }
-
-        /* Sub-nav Buttons */
+        /* Sub-Navigation (Seating Categories) */
         #sub-nav {
             position: absolute;
-            bottom: -70px;
+            bottom: -90px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -167,99 +168,140 @@
             background: #000;
             color: var(--gold);
             border: 1px solid var(--gold);
-            padding: 8px 12px;
+            padding: 8px 15px;
             cursor: pointer;
             font-family: inherit;
-            font-size: 10px;
+            font-size: 11px;
+            transition: 0.3s;
+        }
+        .sub-btn:hover { background: var(--gold); color: #000; }
+
+        #close-btn {
+            position: absolute;
+            top: -60px;
+            right: 0;
+            color: var(--gold);
+            cursor: pointer;
+            border: 1px solid var(--gold);
+            padding: 5px 10px;
         }
     </style>
 </head>
 <body>
 
-<div id="pedestal">
-    <div id="book">
-        <div id="cover" onclick="this.parentElement.classList.toggle('book-open')">
-            <div style="border: 2px solid var(--gold); padding: 20px; text-align: center;">
-                <h1 style="margin: 0;">CATALOG</h1>
-                <p style="font-size: 10px; letter-spacing: 5px;">COLLECTION</p>
+    <div id="catalog-overlay">
+        <div id="pedestal">
+            <div id="close-btn" onclick="closeCatalog()">CLOSE CATALOG [X]</div>
+            
+            <div id="book">
+                <div id="cover" onclick="openBook()">
+                    <div style="border: 2px solid var(--gold); padding: 30px; text-align: center;">
+                        <h2 style="margin:0">FURNITURE</h2>
+                        <p style="margin:5px 0 0 0; font-size:10px; letter-spacing:4px;">COLLECTION</p>
+                    </div>
+                </div>
+
+                <div id="interior">
+                    <div id="l-head" class="gold-header"></div>
+                    <div id="r-head" class="gold-header"></div>
+
+                    <div id="l-page" class="page-grid"></div>
+                    <div id="r-page" class="page-grid"></div>
+
+                    <div class="side-tabs">
+                        <div class="tab" onclick="setCategory('seating')">SEATING</div>
+                        <div class="tab" onclick="setCategory('storage')">STORAGE</div>
+                        <div class="tab" onclick="setCategory('tables')">TABLES</div>
+                        <div class="tab" onclick="setCategory('beds')">BEDS</div>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div id="interior">
-            <div id="l-head" class="gold-header"></div>
-            <div id="r-head" class="gold-header"></div>
-
-            <div id="l-page" class="page-grid"></div>
-            <div id="r-page" class="page-grid"></div>
-
-            <div class="tabs-container">
-                <div class="tab" onclick="setCat('seating')">SEATING</div>
-                <div class="tab" onclick="setCat('storage')">STORAGE</div>
-                <div class="tab" onclick="setCat('tables')">TABLES</div>
-                <div class="tab" onclick="setCat('beds')">BEDS</div>
+            <div id="sub-nav">
+                <button class="sub-btn" onclick="render('seating_couch', 'Couches', 'Styles')">COUCHES</button>
+                <button class="sub-btn" onclick="render('seating_armchair', 'Armchairs', 'Styles')">ARMCHAIRS</button>
+                <button class="sub-btn" onclick="render('seating_bench', 'Benches', 'Styles')">BENCHES</button>
+                <button class="sub-btn" onclick="render('seating_barstool', 'Barstools', 'Styles')">BARSTOOLS</button>
+                <button class="sub-btn" onclick="render('seating_ottoman', 'Ottomans', 'Styles')">OTTOMANS</button>
+                <button class="sub-btn" onclick="render('seating_dining', 'Dining', 'Empty')">DINING</button>
             </div>
         </div>
     </div>
 
-    <div id="sub-nav">
-        <button class="sub-btn" onclick="render('seating_couch', 'Couches', 'Styles')">COUCHES</button>
-        <button class="sub-btn" onclick="render('seating_armchair', 'Armchairs', 'Styles')">ARMCHAIRS</button>
-        <button class="sub-btn" onclick="render('seating_bench', 'Benches', 'Styles')">BENCHES</button>
-        <button class="sub-btn" onclick="render('seating_barstool', 'Barstools', 'Styles')">BARSTOOLS</button>
-        <button class="sub-btn" onclick="render('seating_ottoman', 'Ottomans', 'Styles')">OTTOMANS</button>
-        <button class="sub-btn" onclick="render('seating_dining', 'Dining', 'Placeholder')">DINING</button>
-    </div>
-</div>
+    <script>
+        const overlay = document.getElementById('catalog-overlay');
+        const book = document.getElementById('book');
+        const lPage = document.getElementById('l-page');
+        const rPage = document.getElementById('r-page');
+        const lHead = document.getElementById('l-head');
+        const rHead = document.getElementById('r-head');
 
-<script>
-    const lPage = document.getElementById('l-page');
-    const rPage = document.getElementById('r-page');
-    const lHead = document.getElementById('l-head');
-    const rHead = document.getElementById('r-head');
-
-    function render(prefix, headL, headR) {
-        lPage.innerHTML = '';
-        rPage.innerHTML = '';
-        lHead.innerText = headL;
-        rHead.innerText = headR;
-
-        let total = (prefix === 'seating_dining') ? 7 : 12;
-
-        for (let i = 1; i <= 12; i++) {
-            const slot = document.createElement('div');
-            slot.className = 'slot';
-
-            if (i <= total) {
-                slot.innerHTML = `
-                    <img src="${prefix}${i}.png" alt="Furniture">
-                    <div class="label">${prefix.split('_')[1]} ${i}</div>
-                `;
-            } else {
-                // Empty placeholders for incomplete sets
-                slot.innerHTML = `<div style="height:110px; width:110px; border: 1px dashed rgba(0,0,0,0.1);"></div>`;
-            }
-
-            if (i <= 6) lPage.appendChild(slot);
-            else rPage.appendChild(slot);
+        function showCatalog() {
+            overlay.style.display = 'flex';
         }
-    }
 
-    function setCat(cat) {
-        if (cat === 'seating') {
-            document.getElementById('sub-nav').style.display = 'flex';
-            render('seating_couch', 'Couches', 'Selections');
-        } else {
-            document.getElementById('sub-nav').style.display = 'none';
-            lHead.innerText = cat.toUpperCase();
-            rHead.innerText = "COLLECTION";
-            lPage.innerHTML = '<div style="color:var(--gold); grid-column: span 3; padding-top: 40px;">SECTION COMING SOON</div>';
+        function closeCatalog() {
+            overlay.style.display = 'none';
+            book.classList.remove('book-open');
+        }
+
+        function openBook() {
+            book.classList.add('book-open');
+        }
+
+        // --- NEW: Double Click Logic to Send to Work Area ---
+        function sendToWorkArea(imgSrc) {
+            console.log("Sending to Work Area:", imgSrc);
+            // This is where your site's logic for placing the item goes.
+            // Example: window.parent.placeFurniture(imgSrc); 
+            // Or if internal: placeItemOnRoom(imgSrc);
+            
+            // Optional: Close catalog after selection
+            // closeCatalog(); 
+        }
+
+        function render(prefix, headL, headR) {
+            lPage.innerHTML = '';
             rPage.innerHTML = '';
+            lHead.innerText = headL;
+            rHead.innerText = headR;
+
+            let limit = (prefix === 'seating_dining') ? 7 : 12;
+
+            for (let i = 1; i <= 12; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'slot';
+
+                if (i <= limit) {
+                    const imgSrc = `${prefix}${i}.png`;
+                    slot.innerHTML = `
+                        <img src="${imgSrc}" ondblclick="sendToWorkArea('${imgSrc}')" alt="Furniture">
+                        <div class="label">${prefix.split('_')[1]} No. ${i}</div>
+                    `;
+                } else {
+                    slot.innerHTML = `<div style="height:110px; width:110px; border: 1px dashed rgba(0,0,0,0.1);"></div>`;
+                }
+
+                if (i <= 6) lPage.appendChild(slot);
+                else rPage.appendChild(slot);
+            }
         }
-    }
 
-    // Default initialization
-    render('seating_couch', 'Couches', 'Selections');
-</script>
+        function setCategory(cat) {
+            if (cat === 'seating') {
+                document.getElementById('sub-nav').style.visibility = 'visible';
+                render('seating_couch', 'Couches', 'Selections');
+            } else {
+                document.getElementById('sub-nav').style.visibility = 'hidden';
+                lHead.innerText = cat.toUpperCase();
+                rHead.innerText = "COLLECTION";
+                lPage.innerHTML = '<div style="color:var(--gold); grid-column: span 3; padding-top: 50px;">SECTION COMING SOON</div>';
+                rPage.innerHTML = '';
+            }
+        }
 
+        // Initialize Seating
+        render('seating_couch', 'Couches', 'Selections');
+    </script>
 </body>
 </html>
