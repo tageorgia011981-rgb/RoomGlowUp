@@ -1,311 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Room Glow Up</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Furniture Catalog Pedestal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --black: #000000;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Limelight&display=swap" rel="stylesheet">
+        body {
+            margin: 0;
+            background-color: transparent; /* Allows integration with your work area */
+            font-family: 'Special Elite', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            perspective: 2500px;
+            overflow: hidden;
+        }
 
-<style>
-* { box-sizing: border-box; }
+        /* The Pedestal - provides the raised top perspective */
+        #pedestal {
+            position: relative;
+            width: 1050px;
+            height: 650px;
+            transform: rotateX(20deg); /* Tilts the top half away for visibility */
+            transform-style: preserve-3d;
+        }
 
-:root {
-  --lux-gold: #f1d58f;
-  --cabinet-width: 560px;
-}
+        /* The Book Body */
+        #book {
+            position: relative;
+            width: 1000px;
+            height: 600px;
+            margin: 0 auto;
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease;
+        }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
-  font-family: "Special Elite", courier, serif;
-  color: #fff;
-  overflow-x: hidden;
-  scroll-behavior: smooth; 
-  background-color: #05070d;
-  background-image:
-    url("Assets/mainbackground_curtainl.jpg"),
-    url("Assets/mainbackground_curtainr.jpg"),
-    url("Assets/mainbackground_blue.jpg");
-  background-repeat: no-repeat;
-  background-position: left top, right top, center top;
-  background-size: 33% 100%, 33% 100%, 34% 100%;
-  background-attachment: fixed;
-}
+        /* Interior Spread (The background image) */
+        #interior {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('furniturecatalog.png') no-repeat center center;
+            background-size: cover;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+            display: flex;
+            padding: 40px;
+            box-sizing: border-box;
+            border-radius: 4px;
+        }
 
-/* --- GLAM HEADER --- */
-.hero { text-align: center; padding: 40px 20px 10px; position: relative; z-index: 10; }
-.hero h1 {
-  margin: 0;
-  font-family: "Limelight", serif;
-  font-size: clamp(50px, 8vw, 110px);
-  letter-spacing: 5px;
-  background: linear-gradient(115deg, #fff8d7 0%, #ffd7f3 22%, #fff4a8 48%, #b7f6ff 70%, #fff8d7 100%);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: glamShift 5s ease-in-out infinite;
-}
-.hero h2 {
-  margin: 10px 0 0;
-  font-family: "Special Elite", serif;
-  font-size: clamp(18px, 2vw, 32px);
-  color: #fff8f2;
-  text-shadow: 0 0 10px rgba(188, 255, 250, 0.6);
-  animation: subtitleGlow 3s ease-in-out infinite;
-}
+        /* Front Cover - Opens Right to Left */
+        #cover {
+            position: absolute;
+            width: 50%; /* Covers the right page of the spread */
+            height: 100%;
+            right: 0;
+            background: #0a0a0a;
+            color: var(--gold);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #1a1a1a;
+            border-left: 6px solid #222; /* The Spine hinge */
+            z-index: 10;
+            transform-origin: left; 
+            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            backface-visibility: hidden;
+        }
 
-@keyframes glamShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@keyframes subtitleGlow { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
+        /* Triggered class for when the room is clicked */
+        .book-open #cover {
+            transform: rotateY(-175deg);
+        }
 
-/* --- NAVIGATION TABS --- */
-.tab-row { 
-  display: flex; 
-  justify-content: center; 
-  flex-wrap: wrap;
-  gap: 15px; 
-  padding: 20px; 
-  position: relative;
-  z-index: 20;
-}
-.pull-tab { 
-  position: relative; 
-  width: 210px; 
-  height: 90px;
-  border: 0; 
-  background: transparent; 
-  cursor: pointer; 
-  transition: transform 0.3s ease;
-  padding: 0;
-  overflow: visible;
-}
-.pull-tab img { width: 100%; height: auto; display: block; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
+        /* Gold Headers */
+        .gold-header {
+            position: absolute;
+            top: 40px;
+            width: 40%;
+            text-align: center;
+            color: var(--gold);
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        #l-head { left: 6%; }
+        #r-head { right: 6%; }
 
-.pull-tab span { 
-  position: absolute; 
-  top: 60%; /* Pushed down into the handle body */
-  left: 50%; 
-  transform: translate(-50%, -50%); 
-  width: 85%;
-  text-align: center;
-  color: #ffffff !important; 
-  font-family: "Special Elite", serif !important; /* Forced Old Typewriter */
-  font-size: 15px; 
-  font-weight: bold; 
-  line-height: 1.1; 
-  text-shadow: 2px 2px 3px rgba(0,0,0,1);
-  pointer-events: none;
-  text-transform: uppercase;
-}
-.pull-tab:hover { transform: translateY(-8px); }
+        /* Item Grid */
+        .page-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 15px;
+            width: 42%;
+            height: 75%;
+            margin-top: 75px;
+        }
+        #l-page { margin-right: auto; }
+        #r-page { margin-left: auto; }
 
-/* --- WORKSPACE LAYOUT --- */
-.workspace-section { 
-  width: 98%; 
-  margin: 40px auto; 
-  position: relative; 
-  overflow: hidden; 
-}
-.workspace-row { 
-  display: flex; 
-  justify-content: flex-end; 
-  align-items: flex-start;
-}
+        .slot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
-#rooms-cabinet {
-  width: var(--cabinet-width);
-  height: 600px;
-  margin-right: -560px; 
-  opacity: 0;
-  visibility: hidden;
-  transition: margin-right 0.8s ease, opacity 0.5s ease;
-  position: relative;
-  flex-shrink: 0;
-}
-#rooms-cabinet.show { 
-  margin-right: 20px; 
-  opacity: 1; 
-  visibility: visible;
-}
+        .slot img {
+            width: 110px;
+            height: 110px;
+            object-fit: contain;
+        }
 
-.cabinet-img { width: 100%; height: 100%; object-fit: contain; }
+        .label {
+            font-size: 9px;
+            color: #222;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
 
-.drawer-zone {
-  position: absolute;
-  left: 13%; width: 74%; height: 9%;
-  background: transparent; border: none; cursor: pointer;
-  z-index: 5;
-}
-.drawer-living { top: 21.2%; }
-.drawer-bedroom { top: 54.4%; }
-.drawer-dining { top: 37.8%; }
-.drawer-spare { top: 71%; }
+        /* Side Navigation Tabs */
+        .tabs-container {
+            position: absolute;
+            right: -45px;
+            top: 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
 
-#work-area {
-  flex: 1;
-  min-width: 800px; 
-  height: 600px;
-  background: #111 url("Assets/workstation.jpg") center/cover no-repeat;
-  border: 2px solid rgba(255, 230, 150, 0.3);
-  border-radius: 10px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-  transition: flex 0.8s ease;
-}
+        .tab {
+            background: var(--black);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 18px 8px;
+            writing-mode: vertical-rl;
+            cursor: pointer;
+            font-size: 11px;
+            border-radius: 0 5px 5px 0;
+            transition: 0.3s;
+        }
 
-/* --- THE IMMERSIVE GALLERY (NO STRETCH) --- */
-#gallery-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 5000;
-  background-color: rgba(0,0,0,0.98);
-  background-size: contain; 
-  background-position: center;
-  background-repeat: no-repeat;
-}
-#gallery-overlay.open { display: flex; flex-direction: column; }
+        .tab:hover { transform: translateX(5px); background: #111; }
 
-#gallery-overlay::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: inherit;
-  background-size: cover;
-  filter: blur(60px);
-  opacity: 0.15;
-  z-index: -1;
-}
+        /* Sub-nav Buttons */
+        #sub-nav {
+            position: absolute;
+            bottom: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
 
-#gallery-close {
-  position: fixed; top: 20px; right: 20px;
-  width: 45px; height: 45px; border-radius: 50%;
-  background: rgba(0,0,0,0.7); color: #fff; border: 2px solid #fff;
-  font-size: 24px; cursor: pointer; z-index: 5001;
-}
-#gallery-footer { 
-  margin-top: auto; 
-  padding: 30px; 
-  background: linear-gradient(transparent, rgba(0,0,0,0.9)); 
-  text-align: center; 
-}
-#gallery-counter {
-  font-family: "Special Elite", serif;
-  color: var(--lux-gold);
-  letter-spacing: 2px;
-  font-size: 20px;
-}
-
-</style>
+        .sub-btn {
+            background: #000;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 8px 12px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 10px;
+        }
+    </style>
 </head>
-
 <body>
 
-<header class="hero">
-  <h1>Room Glow Up</h1>
-  <h2>Where your dream space comes to life</h2>
-</header>
+<div id="pedestal">
+    <div id="book">
+        <div id="cover" onclick="this.parentElement.classList.toggle('book-open')">
+            <div style="border: 2px solid var(--gold); padding: 20px; text-align: center;">
+                <h1 style="margin: 0;">CATALOG</h1>
+                <p style="font-size: 10px; letter-spacing: 5px;">COLLECTION</p>
+            </div>
+        </div>
 
-<nav class="tab-row">
-  <button class="pull-tab" id="roomsTab">
-    <img src="Assets/pulltab.png" alt="Handle">
-    <span>ROOMS</span>
-  </button>
-  <button class="pull-tab" id="catalogTab">
-    <img src="Assets/pulltab.png" alt="Handle">
-    <span>FURNITURE CATALOG</span>
-  </button>
-  <button class="pull-tab" id="decorTab">
-    <img src="Assets/pulltab.png" alt="Handle">
-    <span>DECOR CLOSET</span>
-  </button>
-  <button class="pull-tab" id="galleryTab">
-    <img src="Assets/pulltab.png" alt="Handle">
-    <span>GALLERY</span>
-  </button>
-  <button class="pull-tab" id="saveTab">
-    <img src="Assets/pulltab.png" alt="Handle">
-    <span>SAVE / CHECKOUT</span>
-  </button>
-</nav>
+        <div id="interior">
+            <div id="l-head" class="gold-header"></div>
+            <div id="r-head" class="gold-header"></div>
 
-<section class="workspace-section" id="workspace">
-  <div class="workspace-row">
-    <div id="rooms-cabinet">
-      <img src="Assets/rooms_cabinet.png" class="cabinet-img" alt="Rooms Cabinet">
-      <button class="drawer-zone drawer-living" data-room="living"></button>
-      <button class="drawer-zone drawer-bedroom" data-room="bedroom"></button>
-      <button class="drawer-zone drawer-dining" data-room="dining"></button>
-      <button class="drawer-zone drawer-spare" data-room="spare"></button>
+            <div id="l-page" class="page-grid"></div>
+            <div id="r-page" class="page-grid"></div>
+
+            <div class="tabs-container">
+                <div class="tab" onclick="setCat('seating')">SEATING</div>
+                <div class="tab" onclick="setCat('storage')">STORAGE</div>
+                <div class="tab" onclick="setCat('tables')">TABLES</div>
+                <div class="tab" onclick="setCat('beds')">BEDS</div>
+            </div>
+        </div>
     </div>
 
-    <div id="work-area"></div>
-  </div>
-</section>
-
-<div id="gallery-overlay">
-  <button id="gallery-close">&times;</button>
-  <div id="gallery-trigger" style="flex:1; cursor:pointer;"></div>
-  <div id="gallery-footer">
-    <span id="gallery-counter"></span>
-  </div>
+    <div id="sub-nav">
+        <button class="sub-btn" onclick="render('seating_couch', 'Couches', 'Styles')">COUCHES</button>
+        <button class="sub-btn" onclick="render('seating_armchair', 'Armchairs', 'Styles')">ARMCHAIRS</button>
+        <button class="sub-btn" onclick="render('seating_bench', 'Benches', 'Styles')">BENCHES</button>
+        <button class="sub-btn" onclick="render('seating_barstool', 'Barstools', 'Styles')">BARSTOOLS</button>
+        <button class="sub-btn" onclick="render('seating_ottoman', 'Ottomans', 'Styles')">OTTOMANS</button>
+        <button class="sub-btn" onclick="render('seating_dining', 'Dining', 'Placeholder')">DINING</button>
+    </div>
 </div>
 
 <script>
-const roomsTab = document.getElementById("roomsTab");
-const cabinet = document.getElementById("rooms-cabinet");
-const workArea = document.getElementById("work-area");
-const workspace = document.getElementById("workspace");
+    const lPage = document.getElementById('l-page');
+    const rPage = document.getElementById('r-page');
+    const lHead = document.getElementById('l-head');
+    const rHead = document.getElementById('r-head');
 
-roomsTab.onclick = () => {
-  cabinet.classList.toggle("show");
-  if (cabinet.classList.contains("show")) {
-    workspace.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-};
+    function render(prefix, headL, headR) {
+        lPage.innerHTML = '';
+        rPage.innerHTML = '';
+        lHead.innerText = headL;
+        rHead.innerText = headR;
 
-const roomImages = {
-  living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg", "Assets/ROOMS_livingroom3.jpg", "Assets/ROOMS_livingroom5.jpg"],
-  bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg", "Assets/ROOMS_bedroom3.jpg"],
-  dining: ["Assets/ROOMS_diningroom1.jpg", "Assets/ROOMS_diningroom2.jpg"],
-  spare: ["Assets/ROOMS_bathroom1.jpg", "Assets/ROOMS_kitchen1.jpg"]
-};
-const roomIndex = { living: 0, bedroom: 0, dining: 0, spare: 0 };
+        let total = (prefix === 'seating_dining') ? 7 : 12;
 
-document.querySelectorAll(".drawer-zone").forEach(drawer => {
-  drawer.onclick = () => {
-    const room = drawer.dataset.room;
-    const imgs = roomImages[room];
-    workArea.style.backgroundImage = `url('${imgs[roomIndex[room]]}')`;
-    roomIndex[room] = (roomIndex[room] + 1) % imgs.length;
-  };
-});
+        for (let i = 1; i <= 12; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'slot';
 
-const galleryImages = ["Assets/gallerydoors.jpg", "Assets/galleryentrance1.jpg", "Assets/galleryentrance2.jpg"];
-let gIdx = 0;
-const gOverlay = document.getElementById("gallery-overlay");
-const gCounter = document.getElementById("gallery-counter");
+            if (i <= total) {
+                slot.innerHTML = `
+                    <img src="${prefix}${i}.png" alt="Furniture">
+                    <div class="label">${prefix.split('_')[1]} ${i}</div>
+                `;
+            } else {
+                // Empty placeholders for incomplete sets
+                slot.innerHTML = `<div style="height:110px; width:110px; border: 1px dashed rgba(0,0,0,0.1);"></div>`;
+            }
 
-document.getElementById("galleryTab").onclick = () => {
-  gIdx = 0;
-  updateGallery();
-  gOverlay.classList.add("open");
-};
+            if (i <= 6) lPage.appendChild(slot);
+            else rPage.appendChild(slot);
+        }
+    }
 
-function updateGallery() {
-  gOverlay.style.backgroundImage = `url('${galleryImages[gIdx]}')`;
-  gCounter.textContent = `IMAGE ${gIdx + 1} OF ${galleryImages.length}`;
-}
+    function setCat(cat) {
+        if (cat === 'seating') {
+            document.getElementById('sub-nav').style.display = 'flex';
+            render('seating_couch', 'Couches', 'Selections');
+        } else {
+            document.getElementById('sub-nav').style.display = 'none';
+            lHead.innerText = cat.toUpperCase();
+            rHead.innerText = "COLLECTION";
+            lPage.innerHTML = '<div style="color:var(--gold); grid-column: span 3; padding-top: 40px;">SECTION COMING SOON</div>';
+            rPage.innerHTML = '';
+        }
+    }
 
-document.getElementById("gallery-trigger").onclick = () => {
-  if (gIdx < galleryImages.length - 1) {
-    gIdx++;
-    updateGallery();
-  }
-};
-
-document.getElementById("gallery-close").onclick = () => gOverlay.classList.remove("open");
+    // Default initialization
+    render('seating_couch', 'Couches', 'Selections');
 </script>
 
 </body>
