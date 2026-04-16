@@ -16,7 +16,8 @@
 
     * { box-sizing: border-box; }
 
-    html, body {
+    html,
+    body {
       margin: 0;
       min-height: 100%;
       font-family: "Limelight", serif;
@@ -25,7 +26,7 @@
         url("Assets/mainbackground_curtainl.jpg"),
         url("Assets/mainbackground_curtainr.jpg"),
         url("Assets/mainbackground_blue.jpg");
-      background-repeat: no-repeat;
+      background-repeat: no-repeat, no-repeat, no-repeat;
       background-position: left top, right top, center top;
       background-size: 33% 100%, 33% 100%, 34% 100%;
       overflow-x: hidden;
@@ -74,7 +75,8 @@
       transition: transform 0.24s ease, filter 0.24s ease;
     }
 
-    .pull-tab:hover, .pull-tab:focus-visible {
+    .pull-tab:hover,
+    .pull-tab:focus-visible {
       transform: translateY(-4px);
       filter: brightness(1.2);
       outline: none;
@@ -85,7 +87,10 @@
       filter: drop-shadow(var(--glow));
     }
 
-    .pull-tab img { width: 100%; display: block; }
+    .pull-tab img {
+      width: 100%;
+      display: block;
+    }
 
     .pull-tab span {
       position: absolute;
@@ -134,7 +139,11 @@
       pointer-events: auto;
     }
 
-    .catalog-left { display: grid; grid-template-rows: auto auto 1fr; gap: 10px; }
+    .catalog-left {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 10px;
+    }
 
     .catalog-cover {
       min-height: 118px;
@@ -161,12 +170,26 @@
       border-radius: 999px;
       color: #fff;
       background: rgba(4, 8, 18, 0.74);
+      font-family: inherit;
       font-size: 0.72rem;
+      letter-spacing: 0.6px;
       padding: 7px 12px;
       cursor: pointer;
+      transition: transform 0.2s ease;
     }
 
-    .picker-title { margin: 0; font-size: 1rem; color: var(--gold); }
+    .directory-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--glow);
+    }
+
+    .picker-title {
+      margin: 0;
+      font-size: 1rem;
+      letter-spacing: 0.8px;
+      color: var(--gold);
+      text-shadow: var(--text-shadow);
+    }
 
     .preview-box {
       display: grid;
@@ -174,14 +197,39 @@
       gap: 8px;
       padding: 10px;
       border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
       background: rgba(6, 9, 20, 0.75);
     }
 
-    .preview-box img { width: 100%; height: 100%; object-fit: contain; }
+## Cursor Cloud specific instructions
+    .preview-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+    }
 
-    .catalog-right { display: grid; grid-template-rows: auto 1fr; gap: 10px; min-height: 0; }
+    .preview-meta {
+      margin: 0;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      letter-spacing: 0.4px;
+      font-family: "Times New Roman", serif;
+    }
 
-    .category-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .catalog-right {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 10px;
+      min-height: 0;
+    }
+
+    .category-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
 
     .category-chip {
       border: 1px solid rgba(255, 255, 255, 0.42);
@@ -189,19 +237,27 @@
       color: #fff;
       border-radius: 999px;
       padding: 6px 12px;
+      font-family: inherit;
+      letter-spacing: 0.7px;
+      font-size: 0.72rem;
       cursor: pointer;
     }
 
-    .category-chip.active { background: rgba(196, 152, 48, 0.75); }
+    .category-chip.active,
+    .category-chip:hover {
+      background: rgba(196, 152, 48, 0.75);
+      box-shadow: var(--glow);
+    }
 
     .item-grid {
       overflow: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 10px;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
       gap: 10px;
       background: rgba(4, 8, 18, 0.56);
-      padding: 10px;
-      border-radius: 12px;
     }
 
     .item-card {
@@ -209,10 +265,34 @@
       border-radius: 10px;
       padding: 8px;
       cursor: pointer;
+      background: rgba(21, 25, 44, 0.65);
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
       text-align: center;
+      font-size: 0.68rem;
+      letter-spacing: 0.5px;
     }
 
-    .item-card img { width: 100%; height: 78px; object-fit: contain; }
+    .item-card:hover,
+    .item-card.selected {
+      transform: translateY(-3px);
+      box-shadow: 0 0 12px rgba(255, 255, 184, 0.66);
+    }
+
+    .item-card img {
+      width: 100%;
+      height: 78px;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    .item-card p {
+      margin: 6px 0 0;
+      min-height: 24px;
+      display: grid;
+      place-items: center;
+      line-height: 1.2;
+      pointer-events: none;
+    }
 
     .workspace-row {
       width: min(1500px, 98vw);
@@ -221,32 +301,62 @@
       grid-template-columns: 0fr 1fr;
       gap: 18px;
       transition: grid-template-columns 0.55s ease;
+      align-items: stretch;
     }
 
+This is a zero-dependency, static HTML/CSS/JS website. There are no build tools, package managers, frameworks, or backend services.
     .workspace-row.cabinet-open {
       grid-template-columns: minmax(260px, 0.31fr) 1fr;
     }
 
+### Running the development server
     #rooms-cabinet {
       position: relative;
       min-height: 680px;
       opacity: 0;
-      transform: translateX(-20px);
-      transition: transform 0.4s ease, opacity 0.4s ease;
+      transform: translateX(-112%);
+      transition: transform 0.55s ease, opacity 0.55s ease;
       pointer-events: none;
     }
 
+Serve the repository root with any static HTTP server. The simplest option:
     #rooms-cabinet.show {
       opacity: 1;
       transform: translateX(0);
       pointer-events: auto;
     }
 
-    .cabinet-img { width: 100%; border-radius: 12px; }
+```
+python3 -m http.server 8080
+```
+    .cabinet-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 18px 30px rgba(0, 0, 0, 0.5);
+    }
 
+Then open `http://localhost:8080/index.html` in a browser.
     .drawer-zone {
-      position: absolute; left: 8%; width: 84%; height: 17%;
-      background: transparent; border: none; cursor: pointer;
+      position: absolute;
+      left: 8%;
+      width: 84%;
+      height: 17%;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      border-radius: 16px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+### Key files
+    .drawer-zone:hover,
+    .drawer-zone:focus-visible {
+      transform: translateY(-3px);
+      box-shadow: 0 0 24px rgba(255, 252, 178, 0.84);
+      outline: none;
     }
 
     .drawer-living { top: 1.3%; }
@@ -255,51 +365,303 @@
     .drawer-spare { top: 60%; }
     .drawer-upload { top: 79.8%; }
 
-    #work-area {
-      min-height: 680px;
-      border-radius: 12px;
-      background: url("Assets/workstation.jpg") center/cover no-repeat;
+- `index.html` — main application (inline CSS + vanilla JS)
+- `decor-test.html` — standalone test page for the Decor Closet image cycling feature
+- `Assets/` — all image assets (PNG furniture/decor items, JPG room backgrounds and UI elements)
+    .workspace-shell {
       position: relative;
     }
 
-    .placed-item { position: absolute; width: 130px; cursor: grab; }
+    #work-area {
+      min-height: 680px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: url("Assets/workstation.jpg") center/cover no-repeat;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.45);
+      position: relative;
+      cursor: pointer;
+      transition: background-image 0.45s ease, filter 0.2s ease;
+    }
 
+### Notes
+    #work-area.room-ready {
+      box-shadow: 0 0 24px rgba(255, 242, 176, 0.88);
+    }
+
+- There is no linter, test runner, or build step configured in this project.
+- The Google Fonts CDN (`Limelight` font) is loaded at runtime; the page still renders without internet but falls back to `serif`.
+- Opening `index.html` via `file://` may cause CORS issues with image loading in some browsers; always use an HTTP server.
+    #placedItems {
+      position: absolute;
+      inset: 0;
+    }
+
+index.html
+    .placed-item {
+      position: absolute;
+      width: 130px;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-drag: none;
+      transform-origin: center;
+    }
+
++32
+-17
+roomsTab.onclick = () => {
+  cabinet.classList.toggle("show");
+};
+    .placed-item:active {
+      cursor: grabbing;
+    }
+
+/* ROOM IMAGE SETS — each drawer cycles through its options on click */
     .ghost-note {
-      position: absolute; top: 14px; left: 14px;
-      padding: 8px 12px; background: rgba(5, 8, 20, 0.66);
-      border-radius: 999px; font-size: 0.74rem;
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      margin: 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      letter-spacing: 0.7px;
+      background: rgba(5, 8, 20, 0.66);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      text-shadow: var(--text-shadow);
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.36s ease;
     }
 
-    .hidden { display: none !important; }
+const roomImages = {
+  living: [
+    "Assets/ROOMS_livingroom1.jpg",
+    "Assets/ROOMS_livingroom2.jpg",
+    "Assets/ROOMS_livingroom3.jpg",
+    "Assets/ROOMS_livingroom5.jpg"
+  ],
+  bedroom: [
+    "Assets/ROOMS_bedroom1.jpg",
+    "Assets/ROOMS_bedroom2.jpg",
+    "Assets/ROOMS_bedroom3.jpg"
+  ],
+  dining: [
+    "Assets/ROOMS_diningroom1.jpg",
+    "Assets/ROOMS_diningroom2.jpg"
+  ],
+  spare: [
+    "Assets/ROOMS_bathroom1.jpg",
+    "Assets/ROOMS_kitchen1.jpg",
+    "Assets/ROOMS_office1.jpg"
+  ]
+};
+    .ghost-note.hidden {
+      opacity: 0;
+    }
 
-    .gallery-panel, .receipt-panel {
-      position: fixed; background: var(--panel-bg);
+const roomIndex = { living: 0, bedroom: 0, dining: 0, spare: 0 };
+    .gallery-panel {
+      position: fixed;
+      right: 0;
+      top: 132px;
+      width: min(470px, 95vw);
+      max-height: 72vh;
+      border-radius: 16px 0 0 16px;
       border: 1px solid var(--panel-border);
-      opacity: 0; pointer-events: none; transition: 0.4s ease;
-      z-index: 100;
+      background: var(--panel-bg);
+      backdrop-filter: blur(5px);
+      transform: translateX(104%);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.45s ease, opacity 0.33s ease;
+      padding: 14px;
+      z-index: 30;
+      overflow: auto;
     }
 
-    .gallery-panel.open, .receipt-panel.open { opacity: 1; pointer-events: auto; }
+/* DRAWER CLICK */
+    .gallery-panel.open {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-    .gallery-panel { right: 0; top: 132px; width: 400px; padding: 15px; transform: translateX(100%); }
-    .gallery-panel.open { transform: translateX(0); }
+document.querySelectorAll(".drawer-zone").forEach(drawer => {
+  drawer.addEventListener("click", () => {
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
 
-    .receipt-panel { top: 100px; left: 50%; transform: translate(-50%, -20px); width: 450px; padding: 20px; }
-    .receipt-panel.open { transform: translate(-50%, 0); }
+    const room = drawer.dataset.room;
+    if (!room || !roomImages[room]) return;
+    .gallery-grid img {
+      width: 100%;
+      height: 145px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    if (room === "living") {
+      workArea.style.backgroundImage = "url('Assets/room_living.png')";
+    .receipt-panel {
+      position: fixed;
+      top: 88px;
+      left: 50%;
+      width: min(520px, 96vw);
+      height: min(76vh, 680px);
+      transform: translate(-50%, -110%);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.5s ease, opacity 0.32s ease;
+      z-index: 35;
+    }
+
+    if (room === "bedroom") {
+      workArea.style.backgroundImage = "url('Assets/room_bedroom.png')";
+    .receipt-panel.open {
+      transform: translate(-50%, 0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    if (room === "dining") {
+      workArea.style.backgroundImage = "url('Assets/room_dining.png')";
+    .receipt-sheet {
+      position: absolute;
+      inset: 0;
+      background: url("Assets/scrollreceipt.png") center/contain no-repeat;
+      filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.55));
+    }
+
+    if (room === "spare") {
+      workArea.style.backgroundImage = "url('Assets/room_spare.png')";
+    .receipt-content {
+      position: absolute;
+      top: 110px;
+      left: 16%;
+      right: 14%;
+      bottom: 90px;
+      color: #2f2016;
+      font-family: "Times New Roman", serif;
+      overflow: auto;
+      padding-right: 8px;
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    const imgs = roomImages[room];
+    const idx  = roomIndex[room];
+    workArea.style.backgroundImage = "url('" + imgs[idx] + "')";
+    roomIndex[room] = (idx + 1) % imgs.length;
+  });
+});
+    .receipt-content h3 {
+      margin: 0 0 8px;
+      font-family: "Limelight", serif;
+      color: #3b2518;
+      font-size: 1.2rem;
+    }
+
+    .receipt-list {
+      margin: 0;
+      padding-left: 16px;
+    }
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px dashed rgba(75, 47, 32, 0.4);
+      margin-bottom: 6px;
+      padding-bottom: 4px;
+    }
+
+    .receipt-total {
+      margin-top: 12px;
+      font-weight: 700;
+      font-size: 1.03rem;
+    }
 
     .decor-modal {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.7);
-      display: grid; place-items: center; opacity: 0; pointer-events: none; z-index: 200;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 40;
     }
-    .decor-modal.open { opacity: 1; pointer-events: auto; }
+
+    .decor-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
 
     .decor-panel {
-      width: 90%; max-width: 1200px; background: #111; padding: 20px; border-radius: 15px;
-      display: grid; grid-template-columns: 1fr 2fr; gap: 20px; position: relative;
+      width: min(1220px, 96vw);
+      max-height: 86vh;
+      overflow: auto;
+      background: linear-gradient(180deg, rgba(20, 24, 54, 0.97), rgba(8, 10, 24, 0.96));
+      border: 2px solid var(--panel-border);
+      border-radius: 16px;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(290px, 33%) 1fr;
+      gap: 12px;
+      position: relative;
     }
-    
-    .close-btn { position: absolute; top: 10px; right: 10px; cursor: pointer; }
 
+    .close-btn {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: rgba(10, 12, 30, 0.75);
+      color: #fff;
+      border-radius: 999px;
+      width: 34px;
+      height: 34px;
+      font-family: inherit;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .close-btn:hover {
+      box-shadow: var(--glow);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 1100px) {
+      .catalog-panel,
+      .decor-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .catalog-panel.open {
+        max-height: 650px;
+      }
+
+      .workspace-row.cabinet-open {
+        grid-template-columns: 1fr;
+      }
+
+      #rooms-cabinet,
+      #rooms-cabinet.show {
+        min-height: 540px;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+    }
   </style>
 </head>
 <body>
@@ -310,178 +672,467 @@
     </header>
 
     <nav class="tab-row">
-      <button class="pull-tab" id="roomsTab"><img src="Assets/roomscabinet_pulltab.png"><span>ROOMS</span></button>
-      <button class="pull-tab" id="catalogTab"><img src="Assets/roomscabinet_pulltab.png"><span>FURNITURE</span></button>
-      <button class="pull-tab" id="decorTab"><img src="Assets/roomscabinet_pulltab.png"><span>DECOR</span></button>
-      <button class="pull-tab" id="galleryTab"><img src="Assets/roomscabinet_pulltab.png"><span>GALLERY</span></button>
-      <button class="pull-tab" id="saveTab"><img src="Assets/roomscabinet_pulltab.png"><span>SAVE</span></button>
+      <button class="pull-tab" id="roomsTab"><img src="Assets/roomscabinet_pulltab.png" alt=""><span>ROOMS</span></button>
+      <button class="pull-tab" id="catalogTab"><img src="Assets/roomscabinet_pulltab.png" alt=""><span>FURNITURE CATALOG</span></button>
+      <button class="pull-tab" id="decorTab"><img src="Assets/roomscabinet_pulltab.png" alt=""><span>DECOR CLOSET</span></button>
+      <button class="pull-tab" id="galleryTab"><img src="Assets/roomscabinet_pulltab.png" alt=""><span>GALLERY</span></button>
+      <button class="pull-tab" id="saveTab"><img src="Assets/roomscabinet_pulltab.png" alt=""><span>SAVE/CHECKOUT</span></button>
     </nav>
 
     <section class="workspace-section">
-      <div class="catalog-panel" id="catalogPanel">
+      <section class="catalog-panel" id="catalogPanel">
         <div class="catalog-left">
           <div class="catalog-cover"></div>
-          <div class="preview-box">
-            <img id="furniturePreviewImage" src="Assets/seating_couch1.png">
-            <p id="furniturePreviewMeta" class="preview-meta">Double-click to place.</p>
+          <h3 class="picker-title">Furniture Preview</h3>
+          <div class="preview-box" id="furniturePreview">
+            <img id="furniturePreviewImage" src="Assets/seating_couch1.png" alt="Furniture preview">
+            <p class="preview-meta" id="furniturePreviewMeta">Double-click an item to place it in your room and add it to your estimate.</p>
           </div>
         </div>
         <div class="catalog-right">
           <div class="category-row" id="furnitureCategoryRow"></div>
           <div class="item-grid" id="furnitureGrid"></div>
         </div>
-      </div>
+      </section>
 
       <div class="workspace-row" id="workspaceRow">
         <aside id="rooms-cabinet">
-          <img src="Assets/rooms_cabinet.png" class="cabinet-img">
-          <button class="drawer-zone drawer-living" data-room="living"></button>
-          <button class="drawer-zone drawer-bedroom" data-room="bedroom"></button>
-          <button class="drawer-zone drawer-dining" data-room="dining"></button>
-          <button class="drawer-zone drawer-spare" data-room="spare"></button>
+          <img src="Assets/rooms_cabinet.png" class="cabinet-img" alt="Rooms cabinet">
+          <button class="drawer-zone drawer-living" data-room="living" aria-label="LIVINGROOM drawer"></button>
+          <button class="drawer-zone drawer-bedroom" data-room="bedroom" aria-label="BEDROOM drawer"></button>
+          <button class="drawer-zone drawer-dining" data-room="dining" aria-label="DININGROOM drawer"></button>
+          <button class="drawer-zone drawer-spare" data-room="spare" aria-label="SPARE ROOMS drawer"></button>
+          <button class="drawer-zone drawer-upload" id="uploadDrawer" aria-label="UPLOAD YOURS drawer"></button>
         </aside>
 
-        <div id="work-area">
-          <p class="ghost-note" id="workHint">Pick a room to start.</p>
-          <div id="placedItems"></div>
+        <div class="workspace-shell">
+          <div id="work-area">
+            <p class="ghost-note" id="workHint">Pick a room drawer to cycle room designs.</p>
+            <div id="placedItems"></div>
+          </div>
         </div>
       </div>
     </section>
   </div>
 
-  <div class="decor-modal" id="decorModal">
-    <div class="decor-panel">
-      <button class="close-btn" id="closeDecor">✕</button>
+  <section class="gallery-panel" id="galleryPanel">
+    <h3 class="picker-title">Inspiration Gallery</h3>
+    <p style="margin:6px 0 0;font-family:'Times New Roman',serif;font-size:0.95rem;line-height:1.35;">
+      Browse inspiration looks and layer your favorite furniture + decor pieces in the workspace.
+    </p>
+    <div class="gallery-grid">
+      <img src="Assets/galleryentrance2.jpg" alt="Gallery entrance 2">
+      <img src="Assets/galleryentrance3.jpg" alt="Gallery entrance 3">
+      <img src="Assets/inspo_gallery1.jpg" alt="Inspiration gallery 1">
+      <img src="Assets/inspo_gallery2.jpg" alt="Inspiration gallery 2">
+      <img src="Assets/inspo_gallery3.jpg" alt="Inspiration gallery 3">
+      <img src="Assets/inspo_gallery4.jpg" alt="Inspiration gallery 4">
+    </div>
+  </section>
+
+  <section class="receipt-panel" id="receiptPanel">
+    <div class="receipt-sheet"></div>
+    <article class="receipt-content">
+      <h3>Design Bill</h3>
+      <div id="receiptEmpty">No items selected yet. Double-click furniture or decor to add them.</div>
+      <div id="receiptListWrap" class="hidden">
+        <ol class="receipt-list" id="receiptList"></ol>
+        <p class="receipt-total" id="receiptTotal">$0</p>
+      </div>
+    </article>
+  </section>
+
+  <div class="decor-modal" id="decorModal" aria-hidden="true">
+    <section class="decor-panel">
+      <button class="close-btn" id="closeDecor" aria-label="Close decor closet">✕</button>
       <div class="catalog-left">
-        <div class="closet-scene" id="closetScene"></div>
-        <div class="preview-box">
-          <img id="decorPreviewImage" src="Assets/decor_plant1.png">
-          <p id="decorPreviewMeta" class="preview-meta">Double-click to place.</p>
+        <div class="closet-scene" id="closetScene">
+          <button class="directory-btn" id="directoryBtn">Directory Sign</button>
+        </div>
+        <h3 class="picker-title">Decor Preview</h3>
+        <div class="preview-box" id="decorPreview">
+          <img id="decorPreviewImage" src="Assets/decor_plant1.png" alt="Decor preview">
+          <p class="preview-meta" id="decorPreviewMeta">Choose decor, then double-click to place in the room and add to your estimate.</p>
         </div>
       </div>
       <div class="catalog-right">
         <div class="category-row" id="decorCategoryRow"></div>
         <div class="item-grid" id="decorGrid"></div>
       </div>
-    </div>
-  </div>
-
-  <div class="gallery-panel" id="galleryPanel"><h3>Inspiration</h3></div>
-  <div class="receipt-panel" id="receiptPanel">
-    <h3>Design Bill</h3>
-    <div id="receiptList"></div>
-    <p id="receiptTotal">$0</p>
+    </section>
   </div>
 
   <script>
     const roomImages = {
-      living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg"],
-      bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg"],
-      dining: ["Assets/ROOMS_diningroom1.jpg"],
-      spare: ["Assets/ROOMS_bathroom1.jpg"]
+      living: [
+        "Assets/ROOMS_livingroom1.jpg",
+        "Assets/ROOMS_livingroom2.jpg",
+        "Assets/ROOMS_livingroom3.jpg",
+        "Assets/ROOMS_livingroom5.jpg"
+      ],
+      bedroom: [
+        "Assets/ROOMS_bedroom1.jpg",
+        "Assets/ROOMS_bedroom2.jpg",
+        "Assets/ROOMS_bedroom3.jpg"
+      ],
+      dining: [
+        "Assets/ROOMS_diningroom1.jpg",
+        "Assets/ROOMS_diningroom2.jpg"
+      ],
+      spare: [
+        "Assets/ROOMS_bathroom1.jpg",
+        "Assets/ROOMS_kitchen1.jpg",
+        "Assets/ROOMS_office1.jpg"
+      ]
     };
-    const roomIndex = { living: 0, bedroom: 0, dining: 0, spare: 0 };
+
+    const roomLabels = {
+      living: "LIVINGROOM",
+      bedroom: "BEDROOM",
+      dining: "DININGROOM",
+      spare: "SPARE ROOMS"
+    };
+
     const furnitureItems = [
-      { id: "sofa_a", name: "Aster Couch", src: "Assets/seating_couch1.png", category: "Seating", price: 1299 },
-      { id: "table_a", name: "River Table", src: "Assets/table_coffee1.png", category: "Tables", price: 649 }
+      { id: "sofa_a", name: "Aster Couch", src: "Assets/seating_couch1.png", category: "Seating", price: 1299, size: "84in x 36in" },
+      { id: "sofa_b", name: "Halo Couch", src: "Assets/seating_couch6.png", category: "Seating", price: 1399, size: "88in x 38in" },
+      { id: "chair_a", name: "Nova Armchair", src: "Assets/seating_armchair2.png", category: "Seating", price: 589, size: "32in x 33in" },
+      { id: "chair_b", name: "Opal Armchair", src: "Assets/seating_armchair9.png", category: "Seating", price: 629, size: "30in x 34in" },
+      { id: "bar_a", name: "Luxe Barstool", src: "Assets/seating_barstool1.png", category: "Seating", price: 279, size: "19in x 20in" },
+      { id: "dining_a", name: "Oak Dining Chair", src: "Assets/seating_dining1.png", category: "Seating", price: 219, size: "18in x 21in" },
+      { id: "table_a", name: "River Coffee Table", src: "Assets/table_coffee1.png", category: "Tables", price: 649, size: "48in x 24in" },
+      { id: "table_b", name: "Drift Coffee Table", src: "Assets/tables_coffee4.png", category: "Tables", price: 699, size: "46in x 26in" },
+      { id: "table_c", name: "Arc End Table", src: "Assets/tables_end3.png", category: "Tables", price: 239, size: "22in x 22in" },
+      { id: "table_d", name: "Elm Dining Table", src: "Assets/tables_dining2.png", category: "Tables", price: 1099, size: "72in x 38in" },
+      { id: "storage_a", name: "Slate Sideboard", src: "Assets/storage_sideboard4.png", category: "Storage", price: 999, size: "62in x 18in" },
+      { id: "storage_b", name: "Studio Cabinet", src: "Assets/storage_cabinet7.png", category: "Storage", price: 819, size: "50in x 16in" },
+      { id: "storage_c", name: "Metro Shelf", src: "Assets/storage_shelf3.png", category: "Storage", price: 539, size: "44in x 15in" },
+      { id: "bed_a", name: "Cloud Bed", src: "Assets/bed3.png", category: "Bedroom", price: 1549, size: "Queen" },
+      { id: "bed_b", name: "Glow Bed", src: "Assets/bed9.png", category: "Bedroom", price: 1689, size: "King" },
+      { id: "vanity_a", name: "Mirror Vanity", src: "Assets/storage_vanity1.png", category: "Bedroom", price: 739, size: "44in x 20in" }
     ];
+
     const decorItems = [
-      { id: "plant_a", name: "Olive Plant", src: "Assets/decor_plant1.png", category: "Plants", price: 129 }
+      { id: "plant_a", name: "Tall Olive Plant", src: "Assets/decor_plant1.png", category: "Plants", price: 129, size: "58in height" },
+      { id: "plant_b", name: "Mini Palm", src: "Assets/decor_plant7.png", category: "Plants", price: 94, size: "34in height" },
+      { id: "pillow_a", name: "Velvet Pillow", src: "Assets/decor_pillow2.png", category: "Pillows", price: 39, size: "22in x 22in" },
+      { id: "pillow_b", name: "Pattern Pillow", src: "Assets/decor_pillow10.png", category: "Pillows", price: 48, size: "20in x 20in" },
+      { id: "light_a", name: "Halo Pendant", src: "Assets/decor_hanginglight1.png", category: "Lighting", price: 189, size: "18in drop" },
+      { id: "light_b", name: "Aurora Lamp", src: "Assets/decor_lamp6.png", category: "Lighting", price: 144, size: "28in height" },
+      { id: "light_c", name: "Comet Lamp", src: "Assets/decor_lamp11.png", category: "Lighting", price: 168, size: "26in height" },
+      { id: "mirror_a", name: "Round Mirror", src: "Assets/decor_mirror1.png", category: "Mirrors", price: 219, size: "36in diameter" },
+      { id: "mirror_b", name: "Arch Mirror", src: "Assets/decor_mirror6.png", category: "Mirrors", price: 269, size: "40in x 28in" }
     ];
+
+    const closetScenes = [
+      "Assets/decorcloset_entryway.jpg",
+      "Assets/sitestuff_lighting.jpg",
+      "Assets/sitestuff_mirrors%20.jpg",
+      "Assets/sitestuff_pillows.jpg",
+      "Assets/sitestuff_plants.jpg"
+    ];
+
+    const roomIndex = { living: 0, bedroom: 0, dining: 0, spare: 0 };
+    const estimate = [];
 
     const roomsTab = document.getElementById("roomsTab");
     const catalogTab = document.getElementById("catalogTab");
     const decorTab = document.getElementById("decorTab");
     const galleryTab = document.getElementById("galleryTab");
     const saveTab = document.getElementById("saveTab");
-    const cabinet = document.getElementById("rooms-cabinet");
-    const workspaceRow = document.getElementById("workspaceRow");
-    const workArea = document.getElementById("work-area");
-    const catalogPanel = document.getElementById("catalogPanel");
-    const decorModal = document.getElementById("decorModal");
+    const pullTabs = [roomsTab, catalogTab, decorTab, galleryTab, saveTab];
 
-    function closeAll() {
-      catalogPanel.classList.remove("open");
-      decorModal.classList.remove("open");
-      document.getElementById("galleryPanel").classList.remove("open");
-      document.getElementById("receiptPanel").classList.remove("open");
+    const workspaceRow = document.getElementById("workspaceRow");
+    const cabinet = document.getElementById("rooms-cabinet");
+    const workArea = document.getElementById("work-area");
+    const workHint = document.getElementById("workHint");
+    const placedItems = document.getElementById("placedItems");
+
+    const catalogPanel = document.getElementById("catalogPanel");
+    const galleryPanel = document.getElementById("galleryPanel");
+    const receiptPanel = document.getElementById("receiptPanel");
+    const decorModal = document.getElementById("decorModal");
+    const uploadDrawer = document.getElementById("uploadDrawer");
+
+    const furnitureGrid = document.getElementById("furnitureGrid");
+    const decorGrid = document.getElementById("decorGrid");
+    const furnitureCategoryRow = document.getElementById("furnitureCategoryRow");
+    const decorCategoryRow = document.getElementById("decorCategoryRow");
+
+    const furniturePreviewImage = document.getElementById("furniturePreviewImage");
+    const furniturePreviewMeta = document.getElementById("furniturePreviewMeta");
+    const decorPreviewImage = document.getElementById("decorPreviewImage");
+    const decorPreviewMeta = document.getElementById("decorPreviewMeta");
+
+    const closetScene = document.getElementById("closetScene");
+    const directoryBtn = document.getElementById("directoryBtn");
+    const closeDecor = document.getElementById("closeDecor");
+
+    const receiptEmpty = document.getElementById("receiptEmpty");
+    const receiptListWrap = document.getElementById("receiptListWrap");
+    const receiptList = document.getElementById("receiptList");
+    const receiptTotal = document.getElementById("receiptTotal");
+
+    let activeFurnitureCategory = "All";
+    let activeDecorCategory = "All";
+    let selectedRoomType = "";
+    let roomSelected = false;
+    let closetSceneIndex = 0;
+
+    const currency = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+
+    function setActiveTab(active) {
+      pullTabs.forEach((tab) => tab.classList.toggle("active", tab === active));
     }
 
-    roomsTab.onclick = () => {
-      cabinet.classList.toggle("show");
-      workspaceRow.classList.toggle("cabinet-open");
-    };
+    function closePanels(except = "") {
+      if (except !== "catalog") catalogPanel.classList.remove("open");
+      if (except !== "gallery") galleryPanel.classList.remove("open");
+      if (except !== "receipt") receiptPanel.classList.remove("open");
+      if (except !== "decor") decorModal.classList.remove("open");
+    }
 
-    catalogTab.onclick = () => {
-      const isOpen = catalogPanel.classList.contains("open");
-      closeAll();
-      if (!isOpen) catalogPanel.classList.add("open");
-    };
+    function toggleCabinet(forceOpen) {
+      const shouldOpen = forceOpen === undefined ? !cabinet.classList.contains("show") : forceOpen;
+      cabinet.classList.toggle("show", shouldOpen);
+      workspaceRow.classList.toggle("cabinet-open", shouldOpen);
+    }
 
-    decorTab.onclick = () => {
-      const isOpen = decorModal.classList.contains("open");
-      closeAll();
-      if (!isOpen) decorModal.classList.add("open");
-    };
+    function chooseRoom(type) {
+      const set = roomImages[type];
+      const i = roomIndex[type];
+      const src = set[i];
+      roomIndex[type] = (i + 1) % set.length;
+      selectedRoomType = type;
+      roomSelected = true;
+      workArea.style.backgroundImage = "url('" + src + "')";
+      workArea.classList.add("room-ready");
+      workHint.classList.remove("hidden");
+      workHint.textContent = roomLabels[type] + " ready. Click the room to continue into the furniture catalog.";
+    }
 
-    document.getElementById("closeDecor").onclick = () => decorModal.classList.remove("open");
-
-    document.querySelectorAll(".drawer-zone").forEach(drawer => {
-      drawer.onclick = () => {
-        const type = drawer.dataset.room;
-        const imgs = roomImages[type];
-        workArea.style.backgroundImage = `url('${imgs[roomIndex[type]]}')`;
-        roomIndex[type] = (roomIndex[type] + 1) % imgs.length;
-        document.getElementById("workHint").classList.add("hidden");
-      };
-    });
-
-    function renderGrid(items, gridId, previewId, metaId) {
-      const grid = document.getElementById(gridId);
-      grid.innerHTML = "";
-      items.forEach(item => {
-        const card = document.createElement("div");
-        card.className = "item-card";
-        card.innerHTML = `<img src="${item.src}"><p>${item.name}</p>`;
-        card.onclick = () => {
-          document.getElementById(previewId).src = item.src;
-          document.getElementById(metaId).innerText = `${item.name} - $${item.price}`;
-        };
-        card.ondblclick = () => placeItem(item);
-        grid.appendChild(card);
+    function renderCategoryChips(items, rowEl, activeCategory, onSelect) {
+      const categories = ["All", ...new Set(items.map((item) => item.category))];
+      rowEl.innerHTML = "";
+      categories.forEach((category) => {
+        const chip = document.createElement("button");
+        chip.className = "category-chip" + (category === activeCategory ? " active" : "");
+        chip.textContent = category;
+        chip.addEventListener("click", () => onSelect(category));
+        rowEl.appendChild(chip);
       });
     }
 
-    function placeItem(item) {
+    function previewItem(item, type) {
+      if (type === "furniture") {
+        furniturePreviewImage.src = item.src;
+        furniturePreviewMeta.textContent = item.name + " - " + item.category + " - " + item.size + " - " + currency.format(item.price);
+      } else {
+        decorPreviewImage.src = item.src;
+        decorPreviewMeta.textContent = item.name + " - " + item.category + " - " + item.size + " - " + currency.format(item.price);
+      }
+    }
+
+    function makeCard(item, type) {
+      const card = document.createElement("article");
+      card.className = "item-card";
+      card.innerHTML = '<img src="' + item.src + '" alt="' + item.name + '"><p>' + item.name + "</p>";
+      card.addEventListener("click", () => {
+        document.querySelectorAll(type === "furniture" ? "#furnitureGrid .item-card" : "#decorGrid .item-card")
+          .forEach((el) => el.classList.remove("selected"));
+        card.classList.add("selected");
+        previewItem(item, type);
+      });
+      card.addEventListener("dblclick", () => {
+        placeItemInRoom(item);
+      });
+      return card;
+    }
+
+    function renderItemGrid(items, gridEl, type) {
+      gridEl.innerHTML = "";
+      items.forEach((item) => {
+        gridEl.appendChild(makeCard(item, type));
+      });
+      if (items.length) previewItem(items[0], type);
+    }
+
+    function updateFurniturePicker() {
+      renderCategoryChips(furnitureItems, furnitureCategoryRow, activeFurnitureCategory, (next) => {
+        activeFurnitureCategory = next;
+        updateFurniturePicker();
+      });
+      const filtered = activeFurnitureCategory === "All"
+        ? furnitureItems
+        : furnitureItems.filter((item) => item.category === activeFurnitureCategory);
+      renderItemGrid(filtered, furnitureGrid, "furniture");
+    }
+
+    function updateDecorPicker() {
+      renderCategoryChips(decorItems, decorCategoryRow, activeDecorCategory, (next) => {
+        activeDecorCategory = next;
+        updateDecorPicker();
+      });
+      const filtered = activeDecorCategory === "All"
+        ? decorItems
+        : decorItems.filter((item) => item.category === activeDecorCategory);
+      renderItemGrid(filtered, decorGrid, "decor");
+    }
+
+    function registerEstimate(item) {
+      estimate.push(item);
+      receiptList.innerHTML = "";
+      let total = 0;
+      estimate.forEach((entry) => {
+        total += entry.price;
+        const li = document.createElement("li");
+        li.className = "receipt-row";
+        li.innerHTML = "<span>" + entry.name + "</span><span>" + currency.format(entry.price) + "</span>";
+        receiptList.appendChild(li);
+      });
+      receiptTotal.textContent = "Estimated Total: " + currency.format(total);
+      receiptEmpty.classList.toggle("hidden", estimate.length > 0);
+      receiptListWrap.classList.toggle("hidden", estimate.length === 0);
+    }
+
+    function placeItemInRoom(item) {
+      if (!roomSelected) {
+        workHint.classList.remove("hidden");
+        workHint.textContent = "Pick a room first from ROOMS, then place furniture and decor.";
+        return;
+      }
       const img = document.createElement("img");
       img.src = item.src;
+      img.alt = item.name;
       img.className = "placed-item";
-      img.style.left = "50px"; img.style.top = "50px";
-      img.onmousedown = (e) => {
-        let shiftX = e.clientX - img.getBoundingClientRect().left;
-        let shiftY = e.clientY - img.getBoundingClientRect().top;
-        document.onmousemove = (e) => {
-          img.style.left = e.pageX - workArea.offsetLeft - shiftX + 'px';
-          img.style.top = e.pageY - workArea.offsetTop - shiftY + 'px';
-        };
-        img.onmouseup = () => document.onmousemove = null;
-      };
-      document.getElementById("placedItems").appendChild(img);
+      img.style.left = Math.round(50 + Math.random() * 420) + "px";
+      img.style.top = Math.round(120 + Math.random() * 290) + "px";
+      img.style.width = (item.category === "Lighting" || item.category === "Plants" ? 96 : 128) + "px";
+      makeDraggable(img, workArea);
+      placedItems.appendChild(img);
       registerEstimate(item);
+      workHint.classList.remove("hidden");
+      workHint.textContent = item.name + " added. Drag it around your space.";
+      setTimeout(() => {
+        if (workHint.textContent.includes("added")) {
+          workHint.classList.add("hidden");
+        }
+      }, 2400);
     }
 
-    let total = 0;
-    function registerEstimate(item) {
-      total += item.price;
-      const list = document.getElementById("receiptList");
-      const entry = document.createElement("div");
-      entry.innerText = `${item.name}: $${item.price}`;
-      list.appendChild(entry);
-      document.getElementById("receiptTotal").innerText = `$${total}`;
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
     }
 
-    renderGrid(furnitureItems, "furnitureGrid", "furniturePreviewImage", "furniturePreviewMeta");
-    renderGrid(decorItems, "decorGrid", "decorPreviewImage", "decorPreviewMeta");
+    function makeDraggable(node, boundsEl) {
+      let dragging = false;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      node.addEventListener("pointerdown", (event) => {
+        dragging = true;
+        node.setPointerCapture(event.pointerId);
+        offsetX = event.clientX - node.offsetLeft;
+        offsetY = event.clientY - node.offsetTop;
+        node.style.zIndex = String(Date.now());
+      });
+
+      node.addEventListener("pointermove", (event) => {
+        if (!dragging) return;
+        const maxX = boundsEl.clientWidth - node.clientWidth;
+        const maxY = boundsEl.clientHeight - node.clientHeight;
+        const nextX = clamp(event.clientX - offsetX, 0, maxX);
+        const nextY = clamp(event.clientY - offsetY, 0, maxY);
+        node.style.left = nextX + "px";
+        node.style.top = nextY + "px";
+      });
+
+      node.addEventListener("pointerup", (event) => {
+        dragging = false;
+        node.releasePointerCapture(event.pointerId);
+      });
+    }
+
+    roomsTab.addEventListener("click", () => {
+      setActiveTab(roomsTab);
+      closePanels();
+      toggleCabinet();
+      workHint.classList.remove("hidden");
+      workHint.textContent = "Choose a drawer: LIVINGROOM, BEDROOM, DININGROOM, SPARE ROOMS, or UPLOAD YOURS.";
+    });
+
+    catalogTab.addEventListener("click", () => {
+      setActiveTab(catalogTab);
+      closePanels("catalog");
+      catalogPanel.classList.toggle("open");
+      if (!roomSelected) {
+        workHint.classList.remove("hidden");
+        workHint.textContent = "Open ROOMS first and click a room drawer to start.";
+      }
+    });
+
+    decorTab.addEventListener("click", () => {
+      setActiveTab(decorTab);
+      closePanels("decor");
+      decorModal.classList.add("open");
+    });
+
+    galleryTab.addEventListener("click", () => {
+      setActiveTab(galleryTab);
+      closePanels("gallery");
+      galleryPanel.classList.toggle("open");
+    });
+
+    saveTab.addEventListener("click", () => {
+      setActiveTab(saveTab);
+      closePanels("receipt");
+      receiptPanel.classList.toggle("open");
+    });
+
+    closeDecor.addEventListener("click", () => {
+      decorModal.classList.remove("open");
+      setActiveTab(null);
+    });
+
+    decorModal.addEventListener("click", (event) => {
+      if (event.target === decorModal) {
+        decorModal.classList.remove("open");
+      }
+    });
+
+    directoryBtn.addEventListener("click", () => {
+      closetSceneIndex = (closetSceneIndex + 1) % closetScenes.length;
+      closetScene.style.backgroundImage = "url('" + closetScenes[closetSceneIndex] + "')";
+    });
+
+    document.querySelectorAll(".drawer-zone[data-room]").forEach((drawer) => {
+      drawer.addEventListener("click", () => {
+        const room = drawer.getAttribute("data-room");
+        if (!room) return;
+        chooseRoom(room);
+      });
+    });
+
+    uploadDrawer.addEventListener("click", () => {
+      workHint.classList.remove("hidden");
+      workHint.textContent = "UPLOAD YOURS is ready for your future custom room upload feature.";
+    });
+
+    workArea.addEventListener("click", () => {
+      if (!roomSelected || !cabinet.classList.contains("show")) return;
+      toggleCabinet(false);
+      closePanels("catalog");
+      catalogPanel.classList.add("open");
+      setActiveTab(catalogTab);
+      workHint.classList.remove("hidden");
+      workHint.textContent = "Furniture Catalog opened. Click an item for preview, double-click to place.";
+      setTimeout(() => workHint.classList.add("hidden"), 2200);
+    });
+
+</script>
+    closetScene.style.backgroundImage = "url('" + closetScenes[0] + "')";
+    updateFurniturePicker();
+    updateDecorPicker();
   </script>
 </body>
 </html>
