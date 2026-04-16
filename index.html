@@ -8,16 +8,21 @@
     <style>
         * { box-sizing: border-box; }
 
+        /* MANIFEST BACKGROUND: Triple Layer Fixed */
         html, body {
-            margin: 0; padding: 0; min-height: 100%;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
             font-family: "Special Elite", serif;
-            color: #fff; overflow-x: hidden;
+            color: #fff;
+            overflow-x: hidden;
             background-color: #05070d;
+            /* Exactly as per Manifest: Left, Right, and Blue center */
             background-image: 
                 url("Assets/mainbackgroundl.jpg"), 
                 url("Assets/mainbackgroundr.jpg"), 
                 url("Assets/mainbackgroundblue.jpg");
-            background-repeat: no-repeat;
+            background-repeat: no-repeat, no-repeat, no-repeat;
             background-position: left top, right top, center top;
             background-size: 33% 100%, 33% 100%, 34% 100%;
             background-attachment: fixed;
@@ -90,9 +95,9 @@
 
         /* DECOR CLOSET POPUP */
         #decor-popup {
-            display: none; position: fixed; top: 50%; left: 60%; transform: translate(-50%, -50%);
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 600px; height: 700px; z-index: 1000;
-            background: #000; border: 3px solid var(--lux-gold); box-shadow: 0 0 50px rgba(0,0,0,0.9);
+            background: #000; border: 3px solid #bf953f; box-shadow: 0 0 50px rgba(0,0,0,0.9);
         }
         #decor-popup img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
 
@@ -167,7 +172,7 @@
     const decorPopup = document.getElementById("decor-popup");
     const galleryOverlay = document.getElementById("gallery-overlay");
 
-    // 1. ROOMS: Glide down and show cabinet
+    // TABS LOGIC
     document.getElementById("roomsTab").onclick = () => {
         cabinet.classList.toggle("show");
         if(cabinet.classList.contains("show")) {
@@ -175,16 +180,20 @@
         }
     };
 
-    // 2. FURNITURE CATALOG: Toggle book
-    document.getElementById("catalogTab").onclick = () => {
-        catalog.classList.toggle("open");
-    };
+    document.getElementById("catalogTab").onclick = () => catalog.classList.toggle("open");
 
-    // 3. DECOR CLOSET: Pop up logic
     document.getElementById("decorTab").onclick = () => {
         decorPopup.style.display = (decorPopup.style.display === 'block') ? 'none' : 'block';
     };
 
+    document.getElementById("galleryTab").onclick = () => {
+        galleryOverlay.style.display = 'block';
+        galleryOverlay.style.backgroundImage = `url('${galleryFiles[0]}')`;
+    };
+
+    document.getElementById("saveTab").onclick = () => scrollImg.classList.toggle("active");
+
+    // DATA CYCLES
     const closetFiles = ["Assets/decorcloset_entryway.jpg", "Assets/plant_pillowcloset.jpg", "Assets/lightingcloset.jpg", "Assets/curtaincloset.jpg", "Assets/ruggallery.jpg"];
     let closetIdx = 0;
     function cycleCloset() {
@@ -192,13 +201,8 @@
         document.getElementById("closet-img").src = closetFiles[closetIdx];
     }
 
-    // 4. GALLERY: Immersive doors
     const galleryFiles = ["Assets/gallerydoors.jpg", "Assets/galleryentrance1.jpg", "Assets/galleryentrance2.jpg"];
     let gallIdx = 0;
-    document.getElementById("galleryTab").onclick = () => {
-        galleryOverlay.style.display = 'block';
-        galleryOverlay.style.backgroundImage = `url('${galleryFiles[0]}')`;
-    };
     function cycleGallery() {
         gallIdx++;
         if(gallIdx >= galleryFiles.length) {
@@ -209,10 +213,6 @@
         }
     }
 
-    // 5. SAVE/CHECKOUT
-    document.getElementById("saveTab").onclick = () => scrollImg.classList.toggle("active");
-
-    // ROOM CYCLING
     const roomImages = {
         living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg", "Assets/ROOMS_livingroom3.jpg"],
         bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg", "Assets/ROOMS_bedroom3.jpg"],
