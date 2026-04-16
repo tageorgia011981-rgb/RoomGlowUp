@@ -8,7 +8,7 @@
     <style>
         * { box-sizing: border-box; }
 
-        /* MANIFEST BACKGROUND: Triple Layer Fixed */
+        /* FIX 1: THE BACKGROUND */
         html, body {
             margin: 0;
             padding: 0;
@@ -17,23 +17,22 @@
             color: #fff;
             overflow-x: hidden;
             background-color: #05070d;
-            /* Exactly as per Manifest: Left, Right, and Blue center */
             background-image: 
                 url("Assets/mainbackgroundl.jpg"), 
                 url("Assets/mainbackgroundr.jpg"), 
                 url("Assets/mainbackgroundblue.jpg");
-            background-repeat: no-repeat, no-repeat, no-repeat;
+            background-repeat: no-repeat;
             background-position: left top, right top, center top;
             background-size: 33% 100%, 33% 100%, 34% 100%;
             background-attachment: fixed;
         }
 
         /* GLAMOUR SHINY HEADERS */
-        .hero { text-align: center; padding: 60px 20px 10px; position: relative; z-index: 10; }
+        .hero { text-align: center; padding: 50px 20px 10px; position: relative; z-index: 10; }
         .hero h1 {
             margin: 0; font-family: "Limelight", serif;
-            font-size: clamp(60px, 10vw, 120px);
-            letter-spacing: 8px; text-transform: uppercase;
+            font-size: clamp(50px, 8vw, 110px);
+            letter-spacing: 6px; text-transform: uppercase;
             background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             background-size: 200% auto; -webkit-background-clip: text;
             background-clip: text; color: transparent;
@@ -42,7 +41,7 @@
         }
         .hero h2 {
             margin: 5px 0 0; font-family: "Limelight", serif;
-            font-size: clamp(20px, 3vw, 36px); letter-spacing: 2px;
+            font-size: clamp(18px, 2.5vw, 32px); letter-spacing: 2px;
             background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             background-size: 200% auto; -webkit-background-clip: text;
             background-clip: text; color: transparent;
@@ -50,58 +49,77 @@
         }
         @keyframes shine { to { background-position: 200% center; } }
 
-        /* MASTER PULL TABS */
-        .tab-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; padding: 30px; z-index: 100; position: relative; }
+        /* FIX 2: PREVENT TAB SQUISHING */
+        .tab-row { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            flex-wrap: nowrap; /* Forces one single line */
+            gap: 10px; 
+            padding: 20px 10px; 
+            z-index: 100; 
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
         .pull-tab {
-            position: relative; width: 210px; height: 95px;
+            position: relative; 
+            flex: 0 0 200px; /* Gives each tab a set size so they don't squish */
+            height: 85px;
             border: 0; background: transparent; cursor: pointer;
             transition: transform 0.3s ease; display: flex; align-items: center; justify-content: center;
+            padding: 0;
         }
-        .pull-tab img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)); }
+        .pull-tab img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.6)); }
         .pull-tab span {
-            position: relative; z-index: 2; width: 85%; text-align: center;
-            color: #fff; font-family: "Special Elite", serif; font-size: 14px;
+            position: relative; z-index: 2; width: 90%; text-align: center;
+            color: #fff; font-family: "Special Elite", serif; font-size: 13px;
             font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,1);
-            text-transform: uppercase; pointer-events: none; margin-top: 15px;
+            text-transform: uppercase; pointer-events: none; margin-top: 12px;
         }
-        .pull-tab:hover { transform: translateY(-12px); }
+        .pull-tab:hover { transform: translateY(-10px); }
 
-        /* WORKSPACE ELEMENTS */
-        .workspace-section { width: 98%; margin: 40px auto; position: relative; padding-bottom: 100px; }
+        /* FIX 3: CABINET GLIDE & WORKSPACE */
+        .workspace-section { width: 98%; margin: 20px auto; position: relative; padding-bottom: 100px; }
         
         #catalog-book-container {
             width: 900px; height: 0; margin: 0 auto; overflow: hidden;
             transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1); text-align: center;
         }
-        #catalog-book-container.open { height: 550px; margin-bottom: 40px; }
+        #catalog-book-container.open { height: 500px; margin-bottom: 30px; }
 
-        .workspace-row { display: flex; justify-content: flex-end; align-items: flex-start; }
+        .workspace-row { display: flex; justify-content: flex-start; align-items: flex-start; width: 100%; }
 
         #rooms-cabinet {
-            width: 0; height: 600px; opacity: 0; visibility: hidden;
+            width: 0; height: 650px; opacity: 0; visibility: hidden;
             transition: width 0.8s ease, opacity 0.5s ease; position: relative; flex-shrink: 0;
+            overflow: visible; /* Allows image to be seen fully */
         }
-        #rooms-cabinet.show { width: 560px; opacity: 1; visibility: visible; margin-right: 20px; }
+        #rooms-cabinet.show { 
+            width: 600px; /* Increased width to prevent cut-off */
+            opacity: 1; 
+            visibility: visible; 
+            margin-right: 20px; 
+        }
 
         .drawer-zone { position: absolute; left: 13%; width: 74%; height: 9%; background: transparent; border: none; cursor: pointer; z-index: 5; }
         .dr-living { top: 21.2%; } .dr-dining { top: 37.8%; } .dr-bedroom { top: 54.4%; } .dr-spare { top: 71%; }
 
         #work-area {
-            flex: 1; min-width: 800px; height: 600px;
+            flex: 1; min-width: 700px; height: 600px;
             background: #111 url("Assets/workstation.jpg") center/cover no-repeat;
             border: 2px solid rgba(255, 230, 150, 0.3); border-radius: 10px;
             position: relative; box-shadow: 0 30px 60px rgba(0,0,0,0.7);
         }
 
-        /* DECOR CLOSET POPUP */
+        /* DECOR & GALLERY */
         #decor-popup {
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 600px; height: 700px; z-index: 1000;
             background: #000; border: 3px solid #bf953f; box-shadow: 0 0 50px rgba(0,0,0,0.9);
         }
         #decor-popup img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
-
-        /* GALLERY OVERLAY */
         #gallery-overlay {
             display: none; position: fixed; inset: 0; z-index: 2000;
             background: #000 no-repeat center center/contain; cursor: pointer;
@@ -172,28 +190,24 @@
     const decorPopup = document.getElementById("decor-popup");
     const galleryOverlay = document.getElementById("gallery-overlay");
 
-    // TABS LOGIC
+    // Pull Tabs
     document.getElementById("roomsTab").onclick = () => {
         cabinet.classList.toggle("show");
         if(cabinet.classList.contains("show")) {
             document.getElementById("main-workspace").scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     };
-
     document.getElementById("catalogTab").onclick = () => catalog.classList.toggle("open");
-
     document.getElementById("decorTab").onclick = () => {
         decorPopup.style.display = (decorPopup.style.display === 'block') ? 'none' : 'block';
     };
-
     document.getElementById("galleryTab").onclick = () => {
         galleryOverlay.style.display = 'block';
         galleryOverlay.style.backgroundImage = `url('${galleryFiles[0]}')`;
     };
-
     document.getElementById("saveTab").onclick = () => scrollImg.classList.toggle("active");
 
-    // DATA CYCLES
+    // Cycles
     const closetFiles = ["Assets/decorcloset_entryway.jpg", "Assets/plant_pillowcloset.jpg", "Assets/lightingcloset.jpg", "Assets/curtaincloset.jpg", "Assets/ruggallery.jpg"];
     let closetIdx = 0;
     function cycleCloset() {
