@@ -1,217 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Room Glow Up</title>
+<meta charset="UTF-8">
+<title>Room Glow Up</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Limelight&family=Special+Elite&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Limelight&family=Special+Elite&display=swap" rel="stylesheet">
 
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            font-family: 'Limelight', cursive;
-            overflow-x: hidden;
-            background:
-                url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
-                url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
-                url('Assets/mainbackground_blue.jpg') center top no-repeat;
-            background-size: 33% 100%, 33% 100%, 34% 100%;
-            background-attachment: fixed;
-            scroll-behavior: smooth;
-        }
+<style>
 
-        /* GLORIOUS FLASHY HEADER */
-        header {
-            text-align: center;
-            padding: 60px 0 20px;
-        }
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 150vh;
+    font-family: 'Limelight', cursive;
+    overflow-x: hidden;
+    background:
+        url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
+        url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
+        url('Assets/mainbackground_blue.jpg') center top no-repeat;
+    background-size: 33% 100%, 33% 100%, 34% 100%;
+    background-attachment: fixed;
+    scroll-behavior: smooth;
+}
 
-        h1 {
-            font-size: 110px;
-            margin: 0;
-            line-height: 1;
-            text-transform: uppercase;
-            background: linear-gradient(to bottom, #555 0%, #bbb 20%, #ffffff 45%, #888 50%, #ffffff 55%, #bbb 80%, #555 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(6px 6px 0px rgba(0,0,0,1)) drop-shadow(0px 0px 20px rgba(0,0,0,0.5));
-            letter-spacing: 5px;
-        }
+/* GLORIOUS FLASHY HEADER */
+header {
+    text-align: center;
+    padding: 60px 0 20px;
+}
 
-        h2 {
-            font-size: 30px;
-            letter-spacing: 4px;
-            margin-top: 15px;
-            background: linear-gradient(to bottom, #ffffff 0%, #a1a1a1 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(3px 3px 0px rgba(0,0,0,1));
-        }
+h1 {
+    font-size: 110px;
+    margin: 0;
+    line-height: 1;
+    text-transform: uppercase;
+    background: linear-gradient(to bottom, #555 0%, #bbb 20%, #ffffff 45%, #888 50%, #ffffff 55%, #bbb 80%, #555 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(6px 6px 0px rgba(0,0,0,1)) drop-shadow(0px 0px 20px rgba(0,0,0,0.5));
+    letter-spacing: 5px;
+}
 
-        /* TOP TABS - TYPEWRITER STYLE */
-        .nav-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-            width: 100%;
-        }
+h2 {
+    font-size: 30px;
+    letter-spacing: 4px;
+    margin-top: 15px;
+    background: linear-gradient(to bottom, #ffffff 0%, #a1a1a1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(3px 3px 0px rgba(0,0,0,1));
+}
 
-        .top-tab {
-            position: relative;
-            width: 215px;
-            height: 95px;
-            cursor: pointer;
-            transition: .25s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+/* TOP TABS - FORCED NO-SQUISH */
+.nav-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 35px;
+    width: 100%;
+    min-width: 1200px; /* Prevents container from collapsing tabs */
+}
 
-        .top-tab:hover {
-            transform: translateY(-6px);
-        }
+.top-tab {
+    position: relative;
+    width: 220px; 
+    height: 100px;
+    cursor: pointer;
+    transition: .25s;
+    flex: 0 0 220px; /* Force size: Grow 0, Shrink 0, Basis 220px */
+}
 
-        .top-tab img {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
+.top-tab:hover {
+    transform: translateY(-6px);
+}
 
-        .top-tab-text {
-            position: relative;
-            z-index: 2;
-            font-family: 'Special Elite', system-ui;
-            font-size: 18px;
-            color: white;
-            text-shadow: 2px 2px 3px #000;
-            text-align: center;
-            width: 80%;
-            margin-top: 15px;
-            pointer-events: none;
-            text-transform: uppercase;
-            line-height: 1.1;
-        }
+.top-tab img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
 
-        /* WORKSPACE SECTION - FLUID & ANCHORED RIGHT */
-        .workspace-wrapper {
-            width: 98%;
-            margin: 80px auto 100px;
-            display: flex;
-            justify-content: flex-end; /* Anchors everything to the right */
-            align-items: flex-start;
-            gap: 0; /* Let max-width handle the spacing */
-            transition: all 1.2s ease;
-        }
+.top-tab-text {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Special Elite', system-ui;
+    font-size: 18px;
+    color: white;
+    text-shadow: 2px 2px 3px #000;
+    text-align: center;
+    width: 90%;
+    pointer-events: none;
+    text-transform: uppercase;
+    line-height: 1.1;
+    z-index: 2;
+}
 
-        /* CABINET GLIDE - NUDGES LEFT SIDE */
-        #rooms-cabinet {
-            width: 440px;
-            max-width: 0; /* Starts at zero to stay hidden */
-            height: 640px;
-            overflow: hidden;
-            opacity: 0;
-            transition: max-width 1.2s ease, opacity 1.2s ease, margin-right 1.2s ease;
-            position: relative;
-            flex-shrink: 0;
-        }
+/* WORKSPACE SECTION */
+.workspace-wrapper {
+    width: 1650px; 
+    margin: 80px 40px 100px auto; 
+    display: flex;
+    justify-content: flex-end;
+    align-items: center; 
+    position: relative;
+}
 
-        #rooms-cabinet.show {
-            max-width: 440px;
-            opacity: 1;
-            margin-right: 25px; /* Creates the gap only when shown */
-        }
+/* CABINET - LARGE SCALE */
+#rooms-cabinet {
+    width: 550px; 
+    height: 800px; 
+    position: relative;
+    margin-right: 50px;
+    opacity: 0;
+    transform: translateX(-100px);
+    transition: transform 1s ease, opacity 1s ease;
+    pointer-events: none;
+}
 
-        .cabinet-img {
-            width: 440px; /* Locked width so it doesn't squish during glide */
-            height: 100%;
-            object-fit: contain;
-        }
+#rooms-cabinet.show {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
 
-        .drawer-zone {
-            position: absolute;
-            left: 10%;
-            width: 80%;
-            height: 16%;
-            cursor: pointer;
-            z-index: 20;
-        }
+.cabinet-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 
-        .zone-living { top: 3%; }
-        .zone-bedroom { top: 22%; }
-        .zone-dining { top: 41%; }
-        .zone-spare { top: 60%; }
-        .zone-upload { top: 79%; }
+.drawer-zone {
+    position: absolute;
+    left: 10%;
+    width: 80%;
+    height: 15%; 
+    cursor: pointer;
+    z-index: 10;
+}
 
-        /* WORKSPACE - STRETCHES TO FILL */
-        .workspace-container {
-            position: relative;
-            flex: 1; /* Stretches to fill all remaining space on the right */
-            max-width: 1100px; /* Caps the size so it doesn't get too gargantuan */
-            height: 640px;
-            transition: all 1.2s ease;
-        }
+.zone-living { top: 4%; }
+.zone-bedroom { top: 23%; }
+.zone-dining { top: 42%; }
+.zone-spare { top: 61%; }
+.zone-upload { top: 80%; }
 
-        #work-area {
-            width: 100%;
-            height: 100%;
-            background: #111 url('Assets/workstation.jpg') center/cover no-repeat;
-            border: 4px solid #333;
-            box-shadow: 0 0 60px rgba(0,0,0,.9);
-            cursor: pointer;
-            transition: background 0.4s ease;
-        }
+/* WORKSPACE */
+.workspace-container {
+    position: relative;
+    width: 1000px;
+    height: 650px;
+}
 
-        /* CATALOG */
-        #catalogOverlay {
-            position: absolute;
-            top: -550px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-40px);
-            width: 950px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 1.2s ease, transform 1.2s ease;
-            z-index: 100;
-        }
+#work-area {
+    width: 100%;
+    height: 100%;
+    background: #111 url('Assets/workstation.jpg') center/cover no-repeat;
+    border: 4px solid #333;
+    box-shadow: 0 0 60px rgba(0,0,0,.9);
+    cursor: pointer;
+}
 
-        #catalogOverlay.show {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateX(-50%) translateY(0);
-        }
+/* CATALOG OVERLAY - FIXED POSITIONING */
+#catalogOverlay {
+    position: absolute;
+    top: -550px; /* Positioned above the workspace */
+    left: 50%; 
+    transform: translateX(-50%) translateY(-20px);
+    width: 950px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease, transform 1s ease;
+    z-index: 100;
+}
 
-        #catalogBook { width: 100%; }
+#catalogOverlay.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+}
 
-        .page {
-            position: absolute;
-            top: 5%;
-            width: 38%;
-            height: 60%;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 15px;
-            padding: 10px;
-        }
+#catalogBook { width: 100%; }
 
-        .left-page { left: 12%; }
-        .right-page { right: 12%; }
+.page {
+    position: absolute;
+    top: 5%;
+    width: 38%;
+    height: 60%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 15px;
+    padding: 10px;
+}
 
-        .catalog-item {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            cursor: pointer;
-            transition: .2s;
-        }
+.left-page { left: 12%; }
+.right-page { right: 12%; }
 
-        .catalog-item:hover { transform: scale(1.1); }
+.catalog-item {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    cursor: pointer;
+    transition: .2s;
+}
 
-    </style>
+.catalog-item:hover { transform: scale(1.1); }
+
+</style>
 </head>
 
 <body>
@@ -226,22 +223,18 @@
         <img src="Assets/pulltab.png">
         <div class="top-tab-text">ROOMS</div>
     </div>
-
     <div class="top-tab" id="catalogTab">
         <img src="Assets/pulltab.png">
         <div class="top-tab-text">FURNITURE<br>CATALOG</div>
     </div>
-
     <div class="top-tab" id="decorTab">
         <img src="Assets/pulltab.png">
         <div class="top-tab-text">DECOR<br>CLOSET</div>
     </div>
-
     <div class="top-tab" id="galleryTab">
         <img src="Assets/pulltab.png">
         <div class="top-tab-text">GALLERY</div>
     </div>
-
     <div class="top-tab" id="saveTab">
         <img src="Assets/pulltab.png">
         <div class="top-tab-text">SAVE/<br>CHECKOUT</div>
@@ -250,10 +243,15 @@
 
 <div class="workspace-wrapper" id="workspaceSection">
 
-    <div id="catalogOverlay">
-        <img src="Assets/furniturecatalog.png" id="catalogBook">
-        <div class="page left-page"></div>
-        <div class="page right-page"></div>
+    <div class="workspace-container">
+        
+        <div id="catalogOverlay">
+            <img src="Assets/furniturecatalog.png" id="catalogBook">
+            <div class="page left-page"></div>
+            <div class="page right-page"></div>
+        </div>
+
+        <div id="work-area"></div>
     </div>
 
     <div id="rooms-cabinet">
@@ -263,10 +261,6 @@
         <div class="drawer-zone zone-dining" data-room="dining"></div>
         <div class="drawer-zone zone-spare" data-room="spare"></div>
         <div class="drawer-zone zone-upload" id="uploadDrawer"></div>
-    </div>
-
-    <div class="workspace-container">
-        <div id="work-area"></div>
     </div>
 
 </div>
