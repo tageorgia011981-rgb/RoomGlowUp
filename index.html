@@ -7,26 +7,25 @@
 <link rel="icon" href="data:,">
 
 <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Jacques+Francois+Shadow&display=swap" rel="stylesheet">
 
 <style>
 
 html,body{
     margin:0;
     padding:0;
-    min-height:200vh;
+    min-height:100vh;
     font-family:'Limelight',cursive;
-    overflow-x:hidden;
+    /* Allow vertical scrolling, hide horizontal */
+    overflow-y: auto;
+    overflow-x: hidden;
     background:
         url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
         url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
         url('Assets/mainbackground_blue.jpg') center top no-repeat;
     background-size:33% 100%,33% 100%,34% 100%;
     background-attachment:fixed;
-    scroll-behavior:smooth;
 }
 
-/* HEADER */
 header{
     text-align:center;
     padding:60px 0 10px;
@@ -48,7 +47,6 @@ h2{
     color:#ddd;
 }
 
-/* TOP PULL TABS SECTION */
 .nav-container{
     display:flex;
     justify-content:center;
@@ -86,18 +84,19 @@ h2{
 .top-tab-text{
     position:relative;
     z-index: 2;
-    margin-top: 18px; 
-    font-family:'Jacques Francois Shadow', serif;
-    font-size:15px;
-    color:#ffffff; 
+    /* Pushed text down to sit on the tab */
+    margin-top: 45px; 
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    color: #ffffff; 
     text-align:center;
     pointer-events:none;
-    line-height: 1.1;
+    line-height: 1.2;
     text-transform: uppercase;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
 
-/* MAIN STACKED WRAPPER */
 .outer-wrapper {
     display: flex;
     flex-direction: column;
@@ -106,7 +105,6 @@ h2{
     margin-top: 40px;
 }
 
-/* CATALOG ANIMATION */
 #catalogOverlay{
     position: relative;
     width: 954px;
@@ -114,10 +112,7 @@ h2{
     opacity: 0;
     overflow: hidden;
     visibility: hidden;
-    transition: max-height 1.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                transform 1.4s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: translateY(-30px);
+    transition: max-height 1.4s ease, opacity 1.4s ease;
     margin: 0 auto;
     z-index: 5;
 }
@@ -126,7 +121,6 @@ h2{
     max-height: 800px;
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
     margin: 20px auto 40px;
 }
 
@@ -135,10 +129,9 @@ h2{
     display: block;
 }
 
-/* WORKSPACE SECTION */
 .workspace-wrapper{
     width:1350px;
-    margin: 0 auto 200px;
+    margin: 40px auto 100px;
     display:flex;
     justify-content:center;
     align-items:flex-start;
@@ -146,13 +139,12 @@ h2{
     position:relative;
 }
 
-/* CABINET */
 #rooms-cabinet{
     width:600px;
     height:600px;
     position:relative;
-    transform:translateX(-100px);
-    transition:transform 1.2s ease, opacity 1.2s ease;
+    transform:translateX(-50px);
+    transition:all 0.8s ease;
     opacity:0;
     pointer-events:none;
 }
@@ -183,7 +175,6 @@ h2{
 .zone-spare{top:60%;}
 .zone-upload{top:80%;}
 
-/* WORKSPACE AREA */
 #work-area{
     width:1000px;
     height:650px;
@@ -192,7 +183,6 @@ h2{
     cursor:pointer;
 }
 
-/* PAGE GRID */
 .page{
     position:absolute;
     top:1%;
@@ -211,19 +201,14 @@ h2{
 .right-page{right:11%;}
 
 .catalog-item{
-    max-width:84%;
-    max-height:84%;
+    max-width:85%;
+    max-height:85%;
     object-fit:contain;
     cursor:pointer;
-    transition:.2s;
-}
-
-.catalog-item:hover{
-    transform:scale(1.05);
+    transition: 0.2s;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -238,22 +223,18 @@ h2{
         <img src="Assets/pulltab.png">
         <div class="top-tab-text">ROOMS</div>
     </div>
-
     <div class="top-tab" id="catalogTab">
         <img src="Assets/pulltab.png">
         <div class="top-tab-text">FURNITURE<br>CATALOG</div>
     </div>
-
     <div class="top-tab" id="decorTab">
         <img src="Assets/pulltab.png">
         <div class="top-tab-text">DECOR<br>CLOSET</div>
     </div>
-
     <div class="top-tab" id="galleryTab">
         <img src="Assets/pulltab.png">
         <div class="top-tab-text">GALLERY</div>
     </div>
-
     <div class="top-tab" id="saveTab">
         <img src="Assets/pulltab.png">
         <div class="top-tab-text">SAVE/<br>CHECKOUT</div>
@@ -261,15 +242,13 @@ h2{
 </div>
 
 <div class="outer-wrapper" id="mainAppSection">
-
     <div id="catalogOverlay">
         <img src="Assets/furniturecatalog.png" id="catalogBook">
         <div class="page left-page"></div>
         <div class="page right-page"></div>
     </div>
 
-    <div class="workspace-wrapper" id="workspaceSection">
-
+    <div class="workspace-wrapper">
         <div id="rooms-cabinet">
             <img src="Assets/rooms_cabinet.png" class="cabinet-img">
             <div class="drawer-zone zone-living" data-room="living"></div>
@@ -278,24 +257,18 @@ h2{
             <div class="drawer-zone zone-spare" data-room="spare"></div>
             <div class="drawer-zone zone-upload" id="uploadDrawer"></div>
         </div>
-
         <div id="work-area"></div>
-
     </div>
-
 </div>
 
 <input type="file" id="roomUpload" accept="image/*" style="display:none">
 
 <script>
-
 document.addEventListener("DOMContentLoaded",function(){
-
     const cabinet=document.getElementById("rooms-cabinet");
     const workArea=document.getElementById("work-area");
     const catalog=document.getElementById("catalogOverlay");
     const roomUpload=document.getElementById("roomUpload");
-    const mainSection=document.getElementById("mainAppSection");
 
     const furniture={
         seating:[
@@ -313,15 +286,9 @@ document.addEventListener("DOMContentLoaded",function(){
     function loadCatalog(){
         const left=document.querySelector(".left-page");
         const right=document.querySelector(".right-page");
-        if(!left || !right) return;
         left.innerHTML=""; right.innerHTML="";
         const items=furniture[currentCategory];
         
-        if (items.length === 0) {
-            left.innerHTML = "<div style='grid-column: span 2; color: #555; padding-top: 50px;'>Coming Soon...</div>";
-            return;
-        }
-
         let start=pageIndex*12;
         items.slice(start,start+6).forEach(src=>{
             const img=document.createElement("img");
@@ -335,21 +302,28 @@ document.addEventListener("DOMContentLoaded",function(){
         });
     }
 
-    function openCatalogGracefully() {
+    // Toggle Cabinet
+    document.getElementById("roomsTab").onclick = function() {
+        cabinet.classList.toggle("show");
+    };
+
+    // Toggle Catalog
+    document.getElementById("catalogTab").onclick = function() {
+        if(catalog.classList.contains("show")) {
+            catalog.classList.remove("show");
+        } else {
+            loadCatalog();
+            catalog.classList.add("show");
+        }
+    };
+
+    // Work area also opens catalog
+    workArea.onclick = function() {
         loadCatalog();
         catalog.classList.add("show");
-        setTimeout(() => {
-            window.scrollTo({ top: mainSection.offsetTop - 20, behavior: "smooth" });
-        }, 100);
-    }
-
-    document.getElementById("roomsTab").onclick=()=> cabinet.classList.toggle("show");
-    document.getElementById("catalogTab").onclick=()=> {
-        if(catalog.classList.contains("show")) catalog.classList.remove("show");
-        else openCatalogGracefully();
     };
-    workArea.onclick=openCatalogGracefully;
 
+    // Room cycling
     const roomImages={
         living:["Assets/ROOMS_livingroom1.jpg"],
         dining:[], bedroom:[], spare:[]
@@ -373,15 +347,6 @@ document.addEventListener("DOMContentLoaded",function(){
         reader.onload=(event)=> workArea.style.background="url('"+event.target.result+"') center/cover no-repeat";
         reader.readAsDataURL(file);
     };
-
-    document.querySelector(".right-page").onclick=function(){
-        const items=furniture[currentCategory];
-        if((pageIndex+1)*12 < items.length){ pageIndex++; loadCatalog(); }
-    };
-    document.querySelector(".left-page").onclick=function(){
-        if(pageIndex>0){ pageIndex--; loadCatalog(); }
-    };
-
 });
 </script>
 
