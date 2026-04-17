@@ -94,11 +94,11 @@ width: 100%;
 margin-top: 50px;
 }
 
-/* CATALOG - NOW SETTLES BETWEEN TABS AND WORKSPACE */
+/* CATALOG */
 #catalogOverlay{
-position: relative; /* Not absolute anymore */
+position: relative;
 width: 954px;
-display: none; /* Hide completely */
+display: none;
 opacity: 0;
 transition: opacity 0.8s ease;
 margin: 20px auto 40px;
@@ -270,7 +270,7 @@ letter-spacing:1px;
 </div>
 </div>
 
-<div class="outer-wrapper">
+<div class="outer-wrapper" id="mainAppSection">
 
     <div id="catalogOverlay">
         <img src="Assets/furniturecatalog.png" id="catalogBook">
@@ -311,15 +311,28 @@ const cabinet=document.getElementById("rooms-cabinet");
 const workArea=document.getElementById("work-area");
 const catalog=document.getElementById("catalogOverlay");
 const roomUpload=document.getElementById("roomUpload");
+const mainSection=document.getElementById("mainAppSection");
 
 /* TOP TAB CONTROLS */
 document.getElementById("roomsTab").onclick=function(){
 cabinet.classList.toggle("show");
+
+// Scroll logic updated to target the container with a slight offset
+window.scrollTo({
+top: mainSection.offsetTop - 50,
+behavior: "smooth"
+});
 };
 
 document.getElementById("catalogTab").onclick=function(){
 catalog.classList.toggle("show");
-if(catalog.classList.contains("show")) loadCatalog();
+if(catalog.classList.contains("show")) {
+    loadCatalog();
+    window.scrollTo({
+    top: mainSection.offsetTop - 50,
+    behavior: "smooth"
+    });
+}
 };
 
 /* ROOM IMAGES */
@@ -360,6 +373,10 @@ reader.readAsDataURL(file);
 workArea.onclick=function(){
 catalog.classList.add("show");
 loadCatalog();
+window.scrollTo({
+top: mainSection.offsetTop - 50,
+behavior: "smooth"
+});
 };
 
 /* FURNITURE DATA */
