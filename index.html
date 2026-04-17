@@ -94,23 +94,29 @@ width: 100%;
 margin-top: 50px;
 }
 
-/* CATALOG - SLOWER & GRACEFUL TRANSITION */
+/* CATALOG - FIXED ANIMATION LOGIC */
 #catalogOverlay{
 position: relative;
 width: 954px;
-display: none;
+/* Using max-height and opacity for a real transition */
+max-height: 0;
 opacity: 0;
-/* Slower, more graceful cubic-bezier easing */
-transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1), transform 1.4s cubic-bezier(0.4, 0, 0.2, 1);
-transform: translateY(-20px);
-margin: 20px auto 40px;
+overflow: hidden;
+visibility: hidden;
+transition: max-height 1.4s cubic-bezier(0.4, 0, 0.2, 1), 
+            opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1), 
+            transform 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+transform: translateY(-30px);
+margin: 0 auto;
 z-index: 5;
 }
 
 #catalogOverlay.show{
-display: block;
+max-height: 600px; /* Large enough to hold the book */
 opacity: 1;
+visibility: visible;
 transform: translateY(0);
+margin: 20px auto 40px;
 }
 
 #catalogBook{
@@ -318,15 +324,16 @@ const mainSection=document.getElementById("mainAppSection");
 
 /* OPEN CATALOG FUNCTION */
 function openCatalogGracefully() {
+    loadCatalog(); // Load content first
     catalog.classList.add("show");
-    loadCatalog();
-    // Tiny delay before scrolling to let the animation start
+    
+    // Smoothly scroll into view
     setTimeout(() => {
         window.scrollTo({
             top: mainSection.offsetTop - 50,
             behavior: "smooth"
         });
-    }, 100);
+    }, 150);
 }
 
 /* TOP TAB CONTROLS */
@@ -360,13 +367,8 @@ document.querySelectorAll(".drawer-zone").forEach(zone=>{
     zone.onclick=function(){
         const type=this.dataset.room;
         if(!type) return;
-        
-        // Change the room
         indexes[type]=(indexes[type]+1)%roomImages[type].length;
         workArea.style.background="url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
-
-        // Open Catalog gracefully when a room is picked
-        openCatalogGracefully();
     };
 });
 
@@ -381,7 +383,6 @@ roomUpload.onchange=function(e){
     const reader=new FileReader();
     reader.onload=function(event){
         workArea.style.background="url('"+event.target.result+"') center/cover no-repeat";
-        openCatalogGracefully();
     };
     reader.readAsDataURL(file);
 };
