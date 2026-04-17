@@ -50,16 +50,16 @@ h2{
 .nav-container{
     display:flex;
     justify-content:center;
-    gap:10px;
-    margin-top:0px;
+    gap:15px;
+    margin-top:20px; 
     position:relative;
-    z-index:999;
+    z-index:9999; 
 }
 
 .top-tab{
     position:relative;
-    width:160px; /* Sized to fit the hardware proportions */
-    height: 120px; 
+    width:165px; 
+    height: 110px; 
     cursor:pointer;
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
@@ -67,7 +67,7 @@ h2{
 }
 
 .top-tab:hover{
-    transform: translateY(15px); /* The "Pull" action */
+    transform: translateY(18px); 
 }
 
 .top-tab img{
@@ -84,15 +84,15 @@ h2{
 .top-tab-text{
     position:relative;
     z-index: 2;
-    /* Aligns text inside the rectangular "window" of the metal pull */
     margin-top: 18px; 
     font-family:'Jacques Francois Shadow', serif;
-    font-size:14px;
-    color:#222; 
+    font-size:15px;
+    color:#ffffff; 
     text-align:center;
     pointer-events:none;
     line-height: 1.1;
     text-transform: uppercase;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
 }
 
 /* MAIN STACKED WRAPPER */
@@ -202,10 +202,23 @@ h2{
     gap:18px;
     padding:10px;
     box-sizing:border-box;
+    z-index: 10;
 }
 
 .left-page{left:11%;}
 .right-page{right:11%;}
+
+.catalog-item{
+    max-width:84%;
+    max-height:84%;
+    object-fit:contain;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.catalog-item:hover{
+    transform:scale(1.05);
+}
 
 </style>
 
@@ -220,27 +233,27 @@ h2{
 
 <div class="nav-container">
     <div class="top-tab" id="roomsTab">
-        <img src="Assets/pulltabs.png">
+        <img src="Assets/pulltab.png">
         <div class="top-tab-text">ROOMS</div>
     </div>
 
     <div class="top-tab" id="catalogTab">
-        <img src="Assets/pulltabs.png">
+        <img src="Assets/pulltab.png">
         <div class="top-tab-text">FURNITURE<br>CATALOG</div>
     </div>
 
     <div class="top-tab" id="decorTab">
-        <img src="Assets/pulltabs.png">
+        <img src="Assets/pulltab.png">
         <div class="top-tab-text">DECOR<br>CLOSET</div>
     </div>
 
     <div class="top-tab" id="galleryTab">
-        <img src="Assets/pulltabs.png">
+        <img src="Assets/pulltab.png">
         <div class="top-tab-text">GALLERY</div>
     </div>
 
     <div class="top-tab" id="saveTab">
-        <img src="Assets/pulltabs.png">
+        <img src="Assets/pulltab.png">
         <div class="top-tab-text">SAVE/<br>CHECKOUT</div>
     </div>
 </div>
@@ -282,63 +295,89 @@ document.addEventListener("DOMContentLoaded",function(){
     const roomUpload=document.getElementById("roomUpload");
     const mainSection=document.getElementById("mainAppSection");
 
-    /* OPEN CATALOG FUNCTION */
+    const furniture={
+        seating:[
+            "Assets/seating_couch1.png","Assets/seating_couch2.png","Assets/seating_couch3.png",
+            "Assets/seating_couch4.png","Assets/seating_couch5.png","Assets/seating_couch6.png",
+            "Assets/seating_couch7.png","Assets/seating_couch8.png","Assets/seating_couch9.png",
+            "Assets/seating_couch10.png","Assets/seating_couch11.png","Assets/seating_couch12.png"
+        ],
+        tables:[], storage:[], beds:[]
+    };
+
+    let currentCategory="seating";
+    let pageIndex=0;
+
+    function loadCatalog(){
+        const left=document.querySelector(".left-page");
+        const right=document.querySelector(".right-page");
+        if(!left || !right) return;
+        left.innerHTML=""; right.innerHTML="";
+        const items=furniture[currentCategory];
+        
+        if (items.length === 0) {
+            left.innerHTML = "<div style='grid-column: span 2; color: #555; padding-top: 50px;'>Coming Soon...</div>";
+            return;
+        }
+
+        let start=pageIndex*12;
+        items.slice(start,start+6).forEach(src=>{
+            const img=document.createElement("img");
+            img.src=src; img.className="catalog-item";
+            left.appendChild(img);
+        });
+        items.slice(start+6,start+12).forEach(src=>{
+            const img=document.createElement("img");
+            img.src=src; img.className="catalog-item";
+            right.appendChild(img);
+        });
+    }
+
     function openCatalogGracefully() {
+        loadCatalog();
         catalog.classList.add("show");
         setTimeout(() => {
-            window.scrollTo({
-                top: mainSection.offsetTop - 20,
-                behavior: "smooth"
-            });
+            window.scrollTo({ top: mainSection.offsetTop - 20, behavior: "smooth" });
         }, 100);
     }
 
-    /* TAB CONTROLS */
-    document.getElementById("roomsTab").onclick=function(){
-        cabinet.classList.toggle("show");
+    document.getElementById("roomsTab").onclick=()=> cabinet.classList.toggle("show");
+    document.getElementById("catalogTab").onclick=()=> {
+        if(catalog.classList.contains("show")) catalog.classList.remove("show");
+        else openCatalogGracefully();
     };
+    workArea.onclick=openCatalogGracefully;
 
-    document.getElementById("catalogTab").onclick=function(){
-        catalog.classList.toggle("show");
-    };
-
-    /* WORK AREA TRIGGER */
-    workArea.onclick=function(){
-        openCatalogGracefully();
-    };
-
-    /* ROOM CYCLING */
     const roomImages={
-        living:["Assets/ROOMS_livingroom1.jpg","Assets/ROOMS_livingroom2.jpg"],
-        dining:["Assets/ROOMS_diningroom1.jpg"],
-        bedroom:["Assets/ROOMS_bedroom1.jpg"],
-        spare:["Assets/ROOMS_kitchen1.jpg"]
+        living:["Assets/ROOMS_livingroom1.jpg"],
+        dining:[], bedroom:[], spare:[]
     };
-
     const indexes={living:0,dining:0,bedroom:0,spare:0};
 
     document.querySelectorAll(".drawer-zone").forEach(zone=>{
         zone.onclick=function(){
             const type=this.dataset.room;
-            if(!type) return;
+            if(!type || !roomImages[type].length) return;
             indexes[type]=(indexes[type]+1)%roomImages[type].length;
             workArea.style.background="url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
         };
     });
 
-    /* UPLOAD ROOM */
-    document.getElementById("uploadDrawer").onclick=function(){
-        roomUpload.click();
-    };
-
-    roomUpload.onchange=function(e){
+    document.getElementById("uploadDrawer").onclick=()=> roomUpload.click();
+    roomUpload.onchange=(e)=>{
         const file=e.target.files[0];
         if(!file) return;
         const reader=new FileReader();
-        reader.onload=function(event){
-            workArea.style.background="url('"+event.target.result+"') center/cover no-repeat";
-        };
+        reader.onload=(event)=> workArea.style.background="url('"+event.target.result+"') center/cover no-repeat";
         reader.readAsDataURL(file);
+    };
+
+    document.querySelector(".right-page").onclick=function(){
+        const items=furniture[currentCategory];
+        if((pageIndex+1)*12 < items.length){ pageIndex++; loadCatalog(); }
+    };
+    document.querySelector(".left-page").onclick=function(){
+        if(pageIndex>0){ pageIndex--; loadCatalog(); }
     };
 
 });
