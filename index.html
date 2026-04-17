@@ -15,7 +15,7 @@ html,body{
     padding:0;
     min-height:100vh;
     font-family:'Limelight',cursive;
-    /* Allow vertical scrolling, hide horizontal */
+    /* Proper scroll settings */
     overflow-y: auto;
     overflow-x: hidden;
     background:
@@ -84,8 +84,8 @@ h2{
 .top-tab-text{
     position:relative;
     z-index: 2;
-    /* Pushed text down to sit on the tab */
-    margin-top: 45px; 
+    /* Pushed down to align with the pull handle */
+    margin-top: 52px; 
     font-family: Arial, sans-serif;
     font-weight: bold;
     font-size: 14px;
@@ -279,7 +279,7 @@ document.addEventListener("DOMContentLoaded",function(){
             "Assets/seating_armchair1.png", "Assets/seating_armchair10.png", "Assets/seating_armchair12.png", 
             "Assets/seating_armchair14.png", "Assets/seating_armchair2.png", "Assets/seating_armchair3.png", 
             "Assets/seating_armchair4.png", "Assets/seating_armchair5.png", "Assets/seating_armchair6.png",
-            "Assets/seating_armchair7.png","Assets/seating_armchair8.png","Assets/seating_armchair9.png
+            "Assets/seating_armchair7.png","Assets/seating_armchair8.png","Assets/seating_armchair9.png"
         ],
         tables:[], storage:[], beds:[]
     };
@@ -327,7 +327,6 @@ document.addEventListener("DOMContentLoaded",function(){
         catalog.classList.add("show");
     };
 
-    // Room cycling
     const roomImages={
         living:["Assets/ROOMS_livingroom1.jpg"],
         dining:[], bedroom:[], spare:[]
