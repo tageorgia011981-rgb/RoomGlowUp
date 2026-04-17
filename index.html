@@ -1,504 +1,339 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Room Glow Up</title>
+    <meta charset="UTF-8">
+    <title>Room Glow Up</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Jacques+Francois+Shadow&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Limelight&family=Special+Elite&display=swap" rel="stylesheet">
 
-<style>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Limelight', cursive;
+            overflow-x: hidden;
+            background:
+                url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
+                url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
+                url('Assets/mainbackground_blue.jpg') center top no-repeat;
+            background-size: 33% 100%, 33% 100%, 34% 100%;
+            background-attachment: fixed;
+            scroll-behavior: smooth;
+        }
 
-html,body{
-margin:0;
-padding:0;
-min-height:200vh;
-font-family:'Limelight',cursive;
-overflow-x:hidden;
+        /* GLORIOUS FLASHY HEADER */
+        header {
+            text-align: center;
+            padding: 60px 0 20px;
+        }
 
-background:
-url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
-url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
-url('Assets/mainbackground_blue.jpg') center top no-repeat;
+        h1 {
+            font-size: 110px;
+            margin: 0;
+            line-height: 1;
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, #555 0%, #bbb 20%, #ffffff 45%, #888 50%, #ffffff 55%, #bbb 80%, #555 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(6px 6px 0px rgba(0,0,0,1)) drop-shadow(0px 0px 20px rgba(0,0,0,0.5));
+            letter-spacing: 5px;
+        }
 
-background-size:33% 100%,33% 100%,34% 100%;
-background-attachment:fixed;
-scroll-behavior:smooth;
-}
+        h2 {
+            font-size: 30px;
+            letter-spacing: 4px;
+            margin-top: 15px;
+            background: linear-gradient(to bottom, #ffffff 0%, #a1a1a1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(3px 3px 0px rgba(0,0,0,1));
+        }
 
-/* HEADER */
+        /* TOP TABS - TYPEWRITER STYLE */
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            width: 100%;
+        }
 
-header{
-text-align:center;
-padding:70px 0 30px;
-}
+        .top-tab {
+            position: relative;
+            width: 215px;
+            height: 95px;
+            cursor: pointer;
+            transition: .25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-h1{
-font-size:115px;
-margin:0;
-background:linear-gradient(to bottom,#ffffff 0%,#a6a6a6 45%,#4d4d4d 50%,#ffffff 55%,#808080 100%);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-letter-spacing:7px;
-}
+        .top-tab:hover {
+            transform: translateY(-6px);
+        }
 
-h2{
-font-size:24px;
-letter-spacing:9px;
-margin-top:15px;
-color:#ddd;
-}
+        .top-tab img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
 
-/* TOP TABS */
+        .top-tab-text {
+            position: relative;
+            z-index: 2;
+            font-family: 'Special Elite', system-ui;
+            font-size: 18px;
+            color: white;
+            text-shadow: 2px 2px 3px #000;
+            text-align: center;
+            width: 80%;
+            margin-top: 15px;
+            pointer-events: none;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
 
-.nav-container{
-display:flex;
-justify-content:center;
-gap:50px;
-margin-top:35px;
-}
+        /* WORKSPACE SECTION - FLUID & ANCHORED RIGHT */
+        .workspace-wrapper {
+            width: 98%;
+            margin: 80px auto 100px;
+            display: flex;
+            justify-content: flex-end; /* Anchors everything to the right */
+            align-items: flex-start;
+            gap: 0; /* Let max-width handle the spacing */
+            transition: all 1.2s ease;
+        }
 
-.top-tab{
-position:relative;
-width:220px;
-cursor:pointer;
-transition:.25s;
-}
+        /* CABINET GLIDE - NUDGES LEFT SIDE */
+        #rooms-cabinet {
+            width: 440px;
+            max-width: 0; /* Starts at zero to stay hidden */
+            height: 640px;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-width 1.2s ease, opacity 1.2s ease, margin-right 1.2s ease;
+            position: relative;
+            flex-shrink: 0;
+        }
 
-.top-tab:hover{
-transform:translateY(-6px);
-}
+        #rooms-cabinet.show {
+            max-width: 440px;
+            opacity: 1;
+            margin-right: 25px; /* Creates the gap only when shown */
+        }
 
-.top-tab img{
-width:100%;
-}
+        .cabinet-img {
+            width: 440px; /* Locked width so it doesn't squish during glide */
+            height: 100%;
+            object-fit: contain;
+        }
 
-.top-tab-text{
-position:absolute;
-top:39%;
-left:50%;
-transform:translate(-50%,-50%);
-font-family:'Jacques Francois Shadow', serif;
-font-size:20px;
-color:white;
-text-align:center;
-pointer-events:none;
-}
+        .drawer-zone {
+            position: absolute;
+            left: 10%;
+            width: 80%;
+            height: 16%;
+            cursor: pointer;
+            z-index: 20;
+        }
 
-/* WORKSPACE SECTION */
+        .zone-living { top: 3%; }
+        .zone-bedroom { top: 22%; }
+        .zone-dining { top: 41%; }
+        .zone-spare { top: 60%; }
+        .zone-upload { top: 79%; }
 
-.workspace-wrapper{
-width:1350px;
-margin:60vh auto 200px;
-display:flex;
-justify-content:center;
-align-items:flex-start;
-gap:25px;
-position:relative;
-}
+        /* WORKSPACE - STRETCHES TO FILL */
+        .workspace-container {
+            position: relative;
+            flex: 1; /* Stretches to fill all remaining space on the right */
+            max-width: 1100px; /* Caps the size so it doesn't get too gargantuan */
+            height: 640px;
+            transition: all 1.2s ease;
+        }
 
-/* CABINET */
+        #work-area {
+            width: 100%;
+            height: 100%;
+            background: #111 url('Assets/workstation.jpg') center/cover no-repeat;
+            border: 4px solid #333;
+            box-shadow: 0 0 60px rgba(0,0,0,.9);
+            cursor: pointer;
+            transition: background 0.4s ease;
+        }
 
-#rooms-cabinet{
-width:600px;
-height:600px;
-position:relative;
-transform:translateX(-390px);
-transition:transform 1.2s ease;
-}
+        /* CATALOG */
+        #catalogOverlay {
+            position: absolute;
+            top: -550px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-40px);
+            width: 950px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.2s ease, transform 1.2s ease;
+            z-index: 100;
+        }
 
-#rooms-cabinet.show{
-transform:translateX(0);
-}
+        #catalogOverlay.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
 
-.cabinet-img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
+        #catalogBook { width: 100%; }
 
-.drawer-zone{
-position:absolute;
-left:0;
-width:100%;
-height:20%;
-cursor:pointer;
-}
+        .page {
+            position: absolute;
+            top: 5%;
+            width: 38%;
+            height: 60%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 15px;
+            padding: 10px;
+        }
 
-.zone-living{top:0%;}
-.zone-dining{top:20%;}
-.zone-bedroom{top:40%;}
-.zone-spare{top:60%;}
-.zone-upload{top:80%;}
+        .left-page { left: 12%; }
+        .right-page { right: 12%; }
 
-/* WORKSPACE */
+        .catalog-item {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            cursor: pointer;
+            transition: .2s;
+        }
 
-.workspace-container{
-position:relative;
-width:1000px;
-height:650px;
-}
+        .catalog-item:hover { transform: scale(1.1); }
 
-#work-area{
-width:100%;
-height:100%;
-background:url('Assets/workstation.jpg') center/cover no-repeat;
-box-shadow:0 0 60px rgba(0,0,0,.9);
-cursor:pointer;
-}
-
-/* CATALOG */
-
-#catalogOverlay{
-position:absolute;
-top:-542px;
-left:232px;
-width:954px;
-opacity:0;
-pointer-events:none;
-transform:translateY(-40px);
-transition:opacity 1.2s ease, transform 1.2s ease;
-z-index:5;
-}
-
-#catalogOverlay.show{
-opacity:1;
-pointer-events:auto;
-transform:translateY(0);
-}
-
-#catalogBook{
-width:100%;
-}
-
-/* PAGE GRID */
-
-.page{
-position:absolute;
-top:1%;
-width:39%;
-height:55%;
-display:grid;
-grid-template-columns:repeat(2,1fr);
-grid-template-rows:repeat(3,1fr);
-gap:18px;
-align-items:center;
-justify-items:center;
-padding:10px;
-box-sizing:border-box;
-}
-
-.left-page{left:11%;}
-.right-page{right:11%;}
-
-.catalog-item{
-max-width:84%;
-max-height:84%;
-object-fit:contain;
-cursor:pointer;
-transition:.2s;
-}
-
-.catalog-item:hover{
-transform:scale(1.05);
-}
-
-/* CATALOG TABS */
-
-.catalog-tab{
-position:absolute;
-right:-60px;
-width:90px;
-height:24px;
-background:black;
-color:#d4af37;
-font-size:11px;
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:6px 0 0 6px;
-cursor:pointer;
-letter-spacing:1px;
-}
-
-.tab-seating{top:160px;}
-.tab-tables{top:190px;left:5px;}
-.tab-storage{top:220px;left:10px;}
-.tab-beds{top:250px;left:15px;}
-
-</style>
-
+    </style>
 </head>
 
 <body>
 
 <header>
-<h1>Room Glow Up</h1>
-<h2>WHERE YOUR DREAM SPACE COMES TO LIFE</h2>
+    <h1>Room Glow Up</h1>
+    <h2>WHERE YOUR DREAM SPACE COMES TO LIFE</h2>
 </header>
 
 <div class="nav-container">
+    <div class="top-tab" id="roomsTab">
+        <img src="Assets/pulltab.png">
+        <div class="top-tab-text">ROOMS</div>
+    </div>
 
-<div class="top-tab" id="roomsTab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">ROOMS</div>
-</div>
+    <div class="top-tab" id="catalogTab">
+        <img src="Assets/pulltab.png">
+        <div class="top-tab-text">FURNITURE<br>CATALOG</div>
+    </div>
 
-<div class="top-tab" id="catalogTab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">FURNITURE<br>CATALOG</div>
-</div>
+    <div class="top-tab" id="decorTab">
+        <img src="Assets/pulltab.png">
+        <div class="top-tab-text">DECOR<br>CLOSET</div>
+    </div>
 
-<div class="top-tab" id="decorTab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">DECOR<br>CLOSET</div>
-</div>
+    <div class="top-tab" id="galleryTab">
+        <img src="Assets/pulltab.png">
+        <div class="top-tab-text">GALLERY</div>
+    </div>
 
-<div class="top-tab" id="galleryTab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">GALLERY</div>
-</div>
-
-<div class="top-tab" id="saveTab">
-<img src="Assets/roomscabinet_pulltab.png">
-<div class="top-tab-text">SAVE/<br>CHECKOUT</div>
-</div>
-
+    <div class="top-tab" id="saveTab">
+        <img src="Assets/pulltab.png">
+        <div class="top-tab-text">SAVE/<br>CHECKOUT</div>
+    </div>
 </div>
 
 <div class="workspace-wrapper" id="workspaceSection">
 
-<div id="catalogOverlay">
+    <div id="catalogOverlay">
+        <img src="Assets/furniturecatalog.png" id="catalogBook">
+        <div class="page left-page"></div>
+        <div class="page right-page"></div>
+    </div>
 
-<img src="Assets/furniturecatalog.png" id="catalogBook">
+    <div id="rooms-cabinet">
+        <img src="Assets/rooms_cabinet.png" class="cabinet-img">
+        <div class="drawer-zone zone-living" data-room="living"></div>
+        <div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
+        <div class="drawer-zone zone-dining" data-room="dining"></div>
+        <div class="drawer-zone zone-spare" data-room="spare"></div>
+        <div class="drawer-zone zone-upload" id="uploadDrawer"></div>
+    </div>
 
-<div class="page left-page"></div>
-<div class="page right-page"></div>
-
-<div class="catalog-tab tab-seating" id="tabSeating">SEATING</div>
-<div class="catalog-tab tab-tables" id="tabTables">TABLES</div>
-<div class="catalog-tab tab-storage" id="tabStorage">STORAGE</div>
-<div class="catalog-tab tab-beds" id="tabBeds">BEDS</div>
-
-</div>
-
-<div id="rooms-cabinet">
-
-<img src="Assets/rooms_cabinet.png" class="cabinet-img">
-
-<div class="drawer-zone zone-living" data-room="living"></div>
-<div class="drawer-zone zone-dining" data-room="dining"></div>
-<div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
-<div class="drawer-zone zone-spare" data-room="spare"></div>
-<div class="drawer-zone zone-upload" id="uploadDrawer"></div>
-
-</div>
-
-<div class="workspace-container">
-<div id="work-area"></div>
-</div>
+    <div class="workspace-container">
+        <div id="work-area"></div>
+    </div>
 
 </div>
 
 <input type="file" id="roomUpload" accept="image/*" style="display:none">
 
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const cabinet = document.getElementById("rooms-cabinet");
+    const workArea = document.getElementById("work-area");
+    const catalog = document.getElementById("catalogOverlay");
+    const roomUpload = document.getElementById("roomUpload");
 
-document.addEventListener("DOMContentLoaded",function(){
+    // TABS
+    document.getElementById("roomsTab").onclick = function() {
+        cabinet.classList.toggle("show");
+    };
 
-const cabinet=document.getElementById("rooms-cabinet");
-const workArea=document.getElementById("work-area");
-const catalog=document.getElementById("catalogOverlay");
-const roomUpload=document.getElementById("roomUpload");
+    document.getElementById("catalogTab").onclick = function() {
+        catalog.classList.toggle("show");
+        loadCatalog();
+    };
 
-/* TOP TAB CONTROLS */
+    // ROOM CYCLING
+    const roomImages = {
+        living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg", "Assets/ROOMS_livingroom3.jpg"],
+        dining: ["Assets/ROOMS_diningroom1.jpg", "Assets/ROOMS_diningroom2.jpg"],
+        bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg", "Assets/ROOMS_bedroom3.jpg"],
+        spare: ["Assets/ROOMS_kitchen1.jpg", "Assets/ROOMS_bathroom1.jpg", "Assets/ROOMS_office1.jpg"]
+    };
+    const indexes = { living: 0, dining: 0, bedroom: 0, spare: 0 };
 
-document.getElementById("roomsTab").onclick=function(){
+    document.querySelectorAll(".drawer-zone").forEach(zone => {
+        zone.onclick = function() {
+            const type = this.dataset.room;
+            if (!type) return;
+            workArea.style.backgroundImage = "url('" + roomImages[type][indexes[type]] + "')";
+            indexes[type] = (indexes[type] + 1) % roomImages[type].length;
+        };
+    });
 
-const section=document.getElementById("workspaceSection");
+    // UPLOAD
+    document.getElementById("uploadDrawer").onclick = () => roomUpload.click();
+    roomUpload.onchange = (e) => {
+        const file = e.target.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = (event) => workArea.style.backgroundImage = "url('" + event.target.result + "')";
+        reader.readAsDataURL(file);
+    };
 
-cabinet.classList.add("show");
+    // CATALOG DATA
+    const furniture = {
+        seating: ["Assets/seating_couch1.png", "Assets/seating_couch2.png", "Assets/seating_couch3.png"]
+    };
 
-window.scrollTo({
-top:section.offsetTop,
-behavior:"smooth"
-});
-
-};
-
-document.getElementById("catalogTab").onclick=function(){
-catalog.classList.add("show");
-loadCatalog();
-};
-
-/* ROOM IMAGES */
-
-const roomImages={
-living:[
-"Assets/ROOMS_livingroom1.jpg",
-"Assets/ROOMS_livingroom2.jpg",
-"Assets/ROOMS_livingroom3.jpg"
-],
-dining:[
-"Assets/ROOMS_diningroom1.jpg",
-"Assets/ROOMS_diningroom2.jpg"
-],
-bedroom:[
-"Assets/ROOMS_bedroom1.jpg",
-"Assets/ROOMS_bedroom2.jpg",
-"Assets/ROOMS_bedroom3.jpg"
-],
-spare:[
-"Assets/ROOMS_kitchen1.jpg",
-"Assets/ROOMS_bathroom1.jpg",
-"Assets/ROOMS_office1.jpg"
-]
-};
-
-const indexes={living:0,dining:0,bedroom:0,spare:0};
-
-document.querySelectorAll(".drawer-zone").forEach(zone=>{
-
-zone.onclick=function(){
-
-const type=this.dataset.room;
-
-if(!type) return;
-
-indexes[type]=(indexes[type]+1)%roomImages[type].length;
-
-workArea.style.background="url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
-
-};
-
-});
-
-/* UPLOAD ROOM */
-
-document.getElementById("uploadDrawer").onclick=function(){
-roomUpload.click();
-};
-
-roomUpload.onchange=function(e){
-
-const file=e.target.files[0];
-if(!file) return;
-
-const reader=new FileReader();
-
-reader.onload=function(event){
-workArea.style.background="url('"+event.target.result+"') center/cover no-repeat";
-};
-
-reader.readAsDataURL(file);
-
-};
-
-/* OPEN CATALOG */
-
-workArea.onclick=function(){
-
-catalog.classList.add("show");
-
-window.scrollTo({
-top:document.getElementById("workspaceSection").offsetTop-400,
-behavior:"smooth"
-});
-
-loadCatalog();
-
-};
-
-/* FURNITURE DATA */
-
-const furniture={
-seating:[
-"Assets/seating_couch1.png",
-"Assets/seating_couch2.png",
-"Assets/seating_couch3.png",
-"Assets/seating_couch4.png",
-"Assets/seating_couch5.png",
-"Assets/seating_couch6.png",
-"Assets/seating_couch7.png",
-"Assets/seating_couch8.png",
-"Assets/seating_couch9.png",
-"Assets/seating_couch10.png",
-"Assets/seating_couch11.png",
-"Assets/seating_couch12.png",
-"Assets/seating_bench1.png",
-"Assets/seating_bench2.png",
-"Assets/seating_bench3.png",
-"Assets/seating_bench4.png",
-"Assets/seating_bench5.png",
-"Assets/seating_bench6.png",
-"Assets/seating_bench7.png",
-"Assets/seating_bench8.png",
-"Assets/seating_bench9.png",
-"Assets/seating_bench10.png",
-"Assets/seating_bench11.png",
-"Assets/seating_bench12.png"
-],
-tables:[],
-storage:[],
-beds:[]
-};
-
-let currentCategory="seating";
-let pageIndex=0;
-
-function loadCatalog(){
-
-const left=document.querySelector(".left-page");
-const right=document.querySelector(".right-page");
-
-left.innerHTML="";
-right.innerHTML="";
-
-const items=furniture[currentCategory];
-
-let start=pageIndex*12;
-
-items.slice(start,start+6).forEach(src=>{
-const img=document.createElement("img");
-img.src=src;
-img.className="catalog-item";
-left.appendChild(img);
-});
-
-items.slice(start+6,start+12).forEach(src=>{
-const img=document.createElement("img");
-img.src=src;
-img.className="catalog-item";
-right.appendChild(img);
-});
-
-}
-
-const leftPage=document.querySelector(".left-page");
-const rightPage=document.querySelector(".right-page");
-
-rightPage.onclick=function(){
-
-const items=furniture[currentCategory];
-const maxPage=Math.ceil(items.length/12)-1;
-
-if(pageIndex<maxPage){
-pageIndex++;
-loadCatalog();
-}
-
-};
-
-leftPage.onclick=function(){
-
-if(pageIndex>0){
-pageIndex--;
-loadCatalog();
-}
-
-};
-
+    function loadCatalog() {
+        const left = document.querySelector(".left-page");
+        const right = document.querySelector(".right-page");
+        left.innerHTML = ""; right.innerHTML = "";
+        furniture.seating.forEach((src, i) => {
+            const img = document.createElement("img");
+            img.src = src;
+            img.className = "catalog-item";
+            (i < 6 ? left : right).appendChild(img);
+        });
+    }
 });
 </script>
 
