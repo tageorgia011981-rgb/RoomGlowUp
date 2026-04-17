@@ -18,7 +18,6 @@ body {
     margin:0;
     padding:0;
     width: 100%;
-    /* Ensure there is plenty of room to scroll down */
     min-height: 2500px; 
     font-family:'Limelight',cursive;
     background:
@@ -102,14 +101,14 @@ h2 {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    /* PUSHES EVERYTHING DOWN AWAY FROM THE TOP */
     padding-top: 250px;
     padding-bottom: 600px; 
 }
 
+/* CATALOG DIVIDER TAB SYSTEM */
 #catalogOverlay {
     position: relative;
-    width: 1050px;
+    width: 954px; 
     max-height: 0;
     opacity: 0;
     overflow: visible;
@@ -127,38 +126,58 @@ h2 {
 
 .catalog-relative {
     position: relative;
-    width: 954px;
-    margin: 0 auto;
+    width: 100%;
 }
 
 #catalogBook {
     width: 100%;
     display: block;
+    position: relative;
+    z-index: 10;
 }
 
 .side-tab {
     position: absolute;
-    width: 45px;
-    height: 120px;
-    color: white;
+    right: -38px; /* Moves tab to the right edge of the book */
+    width: 55px;
+    height: 90px;
     writing-mode: vertical-rl;
     text-orientation: mixed;
     text-align: center;
-    font-size: 12px;
+    font-size: 13px;
     cursor: pointer;
-    border-radius: 5px 0 0 5px;
-    z-index: 15;
+    border-radius: 0 12px 12px 0;
+    z-index: 5; /* Behind cover, above pages */
     font-family: Arial, sans-serif;
     font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #777;
-    transition: background 0.3s;
+    border: 2px solid #a67c00; /* Bronze/Gold border */
+    border-left: none;
+    transition: transform 0.3s, background 0.3s;
+    box-shadow: 3px 2px 5px rgba(0,0,0,0.6);
+    background: #000000; /* BLACK BACKGROUND */
+    color: #ffd700; /* GOLD TEXT */
 }
 
-.tab-seating { left: -45px; top: 100px; background: #6b0000; }
-.tab-benches { left: -45px; top: 230px; background: #004d40; }
+.side-tab:hover {
+    transform: translateX(4px);
+    background: #111; /* Slight highlight on hover */
+}
+
+/* Updated Gold Text Shadow for better contrast */
+.side-tab-text-shadow {
+     text-shadow: 1px 1px 2px rgba(0,0,0,1), -1px -1px 2px rgba(166,124,0,0.5);
+}
+
+.tab-seating { 
+    top: 80px; 
+}
+
+.tab-benches { 
+    top: 180px; 
+}
 
 .workspace-wrapper {
     width:1350px;
@@ -222,7 +241,7 @@ h2 {
     gap:18px;
     padding:10px;
     box-sizing:border-box;
-    z-index: 10;
+    z-index: 20; /* Above book and tabs */
 }
 
 .left-page{left:11%;}
@@ -255,10 +274,10 @@ h2 {
 
 <div class="outer-wrapper">
     <div id="catalogOverlay">
-        <div class="tab-seating side-tab" onclick="changeCat('seating')">SEATING</div>
-        <div class="tab-benches side-tab" onclick="changeCat('benches')">BENCHES</div>
-        
         <div class="catalog-relative">
+            <div class="tab-seating side-tab side-tab-text-shadow" onclick="changeCat('seating')">SEATING</div>
+            <div class="tab-benches side-tab side-tab-text-shadow" onclick="changeCat('benches')">BENCHES</div>
+
             <img src="Assets/furniturecatalog.png" id="catalogBook">
             <div class="page left-page"></div>
             <div class="page right-page"></div>
