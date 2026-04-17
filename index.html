@@ -94,13 +94,15 @@ width: 100%;
 margin-top: 50px;
 }
 
-/* CATALOG */
+/* CATALOG - SLOWER & GRACEFUL TRANSITION */
 #catalogOverlay{
 position: relative;
 width: 954px;
 display: none;
 opacity: 0;
-transition: opacity 0.8s ease;
+/* Slower, more graceful cubic-bezier easing */
+transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1), transform 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+transform: translateY(-20px);
 margin: 20px auto 40px;
 z-index: 5;
 }
@@ -108,6 +110,7 @@ z-index: 5;
 #catalogOverlay.show{
 display: block;
 opacity: 1;
+transform: translateY(0);
 }
 
 #catalogBook{
@@ -313,70 +316,79 @@ const catalog=document.getElementById("catalogOverlay");
 const roomUpload=document.getElementById("roomUpload");
 const mainSection=document.getElementById("mainAppSection");
 
+/* OPEN CATALOG FUNCTION */
+function openCatalogGracefully() {
+    catalog.classList.add("show");
+    loadCatalog();
+    // Tiny delay before scrolling to let the animation start
+    setTimeout(() => {
+        window.scrollTo({
+            top: mainSection.offsetTop - 50,
+            behavior: "smooth"
+        });
+    }, 100);
+}
+
 /* TOP TAB CONTROLS */
 document.getElementById("roomsTab").onclick=function(){
-cabinet.classList.toggle("show");
-
-// Scroll logic updated to target the container with a slight offset
-window.scrollTo({
-top: mainSection.offsetTop - 50,
-behavior: "smooth"
-});
+    cabinet.classList.toggle("show");
+    window.scrollTo({
+        top: mainSection.offsetTop - 50,
+        behavior: "smooth"
+    });
 };
 
 document.getElementById("catalogTab").onclick=function(){
-catalog.classList.toggle("show");
-if(catalog.classList.contains("show")) {
-    loadCatalog();
-    window.scrollTo({
-    top: mainSection.offsetTop - 50,
-    behavior: "smooth"
-    });
-}
+    if (catalog.classList.contains("show")) {
+        catalog.classList.remove("show");
+    } else {
+        openCatalogGracefully();
+    }
 };
 
-/* ROOM IMAGES */
+/* ROOM IMAGES & DRAWER ACTIONS */
 const roomImages={
-living:["Assets/ROOMS_livingroom1.jpg","Assets/ROOMS_livingroom2.jpg","Assets/ROOMS_livingroom3.jpg"],
-dining:["Assets/ROOMS_diningroom1.jpg","Assets/ROOMS_diningroom2.jpg"],
-bedroom:["Assets/ROOMS_bedroom1.jpg","Assets/ROOMS_bedroom2.jpg","Assets/ROOMS_bedroom3.jpg"],
-spare:["Assets/ROOMS_kitchen1.jpg","Assets/ROOMS_bathroom1.jpg","Assets/ROOMS_office1.jpg"]
+    living:["Assets/ROOMS_livingroom1.jpg","Assets/ROOMS_livingroom2.jpg","Assets/ROOMS_livingroom3.jpg"],
+    dining:["Assets/ROOMS_diningroom1.jpg","Assets/ROOMS_diningroom2.jpg"],
+    bedroom:["Assets/ROOMS_bedroom1.jpg","Assets/ROOMS_bedroom2.jpg","Assets/ROOMS_bedroom3.jpg"],
+    spare:["Assets/ROOMS_kitchen1.jpg","Assets/ROOMS_bathroom1.jpg","Assets/ROOMS_office1.jpg"]
 };
 
 const indexes={living:0,dining:0,bedroom:0,spare:0};
 
 document.querySelectorAll(".drawer-zone").forEach(zone=>{
-zone.onclick=function(){
-const type=this.dataset.room;
-if(!type) return;
-indexes[type]=(indexes[type]+1)%roomImages[type].length;
-workArea.style.background="url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
-};
+    zone.onclick=function(){
+        const type=this.dataset.room;
+        if(!type) return;
+        
+        // Change the room
+        indexes[type]=(indexes[type]+1)%roomImages[type].length;
+        workArea.style.background="url('"+roomImages[type][indexes[type]]+"') center/cover no-repeat";
+
+        // Open Catalog gracefully when a room is picked
+        openCatalogGracefully();
+    };
 });
 
 /* UPLOAD ROOM */
 document.getElementById("uploadDrawer").onclick=function(){
-roomUpload.click();
+    roomUpload.click();
 };
 
 roomUpload.onchange=function(e){
-const file=e.target.files[0];
-if(!file) return;
-const reader=new FileReader();
-reader.onload=function(event){
-workArea.style.background="url('"+event.target.result+"') center/cover no-repeat";
-};
-reader.readAsDataURL(file);
+    const file=e.target.files[0];
+    if(!file) return;
+    const reader=new FileReader();
+    reader.onload=function(event){
+        workArea.style.background="url('"+event.target.result+"') center/cover no-repeat";
+        openCatalogGracefully();
+    };
+    reader.readAsDataURL(file);
 };
 
 /* OPEN CATALOG VIA WORK AREA */
 workArea.onclick=function(){
-catalog.classList.add("show");
-loadCatalog();
-window.scrollTo({
-top: mainSection.offsetTop - 50,
-behavior: "smooth"
-});
+    openCatalogGracefully();
 };
 
 /* FURNITURE DATA */
@@ -400,43 +412,43 @@ let currentCategory="seating";
 let pageIndex=0;
 
 function loadCatalog(){
-const left=document.querySelector(".left-page");
-const right=document.querySelector(".right-page");
-left.innerHTML="";
-right.innerHTML="";
-const items=furniture[currentCategory];
-let start=pageIndex*12;
-items.slice(start,start+6).forEach(src=>{
-const img=document.createElement("img");
-img.src=src;
-img.className="catalog-item";
-left.appendChild(img);
-});
-items.slice(start+6,start+12).forEach(src=>{
-const img=document.createElement("img");
-img.src=src;
-img.className="catalog-item";
-right.appendChild(img);
-});
+    const left=document.querySelector(".left-page");
+    const right=document.querySelector(".right-page");
+    left.innerHTML="";
+    right.innerHTML="";
+    const items=furniture[currentCategory];
+    let start=pageIndex*12;
+    items.slice(start,start+6).forEach(src=>{
+        const img=document.createElement("img");
+        img.src=src;
+        img.className="catalog-item";
+        left.appendChild(img);
+    });
+    items.slice(start+6,start+12).forEach(src=>{
+        const img=document.createElement("img");
+        img.src=src;
+        img.className="catalog-item";
+        right.appendChild(img);
+    });
 }
 
 const leftPage=document.querySelector(".left-page");
 const rightPage=document.querySelector(".right-page");
 
 rightPage.onclick=function(){
-const items=furniture[currentCategory];
-const maxPage=Math.ceil(items.length/12)-1;
-if(pageIndex<maxPage){
-pageIndex++;
-loadCatalog();
-}
+    const items=furniture[currentCategory];
+    const maxPage=Math.ceil(items.length/12)-1;
+    if(pageIndex<maxPage){
+        pageIndex++;
+        loadCatalog();
+    }
 };
 
 leftPage.onclick=function(){
-if(pageIndex>0){
-pageIndex--;
-loadCatalog();
-}
+    if(pageIndex>0){
+        pageIndex--;
+        loadCatalog();
+    }
 };
 
 });
