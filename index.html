@@ -23,6 +23,7 @@
                 url('Assets/mainbackground_blue.jpg') center top no-repeat;
             background-size: 33% 100%, 33% 100%, 34% 100%;
             background-attachment: fixed;
+            color: white;
         }
 
         header {
@@ -92,18 +93,48 @@
             text-shadow: 2px 2px 3px rgba(0,0,0,1);
         }
 
+        /* Scroll Receipt Styles */
+        #receipt-container {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 240px;
+            height: 0;
+            overflow: hidden;
+            transition: height 1s ease;
+            z-index: -1;
+            background: url('Assets/scrollreceipt.png') no-repeat;
+            background-size: 100% 100%;
+            padding: 40px 20px;
+            color: #333;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+
+        #receipt-container.roll {
+            height: 500px;
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+
+        /* Workspace & Cabinet Styles */
         .outer-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100%;
-            padding-top: 120px;
-            padding-bottom: 600px;
+            padding-top: 50px;
         }
 
         #catalogOverlay {
             position: relative;
-            width: 954px;
+            width: 1000px;
             max-height: 0;
             opacity: 0;
             overflow: hidden;
@@ -113,16 +144,13 @@
         }
 
         #catalogOverlay.show {
-            max-height: 800px;
+            max-height: 1200px;
             opacity: 1;
             visibility: visible;
             margin-bottom: 50px;
         }
 
-        #catalogBook {
-            width: 100%;
-            display: block;
-        }
+        #catalogBook { width: 100%; display: block; }
 
         .workspace-wrapper {
             width: 1350px;
@@ -133,8 +161,7 @@
         }
 
         #rooms-cabinet {
-            width: 600px;
-            height: 600px;
+            width: 600px; height: 600px;
             position: relative;
             transform: translateX(-50px);
             transition: all 0.8s ease;
@@ -142,22 +169,11 @@
             pointer-events: none;
         }
 
-        #rooms-cabinet.show {
-            transform: translateX(0);
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .cabinet-img {
-            width: 100%;
-            height: 100%;
-        }
+        #rooms-cabinet.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
 
         .drawer-zone {
             position: absolute;
-            left: 0;
-            width: 100%;
-            height: 20%;
+            left: 0; width: 100%; height: 20%;
             cursor: pointer;
         }
 
@@ -168,36 +184,98 @@
         .zone-upload { top: 80%; }
 
         #work-area {
-            width: 1000px;
-            height: 650px;
+            width: 1000px; height: 650px;
             background: url('Assets/workstation.jpg') center/cover no-repeat;
             box-shadow: 0 0 60px rgba(0,0,0,.9);
-            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
 
+        /* Furniture Placement & Gizmo */
+        .placed-item {
+            position: absolute;
+            cursor: move;
+            max-width: 250px;
+            user-select: none;
+            z-index: 100;
+        }
+
+        .placed-shadow {
+            position: absolute;
+            background: rgba(0,0,0,0.4);
+            filter: blur(8px);
+            border-radius: 50%;
+            pointer-events: none;
+            transform-origin: center center;
+        }
+
+        #itemGizmo {
+            position: absolute;
+            border: 2px dashed #e0ff00;
+            pointer-events: none;
+            display: none;
+            z-index: 200;
+        }
+
+        #itemGizmo.show { display: block; }
+
+        .gizmo-handle {
+            position: absolute;
+            width: 24px; height: 24px;
+            background: #e0ff00;
+            border-radius: 50%;
+            pointer-events: auto;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .handle-scale { bottom: -12px; right: -12px; }
+        .handle-rotate { top: -35px; left: 50%; transform: translateX(-50%); }
+        .handle-flip { top: -12px; left: -12px; background: cyan; }
+
+        /* Catalog Layout */
         .page {
             position: absolute;
-            top: 1%;
-            width: 39%;
-            height: 55%;
+            top: 10%; width: 38%; height: 80%;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 18px;
-            padding: 10px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding: 20px;
             box-sizing: border-box;
             z-index: 10;
+            overflow-y: auto;
         }
-
-        .left-page { left: 11%; }
-        .right-page { right: 11%; }
+        .left-page { left: 8%; }
+        .right-page { right: 8%; }
 
         .catalog-item {
-            max-width: 85%;
-            max-height: 85%;
-            object-fit: contain;
+            width: 100%; height: auto;
             cursor: pointer;
+            transition: transform 0.2s;
         }
+        .catalog-item:hover { transform: scale(1.1); }
+
+        /* Decor Popup */
+        #decor-popup {
+            position: fixed;
+            top: 20%; right: 5%;
+            width: 400px; height: 550px;
+            background: rgba(0,0,0,0.9);
+            border: 2px solid #fff;
+            display: none;
+            z-index: 10000;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .decor-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .decor-thumb { width: 100%; cursor: pointer; border: 1px solid transparent; }
+        .decor-thumb:hover { border-color: #e0ff00; }
     </style>
 </head>
 <body>
@@ -227,14 +305,19 @@
     <div class="top-tab" id="saveTab">
         <img src="Assets/pulltab.png">
         <div class="top-tab-text">SAVE/<br>CHECKOUT</div>
+        <div id="receipt-container">
+            <div id="receiptLines"></div>
+            <hr>
+            <div id="receiptTotal" style="text-align:right;">TOTAL: $0</div>
+        </div>
     </div>
 </div>
 
 <div class="outer-wrapper">
     <div id="catalogOverlay">
         <img src="Assets/furniturecatalog.png" id="catalogBook">
-        <div class="page left-page"></div>
-        <div class="page right-page"></div>
+        <div class="page left-page" id="catalogLeft"></div>
+        <div class="page right-page" id="catalogRight"></div>
     </div>
 
     <div class="workspace-wrapper" id="cabinetView">
@@ -246,97 +329,230 @@
             <div class="drawer-zone zone-spare" data-room="spare"></div>
             <div class="drawer-zone zone-upload" id="uploadDrawer"></div>
         </div>
-        <div id="work-area"></div>
+        <div id="work-area">
+            <div id="placedItemsLayer"></div>
+            <div id="itemGizmo">
+                <div class="gizmo-handle handle-rotate" data-gizmo="rotate"></div>
+                <div class="gizmo-handle handle-scale" data-gizmo="scale"></div>
+                <div class="gizmo-handle handle-flip" data-gizmo="flip"></div>
+            </div>
+        </div>
     </div>
+</div>
+
+<div id="decor-popup">
+    <h3 style="text-align:center; color:#e0ff00;">DECOR CLOSET</h3>
+    <div class="decor-grid" id="decorGrid"></div>
 </div>
 
 <input type="file" id="roomUpload" accept="image/*" style="display:none">
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const cabinet = document.getElementById("rooms-cabinet");
-    const workArea = document.getElementById("work-area");
-    const catalog = document.getElementById("catalogOverlay");
-    const roomUpload = document.getElementById("roomUpload");
-    const cabinetView = document.getElementById("cabinetView");
-
-    const furniture = {
-        seating: [
-            "Assets/seating_couch1.png", "Assets/seating_couch2.png", "Assets/seating_couch3.png",
-            "Assets/seating_couch4.png", "Assets/seating_couch5.png", "Assets/seating_couch6.png",
-            "Assets/seating_couch7.png", "Assets/seating_couch8.png", "Assets/seating_couch9.png",
-            "Assets/seating_couch10.png", "Assets/seating_couch11.png", "Assets/seating_couch12.png",
-            "Assets/seating_armchair1.png", "Assets/seating_armchair10.png", "Assets/seating_armchair12.png",
-            "Assets/seating_armchair14.png", "Assets/seating_armchair2.png", "Assets/seating_armchair3.png",
-            "Assets/seating_armchair4.png", "Assets/seating_armchair5.png", "Assets/seating_armchair6.png",
-            "Assets/seating_armchair7.png", "Assets/seating_armchair8.png", "Assets/seating_armchair9.png"
-        ]
-    };
-
-    function loadCatalog() {
-        const left = document.querySelector(".left-page");
-        const right = document.querySelector(".right-page");
-        left.innerHTML = ""; right.innerHTML = "";
-        const items = furniture.seating;
-        
-        items.slice(0, 6).forEach(src => {
-            const img = document.createElement("img");
-            img.src = src; img.className = "catalog-item";
-            left.appendChild(img);
-        });
-        items.slice(6, 12).forEach(src => {
-            const img = document.createElement("img");
-            img.src = src; img.className = "catalog-item";
-            right.appendChild(img);
-        });
-    }
-
-    document.getElementById("roomsTab").onclick = function() {
-        cabinet.classList.toggle("show");
-        if(cabinet.classList.contains("show")) {
-            // Forces manual calculation scroll to bypass browser restrictions
-            const offset = cabinetView.offsetTop - 50;
-            window.scrollTo({ top: offset, behavior: 'smooth' });
-        }
-    };
-
-    document.getElementById("catalogTab").onclick = function() {
-        if(catalog.classList.contains("show")) {
-            catalog.classList.remove("show");
-        } else {
-            loadCatalog();
-            catalog.classList.add("show");
-            const offset = catalog.offsetTop - 20;
-            window.scrollTo({ top: offset, behavior: 'smooth' });
-        }
-    };
-
-    const roomImages = {
-        living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg", "Assets/ROOMS_livingroom3.jpg", "Assets/ROOMS_livingroom5.jpg"],
-        dining: ["Assets/ROOMS_diningroom1.jpg", "Assets/ROOMS_diningroom2.jpg"],
-        bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg", "Assets/ROOMS_bedroom3.jpg"],
-        spare: ["Assets/ROOMS_kitchen1.jpg", "Assets/ROOMS_bathroom1.jpg", "Assets/ROOMS_office1.jpg"]
-    };
-    const indexes = { living: 0, dining: 0, bedroom: 0, spare: 0 };
-
-    document.querySelectorAll(".drawer-zone").forEach(zone => {
-        zone.onclick = function() {
-            const type = this.getAttribute("data-room");
-            if(!type || !roomImages[type]) return;
-            indexes[type] = (indexes[type] + 1) % roomImages[type].length;
-            workArea.style.background = "url('" + roomImages[type][indexes[type]] + "') center/cover no-repeat";
+    document.addEventListener("DOMContentLoaded", function() {
+        const catalogConfig = {
+            seating: {
+                sections: [
+                    { title: "COUCHES", assets: ["Assets/seating_couch1.png", "Assets/seating_couch2.png", "Assets/seating_couch3.png", "Assets/seating_couch4.png", "Assets/seating_couch5.png", "Assets/seating_couch6.png", "Assets/seating_couch7.png", "Assets/seating_couch8.png", "Assets/seating_couch9.png", "Assets/seating_couch10.png", "Assets/seating_couch11.png", "Assets/seating_couch12.png"] },
+                    { title: "ARMCHAIRS", assets: ["Assets/seating_armchair1.png", "Assets/seating_armchair2.png", "Assets/seating_armchair3.png", "Assets/seating_armchair4.png", "Assets/seating_armchair5.png", "Assets/seating_armchair6.png", "Assets/seating_armchair7.png", "Assets/seating_armchair8.png", "Assets/seating_armchair9.png", "Assets/seating_armchair10.png", "Assets/seating_armchair12.png", "Assets/seating_armchair14.png"] }
+                ]
+            },
+            tables: {
+                sections: [{ title: "COFFEE TABLES", assets: ["Assets/table_coffee2.png", "Assets/tables_coffee3.png", "Assets/tables_coffee4.png", "Assets/table_coffee5.png", "Assets/tables_shelf.png"] }]
+            }
         };
-    });
 
-    document.getElementById("uploadDrawer").onclick = () => roomUpload.click();
-    roomUpload.onchange = (e) => {
-        const file = e.target.files[0];
-        if(!file) return;
-        const reader = new FileReader();
-        reader.onload = (event) => workArea.style.background = "url('" + event.target.result + "') center/cover no-repeat";
-        reader.readAsDataURL(file);
-    };
-});
+        const decorItems = [
+            { id: "decor-pillow-1", name: "Pillow 1", src: "Assets/decor_pillow1.png", price: 49 },
+            { id: "decor-pillow-2", name: "Pillow 2", src: "Assets/decor_pillow2.png", price: 52 },
+            { id: "decor-pillow-3", name: "Pillow 3", src: "Assets/decor_pillow3.png", price: 55 },
+            { id: "decor-pillow-4", name: "Pillow 4", src: "Assets/decor_pillow4.png", price: 58 },
+            { id: "decor-pillow-5", name: "Pillow 5", src: "Assets/decor_pillow5.png", price: 61 },
+            { id: "decor-pillow-6", name: "Pillow 6", src: "Assets/decor_pillow6.png", price: 64 }
+        ];
+
+        const workArea = document.getElementById("work-area");
+        const cabinet = document.getElementById("rooms-cabinet");
+        const catalog = document.getElementById("catalogOverlay");
+        const receipt = document.getElementById("receipt-container");
+        const itemGizmo = document.getElementById("itemGizmo");
+        const placedLayer = document.getElementById("placedItemsLayer");
+        let selectedItem = null;
+        const estimate = new Map();
+
+        // Rendering Functions
+        function renderCatalog() {
+            const left = document.getElementById("catalogLeft");
+            left.innerHTML = "";
+            catalogConfig.seating.sections[0].assets.forEach(src => {
+                const img = document.createElement("img");
+                img.src = src;
+                img.className = "catalog-item";
+                img.ondblclick = () => placeInRoom({ src, name: "Luxury Couch", price: 1200, id: src });
+                left.appendChild(img);
+            });
+        }
+
+        function renderDecor() {
+            const grid = document.getElementById("decorGrid");
+            grid.innerHTML = "";
+            decorItems.forEach(item => {
+                const img = document.createElement("img");
+                img.src = item.src;
+                img.className = "decor-thumb";
+                img.ondblclick = () => placeInRoom(item);
+                grid.appendChild(img);
+            });
+        }
+
+        function placeInRoom(item) {
+            const piece = document.createElement("img");
+            piece.src = item.src;
+            piece.className = "placed-item";
+            piece.dataset.scale = "1";
+            piece.dataset.rotation = "0";
+            piece.dataset.flip = "1";
+            piece.style.left = "400px";
+            piece.style.top = "200px";
+
+            const shadow = document.createElement("div");
+            shadow.className = "placed-shadow";
+            piece._shadowEl = shadow;
+
+            piece.onmousedown = (e) => selectPiece(piece, e);
+            piece.ondblclick = () => {
+                shadow.remove();
+                piece.remove();
+                updateEstimate(item, -1);
+                itemGizmo.classList.remove("show");
+            };
+
+            placedLayer.appendChild(shadow);
+            placedLayer.appendChild(piece);
+            updatePieceTransform(piece);
+            selectPiece(piece);
+            updateEstimate(item, 1);
+        }
+
+        function selectPiece(piece, e) {
+            selectedItem = piece;
+            itemGizmo.classList.add("show");
+            updateGizmoPosition();
+            
+            if (e) {
+                let startX = e.clientX - piece.offsetLeft;
+                let startY = e.clientY - piece.offsetTop;
+                
+                function move(me) {
+                    piece.style.left = (me.clientX - startX) + "px";
+                    piece.style.top = (me.clientY - startY) + "px";
+                    updatePieceTransform(piece);
+                    updateGizmoPosition();
+                }
+                
+                document.onmousemove = move;
+                document.onmouseup = () => document.onmousemove = null;
+            }
+        }
+
+        function updatePieceTransform(piece) {
+            const scale = piece.dataset.scale;
+            const rot = piece.dataset.rotation;
+            const flip = piece.dataset.flip;
+            piece.style.transform = `rotate(${rot}deg) scale(${scale}) scaleX(${flip})`;
+            
+            // Update Shadow
+            const shadow = piece._shadowEl;
+            const rect = piece.getBoundingClientRect();
+            const areaRect = workArea.getBoundingClientRect();
+            shadow.style.width = (rect.width * 0.8) + "px";
+            shadow.style.height = "20px";
+            shadow.style.left = (piece.offsetLeft + (rect.width * 0.1)) + "px";
+            shadow.style.top = (piece.offsetTop + rect.height - 10) + "px";
+        }
+
+        function updateGizmoPosition() {
+            if (!selectedItem) return;
+            const rect = selectedItem.getBoundingClientRect();
+            const areaRect = workArea.getBoundingClientRect();
+            itemGizmo.style.width = rect.width + "px";
+            itemGizmo.style.height = rect.height + "px";
+            itemGizmo.style.left = (selectedItem.offsetLeft) + "px";
+            itemGizmo.style.top = (selectedItem.offsetTop) + "px";
+        }
+
+        function updateEstimate(item, change) {
+            const current = estimate.get(item.id) || { name: item.name, price: item.price, qty: 0 };
+            current.qty += change;
+            if (current.qty <= 0) estimate.delete(item.id);
+            else estimate.set(item.id, current);
+            renderReceipt();
+        }
+
+        function renderReceipt() {
+            const lines = document.getElementById("receiptLines");
+            lines.innerHTML = "";
+            let total = 0;
+            estimate.forEach(val => {
+                const sub = val.qty * val.price;
+                total += sub;
+                lines.innerHTML += `<div class="receipt-row"><span>${val.name} x${val.qty}</span><span>$${sub}</span></div>`;
+            });
+            document.getElementById("receiptTotal").innerText = `TOTAL: $${total}`;
+        }
+
+        // Tab Event Listeners
+        document.getElementById("roomsTab").onclick = () => cabinet.classList.toggle("show");
+        document.getElementById("catalogTab").onclick = () => {
+            renderCatalog();
+            catalog.classList.toggle("show");
+        };
+        document.getElementById("decorTab").onclick = () => {
+            renderDecor();
+            const pop = document.getElementById("decor-popup");
+            pop.style.display = pop.style.display === "block" ? "none" : "block";
+        };
+        document.getElementById("saveTab").onclick = () => receipt.classList.toggle("roll");
+
+        // Gizmo Interaction
+        itemGizmo.onmousedown = (e) => {
+            const handle = e.target.dataset.gizmo;
+            if (!handle) return;
+            e.stopPropagation();
+
+            function handleMove(me) {
+                if (handle === "scale") {
+                    selectedItem.dataset.scale = Math.max(0.3, parseFloat(selectedItem.dataset.scale) + (me.movementY * -0.01));
+                } else if (handle === "rotate") {
+                    selectedItem.dataset.rotation = parseFloat(selectedItem.dataset.rotation) + me.movementX;
+                }
+                updatePieceTransform(selectedItem);
+                updateGizmoPosition();
+            }
+
+            if (handle === "flip") {
+                selectedItem.dataset.flip = selectedItem.dataset.flip === "1" ? "-1" : "1";
+                updatePieceTransform(selectedItem);
+                updateGizmoPosition();
+            } else {
+                document.onmousemove = handleMove;
+                document.onmouseup = () => document.onmousemove = null;
+            }
+        };
+
+        // Room Switching
+        const roomImages = {
+            living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg"],
+            bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg"]
+        };
+        document.querySelectorAll(".drawer-zone").forEach(zone => {
+            zone.onclick = () => {
+                const room = zone.dataset.room;
+                if (room && roomImages[room]) {
+                    workArea.style.background = `url('${roomImages[room][0]}') center/cover no-repeat`;
+                }
+            };
+        });
+    });
 </script>
 </body>
 </html>
