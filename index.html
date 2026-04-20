@@ -6,14 +6,16 @@
     <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
     <style>
-        /* FORCED SCROLLBAR LOGIC */
-        html { overflow-y: scroll !important; }
+        html { 
+            overflow-y: scroll !important; 
+            scroll-behavior: smooth; 
+        }
 
         body {
             margin: 0;
             padding: 0;
             width: 100%;
-            min-height: 2000px; /* Ensures scrolling per your requirements */
+            min-height: 2500px; 
             font-family: 'Limelight', cursive;
             background: 
                 url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
@@ -28,7 +30,6 @@
             padding: 60px 0 20px;
         }
 
-        /* BIG BOLD SILVER METALLIC HEADER */
         h1 {
             font-size: 115px;
             margin: 0;
@@ -97,7 +98,7 @@
             align-items: center;
             width: 100%;
             padding-top: 120px;
-            padding-bottom: 400px;
+            padding-bottom: 600px;
         }
 
         #catalogOverlay {
@@ -236,7 +237,7 @@
         <div class="page right-page"></div>
     </div>
 
-    <div class="workspace-wrapper">
+    <div class="workspace-wrapper" id="cabinetView">
         <div id="rooms-cabinet">
             <img src="Assets/rooms_cabinet.png" class="cabinet-img">
             <div class="drawer-zone zone-living" data-room="living"></div>
@@ -257,6 +258,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const workArea = document.getElementById("work-area");
     const catalog = document.getElementById("catalogOverlay");
     const roomUpload = document.getElementById("roomUpload");
+    const cabinetView = document.getElementById("cabinetView");
 
     const furniture = {
         seating: [
@@ -268,26 +270,21 @@ document.addEventListener("DOMContentLoaded", function() {
             "Assets/seating_armchair14.png", "Assets/seating_armchair2.png", "Assets/seating_armchair3.png",
             "Assets/seating_armchair4.png", "Assets/seating_armchair5.png", "Assets/seating_armchair6.png",
             "Assets/seating_armchair7.png", "Assets/seating_armchair8.png", "Assets/seating_armchair9.png"
-        ],
-        tables: [], storage: [], beds: []
+        ]
     };
-
-    let currentCategory = "seating";
-    let pageIndex = 0;
 
     function loadCatalog() {
         const left = document.querySelector(".left-page");
         const right = document.querySelector(".right-page");
         left.innerHTML = ""; right.innerHTML = "";
-        const items = furniture[currentCategory];
-        let start = pageIndex * 12;
+        const items = furniture.seating;
         
-        items.slice(start, start + 6).forEach(src => {
+        items.slice(0, 6).forEach(src => {
             const img = document.createElement("img");
             img.src = src; img.className = "catalog-item";
             left.appendChild(img);
         });
-        items.slice(start + 6, start + 12).forEach(src => {
+        items.slice(6, 12).forEach(src => {
             const img = document.createElement("img");
             img.src = src; img.className = "catalog-item";
             right.appendChild(img);
@@ -296,6 +293,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("roomsTab").onclick = function() {
         cabinet.classList.toggle("show");
+        if(cabinet.classList.contains("show")) {
+            // Forces manual calculation scroll to bypass browser restrictions
+            const offset = cabinetView.offsetTop - 50;
+            window.scrollTo({ top: offset, behavior: 'smooth' });
+        }
     };
 
     document.getElementById("catalogTab").onclick = function() {
@@ -304,10 +306,11 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             loadCatalog();
             catalog.classList.add("show");
+            const offset = catalog.offsetTop - 20;
+            window.scrollTo({ top: offset, behavior: 'smooth' });
         }
     };
 
-    // ROOM CYCLING LOGIC
     const roomImages = {
         living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg", "Assets/ROOMS_livingroom3.jpg", "Assets/ROOMS_livingroom5.jpg"],
         dining: ["Assets/ROOMS_diningroom1.jpg", "Assets/ROOMS_diningroom2.jpg"],
