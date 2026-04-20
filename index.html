@@ -19,6 +19,8 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       overflow-x: hidden;
     }
+
+    /* HERO & HEADER */
     .hero {
       text-align: center;
       padding: 40px 20px;
@@ -37,6 +39,8 @@
       letter-spacing: 2px;
       color: rgba(247, 217, 143, 0.7);
     }
+
+    /* PULL TAB NAVIGATION */
     .tab-row {
       display: flex;
       justify-content: center;
@@ -73,6 +77,7 @@
     .pull-tab:hover, .pull-tab.active {
       transform: translateY(-5px);
     }
+
     .main-menu-row {
       display: flex;
       justify-content: center;
@@ -88,51 +93,16 @@
       cursor: pointer;
     }
 
-    /* CATALOG OVERLAY */
-    #catalogOverlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.92);
-      z-index: 2000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(8px);
+    /* WORKSPACE & CABINET */
+    .workspace-section {
+      position: relative;
+      padding: 0 20px 40px;
     }
-    #catalogOverlay.show { display: flex; }
-    #catalogBook { width: 90%; max-width: 1000px; }
-    .catalog-page-title { position: absolute; font-family: "Limelight", serif; color: #3d2b1f; z-index: 2005; pointer-events: none; }
-    .catalog-title-left { top: 15%; left: 15%; }
-    .catalog-title-right { top: 15%; right: 15%; }
-    
-    .catalog-grid {
-      position: absolute;
-      top: 25%;
-      width: 35%;
-      height: 55%;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      z-index: 2010;
-    }
-    .catalog-left { left: 12%; }
-    .catalog-right { right: 12%; }
-    .catalog-item {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 4px;
-      cursor: pointer;
+    .workspace-row {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 5px;
+      align-items: flex-start;
+      gap: 24px;
     }
-    .catalog-item img { width: 90%; height: auto; transition: transform 0.2s; }
-    .catalog-item:hover img { transform: scale(1.1); }
-
-    /* WORKSPACE */
-    .workspace-section { position: relative; padding: 0 20px 40px; }
-    .workspace-row { display: flex; align-items: flex-start; gap: 24px; }
     #rooms-cabinet {
       width: var(--cabinet-size);
       max-width: 0;
@@ -140,60 +110,219 @@
       overflow: hidden;
       position: relative;
       opacity: 0;
-      transform: translateX(-20px);
-      transition: max-width 0.6s ease, opacity 0.5s ease, transform 0.6s ease;
+      transform: translateX(-108%) rotateY(7deg) scale(0.985);
+      transform-origin: left center;
+      transition: max-width 0.92s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.62s ease, transform 0.92s cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
       flex-shrink: 0;
+      filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.34));
     }
-    #rooms-cabinet.show { max-width: var(--cabinet-size); opacity: 1; transform: translateX(0); }
-    .cabinet-img { width: 100%; height: 100%; object-fit: contain; }
-    .drawer-zone { position: absolute; left: 13%; width: 74%; height: 9.4%; background: transparent; border: none; cursor: pointer; }
-    .drawer-living { top: 21.2%; } .drawer-dining { top: 37.8%; } .drawer-bedroom { top: 54.4%; } .drawer-spare { top: 71%; } .drawer-upload { top: 87.2%; }
+    #rooms-cabinet.show {
+      max-width: var(--cabinet-size);
+      opacity: 1;
+      transform: translateX(0) rotateY(0deg) scale(1);
+      pointer-events: auto;
+    }
+    .cabinet-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .drawer-zone {
+      position: absolute;
+      left: 13%;
+      width: 74%;
+      height: 9.4%;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      z-index: 4;
+    }
+    .drawer-living { top: 21.2%; }
+    .drawer-dining { top: 37.8%; }
+    .drawer-bedroom { top: 54.4%; }
+    .drawer-spare { top: 71%; }
+    .drawer-upload { top: 87.2%; }
 
-    .workspace-shell { position: relative; flex: 1; min-width: 0; }
+    .workspace-shell {
+      position: relative;
+      flex: 1;
+      min-width: 0;
+    }
     #work-area {
-      position: relative; width: 100%; min-height: 640px; background: #0b0f17 url("Assets/workstation.jpg") center/cover no-repeat;
-      border: 2px solid rgba(255, 242, 194, 0.15); border-radius: 12px; overflow: hidden;
+      position: relative;
+      width: 100%;
+      min-height: 640px;
+      background: #0b0f17 url("Assets/workstation.jpg") center/cover no-repeat;
+      border: 3px solid rgba(255, 242, 194, 0.24);
+      border-radius: 12px;
+      box-shadow: 0 26px 55px rgba(0, 0, 0, 0.66);
+      overflow: hidden;
     }
-    #work-area.room-switch { animation: roomSweep 0.5s ease-in-out; }
-    @keyframes roomSweep { 0% { opacity: 0.5; transform: scale(1.01); } 100% { opacity: 1; transform: scale(1); } }
+    #work-area.room-switch {
+      animation: roomSweep 0.64s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes roomSweep {
+      0% { transform: translateX(0); opacity: 1; }
+      38% { transform: translateX(30px); opacity: 0.72; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
 
-    /* PLACED ITEMS & GIZMO */
-    .placed-item { position: absolute; cursor: grab; z-index: 100; transition: outline 0.2s; }
-    .placed-item.selected { outline: 2px solid #f7d98f; outline-offset: 4px; }
-    .placed-shadow { position: absolute; border-radius: 50%; background: rgba(0,0,0,0.3); filter: blur(4px); pointer-events: none; }
-    
+    /* PLACED ITEMS & TRANSFORM GIZMO */
+    .placed-item {
+      position: absolute;
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+      transition: filter 0.18s ease;
+      z-index: 100;
+    }
+    .placed-item.selected {
+      filter: drop-shadow(0 0 10px rgba(255, 230, 146, 0.95));
+    }
+    .placed-shadow {
+      position: absolute;
+      border-radius: 999px;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0.5), transparent);
+      filter: blur(2px);
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
     #itemGizmo {
-      position: absolute; display: none; border: 1px dashed #f7d98f; z-index: 1200; pointer-events: none;
+      position: absolute;
+      display: none;
+      border: 1px dashed rgba(255, 224, 137, 0.68);
+      border-radius: 8px;
+      z-index: 1200;
+      pointer-events: none;
     }
     #itemGizmo.show { display: block; }
     .gizmo-handle {
-      position: absolute; width: 24px; height: 24px; border-radius: 50%; background: #0c0c0c; color: #f7d98f;
-      display: flex; align-items: center; justify-content: center; cursor: pointer; pointer-events: auto; font-size: 10px; border: 1px solid #f7d98f;
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: #0c0c0c;
+      color: #f7d98f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      pointer-events: auto;
+      font-size: 12px;
+      border: 1px solid #f7d98f;
     }
-    .gizmo-handle-resize { right: -12px; bottom: -12px; }
-    .gizmo-handle-rotate { left: 50%; top: -30px; transform: translateX(-50%); }
-    .gizmo-handle-done { right: -12px; top: -12px; width: 40px; }
+    .gizmo-handle-resize { right: -13px; bottom: -13px; }
+    .gizmo-handle-rotate { left: 50%; top: -13px; transform: translateX(-50%); }
+    .gizmo-handle-push { right: -13px; top: 50%; transform: translateY(-50%); }
+    .gizmo-handle-flip { left: -13px; top: 50%; transform: translateY(-50%); }
+    .gizmo-handle-done { right: -13px; top: -45px; width: 45px; font-size: 10px; background: #f7d98f; color: #000; }
 
-    /* RECEIPT */
+    /* CATALOG OVERLAY */
+    #catalogOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.94);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+    #catalogOverlay.show { display: flex; }
+    .catalog-page-title {
+      position: absolute;
+      font-family: "Limelight", serif;
+      color: #3d2b1f;
+      z-index: 2005;
+      font-size: 14px;
+    }
+    .catalog-title-left { top: 12.5%; left: 16%; }
+    .catalog-title-right { top: 12.5%; right: 16%; }
+
+    .catalog-grid {
+      position: absolute;
+      top: 22%;
+      width: 34%;
+      height: 58%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      z-index: 2010;
+    }
+    .catalog-left { left: 12.5%; }
+    .catalog-right { right: 12.5%; }
+
+    .catalog-item {
+      background: rgba(255,255,255,0.03);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .catalog-item img { width: 85%; height: auto; transition: transform 0.2s; }
+    .catalog-item:hover img { transform: scale(1.1); }
+
+    /* DECOR CLOSET */
+    #decorClosetPopup {
+      position: relative;
+      width: min(980px, 85vw);
+      margin: 20px auto;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 12px;
+      display: none;
+      flex-direction: column;
+      padding: 15px;
+      z-index: 100;
+    }
+    #decorClosetPopup.show { display: flex; }
+    .decor-scene-stage { position: relative; }
+    #decorDirectoryHotspots { position: absolute; right: 8%; width: 34%; top: 18%; height: 62%; z-index: 4; }
+    .decor-directory-zone { position: absolute; width: 100%; cursor: pointer; }
+
+    /* RECEIPT PANEL */
     #receiptPanel {
-      position: fixed; right: 20px; top: 110px; width: 300px; transform: scaleY(0); transform-origin: top;
-      transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 55; opacity: 0;
+      position: fixed;
+      right: 25px;
+      top: 120px;
+      width: 320px;
+      transform: scaleY(0);
+      transform-origin: top center;
+      transition: transform 0.5s ease;
+      z-index: 1500;
+      opacity: 0;
     }
     #receiptPanel.show { transform: scaleY(1); opacity: 1; }
-    #receiptPanel img { width: 100%; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); }
-    .receipt-content { position: absolute; inset: 15% 12% 10% 12%; color: #2d1e05; font-family: 'Courier New', Courier, monospace; overflow-y: auto; }
-    
+    #receiptPanel img { width: 100%; }
+    .receipt-content {
+      position: absolute;
+      inset: 16% 14% 12% 14%;
+      color: #2d1e05;
+      font-family: 'Courier New', Courier, monospace;
+      overflow-y: auto;
+    }
+
     /* PREVIEW */
     #itemPreview {
-      position: fixed; left: 50%; bottom: 40px; transform: translateX(-50%); background: rgba(10, 10, 10, 0.95);
-      border: 1px solid #f7d98f; padding: 15px; border-radius: 12px; display: none; z-index: 3000; width: 280px; text-align: center;
+      position: fixed;
+      right: 25px;
+      bottom: 25px;
+      width: 280px;
+      background: rgba(12, 12, 12, 0.96);
+      border: 1px solid #f7d98f;
+      padding: 15px;
+      border-radius: 8px;
+      display: none;
+      z-index: 3000;
     }
     #itemPreview.show { display: block; }
-    #itemPreview img { max-width: 150px; margin-bottom: 10px; }
+    #itemPreview img { width: 100%; max-height: 140px; object-fit: contain; }
 
-    @media (max-width: 1200px) {
+    @media (max-width: 1024px) {
       .workspace-row { flex-direction: column; }
-      #rooms-cabinet, #rooms-cabinet.show { width: 100%; height: auto; max-width: 100%; }
+      #rooms-cabinet, #rooms-cabinet.show { width: 100%; max-width: 100%; transform: none; }
     }
   </style>
 </head>
@@ -205,11 +334,11 @@
   </header>
 
   <nav class="tab-row">
-    <button class="pull-tab" id="roomsTab"><img src="Assets/roomscabinet_pulltab.png" alt="Rooms"><span>ROOMS</span></button>
-    <button class="pull-tab" id="catalogTab"><img src="Assets/roomscabinet_pulltab.png" alt="Catalog"><span>CATALOG</span></button>
-    <button class="pull-tab" id="decorTab"><img src="Assets/roomscabinet_pulltab.png" alt="Decor"><span>DECOR</span></button>
-    <button class="pull-tab" id="galleryTab"><img src="Assets/roomscabinet_pulltab.png" alt="Gallery"><span>GALLERY</span></button>
-    <button class="pull-tab" id="saveTab"><img src="Assets/roomscabinet_pulltab.png" alt="Save"><span>RECEIPT</span></button>
+    <button class="pull-tab" id="roomsTab"><img src="Assets/roomscabinet_pulltab.png"><span>ROOMS</span></button>
+    <button class="pull-tab" id="catalogTab"><img src="Assets/roomscabinet_pulltab.png"><span>FURNITURE<br>CATALOG</span></button>
+    <button class="pull-tab" id="decorTab"><img src="Assets/roomscabinet_pulltab.png"><span>DECOR<br>CLOSET</span></button>
+    <button class="pull-tab" id="galleryTab"><img src="Assets/roomscabinet_pulltab.png"><span>GALLERY</span></button>
+    <button class="pull-tab" id="saveTab"><img src="Assets/roomscabinet_pulltab.png"><span>SAVE/<br>CHECKOUT</span></button>
   </nav>
 
   <div class="main-menu-row">
@@ -218,16 +347,22 @@
 
   <section class="workspace-section">
     <div id="catalogOverlay">
-      <img src="Assets/furniturecatalog.png" id="catalogBook" alt="Catalog">
-      <div class="catalog-page-title catalog-title-left" id="catalogTitleLeft">FURNITURE</div>
-      <div class="catalog-page-title catalog-title-right" id="catalogTitleRight">SELECTIONS</div>
-      <div class="catalog-grid catalog-left" id="catalogLeft"></div>
-      <div class="catalog-grid catalog-right" id="catalogRight"></div>
+      <div style="position: relative; width: 92%; max-width: 1100px;">
+        <img src="Assets/furniturecatalog.png" style="width: 100%;">
+        <div class="catalog-page-title catalog-title-left" id="catalogTitleLeft">COUCHES</div>
+        <div class="catalog-page-title catalog-title-right" id="catalogTitleRight">ARMCHAIRS</div>
+        <div class="catalog-grid catalog-left" id="catalogLeft"></div>
+        <div class="catalog-grid catalog-right" id="catalogRight"></div>
+        <div style="position: absolute; bottom: 8%; width: 100%; display: flex; justify-content: center; gap: 20px;">
+            <button id="pagePrev">PREVIOUS</button>
+            <button id="pageNext">NEXT</button>
+        </div>
+      </div>
     </div>
 
     <div class="workspace-row">
       <aside id="rooms-cabinet">
-        <img src="Assets/rooms_cabinet.png" class="cabinet-img" alt="Cabinet">
+        <img src="Assets/rooms_cabinet.png" class="cabinet-img">
         <button class="drawer-zone drawer-living" data-room="living"></button>
         <button class="drawer-zone drawer-dining" data-room="dining"></button>
         <button class="drawer-zone drawer-bedroom" data-room="bedroom"></button>
@@ -239,54 +374,73 @@
         <div id="work-area">
           <div id="itemGizmo">
             <button class="gizmo-handle gizmo-handle-rotate" data-gizmo="rotate">&#8635;</button>
+            <button class="gizmo-handle gizmo-handle-flip" data-gizmo="flip">&#8646;</button>
+            <button class="gizmo-handle gizmo-handle-push" data-gizmo="push">&#8644;</button>
             <button class="gizmo-handle gizmo-handle-resize" data-gizmo="scale">&#8645;</button>
-            <button class="gizmo-handle gizmo-handle-done" data-gizmo="hide">DONE</button>
+            <button class="gizmo-handle gizmo-handle-done" data-gizmo-action="hide">DONE</button>
           </div>
           <div id="placedItems"></div>
         </div>
       </div>
     </div>
+
+    <div id="decorClosetPopup">
+      <div class="decor-scene-stage">
+        <img id="decorSceneImg" src="Assets/decorcloset_entryway.jpg" style="width:100%">
+        <div id="decorDirectoryHotspots">
+            <div class="decor-directory-zone" data-scene-tone="plants" style="top: 0; height: 18%;"></div>
+            <div class="decor-directory-zone" data-scene-tone="mirrors" style="top: 18%; height: 18%;"></div>
+        </div>
+      </div>
+      <button id="decorBackBtn">BACK TO DIRECTORY</button>
+      <div id="decorMiniGrid" style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top:15px;"></div>
+    </div>
   </section>
 
   <div id="receiptPanel">
-    <img src="Assets/scrollreceipt.png" alt="Receipt">
+    <img src="Assets/scrollreceipt.png">
     <div class="receipt-content">
-      <h3 style="margin-top: 0;">DESIGN ESTIMATE</h3>
+      <h3 style="font-family: Limelight; text-align: center;">ESTIMATE</h3>
       <div id="receiptLines"></div>
-      <div id="receiptTotal" style="margin-top: 15px; font-weight: bold; border-top: 1px solid #2d1e05; padding-top: 5px;">TOTAL: $0</div>
+      <div id="receiptTotal" style="font-weight: bold; margin-top: 15px;">TOTAL: $0</div>
     </div>
   </div>
 
   <div id="itemPreview">
     <img id="previewImg" src="">
-    <h3 id="previewName" style="margin: 5px 0; color: #f7d98f;"></h3>
-    <p id="previewPrice" style="font-weight: bold; margin: 5px 0;"></p>
-    <p style="font-size: 10px; opacity: 0.8;">Double-click to place in room</p>
+    <h3 id="previewName" style="color: #f7d98f; margin: 5px 0;"></h3>
+    <p id="previewSpecs" style="font-size: 11px;"></p>
+    <p id="previewPrice" style="font-weight: bold;"></p>
   </div>
 
   <input type="file" id="roomUpload" accept="image/*" hidden>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      const CATALOG_SPREAD_COUNT = 6;
       const cabinet = document.getElementById("rooms-cabinet");
       const workArea = document.getElementById("work-area");
+      const catalog = document.getElementById("catalogOverlay");
       const placedItems = document.getElementById("placedItems");
       const itemGizmo = document.getElementById("itemGizmo");
-      const catalog = document.getElementById("catalogOverlay");
       const receiptPanel = document.getElementById("receiptPanel");
       const preview = document.getElementById("itemPreview");
       const roomUpload = document.getElementById("roomUpload");
 
-      const estimate = new Map();
+      let estimate = new Map();
       let selectedItem = null;
+      let currentCategory = "seating";
+      let currentPage = 0;
 
-      const items = [
-        { id: 'f1', name: 'Velvet Sofa', src: 'Assets/seating_couch1.png', price: 1200 },
-        { id: 'f2', name: 'Luxe Armchair', src: 'Assets/seating_armchair1.png', price: 650 },
-        { id: 'f3', name: 'Coffee Table', src: 'Assets/table_coffee2.png', price: 300 }
-      ];
+      // Mock Catalog Data
+      const catalogData = {
+        seating: [
+          { id: 'c1', name: 'Velvet Sofa', src: 'Assets/seating_couch1.png', price: 1200, specs: 'Velvet/Pine' },
+          { id: 'c2', name: 'Modern Chair', src: 'Assets/seating_armchair1.png', price: 450, specs: 'Leather/Steel' }
+        ]
+      };
 
-      // Tab Controls
+      // TABS
       document.getElementById("roomsTab").addEventListener("click", () => {
         cabinet.classList.toggle("show");
         catalog.classList.remove("show");
@@ -303,76 +457,49 @@
         renderEstimate();
       });
 
-      // Room Selection
+      // ROOM SELECTION
       document.querySelectorAll(".drawer-zone[data-room]").forEach(d => {
         d.addEventListener("click", () => {
           const room = d.dataset.room;
           workArea.style.backgroundImage = `url('Assets/ROOMS_${room}room1.jpg')`;
           workArea.classList.add("room-switch");
-          setTimeout(() => workArea.classList.remove("room-switch"), 500);
+          setTimeout(() => workArea.classList.remove("room-switch"), 600);
         });
       });
 
-      document.getElementById("uploadDrawer").addEventListener("click", () => roomUpload.click());
-      roomUpload.addEventListener("change", (e) => {
-        const reader = new FileReader();
-        reader.onload = (f) => workArea.style.backgroundImage = `url('${f.target.result}')`;
-        reader.readAsDataURL(e.target.files[0]);
-      });
-
-      // Catalog Logic
-      function renderCatalog() {
-        const grid = document.getElementById("catalogLeft");
-        grid.innerHTML = "";
-        items.forEach(item => {
-          const div = document.createElement("div");
-          div.className = "catalog-item";
-          div.innerHTML = `<img src="${item.src}">`;
-          div.addEventListener("mouseenter", () => {
-            preview.classList.add("show");
-            document.getElementById("previewImg").src = item.src;
-            document.getElementById("previewName").textContent = item.name;
-            document.getElementById("previewPrice").textContent = `$${item.price}`;
-          });
-          div.addEventListener("mouseleave", () => preview.classList.remove("show"));
-          div.addEventListener("dblclick", () => placeItem(item));
-          grid.appendChild(div);
-        });
-      }
-
-      // Interaction Logic
+      // CORE ENGINE: PLACEMENT & TRANSFORM
       function placeItem(item) {
         catalog.classList.remove("show");
         const img = document.createElement("img");
         img.src = item.src;
         img.className = "placed-item";
-        img.style.width = "150px";
-        img.style.left = "50px";
-        img.style.top = "50px";
+        img.dataset.scale = "1";
+        img.dataset.rotation = "0";
+        img.style.left = "100px"; img.style.top = "100px"; img.style.width = "180px";
         
         const shadow = document.createElement("div");
         shadow.className = "placed-shadow";
-        img._shadow = shadow;
+        img._shadowEl = shadow;
 
-        img.addEventListener("mousedown", (e) => {
-          e.stopPropagation();
+        img.addEventListener("pointerdown", (e) => {
+          e.preventDefault();
           selectPiece(img);
+          startDragging(img, e);
         });
 
         img.addEventListener("dblclick", () => {
-          estimate.delete(item.id + img.style.left); // Simple key
-          shadow.remove();
-          img.remove();
+          estimate.delete(item.id + img.style.left);
+          shadow.remove(); img.remove();
           itemGizmo.classList.remove("show");
           renderEstimate();
         });
 
         placedItems.appendChild(shadow);
         placedItems.appendChild(img);
-        makeDraggable(img);
-        estimate.set(item.id + img.style.left, item);
+        updateTransform(img);
         selectPiece(img);
-        renderEstimate();
+        
+        estimate.set(item.id + img.style.left, item);
       }
 
       function selectPiece(el) {
@@ -380,44 +507,91 @@
         selectedItem = el;
         selectedItem.classList.add("selected");
         itemGizmo.classList.add("show");
-        updateGizmo();
+        updateGizmoPosition();
       }
 
-      function updateGizmo() {
+      function updateGizmoPosition() {
         if(!selectedItem) return;
-        const r = selectedItem.getBoundingClientRect();
-        const a = workArea.getBoundingClientRect();
-        itemGizmo.style.left = (r.left - a.left) + "px";
-        itemGizmo.style.top = (r.top - a.top) + "px";
-        itemGizmo.style.width = r.width + "px";
-        itemGizmo.style.height = r.height + "px";
-
-        const s = selectedItem._shadow;
-        s.style.width = r.width + "px";
-        s.style.height = "15px";
-        s.style.left = itemGizmo.style.left;
-        s.style.top = (r.bottom - a.top - 7) + "px";
+        const rect = selectedItem.getBoundingClientRect();
+        const areaRect = workArea.getBoundingClientRect();
+        itemGizmo.style.left = (rect.left - areaRect.left) + "px";
+        itemGizmo.style.top = (rect.top - areaRect.top) + "px";
+        itemGizmo.style.width = rect.width + "px";
+        itemGizmo.style.height = rect.height + "px";
+        updateShadow(selectedItem);
       }
 
-      function makeDraggable(el) {
-        let isDrag = false;
-        el.addEventListener("mousedown", (e) => {
-          isDrag = true;
-          let startX = e.clientX - el.offsetLeft;
-          let startY = e.clientY - el.offsetTop;
-          
-          function move(e) {
-            if(!isDrag) return;
-            el.style.left = (e.clientX - startX) + "px";
-            el.style.top = (e.clientY - startY) + "px";
-            updateGizmo();
-          }
-          function stop() { 
-            isDrag = false; 
-            window.removeEventListener("mousemove", move);
-          }
-          window.addEventListener("mousemove", move);
-          window.addEventListener("mouseup", stop);
+      function updateShadow(el) {
+        const shadow = el._shadowEl;
+        const rect = el.getBoundingClientRect();
+        const areaRect = workArea.getBoundingClientRect();
+        const depth = (rect.top - areaRect.top) / areaRect.height;
+        
+        shadow.style.width = rect.width + "px";
+        shadow.style.height = (rect.height * 0.1) + "px";
+        shadow.style.left = (rect.left - areaRect.left) + "px";
+        shadow.style.top = (rect.bottom - areaRect.top - 5) + "px";
+        shadow.style.opacity = 0.2 + (depth * 0.3);
+      }
+
+      function startDragging(el, event) {
+        let startX = event.clientX - el.offsetLeft;
+        let startY = event.clientY - el.offsetTop;
+        
+        function onMove(e) {
+          el.style.left = (e.clientX - startX) + "px";
+          el.style.top = (e.clientY - startY) + "px";
+          updateGizmoPosition();
+        }
+        
+        function onUp() {
+          window.removeEventListener("pointermove", onMove);
+          window.removeEventListener("pointerup", onUp);
+        }
+        
+        window.addEventListener("pointermove", onMove);
+        window.addEventListener("pointerup", onUp);
+      }
+
+      function updateTransform(el) {
+        const s = el.dataset.scale;
+        const r = el.dataset.rotation;
+        el.style.transform = `scale(${s}) rotate(${r}deg)`;
+      }
+
+      // GIZMO BUTTONS
+      itemGizmo.addEventListener("click", (e) => {
+        const action = e.target.dataset.gizmo;
+        if(!selectedItem) return;
+        
+        if(action === "rotate") {
+          let r = parseInt(selectedItem.dataset.rotation) + 15;
+          selectedItem.dataset.rotation = r;
+          updateTransform(selectedItem);
+        }
+        if(action === "scale") {
+          let s = parseFloat(selectedItem.dataset.scale) + 0.1;
+          if(s > 2) s = 0.5;
+          selectedItem.dataset.scale = s;
+          updateTransform(selectedItem);
+        }
+      });
+
+      function renderCatalog() {
+        const left = document.getElementById("catalogLeft");
+        left.innerHTML = "";
+        catalogData.seating.forEach(item => {
+          const card = document.createElement("div");
+          card.className = "catalog-item";
+          card.innerHTML = `<img src="${item.src}">`;
+          card.addEventListener("mouseenter", () => {
+            preview.classList.add("show");
+            document.getElementById("previewImg").src = item.src;
+            document.getElementById("previewName").textContent = item.name;
+            document.getElementById("previewPrice").textContent = `$${item.price}`;
+          });
+          card.addEventListener("dblclick", () => placeItem(item));
+          left.appendChild(card);
         });
       }
 
@@ -425,29 +599,17 @@
         const lines = document.getElementById("receiptLines");
         lines.innerHTML = "";
         let total = 0;
-        estimate.forEach(val => {
-          lines.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>${val.name}</span><span>$${val.price}</span></div>`;
-          total += val.price;
+        estimate.forEach(item => {
+          lines.innerHTML += `<div style="display:flex; justify-content:space-between"><span>${item.name}</span><span>$${item.price}</span></div>`;
+          total += item.price;
         });
-        document.getElementById("receiptTotal").textContent = `TOTAL: $${total}`;
+        document.getElementById("receiptTotal").textContent = "TOTAL: $" + total;
       }
-
-      document.querySelector('[data-gizmo="hide"]').addEventListener("click", () => {
-        itemGizmo.classList.remove("show");
-        selectedItem?.classList.remove("selected");
-        selectedItem = null;
-      });
 
       document.getElementById("mainMenuBtn").addEventListener("click", () => {
         cabinet.classList.remove("show");
         catalog.classList.remove("show");
         receiptPanel.classList.remove("show");
-      });
-
-      workArea.addEventListener("click", () => {
-        itemGizmo.classList.remove("show");
-        selectedItem?.classList.remove("selected");
-        selectedItem = null;
       });
     });
   </script>
