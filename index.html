@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
     <style>
+        /* BASE LAYER: THE BLUE BACKGROUND */
         body {
             margin: 0;
             padding: 0;
@@ -19,7 +20,7 @@
             min-height: 100vh;
         }
 
-        /* CURTAIN OVERLAYS */
+        /* THE CURTAIN OVERLAYS (SITTING ON TOP) */
         .curtain-l {
             position: fixed;
             left: 0;
@@ -28,6 +29,7 @@
             z-index: 1000;
             pointer-events: none;
         }
+
         .curtain-r {
             position: fixed;
             right: 0;
@@ -37,7 +39,7 @@
             pointer-events: none;
         }
 
-        /* HEADER - BIG BOLD SILVER LIMELIGHT */
+        /* HEADER SECTION: BIG BOLD SILVER */
         .hero {
             text-align: center;
             padding: 60px 20px 20px 20px;
@@ -51,8 +53,8 @@
             font-size: 80px;
             font-weight: bold;
             margin: 0;
-            color: #C0C0C0; /* Solid Silver */
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.9);
+            color: #C0C0C0; /* Solid Silver per request */
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.9);
             text-transform: uppercase;
         }
 
@@ -60,12 +62,12 @@
             font-size: 18px;
             font-weight: 300;
             letter-spacing: 8px;
-            color: rgba(247, 217, 143, 0.3);
+            color: rgba(247, 217, 143, 0.3); /* 30% Opacity sub-header */
             margin: 10px 0 0 0;
             text-transform: uppercase;
         }
 
-        /* TAB NAVIGATION ROW */
+        /* NAVIGATION TABS */
         .tab-row {
             display: flex;
             justify-content: center;
@@ -82,6 +84,7 @@
             cursor: pointer;
             width: 130px;
             height: 60px;
+            transition: transform 0.2s ease;
         }
 
         .pull-tab img {
@@ -99,10 +102,12 @@
             font-size: 11px;
             color: #1a1a1a;
             text-align: center;
+            line-height: 1.1;
+            width: 80%;
             pointer-events: none;
         }
 
-        /* WORKSPACE LAYOUT */
+        /* MAIN WORKSPACE SECTION */
         .workspace-section {
             padding: 0 10% 40px;
             position: relative;
@@ -126,26 +131,22 @@
             display: block;
         }
 
-        .workspace-shell {
-            flex: 1;
-            position: relative;
-        }
-
         #work-area {
-            width: 100%;
+            flex: 1;
             min-height: 600px;
             background: #0b0f17 url("Assets/workstation.jpg") center/cover no-repeat;
             border: 3px solid rgba(255, 242, 194, 0.24);
             border-radius: 12px;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
     </style>
 </head>
 <body>
 
-    <img src="Assets/mainbackground_curtainl.jpg" class="curtain-l">
-    <img src="Assets/mainbackground_curtainr.jpg" class="curtain-r">
+    <img src="Assets/mainbackground_curtainl.jpg" class="curtain-l" alt="">
+    <img src="Assets/mainbackground_curtainr.jpg" class="curtain-r" alt="">
 
     <header class="hero">
         <h1>Room Glow Up</h1>
@@ -153,23 +154,21 @@
     </header>
 
     <nav class="tab-row">
-        <button class="pull-tab" id="roomsTab"><img src="Assets/roomscabinet_pulltab.png"><span>ROOMS</span></button>
-        <button class="pull-tab" id="catalogTab"><img src="Assets/roomscabinet_pulltab.png"><span>FURNITURE<br>CATALOG</span></button>
-        <button class="pull-tab" id="decorTab"><img src="Assets/roomscabinet_pulltab.png"><span>DECOR<br>CLOSET</span></button>
-        <button class="pull-tab" id="galleryTab"><img src="Assets/roomscabinet_pulltab.png"><span>GALLERY</span></button>
-        <button class="pull-tab" id="saveTab"><img src="Assets/roomscabinet_pulltab.png"><span>SAVE/<br>CHECKOUT</span></button>
+        <button class="pull-tab"><img src="Assets/roomscabinet_pulltab.png"><span>ROOMS</span></button>
+        <button class="pull-tab"><img src="Assets/roomscabinet_pulltab.png"><span>FURNITURE<br>CATALOG</span></button>
+        <button class="pull-tab"><img src="Assets/roomscabinet_pulltab.png"><span>DECOR<br>CLOSET</span></button>
+        <button class="pull-tab"><img src="Assets/roomscabinet_pulltab.png"><span>GALLERY</span></button>
+        <button class="pull-tab"><img src="Assets/roomscabinet_pulltab.png"><span>SAVE/<br>CHECKOUT</span></button>
     </nav>
 
     <section class="workspace-section">
         <div class="workspace-row">
             <aside id="rooms-cabinet">
-                <img src="Assets/rooms_cabinet.png" class="cabinet-img">
+                <img src="Assets/rooms_cabinet.png" class="cabinet-img" alt="Cabinet">
             </aside>
 
-            <div class="workspace-shell">
-                <div id="work-area">
-                    </div>
-            </div>
+            <div id="work-area">
+                </div>
         </div>
     </section>
 
