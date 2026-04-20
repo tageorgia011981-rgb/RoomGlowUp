@@ -3,439 +3,451 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Room Glow Up</title>
+  <title>Room Glow Up - Dream Space Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
   <style>
-    /* --- MASTER STYLES --- */
     :root {
-      --lime-font: 'Limelight', cursive;
-      --glow-color: #00ffcc;
-      --gold: #ffd700;
+      --cabinet-size: 320px;
     }
-
-    body, html {
+    body {
       margin: 0;
       padding: 0;
-      width: 100%;
-      height: 100%;
+      background: #05070a;
+      color: #f0f0f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       overflow-x: hidden;
-      font-family: Arial, sans-serif;
-      background: url('Assets/mainbackgroundblue.jpg') no-repeat center center fixed;
-      background-size: cover;
     }
-
-    /* Background Accent Layers */
-    .bg-accent-l { position: fixed; left: 0; top: 0; width: 50%; height: 100%; background: url('Assets/mainbackgroundl.jpg') no-repeat left center; background-size: contain; z-index: -2; pointer-events: none; }
-    .bg-accent-r { position: fixed; right: 0; top: 0; width: 50%; height: 100%; background: url('Assets/mainbackgroundr.jpg') no-repeat right center; background-size: contain; z-index: -2; pointer-events: none; }
-
-    /* Header & Subheader */
-    header { text-align: center; padding: 40px 20px 0; }
-    h1 { 
-      font-family: var(--lime-font); 
-      font-size: 85px; 
-      color: #fff; 
-      margin: 0; 
-      text-transform: uppercase; 
-      text-shadow: 0 0 20px rgba(0,0,0,0.8);
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(180deg, #10141d 0%, #05070a 100%);
     }
-    .subheader { 
-      font-family: var(--lime-font); 
-      font-size: 26px; 
-      color: #fff; 
-      margin-bottom: 20px;
-      letter-spacing: 1px;
+    .hero h1 {
+      font-family: "Limelight", serif;
+      font-size: clamp(32px, 6vw, 54px);
+      margin: 0;
+      color: #f7d98f;
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     }
-
-    /* Pull Tabs Navigation */
-    .nav-tabs {
+    .hero h2 {
+      font-size: clamp(14px, 2.5vw, 18px);
+      font-weight: 300;
+      letter-spacing: 2px;
+      color: rgba(247, 217, 143, 0.7);
+    }
+    .tab-row {
       display: flex;
       justify-content: center;
       gap: 12px;
-      z-index: 1000;
+      padding: 20px;
+      flex-wrap: wrap;
+    }
+    .pull-tab {
       position: relative;
-    }
-    .tab {
-      font-family: var(--lime-font);
-      background: #1a1a1a;
-      color: white;
-      padding: 18px 35px;
-      border: 2px solid #fff;
-      border-bottom: none;
-      border-radius: 15px 15px 0 0;
+      background: none;
+      border: none;
       cursor: pointer;
-      font-size: 14px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
+      width: 130px;
+      height: 60px;
+      transition: transform 0.3s ease;
     }
-    .tab:hover, .tab.active {
-      background: #333;
-      transform: translateY(-10px);
-      box-shadow: 0 0 20px var(--glow-color);
-      color: var(--glow-color);
+    .pull-tab img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
-
-    /* Main Interaction Stage */
-    #stage {
+    .pull-tab span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: "Limelight", serif;
+      font-size: 11px;
+      color: #1a1a1a;
+      text-align: center;
+      line-height: 1.1;
+      width: 80%;
+    }
+    .pull-tab:hover, .pull-tab.active {
+      transform: translateY(-5px);
+    }
+    .main-menu-row {
       display: flex;
       justify-content: center;
-      align-items: flex-start;
-      margin-top: 10px;
-      position: relative;
-      min-height: 700px;
+      margin-bottom: 20px;
+    }
+    #mainMenuBtn {
+      background: #f7d98f;
+      color: #05070a;
+      border: none;
+      padding: 8px 18px;
+      font-family: "Limelight", serif;
+      border-radius: 4px;
+      cursor: pointer;
     }
 
-    /* Room Cabinet Sliding Drawers */
-    #rooms_cabinet {
+    /* CATALOG OVERLAY */
+    #catalogOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+    #catalogOverlay.show { display: flex; }
+    #catalogBook { width: 90%; max-width: 1000px; }
+    .catalog-page-title { position: absolute; font-family: "Limelight", serif; color: #3d2b1f; z-index: 2005; pointer-events: none; }
+    .catalog-title-left { top: 15%; left: 15%; }
+    .catalog-title-right { top: 15%; right: 15%; }
+    
+    .catalog-grid {
       position: absolute;
-      left: -450px;
-      width: 380px;
-      height: 650px;
-      background: url('Assets/room_cabinet.png') no-repeat center;
-      background-size: 100% 100%;
-      transition: left 0.7s cubic-bezier(0.19, 1, 0.22, 1);
-      display: flex;
-      flex-direction: column;
-      padding: 85px 45px;
-      box-sizing: border-box;
-      z-index: 500;
+      top: 25%;
+      width: 35%;
+      height: 55%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      z-index: 2010;
     }
-    #rooms_cabinet.open { left: 20px; }
-
-    .drawer-zone {
-      font-family: var(--lime-font);
-      height: 55px;
-      margin: 8px 0;
+    .catalog-left { left: 12%; }
+    .catalog-right { right: 12%; }
+    .catalog-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #fff;
-      cursor: pointer;
-      font-size: 18px;
-      text-shadow: 2px 2px 5px #000;
-      transition: all 0.3s;
+      padding: 5px;
     }
-    .drawer-zone:hover, .drawer-zone.active {
-      text-shadow: 0 0 15px var(--glow-color), 0 0 25px var(--glow-color);
-      transform: scale(1.1) translateX(15px);
-    }
+    .catalog-item img { width: 90%; height: auto; transition: transform 0.2s; }
+    .catalog-item:hover img { transform: scale(1.1); }
 
-    /* Workspace / Workarea */
-    #work_area {
-      width: 950px;
-      height: 650px;
-      border: 10px solid #fff;
-      background: #222;
-      position: relative;
+    /* WORKSPACE */
+    .workspace-section { position: relative; padding: 0 20px 40px; }
+    .workspace-row { display: flex; align-items: flex-start; gap: 24px; }
+    #rooms-cabinet {
+      width: var(--cabinet-size);
+      max-width: 0;
+      height: var(--cabinet-size);
       overflow: hidden;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.7);
-      transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+      position: relative;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: max-width 0.6s ease, opacity 0.5s ease, transform 0.6s ease;
+      flex-shrink: 0;
     }
-    #work_area.shifted { transform: translateX(200px); }
+    #rooms-cabinet.show { max-width: var(--cabinet-size); opacity: 1; transform: translateX(0); }
+    .cabinet-img { width: 100%; height: 100%; object-fit: contain; }
+    .drawer-zone { position: absolute; left: 13%; width: 74%; height: 9.4%; background: transparent; border: none; cursor: pointer; }
+    .drawer-living { top: 21.2%; } .drawer-dining { top: 37.8%; } .drawer-bedroom { top: 54.4%; } .drawer-spare { top: 71%; } .drawer-upload { top: 87.2%; }
 
-    #roomBase { width: 100%; height: 100%; object-fit: cover; }
-
-    /* Furniture Catalog "Book" Style */
-    #catalog_panel {
-      display: none;
-      position: absolute;
-      top: 0;
-      width: 950px;
-      height: 600px;
-      background: rgba(0,0,0,0.95);
-      border: 4px solid var(--gold);
-      z-index: 800;
-      color: white;
+    .workspace-shell { position: relative; flex: 1; min-width: 0; }
+    #work-area {
+      position: relative; width: 100%; min-height: 640px; background: #0b0f17 url("Assets/workstation.jpg") center/cover no-repeat;
+      border: 2px solid rgba(255, 242, 194, 0.15); border-radius: 12px; overflow: hidden;
     }
-    .flipping { animation: flipEffect 0.43s ease-in-out; }
-    @keyframes flipEffect {
-      50% { transform: scaleX(0); opacity: 0.5; }
-      100% { transform: scaleX(1); opacity: 1; }
-    }
+    #work-area.room-switch { animation: roomSweep 0.5s ease-in-out; }
+    @keyframes roomSweep { 0% { opacity: 0.5; transform: scale(1.01); } 100% { opacity: 1; transform: scale(1); } }
 
-    /* Item Gizmo Controls */
+    /* PLACED ITEMS & GIZMO */
+    .placed-item { position: absolute; cursor: grab; z-index: 100; transition: outline 0.2s; }
+    .placed-item.selected { outline: 2px solid #f7d98f; outline-offset: 4px; }
+    .placed-shadow { position: absolute; border-radius: 50%; background: rgba(0,0,0,0.3); filter: blur(4px); pointer-events: none; }
+    
     #itemGizmo {
-      position: absolute;
-      display: none;
-      z-index: 2000;
-      pointer-events: auto;
-      background: rgba(0,0,0,0.7);
-      border-radius: 50px;
-      padding: 5px 15px;
-      border: 1px solid var(--glow-color);
+      position: absolute; display: none; border: 1px dashed #f7d98f; z-index: 1200; pointer-events: none;
     }
+    #itemGizmo.show { display: block; }
     .gizmo-handle {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 20px;
-      cursor: pointer;
-      margin: 0 5px;
-      transition: transform 0.2s;
+      position: absolute; width: 24px; height: 24px; border-radius: 50%; background: #0c0c0c; color: #f7d98f;
+      display: flex; align-items: center; justify-content: center; cursor: pointer; pointer-events: auto; font-size: 10px; border: 1px solid #f7d98f;
     }
-    .gizmo-handle:hover { color: var(--glow-color); transform: scale(1.2); }
+    .gizmo-handle-resize { right: -12px; bottom: -12px; }
+    .gizmo-handle-rotate { left: 50%; top: -30px; transform: translateX(-50%); }
+    .gizmo-handle-done { right: -12px; top: -12px; width: 40px; }
 
-    /* Decor Closet Popup */
-    #decor_popup {
-      display: none;
-      position: absolute;
-      right: 50px;
-      top: 0;
-      width: 500px;
-      background: #000;
-      border: 3px solid #fff;
-      z-index: 900;
+    /* RECEIPT */
+    #receiptPanel {
+      position: fixed; right: 20px; top: 110px; width: 300px; transform: scaleY(0); transform-origin: top;
+      transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 55; opacity: 0;
     }
-    #closet_img { width: 100%; cursor: pointer; }
+    #receiptPanel.show { transform: scaleY(1); opacity: 1; }
+    #receiptPanel img { width: 100%; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); }
+    .receipt-content { position: absolute; inset: 15% 12% 10% 12%; color: #2d1e05; font-family: 'Courier New', Courier, monospace; overflow-y: auto; }
+    
+    /* PREVIEW */
+    #itemPreview {
+      position: fixed; left: 50%; bottom: 40px; transform: translateX(-50%); background: rgba(10, 10, 10, 0.95);
+      border: 1px solid #f7d98f; padding: 15px; border-radius: 12px; display: none; z-index: 3000; width: 280px; text-align: center;
+    }
+    #itemPreview.show { display: block; }
+    #itemPreview img { max-width: 150px; margin-bottom: 10px; }
 
-    /* Scroll Receipt */
-    #receipt_panel {
-      position: fixed;
-      top: 110px;
-      right: 80px;
-      width: 320px;
-      display: none;
-      z-index: 1500;
-      transform-origin: top;
-    }
-    #receipt_panel.show { display: block; animation: rollDown 1.2s ease-out forwards; }
-    @keyframes rollDown {
-      from { transform: scaleY(0); }
-      to { transform: scaleY(1); }
-    }
-
-    .placed-item {
-      position: absolute;
-      cursor: move;
-      transition: transform 0.1s;
+    @media (max-width: 1200px) {
+      .workspace-row { flex-direction: column; }
+      #rooms-cabinet, #rooms-cabinet.show { width: 100%; height: auto; max-width: 100%; }
     }
   </style>
 </head>
 <body>
 
-  <div class="bg-accent-l"></div>
-  <div class="bg-accent-r"></div>
-
-  <header>
+  <header class="hero">
     <h1>Room Glow Up</h1>
-    <div class="subheader">Where Your Dream Space Comes To Life.</div>
+    <h2>Where Your Dream Space Comes To Life.</h2>
   </header>
 
-  <nav class="nav-tabs">
-    <div class="tab" id="tabRooms">ROOMS</div>
-    <div class="tab" id="tabCatalog">FURNITURE CATALOG</div>
-    <div class="tab" id="tabDecor">DECOR CLOSET</div>
-    <div class="tab" id="tabGallery">GALLERY</div>
-    <div class="tab" id="tabSave">SAVE/CHECKOUT</div>
+  <nav class="tab-row">
+    <button class="pull-tab" id="roomsTab"><img src="Assets/roomscabinet_pulltab.png" alt="Rooms"><span>ROOMS</span></button>
+    <button class="pull-tab" id="catalogTab"><img src="Assets/roomscabinet_pulltab.png" alt="Catalog"><span>CATALOG</span></button>
+    <button class="pull-tab" id="decorTab"><img src="Assets/roomscabinet_pulltab.png" alt="Decor"><span>DECOR</span></button>
+    <button class="pull-tab" id="galleryTab"><img src="Assets/roomscabinet_pulltab.png" alt="Gallery"><span>GALLERY</span></button>
+    <button class="pull-tab" id="saveTab"><img src="Assets/roomscabinet_pulltab.png" alt="Save"><span>RECEIPT</span></button>
   </nav>
 
-  <main id="stage">
-    <div id="rooms_cabinet">
-      <div class="drawer-zone" data-room="living">LIVINGROOM</div>
-      <div class="drawer-zone" data-room="dining">DININGROOM</div>
-      <div class="drawer-zone" data-room="bedroom">BEDROOM</div>
-      <div class="drawer-zone" data-room="spare">SPARE ROOMS</div>
-      <div class="drawer-zone" id="uploadDrawer">UPLOAD YOURS</div>
-      <input type="file" id="roomUpload" style="display:none" accept="image/*">
+  <div class="main-menu-row">
+    <button id="mainMenuBtn">BACK TO MAIN MENU</button>
+  </div>
+
+  <section class="workspace-section">
+    <div id="catalogOverlay">
+      <img src="Assets/furniturecatalog.png" id="catalogBook" alt="Catalog">
+      <div class="catalog-page-title catalog-title-left" id="catalogTitleLeft">FURNITURE</div>
+      <div class="catalog-page-title catalog-title-right" id="catalogTitleRight">SELECTIONS</div>
+      <div class="catalog-grid catalog-left" id="catalogLeft"></div>
+      <div class="catalog-grid catalog-right" id="catalogRight"></div>
     </div>
 
-    <div id="work_area">
-      <img id="roomBase" src="Assets/ROOMS_livingroom1.jpg">
-      </div>
+    <div class="workspace-row">
+      <aside id="rooms-cabinet">
+        <img src="Assets/rooms_cabinet.png" class="cabinet-img" alt="Cabinet">
+        <button class="drawer-zone drawer-living" data-room="living"></button>
+        <button class="drawer-zone drawer-dining" data-room="dining"></button>
+        <button class="drawer-zone drawer-bedroom" data-room="bedroom"></button>
+        <button class="drawer-zone drawer-spare" data-room="spare"></button>
+        <button class="drawer-zone drawer-upload" id="uploadDrawer"></button>
+      </aside>
 
-    <div id="itemGizmo">
-      <button class="gizmo-handle" data-gizmo-mode="rotate" title="Rotate">🔄</button>
-      <button class="gizmo-handle" data-gizmo-mode="scale" title="Scale">↔️</button>
-      <button class="gizmo-handle" data-gizmo-mode="push" title="Tilt">⤴️</button>
-      <button class="gizmo-handle" data-gizmo-mode="flip" title="Flip">↔️</button>
-      <button class="gizmo-handle" data-gizmo-mode="delete" title="Remove">❌</button>
-    </div>
-
-    <div id="catalog_panel">
-      <div id="catalogContent" style="padding: 20px;">
-        <h2 style="font-family: var(--lime-font); text-align:center;">Furniture Catalog</h2>
-        <div id="catalogGrid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div class="workspace-shell">
+        <div id="work-area">
+          <div id="itemGizmo">
+            <button class="gizmo-handle gizmo-handle-rotate" data-gizmo="rotate">&#8635;</button>
+            <button class="gizmo-handle gizmo-handle-resize" data-gizmo="scale">&#8645;</button>
+            <button class="gizmo-handle gizmo-handle-done" data-gizmo="hide">DONE</button>
           </div>
+          <div id="placedItems"></div>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div id="decor_popup">
-      <img id="closet_img" src="Assets/decorcloset_entryway.jpg" title="Click to cycle rooms">
+  <div id="receiptPanel">
+    <img src="Assets/scrollreceipt.png" alt="Receipt">
+    <div class="receipt-content">
+      <h3 style="margin-top: 0;">DESIGN ESTIMATE</h3>
+      <div id="receiptLines"></div>
+      <div id="receiptTotal" style="margin-top: 15px; font-weight: bold; border-top: 1px solid #2d1e05; padding-top: 5px;">TOTAL: $0</div>
     </div>
+  </div>
 
-    <div id="receipt_panel">
-      <img src="Assets/scrollreceipt.png" style="width:100%;">
-    </div>
-  </main>
+  <div id="itemPreview">
+    <img id="previewImg" src="">
+    <h3 id="previewName" style="margin: 5px 0; color: #f7d98f;"></h3>
+    <p id="previewPrice" style="font-weight: bold; margin: 5px 0;"></p>
+    <p style="font-size: 10px; opacity: 0.8;">Double-click to place in room</p>
+  </div>
+
+  <input type="file" id="roomUpload" accept="image/*" hidden>
 
   <script>
-    /* --- DATA & ASSETS --- */
-    const roomImages = {
-      living: ['Assets/ROOMS_livingroom1.jpg', 'Assets/ROOMS_livingroom2.jpg', 'Assets/ROOMS_livingroom3.jpg'],
-      dining: ['Assets/ROOMS_diningroom1.jpg', 'Assets/ROOMS_diningroom2.jpg'],
-      bedroom: ['Assets/ROOMS_bedroom1.jpg', 'Assets/ROOMS_bedroom2.jpg', 'Assets/ROOMS_bedroom3.jpg'],
-      spare: ['Assets/ROOM_bathroom.jpg', 'Assets/ROOMS_kitchen1.jpg', 'Assets/Rooms_office.jpg']
-    };
-
-    const decorScenes = [
-      'Assets/decorcloset_entryway.jpg',
-      'Assets/plant_pillowcloset.jpg',
-      'Assets/lightingcloset.jpg',
-      'Assets/curtaincloset.jpg',
-      'Assets/ruggallery.jpg'
-    ];
-
-    let drawerIdx = { living: 0, dining: 0, bedroom: 0, spare: 0, closet: 0 };
-    let selectedPlacedItem = null;
-    let isDragging = false;
-
-    /* --- INITIALIZATION --- */
     document.addEventListener("DOMContentLoaded", () => {
-      const cabinet = document.getElementById("rooms_cabinet");
-      const workArea = document.getElementById("work_area");
+      const cabinet = document.getElementById("rooms-cabinet");
+      const workArea = document.getElementById("work-area");
+      const placedItems = document.getElementById("placedItems");
       const itemGizmo = document.getElementById("itemGizmo");
-      const roomBase = document.getElementById("roomBase");
-      const decorPopup = document.getElementById("decor_popup");
-      const receiptPanel = document.getElementById("receipt_panel");
+      const catalog = document.getElementById("catalogOverlay");
+      const receiptPanel = document.getElementById("receiptPanel");
+      const preview = document.getElementById("itemPreview");
+      const roomUpload = document.getElementById("roomUpload");
 
-      /* --- ROOM CABINET LOGIC --- */
-      document.getElementById("tabRooms").addEventListener("click", () => {
-        cabinet.classList.toggle("open");
-        workArea.classList.toggle("shifted");
+      const estimate = new Map();
+      let selectedItem = null;
+
+      const items = [
+        { id: 'f1', name: 'Velvet Sofa', src: 'Assets/seating_couch1.png', price: 1200 },
+        { id: 'f2', name: 'Luxe Armchair', src: 'Assets/seating_armchair1.png', price: 650 },
+        { id: 'f3', name: 'Coffee Table', src: 'Assets/table_coffee2.png', price: 300 }
+      ];
+
+      // Tab Controls
+      document.getElementById("roomsTab").addEventListener("click", () => {
+        cabinet.classList.toggle("show");
+        catalog.classList.remove("show");
       });
 
-      document.querySelectorAll(".drawer-zone[data-room]").forEach(drawer => {
-        drawer.addEventListener("click", () => {
-          const type = drawer.dataset.room;
-          drawerIdx[type] = (drawerIdx[type] + 1) % roomImages[type].length;
-          roomBase.src = roomImages[type][drawerIdx[type]];
-          
-          // Glow effect
-          drawer.classList.add("active");
-          setTimeout(() => drawer.classList.remove("active"), 300);
+      document.getElementById("catalogTab").addEventListener("click", () => {
+        catalog.classList.add("show");
+        cabinet.classList.remove("show");
+        renderCatalog();
+      });
+
+      document.getElementById("saveTab").addEventListener("click", () => {
+        receiptPanel.classList.toggle("show");
+        renderEstimate();
+      });
+
+      // Room Selection
+      document.querySelectorAll(".drawer-zone[data-room]").forEach(d => {
+        d.addEventListener("click", () => {
+          const room = d.dataset.room;
+          workArea.style.backgroundImage = `url('Assets/ROOMS_${room}room1.jpg')`;
+          workArea.classList.add("room-switch");
+          setTimeout(() => workArea.classList.remove("room-switch"), 500);
         });
       });
 
-      // Handle Cabinet closing when clicking work area
-      workArea.addEventListener("click", (e) => {
-        if (cabinet.classList.contains("open") && !e.target.closest(".placed-item")) {
-          cabinet.classList.remove("open");
-          workArea.classList.remove("shifted");
-          // Open catalog automatically per manifest
-          openCatalog();
-        }
+      document.getElementById("uploadDrawer").addEventListener("click", () => roomUpload.click());
+      roomUpload.addEventListener("change", (e) => {
+        const reader = new FileReader();
+        reader.onload = (f) => workArea.style.backgroundImage = `url('${f.target.result}')`;
+        reader.readAsDataURL(e.target.files[0]);
       });
 
-      /* --- CATALOG LOGIC --- */
-      function openCatalog() {
-        const cat = document.getElementById("catalog_panel");
-        cat.style.display = "block";
-        cat.classList.add("flipping");
-        setTimeout(() => cat.classList.remove("flipping"), 430);
+      // Catalog Logic
+      function renderCatalog() {
+        const grid = document.getElementById("catalogLeft");
+        grid.innerHTML = "";
+        items.forEach(item => {
+          const div = document.createElement("div");
+          div.className = "catalog-item";
+          div.innerHTML = `<img src="${item.src}">`;
+          div.addEventListener("mouseenter", () => {
+            preview.classList.add("show");
+            document.getElementById("previewImg").src = item.src;
+            document.getElementById("previewName").textContent = item.name;
+            document.getElementById("previewPrice").textContent = `$${item.price}`;
+          });
+          div.addEventListener("mouseleave", () => preview.classList.remove("show"));
+          div.addEventListener("dblclick", () => placeItem(item));
+          grid.appendChild(div);
+        });
       }
 
-      document.getElementById("tabCatalog").addEventListener("click", openCatalog);
+      // Interaction Logic
+      function placeItem(item) {
+        catalog.classList.remove("show");
+        const img = document.createElement("img");
+        img.src = item.src;
+        img.className = "placed-item";
+        img.style.width = "150px";
+        img.style.left = "50px";
+        img.style.top = "50px";
+        
+        const shadow = document.createElement("div");
+        shadow.className = "placed-shadow";
+        img._shadow = shadow;
 
-      /* --- DECOR CLOSET LOGIC --- */
-      document.getElementById("tabDecor").addEventListener("click", () => {
-        decorPopup.style.display = (decorPopup.style.display === "block") ? "none" : "block";
-      });
+        img.addEventListener("mousedown", (e) => {
+          e.stopPropagation();
+          selectPiece(img);
+        });
 
-      document.getElementById("closet_img").addEventListener("click", () => {
-        drawerIdx.closet = (drawerIdx.closet + 1) % decorScenes.length;
-        document.getElementById("closet_img").src = decorScenes[drawerIdx.closet];
-      });
+        img.addEventListener("dblclick", () => {
+          estimate.delete(item.id + img.style.left); // Simple key
+          shadow.remove();
+          img.remove();
+          itemGizmo.classList.remove("show");
+          renderEstimate();
+        });
 
-      /* --- GIZMO & TRANSFORM LOGIC (Directly from your source) --- */
-      itemGizmo.addEventListener("pointerdown", (event) => {
-        const handle = event.target.closest(".gizmo-handle");
-        if (!handle || !selectedPlacedItem) return;
+        placedItems.appendChild(shadow);
+        placedItems.appendChild(img);
+        makeDraggable(img);
+        estimate.set(item.id + img.style.left, item);
+        selectPiece(img);
+        renderEstimate();
+      }
 
-        event.preventDefault();
-        event.stopPropagation();
-        const mode = handle.dataset.gizmoMode;
+      function selectPiece(el) {
+        if(selectedItem) selectedItem.classList.remove("selected");
+        selectedItem = el;
+        selectedItem.classList.add("selected");
+        itemGizmo.classList.add("show");
+        updateGizmo();
+      }
 
-        if (mode === "delete") {
-          selectedPlacedItem.remove();
-          itemGizmo.style.display = "none";
-          return;
-        }
+      function updateGizmo() {
+        if(!selectedItem) return;
+        const r = selectedItem.getBoundingClientRect();
+        const a = workArea.getBoundingClientRect();
+        itemGizmo.style.left = (r.left - a.left) + "px";
+        itemGizmo.style.top = (r.top - a.top) + "px";
+        itemGizmo.style.width = r.width + "px";
+        itemGizmo.style.height = r.height + "px";
 
-        if (mode === "flip") {
-          const currentScaleX = selectedPlacedItem.dataset.flip || "1";
-          const newScale = currentScaleX === "1" ? "-1" : "1";
-          selectedPlacedItem.dataset.flip = newScale;
-          updateTransform(selectedPlacedItem);
-          return;
-        }
+        const s = selectedItem._shadow;
+        s.style.width = r.width + "px";
+        s.style.height = "15px";
+        s.style.left = itemGizmo.style.left;
+        s.style.top = (r.bottom - a.top - 7) + "px";
+      }
 
-        let prevX = event.clientX;
-        let prevY = event.clientY;
-        handle.setPointerCapture(event.pointerId);
-
-        const onMove = (moveEvent) => {
-          const dx = moveEvent.clientX - prevX;
-          const dy = moveEvent.clientY - prevY;
-
-          if (mode === "rotate") {
-            const currentRot = parseFloat(selectedPlacedItem.dataset.rotation || 0);
-            selectedPlacedItem.dataset.rotation = currentRot + (dx * 0.85);
-          } else if (mode === "push") {
-            const currentTilt = parseFloat(selectedPlacedItem.dataset.tilt || 0);
-            selectedPlacedItem.dataset.tilt = currentTilt + (dx * 0.35);
-          } else if (mode === "scale") {
-            const currentScale = parseFloat(selectedPlacedItem.dataset.scale || 1);
-            selectedPlacedItem.dataset.scale = currentScale + (-dy * 0.008);
+      function makeDraggable(el) {
+        let isDrag = false;
+        el.addEventListener("mousedown", (e) => {
+          isDrag = true;
+          let startX = e.clientX - el.offsetLeft;
+          let startY = e.clientY - el.offsetTop;
+          
+          function move(e) {
+            if(!isDrag) return;
+            el.style.left = (e.clientX - startX) + "px";
+            el.style.top = (e.clientY - startY) + "px";
+            updateGizmo();
           }
-
-          updateTransform(selectedPlacedItem);
-          positionGizmo();
-          prevX = moveEvent.clientX;
-          prevY = moveEvent.clientY;
-        };
-
-        const onEnd = (e) => {
-          handle.releasePointerCapture(e.pointerId);
-          handle.removeEventListener("pointermove", onMove);
-        };
-
-        handle.addEventListener("pointermove", onMove);
-        handle.addEventListener("pointerup", onEnd);
-      });
-
-      function updateTransform(el) {
-        const r = el.dataset.rotation || 0;
-        const s = el.dataset.scale || 1;
-        const t = el.dataset.tilt || 0;
-        const f = el.dataset.flip || 1;
-        el.style.transform = `rotate(${r}deg) scale(${s}) skewX(${t}deg) scaleX(${f})`;
+          function stop() { 
+            isDrag = false; 
+            window.removeEventListener("mousemove", move);
+          }
+          window.addEventListener("mousemove", move);
+          window.addEventListener("mouseup", stop);
+        });
       }
 
-      function positionGizmo() {
-        if (!selectedPlacedItem) return;
-        const rect = selectedPlacedItem.getBoundingClientRect();
-        const stageRect = document.getElementById("stage").getBoundingClientRect();
-        itemGizmo.style.display = "flex";
-        itemGizmo.style.top = (rect.top - stageRect.top - 50) + "px";
-        itemGizmo.style.left = (rect.left - stageRect.left + (rect.width/2) - 100) + "px";
+      function renderEstimate() {
+        const lines = document.getElementById("receiptLines");
+        lines.innerHTML = "";
+        let total = 0;
+        estimate.forEach(val => {
+          lines.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>${val.name}</span><span>$${val.price}</span></div>`;
+          total += val.price;
+        });
+        document.getElementById("receiptTotal").textContent = `TOTAL: $${total}`;
       }
 
-      /* --- RECEIPT LOGIC --- */
-      document.getElementById("tabSave").addEventListener("click", () => {
-        receiptPanel.classList.toggle("show");
+      document.querySelector('[data-gizmo="hide"]').addEventListener("click", () => {
+        itemGizmo.classList.remove("show");
+        selectedItem?.classList.remove("selected");
+        selectedItem = null;
       });
 
-      /* --- UPLOAD LOGIC --- */
-      document.getElementById("uploadDrawer").addEventListener("click", () => {
-        document.getElementById("roomUpload").click();
+      document.getElementById("mainMenuBtn").addEventListener("click", () => {
+        cabinet.classList.remove("show");
+        catalog.classList.remove("show");
+        receiptPanel.classList.remove("show");
       });
 
-      document.getElementById("roomUpload").addEventListener("change", (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (event) => { roomBase.src = event.target.result; };
-          reader.readAsDataURL(file);
-        }
+      workArea.addEventListener("click", () => {
+        itemGizmo.classList.remove("show");
+        selectedItem?.classList.remove("selected");
+        selectedItem = null;
       });
     });
   </script>
