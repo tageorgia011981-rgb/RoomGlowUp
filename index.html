@@ -3,53 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Room Glow Up - Expert Designer</title>
+    <title>Room Glow Up</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --cabinet-size: 320px;
-        }
-
         body {
             margin: 0;
             padding: 0;
-            background: #05070a;
+            background: #05070a url('Assets/mainbackground_blue.jpg') no-repeat center center fixed;
+            background-size: cover;
             color: #f0f0f0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* HEADER SECTION */
+        /* CURTAIN OVERLAYS */
+        .curtain-l {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100%;
+            z-index: 1000;
+            pointer-events: none;
+        }
+        .curtain-r {
+            position: fixed;
+            right: 0;
+            top: 0;
+            height: 100%;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        /* HEADER - BIG BOLD SILVER LIMELIGHT */
         .hero {
             text-align: center;
-            padding: 40px 20px;
+            padding: 60px 20px 20px 20px;
             background: transparent;
+            position: relative;
+            z-index: 10;
         }
 
         .hero h1 {
             font-family: "Limelight", serif;
-            font-size: 54px;
+            font-size: 80px;
+            font-weight: bold;
             margin: 0;
-            color: #f7d98f;
+            color: #C0C0C0; /* Solid Silver */
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.9);
+            text-transform: uppercase;
         }
 
         .hero h2 {
             font-size: 18px;
             font-weight: 300;
-            letter-spacing: 2px;
-            color: rgba(247, 217, 143, 0.7);
-            margin: 0;
+            letter-spacing: 8px;
+            color: rgba(247, 217, 143, 0.3);
+            margin: 10px 0 0 0;
+            text-transform: uppercase;
         }
 
-        /* NAVIGATION TABS */
+        /* TAB NAVIGATION ROW */
         .tab-row {
             display: flex;
             justify-content: center;
             gap: 12px;
             padding: 20px;
-            flex-wrap: wrap;
+            position: relative;
+            z-index: 20;
         }
 
         .pull-tab {
@@ -59,7 +82,6 @@
             cursor: pointer;
             width: 130px;
             height: 60px;
-            transition: transform 0.3s ease;
         }
 
         .pull-tab img {
@@ -77,272 +99,53 @@
             font-size: 11px;
             color: #1a1a1a;
             text-align: center;
-            line-height: 1.1;
-            width: 80%;
             pointer-events: none;
         }
 
-        .pull-tab:hover, .pull-tab.active {
-            transform: translateY(-5px);
-        }
-
-        .main-menu-row {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        #mainMenuBtn {
-            background: #f7d98f;
-            color: #05070a;
-            border: none;
-            padding: 8px 18px;
-            font-family: "Limelight", serif;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        /* WORKSPACE & CABINET */
+        /* WORKSPACE LAYOUT */
         .workspace-section {
+            padding: 0 10% 40px;
             position: relative;
-            padding: 0 20px 40px;
+            z-index: 5;
         }
 
         .workspace-row {
             display: flex;
             align-items: flex-start;
             gap: 24px;
-            perspective: 1000px;
         }
 
         #rooms-cabinet {
-            width: var(--cabinet-size);
-            max-width: 0;
-            height: var(--cabinet-size);
-            overflow: hidden;
+            width: 320px;
             position: relative;
-            opacity: 0;
-            transform: translateX(-108%) rotateY(7deg) scale(0.985);
-            transform-origin: left center;
-            transition: max-width 0.92s cubic-bezier(0.22, 1, 0.36, 1), 
-                        opacity 0.62s ease, 
-                        transform 0.92s cubic-bezier(0.22, 1, 0.36, 1);
-            pointer-events: none;
             flex-shrink: 0;
-            filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.34));
-        }
-
-        #rooms-cabinet.show {
-            max-width: var(--cabinet-size);
-            opacity: 1;
-            transform: translateX(0) rotateY(0deg) scale(1);
-            pointer-events: auto;
         }
 
         .cabinet-img {
             width: 100%;
-            height: 100%;
-            object-fit: contain;
+            display: block;
         }
 
-        .drawer-zone {
-            position: absolute;
-            left: 13%;
-            width: 74%;
-            height: 9.4%;
-            border: 0;
-            background: transparent;
-            cursor: pointer;
-            z-index: 4;
-        }
-
-        .drawer-living { top: 21.2%; }
-        .drawer-dining { top: 37.8%; }
-        .drawer-bedroom { top: 54.4%; }
-        .drawer-spare { top: 71%; }
-        .drawer-upload { top: 87.2%; }
-
-        /* WORK AREA */
         .workspace-shell {
-            position: relative;
             flex: 1;
-            min-width: 0;
+            position: relative;
         }
 
         #work-area {
-            position: relative;
             width: 100%;
-            min-height: 640px;
+            min-height: 600px;
             background: #0b0f17 url("Assets/workstation.jpg") center/cover no-repeat;
             border: 3px solid rgba(255, 242, 194, 0.24);
             border-radius: 12px;
-            box-shadow: 0 26px 55px rgba(0, 0, 0, 0.66);
+            position: relative;
             overflow: hidden;
         }
-
-        #work-area.room-switch {
-            animation: roomSweep 0.64s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        @keyframes roomSweep {
-            0% { transform: translateX(0); opacity: 1; }
-            38% { transform: translateX(30px); opacity: 0.72; }
-            100% { transform: translateX(0); opacity: 1; }
-        }
-
-        /* GIZMO & PLACED ITEMS */
-        .placed-item {
-            position: absolute;
-            cursor: grab;
-            user-select: none;
-            touch-action: none;
-            z-index: 100;
-        }
-
-        .placed-item.selected {
-            filter: drop-shadow(0 0 10px rgba(255, 230, 146, 0.95));
-        }
-
-        .placed-shadow {
-            position: absolute;
-            border-radius: 999px;
-            background: radial-gradient(ellipse at center, rgba(0,0,0,0.5), transparent);
-            filter: blur(2px);
-            pointer-events: none;
-            transition: opacity 0.2s ease;
-        }
-
-        #itemGizmo {
-            position: absolute;
-            display: none;
-            border: 1px dashed rgba(255, 224, 137, 0.68);
-            border-radius: 8px;
-            z-index: 1200;
-            pointer-events: none;
-        }
-
-        #itemGizmo.show { display: block; }
-
-        .gizmo-handle {
-            position: absolute;
-            width: 26px;
-            height: 26px;
-            border-radius: 999px;
-            background: #0c0c0c;
-            color: #f7d98f;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            pointer-events: auto;
-            font-size: 12px;
-            border: 1px solid #f7d98f;
-        }
-
-        .gizmo-handle-resize { right: -13px; bottom: -13px; }
-        .gizmo-handle-rotate { left: 50%; top: -13px; transform: translateX(-50%); }
-        .gizmo-handle-flip { left: -13px; top: 50%; transform: translateY(-50%); }
-        .gizmo-handle-done { right: -13px; top: -45px; width: 45px; font-size: 10px; background: #f7d98f; color: #000; }
-
-        /* CATALOG OVERLAY */
-        #catalogOverlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.94);
-            z-index: 2000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(8px);
-        }
-
-        #catalogOverlay.show { display: flex; }
-
-        #catalogBookContainer {
-            position: relative;
-            width: 92%;
-            max-width: 1100px;
-        }
-
-        .catalog-page-title {
-            position: absolute;
-            font-family: "Limelight", serif;
-            color: #3d2b1f;
-            z-index: 2005;
-            font-size: 14px;
-        }
-
-        .catalog-title-left { top: 12.5%; left: 16%; }
-        .catalog-title-right { top: 12.5%; right: 16%; }
-
-        .catalog-grid {
-            position: absolute;
-            top: 22%;
-            width: 34%;
-            height: 58%;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            z-index: 2010;
-        }
-
-        .catalog-left { left: 12.5%; }
-        .catalog-right { right: 12.5%; }
-
-        .catalog-item {
-            background: rgba(255,255,255,0.03);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .catalog-item img { width: 85%; height: auto; transition: transform 0.2s; }
-        .catalog-item:hover img { transform: scale(1.1); }
-
-        /* RECEIPT PANEL */
-        #receiptPanel {
-            position: fixed;
-            right: 25px;
-            top: 120px;
-            width: 320px;
-            transform: scaleY(0);
-            transform-origin: top center;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 1500;
-            opacity: 0;
-        }
-
-        #receiptPanel.show { transform: scaleY(1); opacity: 1; }
-
-        #receiptPanel img { width: 100%; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6)); }
-
-        .receipt-content {
-            position: absolute;
-            inset: 16% 14% 12% 14%;
-            color: #2d1e05;
-            font-family: 'Courier New', Courier, monospace;
-            overflow-y: auto;
-        }
-
-        /* PREVIEW POPUP */
-        #itemPreview {
-            position: fixed;
-            right: 25px;
-            bottom: 25px;
-            width: 280px;
-            background: rgba(12, 12, 12, 0.96);
-            border: 1px solid #f7d98f;
-            padding: 15px;
-            border-radius: 8px;
-            display: none;
-            z-index: 3000;
-        }
-
-        #itemPreview.show { display: block; }
     </style>
 </head>
 <body>
+
+    <img src="Assets/mainbackground_curtainl.jpg" class="curtain-l">
+    <img src="Assets/mainbackground_curtainr.jpg" class="curtain-r">
 
     <header class="hero">
         <h1>Room Glow Up</h1>
@@ -357,195 +160,18 @@
         <button class="pull-tab" id="saveTab"><img src="Assets/roomscabinet_pulltab.png"><span>SAVE/<br>CHECKOUT</span></button>
     </nav>
 
-    <div class="main-menu-row">
-        <button id="mainMenuBtn">BACK TO MAIN MENU</button>
-    </div>
-
     <section class="workspace-section">
-        <div id="catalogOverlay">
-            <div id="catalogBookContainer">
-                <img src="Assets/furniturecatalog.png" style="width: 100%;">
-                <div class="catalog-page-title catalog-title-left" id="catalogTitleLeft">FURNITURE</div>
-                <div class="catalog-page-title catalog-title-right" id="catalogTitleRight">SELECTIONS</div>
-                <div class="catalog-grid catalog-left" id="catalogLeft"></div>
-                <div class="catalog-grid catalog-right" id="catalogRight"></div>
-            </div>
-        </div>
-
         <div class="workspace-row">
             <aside id="rooms-cabinet">
                 <img src="Assets/rooms_cabinet.png" class="cabinet-img">
-                <button class="drawer-zone drawer-living" data-room="living"></button>
-                <button class="drawer-zone drawer-dining" data-room="dining"></button>
-                <button class="drawer-zone drawer-bedroom" data-room="bedroom"></button>
-                <button class="drawer-zone drawer-spare" data-room="spare"></button>
-                <button class="drawer-zone drawer-upload" id="uploadDrawer"></button>
             </aside>
 
             <div class="workspace-shell">
                 <div id="work-area">
-                    <div id="itemGizmo">
-                        <button class="gizmo-handle gizmo-handle-rotate" data-gizmo="rotate">&#8635;</button>
-                        <button class="gizmo-handle gizmo-handle-flip" data-gizmo="flip">&#8646;</button>
-                        <button class="gizmo-handle gizmo-handle-resize" data-gizmo="scale">&#8645;</button>
-                        <button class="gizmo-handle gizmo-handle-done" data-gizmo="hide">DONE</button>
                     </div>
-                    <div id="placedItems"></div>
-                </div>
             </div>
         </div>
     </section>
 
-    <div id="receiptPanel">
-        <img src="Assets/scrollreceipt.png">
-        <div class="receipt-content">
-            <h3 style="font-family: Limelight; text-align: center;">ESTIMATE</h3>
-            <div id="receiptLines"></div>
-            <div id="receiptTotal" style="font-weight: bold; margin-top: 15px; border-top: 1px solid #2d1e05; padding-top: 5px;">TOTAL: $0</div>
-        </div>
-    </div>
-
-    <div id="itemPreview">
-        <img id="previewImg" src="" style="width: 100%; max-height: 140px; object-fit: contain;">
-        <h3 id="previewName" style="color: #f7d98f; margin: 10px 0 5px 0;"></h3>
-        <p id="previewPrice" style="font-weight: bold; margin: 0;"></p>
-    </div>
-
-    <input type="file" id="roomUpload" accept="image/*" hidden>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const cabinet = document.getElementById("rooms-cabinet");
-            const workArea = document.getElementById("work-area");
-            const catalog = document.getElementById("catalogOverlay");
-            const receiptPanel = document.getElementById("receiptPanel");
-            const placedItemsContainer = document.getElementById("placedItems");
-            const itemGizmo = document.getElementById("itemGizmo");
-            
-            let selectedItem = null;
-            let estimateMap = new Map();
-
-            // CABINET & ROOMS
-            document.getElementById("roomsTab").addEventListener("click", () => {
-                cabinet.classList.toggle("show");
-                catalog.classList.remove("show");
-            });
-
-            document.querySelectorAll(".drawer-zone[data-room]").forEach(drawer => {
-                drawer.addEventListener("click", () => {
-                    const room = drawer.dataset.room;
-                    workArea.classList.remove("room-switch");
-                    void workArea.offsetWidth;
-                    workArea.classList.add("room-switch");
-                    workArea.style.backgroundImage = `url('Assets/ROOMS_${room}room1.jpg')`;
-                });
-            });
-
-            // POINTER DRAG ENGINE
-            function makeDraggable(el) {
-                let isDragging = false;
-                let startX, startY, initialLeft, initialTop;
-
-                el.addEventListener("pointerdown", (e) => {
-                    isDragging = true;
-                    el.setPointerCapture(e.pointerId);
-                    selectItem(el);
-                    startX = e.clientX;
-                    startY = e.clientY;
-                    initialLeft = parseFloat(el.style.left);
-                    initialTop = parseFloat(el.style.top);
-                });
-
-                el.addEventListener("pointermove", (e) => {
-                    if (!isDragging) return;
-                    const dx = e.clientX - startX;
-                    const dy = e.clientY - startY;
-                    el.style.left = (initialLeft + dx) + "px";
-                    el.style.top = (initialTop + dy) + "px";
-                    updateShadow(el);
-                    updateGizmo();
-                });
-
-                el.addEventListener("pointerup", () => isDragging = false);
-            }
-
-            function selectItem(el) {
-                if (selectedItem) selectedItem.classList.remove("selected");
-                selectedItem = el;
-                selectedItem.classList.add("selected");
-                itemGizmo.classList.add("show");
-                updateGizmo();
-            }
-
-            function updateGizmo() {
-                if (!selectedItem) return;
-                const rect = selectedItem.getBoundingClientRect();
-                const areaRect = workArea.getBoundingClientRect();
-                itemGizmo.style.left = (rect.left - areaRect.left) + "px";
-                itemGizmo.style.top = (rect.top - areaRect.top) + "px";
-                itemGizmo.style.width = rect.width + "px";
-                itemGizmo.style.height = rect.height + "px";
-            }
-
-            function updateShadow(el) {
-                const shadow = el._shadow;
-                const rect = el.getBoundingClientRect();
-                const areaRect = workArea.getBoundingClientRect();
-                const depth = (rect.top - areaRect.top) / areaRect.height;
-                shadow.style.left = (rect.left - areaRect.left) + "px";
-                shadow.style.top = (rect.bottom - areaRect.top - 5) + "px";
-                shadow.style.width = rect.width + "px";
-                shadow.style.height = (rect.height * 0.1) + "px";
-                shadow.style.opacity = 0.2 + (depth * 0.3);
-            }
-
-            // GIZMO ACTIONS
-            itemGizmo.addEventListener("click", (e) => {
-                const action = e.target.dataset.gizmo;
-                if (!selectedItem) return;
-                if (action === "rotate") {
-                    const r = (parseInt(selectedItem.dataset.rot || 0) + 15) % 360;
-                    selectedItem.dataset.rot = r;
-                    applyTransform(selectedItem);
-                } else if (action === "scale") {
-                    let s = parseFloat(selectedItem.dataset.scale || 1) + 0.1;
-                    if (s > 2) s = 0.5;
-                    selectedItem.dataset.scale = s;
-                    applyTransform(selectedItem);
-                } else if (action === "hide") {
-                    itemGizmo.classList.remove("show");
-                    selectedItem.classList.remove("selected");
-                    selectedItem = null;
-                }
-                updateGizmo();
-            });
-
-            function applyTransform(el) {
-                const r = el.dataset.rot || 0;
-                const s = el.dataset.scale || 1;
-                el.style.transform = `rotate(${r}deg) scale(${s})`;
-            }
-
-            // CATALOG
-            document.getElementById("catalogTab").addEventListener("click", () => {
-                catalog.classList.add("show");
-                cabinet.classList.remove("show");
-            });
-
-            document.getElementById("mainMenuBtn").addEventListener("click", () => {
-                catalog.classList.remove("show");
-                cabinet.classList.remove("show");
-                receiptPanel.classList.remove("show");
-            });
-
-            workArea.addEventListener("pointerdown", (e) => {
-                if (e.target === workArea) {
-                    if (selectedItem) selectedItem.classList.remove("selected");
-                    selectedItem = null;
-                    itemGizmo.classList.remove("show");
-                }
-            });
-        });
-    </script>
 </body>
 </html>
