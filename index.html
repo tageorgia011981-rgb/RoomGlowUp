@@ -26,25 +26,32 @@
             color: white;
         }
 
+        /* EXACT HEADER & SUBHEADER FROM YOUR CODE */
         header {
             text-align: center;
-            padding: 60px 0 20px;
+            padding: 50px 20px;
         }
 
         h1 {
-            font-size: 115px;
-            margin: 0;
-            background: linear-gradient(to bottom, #ffffff 0%, #a6a6a6 45%, #4d4d4d 50%, #ffffff 55%, #808080 100%);
-            -webkit-background-clip: text;
+            font-size: 110px; 
+            margin: 0; 
+            line-height: 1; 
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, #555 0%, #bbb 20%, #ffffff 45%, #888 50%, #ffffff 55%, #bbb 80%, #555 100%);
+            -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent;
-            letter-spacing: 7px;
+            filter: drop-shadow(6px 6px 0px rgba(0,0,0,1)) drop-shadow(0px 0px 20px rgba(0,0,0,0.5));
+            letter-spacing: 3px;
         }
 
         h2 {
-            font-size: 24px;
-            letter-spacing: 9px;
+            font-size: 34px; 
             margin-top: 15px;
-            color: #ddd;
+            background: linear-gradient(to bottom, #ffffff 0%, #a1a1a1 100%);
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(3px 3px 0px rgba(0,0,0,1));
+            letter-spacing: 1px;
         }
 
         .nav-container {
@@ -232,7 +239,6 @@
         .handle-rotate { top: -35px; left: 50%; transform: translateX(-50%); }
         .handle-flip { top: -12px; left: -12px; background: cyan; }
 
-        /* UPDATED CATALOG GRID FOR PERFECT 6-PER-PAGE FIT */
         .page {
             position: absolute;
             top: 14%; 
@@ -287,7 +293,7 @@
 
 <header>
     <h1>Room Glow Up</h1>
-    <h2>WHERE YOUR DREAM SPACE COMES TO LIFE</h2>
+    <h2>Where Your Dream Space Comes To Life.</h2>
 </header>
 
 <div class="nav-container">
@@ -352,7 +358,6 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Updated Room Assets with corrected filenames
         const roomImages = {
             living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg"],
             dining: ["Assets/ROOMS_dining1.jpg", "Assets/ROOMS_dining2.jpg"],
@@ -518,7 +523,6 @@
         };
         document.getElementById("saveTab").onclick = () => receipt.classList.toggle("roll");
 
-        // Drawer Cycling logic with updated Assets
         document.querySelectorAll(".drawer-zone").forEach(zone => {
             zone.onclick = (e) => {
                 e.stopPropagation();
