@@ -232,23 +232,23 @@
         .handle-rotate { top: -35px; left: 50%; transform: translateX(-50%); }
         .handle-flip { top: -12px; left: -12px; background: cyan; }
 
-        /* FIXED CATALOG GRID FOR 6 IMAGES PER PAGE */
+        /* UPDATED CATALOG GRID FOR PERFECT 6-PER-PAGE FIT */
         .page {
             position: absolute;
-            top: 12%; 
-            width: 36%; 
-            height: 76%;
+            top: 14%; 
+            width: 35%; 
+            height: 72%;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-template-rows: repeat(3, 1fr);
-            gap: 10px;
+            gap: 15px;
             padding: 10px;
             box-sizing: border-box;
             z-index: 10;
             overflow: hidden;
         }
         .left-page { left: 9%; }
-        .right-page { right: 9%; }
+        .right-page { right: 10%; }
 
         .catalog-item {
             width: 100%; 
@@ -259,7 +259,7 @@
             display: block;
             margin: auto;
         }
-        .catalog-item:hover { transform: scale(1.05); }
+        .catalog-item:hover { transform: scale(1.08); }
 
         #decor-popup {
             position: fixed;
@@ -350,15 +350,14 @@
     <div class="decor-grid" id="decorGrid"></div>
 </div>
 
-<input type="file" id="roomUpload" accept="image/*" style="display:none">
-
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        // Updated Room Assets with corrected filenames
         const roomImages = {
             living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg"],
             dining: ["Assets/ROOMS_dining1.jpg", "Assets/ROOMS_dining2.jpg"],
             bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg"],
-            spare: ["Assets/ROOMS_spare1.jpg", "Assets/ROOMS_spare2.jpg"]
+            spare: ["Assets/ROOMS_office1.jpg", "Assets/ROOMS_kitchen1.jpg", "Assets/ROOMS_bathroom1.jpg"]
         };
 
         const catalogAssets = [
@@ -519,14 +518,15 @@
         };
         document.getElementById("saveTab").onclick = () => receipt.classList.toggle("roll");
 
+        // Drawer Cycling logic with updated Assets
         document.querySelectorAll(".drawer-zone").forEach(zone => {
             zone.onclick = (e) => {
                 e.stopPropagation();
-                const room = zone.dataset.room;
-                if (room && roomImages[room]) {
-                    const idx = roomIndices[room];
-                    workArea.style.background = `url('${roomImages[room][idx]}') center/cover no-repeat`;
-                    roomIndices[room] = (idx + 1) % roomImages[room].length;
+                const roomKey = zone.dataset.room;
+                if (roomKey && roomImages[roomKey]) {
+                    const idx = roomIndices[roomKey];
+                    workArea.style.background = `url('${roomImages[roomKey][idx]}') center/cover no-repeat`;
+                    roomIndices[roomKey] = (idx + 1) % roomImages[roomKey].length;
                     roomChosen = true;
                 }
             };
