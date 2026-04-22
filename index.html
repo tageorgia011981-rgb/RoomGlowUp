@@ -23,7 +23,7 @@
                 url('Assets/mainbackground_blue.jpg') center top no-repeat;
             background-size: 33% 100%, 33% 100%, 34% 100%;
             background-attachment: fixed; color: white;
-            padding-bottom: 100px;
+            padding-bottom: 300px; 
         }
 
         header { text-align: center; padding: 50px 20px; }
@@ -54,31 +54,33 @@
 
         .outer-wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 30px; }
         
+        /* FURNITURE CATALOG STYLING */
         #catalogOverlay {
             position: relative; width: 1100px; max-height: 0; opacity: 0; 
             overflow: hidden; visibility: hidden; transition: max-height 0.8s ease-in-out, opacity 0.5s; margin: 0 auto;
         }
-        #catalogOverlay.show { max-height: 1200px; opacity: 1; visibility: visible; margin-bottom: 30px; }
+        #catalogOverlay.show { max-height: 1200px; opacity: 1; visibility: visible; margin-bottom: 50px; }
         
         .catalog-container { position: relative; width: 1000px; margin: 0 auto; }
         #catalogBook { width: 1000px; display: block; }
 
+        /* GOLD INDEX TABS ON THE SIDE */
         .side-tabs {
-            position: absolute; right: -85px; top: 15%;
-            display: flex; flex-direction: column; gap: 5px;
-            z-index: 5;
+            position: absolute; right: 105px; top: 12%;
+            display: flex; flex-direction: column; gap: 8px;
+            z-index: 15;
         }
         .side-tab {
             width: 100px; height: 45px; 
-            background: #000; color: #d4af37; 
-            font-family: Arial, sans-serif; font-weight: bold; font-size: 12px;
-            border: 2px solid #d4af37; border-left: none; border-radius: 0 10px 10px 0;
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            color: #000; font-family: Arial, sans-serif; font-weight: 900; font-size: 11px;
+            border: 1px solid #555; border-left: none; border-radius: 0 8px 8px 0;
             cursor: pointer; text-transform: uppercase; display: flex;
             align-items: center; justify-content: center; transition: 0.3s;
-            box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+            box-shadow: 3px 3px 6px rgba(0,0,0,0.6);
         }
-        .side-tab:hover { transform: translateX(10px); color: #fff; }
-        .side-tab.active { background: #d4af37; color: #000; width: 110px; transform: translateX(5px); }
+        .side-tab:hover { transform: translateX(10px); filter: brightness(1.1); }
+        .side-tab.active { width: 115px; transform: translateX(5px); box-shadow: 1px 1px 10px #fcf6ba; }
 
         .page-btn {
             position: absolute; top: 45%; width: 40px; height: 60px; 
@@ -87,61 +89,49 @@
         }
         .page-btn:hover { background: #d4af37; color: black; }
         .prev-btn { left: 4%; }
-        .next-btn { right: 14%; }
+        .next-btn { right: 19%; }
 
         .page { position: absolute; top: 10%; width: 36%; height: 78%; display: flex; flex-direction: column; z-index: 10; padding: 10px; }
         .left-page { left: 8.5%; }
-        .right-page { right: 19.5%; }
+        .right-page { right: 23.5%; }
 
+        /* GOLD HEADERS AT THE TOP OF PAGES */
         .catalog-header {
-            text-align: center; font-size: 22px; color: #d4af37; 
-            margin-bottom: 10px; letter-spacing: 2px; text-shadow: 1px 1px 2px black;
+            text-align: center; font-size: 24px; font-weight: 900;
+            background: linear-gradient(to bottom, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 15px; letter-spacing: 3px; text-transform: uppercase;
+            filter: drop-shadow(2px 2px 2px black);
         }
 
         .catalog-grid { flex-grow: 1; display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); gap: 15px; }
         .catalog-item { width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
         .catalog-item:hover { transform: scale(1.1); }
 
+        /* WORKSPACE & CABINET */
         .workspace-wrapper { 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            width: 100%; 
-            max-width: 1600px;
-            gap: 0;
-            transition: all 0.8s ease-in-out;
+            display: flex; flex-direction: row; justify-content: center; align-items: center; 
+            width: 100%; margin-top: 400px; transition: all 0.8s ease-in-out; gap: 0;
         }
 
         #rooms-cabinet { 
-            height: 650px; 
-            width: 0; 
-            overflow: hidden;
-            position: relative; 
-            transition: width 0.8s ease-in-out, opacity 0.6s ease-in-out, margin-right 0.8s ease-in-out; 
-            opacity: 0; 
-            pointer-events: none; 
+            height: 650px; width: 0; overflow: hidden; position: relative; 
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease-in-out; 
+            opacity: 0; pointer-events: none; flex-shrink: 0;
         }
-        #rooms-cabinet.show { 
-            width: 450px; 
-            opacity: 1; 
-            pointer-events: auto;
-            margin-right: 30px;
-        }
+        #rooms-cabinet.show { width: 450px; opacity: 1; pointer-events: auto; }
         #rooms-cabinet img { height: 100%; width: auto; display: block; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)); }
+
+        #work-area { 
+            width: 1000px; height: 650px; background: url('Assets/workstation.jpg') center/cover; 
+            box-shadow: 0 0 60px black; position: relative; overflow: hidden; 
+            border: 4px solid #333; flex-shrink: 0; transition: margin-left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #rooms-cabinet.show + #work-area { margin-left: 30px; }
 
         .drawer-zone { position: absolute; left: 5%; width: 90%; height: 16%; cursor: pointer; z-index: 5; }
         .zone-living { top: 2%; } .zone-bedroom { top: 21%; } .zone-dining { top: 41%; } .zone-spare { top: 61%; }
-
-        #work-area { 
-            width: 1000px; 
-            height: 650px; 
-            background: url('Assets/workstation.jpg') center/cover; 
-            box-shadow: 0 0 60px black; 
-            position: relative; 
-            overflow: hidden; 
-            border: 4px solid #333; 
-            flex-shrink: 0;
-        }
+        
         .placed-item { position: absolute; cursor: move; max-width: 250px; z-index: 100; }
         .placed-shadow { position: absolute; background: rgba(0,0,0,0.4); filter: blur(8px); border-radius: 50%; pointer-events: none; }
         
@@ -187,7 +177,7 @@
         </div>
     </div>
 
-    <div class="workspace-wrapper">
+    <div class="workspace-wrapper" id="mainWorkspace">
         <div id="rooms-cabinet">
             <img src="Assets/rooms_cabinet.png">
             <div class="drawer-zone zone-living" data-room="living"></div>
@@ -195,7 +185,7 @@
             <div class="drawer-zone zone-dining" data-room="dining"></div>
             <div class="drawer-zone zone-spare" data-room="spare"></div>
         </div>
-        
+
         <div id="work-area">
             <div id="placedItemsLayer"></div>
             <div id="itemGizmo">
@@ -210,40 +200,10 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const catalogData = [
-            { 
-                category: "SEATING", 
-                assets: [
-                    ...Array.from({length: 12}, (_, i) => `Assets/seating_couch${i+1}.png`),
-                    ...Array.from({length: 12}, (_, i) => `Assets/seating_armchair${i+1}.png`),
-                    ...Array.from({length: 12}, (_, i) => `Assets/seating_barstool${i+1}.png`),
-                    ...Array.from({length: 12}, (_, i) => `Assets/seating_bench${i+1}.png`),
-                    ...Array.from({length: 12}, (_, i) => `Assets/seating_dining${i+1}.png`),
-                    ...Array.from({length: 12}, (_, i) => `Assets/seating_ottoman${i+1}.png`)
-                ] 
-            },
-            { 
-                category: "STORAGE", 
-                assets: [
-                    ...Array.from({length: 12}, (_, i) => `Assets/storage_cabinet${i+1}.png`),
-                    ...Array.from({length: 8}, (_, i) => `Assets/storage_dresser${i+1}.png`),
-                    ...Array.from({length: 7}, (_, i) => `Assets/storage_shelf${i+1}.png`),
-                    ...Array.from({length: 12}, (_, i) => `Assets/storage_sideboard${i+1}.png`),
-                    "Assets/storage_vanity1.png", "Assets/storage_vanity2.png"
-                ] 
-            },
-            { 
-                category: "TABLES", 
-                assets: [
-                    ...Array.from({length: 5}, (_, i) => `Assets/tables_sofa${i+1}.png`),
-                    ...Array.from({length: 6}, (_, i) => `Assets/tables_coffee${i+1}.png`),
-                    ...Array.from({length: 10}, (_, i) => `Assets/tables_end${i+1}.png`),
-                    "Assets/tables_dining1.png", "Assets/tables_dining2.png"
-                ] 
-            },
-            { 
-                category: "BEDS", 
-                assets: Array.from({length: 12}, (_, i) => `Assets/bed_${i+1}.png`)
-            }
+            { category: "SEATING", assets: [...Array.from({length: 12}, (_, i) => `Assets/seating_couch${i+1}.png`), ...Array.from({length: 12}, (_, i) => `Assets/seating_armchair${i+1}.png`), ...Array.from({length: 12}, (_, i) => `Assets/seating_barstool${i+1}.png`), ...Array.from({length: 12}, (_, i) => `Assets/seating_bench${i+1}.png`), ...Array.from({length: 12}, (_, i) => `Assets/seating_dining${i+1}.png`), ...Array.from({length: 12}, (_, i) => `Assets/seating_ottoman${i+1}.png`)] },
+            { category: "STORAGE", assets: [...Array.from({length: 12}, (_, i) => `Assets/storage_cabinet${i+1}.png`), ...Array.from({length: 8}, (_, i) => `Assets/storage_dresser${i+1}.png`), ...Array.from({length: 7}, (_, i) => `Assets/storage_shelf${i+1}.png`), ...Array.from({length: 12}, (_, i) => `Assets/storage_sideboard${i+1}.png`), "Assets/storage_vanity1.png", "Assets/storage_vanity2.png"] },
+            { category: "TABLES", assets: [...Array.from({length: 5}, (_, i) => `Assets/tables_sofa${i+1}.png`), ...Array.from({length: 6}, (_, i) => `Assets/tables_coffee${i+1}.png`), ...Array.from({length: 10}, (_, i) => `Assets/tables_end${i+1}.png`), "Assets/tables_dining1.png", "Assets/tables_dining2.png"] },
+            { category: "BEDS", assets: Array.from({length: 12}, (_, i) => `Assets/bed_${i+1}.png`) }
         ];
 
         let currentCategoryIndex = 0;
@@ -260,10 +220,8 @@
             const leftGrid = document.getElementById("catalogLeft");
             const rightGrid = document.getElementById("catalogRight");
             leftGrid.innerHTML = ""; rightGrid.innerHTML = "";
-
             const start = subPageIndex * 12;
             const pageAssets = data.assets.slice(start, start + 12);
-            
             pageAssets.forEach((src, idx) => {
                 const img = document.createElement("img");
                 img.src = src; img.className = "catalog-item";
@@ -271,13 +229,11 @@
                 if (idx < 6) leftGrid.appendChild(img);
                 else rightGrid.appendChild(img);
             });
-
             document.querySelectorAll(".side-tab").forEach((tab, idx) => {
                 tab.classList.toggle("active", idx === currentCategoryIndex);
             });
         }
 
-        // NAVIGATION BUTTONS
         document.getElementById("nextCatPage").onclick = () => {
             const totalSubPages = Math.ceil(catalogData[currentCategoryIndex].assets.length / 12);
             if (subPageIndex < totalSubPages - 1) subPageIndex++;
@@ -297,7 +253,6 @@
             };
         });
 
-        // PIECE MANIPULATION
         function placeInRoom(src) {
             const piece = document.createElement("img");
             piece.src = src; piece.className = "placed-item";
@@ -345,32 +300,28 @@
             itemGizmo.style.left = selectedItem.offsetLeft + "px"; itemGizmo.style.top = selectedItem.offsetTop + "px";
         }
 
-        // TAB CLICKS
         document.getElementById("catalogTab").onclick = () => { 
             renderCatalog(); 
             catalogOverlay.classList.toggle("show"); 
-        };
-        document.getElementById("roomsTab").onclick = () => {
-            document.getElementById("rooms-cabinet").classList.toggle("show");
+            if(catalogOverlay.classList.contains("show")) window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        // ROOM SELECTION -> AUTO-OPEN CATALOG
+        document.getElementById("roomsTab").onclick = () => {
+            const cab = document.getElementById("rooms-cabinet");
+            cab.classList.toggle("show");
+            if(cab.classList.contains("show")) document.getElementById("mainWorkspace").scrollIntoView({ behavior: 'smooth', block: 'center' });
+        };
+
         document.querySelectorAll(".drawer-zone").forEach(z => {
             z.onclick = () => {
-                // 1. Change the Room
-                const r = z.dataset.room;
-                document.getElementById("work-area").style.background = `url('Assets/ROOMS_${r}room1.jpg') center/cover`;
-                
-                // 2. Open the Catalog automatically
+                const roomType = z.dataset.room;
+                document.getElementById("work-area").style.background = `url('Assets/ROOMS_${roomType}room1.jpg') center/cover`;
                 renderCatalog();
                 catalogOverlay.classList.add("show");
-                
-                // Optional: Scroll back to top so catalog is clearly visible
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             };
         });
 
-        // GIZMO LOGIC
         itemGizmo.onmousedown = (e) => {
             const h = e.target.dataset.gizmo; if(!h) return; e.stopPropagation();
             if(h === "flip") { selectedItem.dataset.flip *= -1; updatePieceTransform(selectedItem); }
