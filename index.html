@@ -6,287 +6,111 @@
     <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
     <style>
-        html { 
-            overflow-y: scroll !important; 
-            scroll-behavior: smooth; 
-        }
-
+        html { overflow-y: scroll !important; scroll-behavior: smooth; }
         body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 2500px; 
+            margin: 0; padding: 0; width: 100%; min-height: 2500px; 
             font-family: 'Limelight', cursive;
             background: 
                 url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
                 url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
                 url('Assets/mainbackground_blue.jpg') center top no-repeat;
             background-size: 33% 100%, 33% 100%, 34% 100%;
-            background-attachment: fixed;
-            color: white;
+            background-attachment: fixed; color: white;
         }
 
-        /* EXACT HEADER & SUBHEADER FROM YOUR CODE */
-        header {
-            text-align: center;
-            padding: 50px 20px;
-        }
-
+        header { text-align: center; padding: 50px 20px; }
         h1 {
-            font-size: 110px; 
-            margin: 0; 
-            line-height: 1; 
-            text-transform: uppercase;
+            font-size: 110px; margin: 0; line-height: 1; text-transform: uppercase;
             background: linear-gradient(to bottom, #555 0%, #bbb 20%, #ffffff 45%, #888 50%, #ffffff 55%, #bbb 80%, #555 100%);
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             filter: drop-shadow(6px 6px 0px rgba(0,0,0,1)) drop-shadow(0px 0px 20px rgba(0,0,0,0.5));
             letter-spacing: 3px;
         }
-
         h2 {
-            font-size: 34px; 
-            margin-top: 15px;
+            font-size: 34px; margin-top: 15px;
             background: linear-gradient(to bottom, #ffffff 0%, #a1a1a1 100%);
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             filter: drop-shadow(3px 3px 0px rgba(0,0,0,1));
             letter-spacing: 1px;
         }
 
-        .nav-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-            position: relative;
-            z-index: 9999;
-        }
-
-        .top-tab {
-            position: relative;
-            width: 165px;
-            height: 120px;
-            cursor: pointer;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .top-tab:hover {
-            transform: translateY(18px);
-        }
-
-        .top-tab img {
-            width: 100%;
-            height: auto;
-            display: block;
-            pointer-events: none;
-        }
-
+        .nav-container { display: flex; justify-content: center; gap: 15px; margin-top: 20px; position: relative; z-index: 9999; }
+        .top-tab { position: relative; width: 165px; height: 120px; cursor: pointer; transition: transform 0.4s; }
+        .top-tab:hover { transform: translateY(18px); }
+        .top-tab img { width: 100%; height: auto; display: block; pointer-events: none; }
         .top-tab-text {
-            position: absolute;
-            top: 72%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            z-index: 2;
-            font-family: Arial, Helvetica, sans-serif;
-            font-weight: 900;
-            font-size: 13px;
-            color: #ffffff;
-            text-align: center;
-            pointer-events: none;
-            line-height: 1.1;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 3px rgba(0,0,0,1);
+            position: absolute; top: 72%; left: 50%; transform: translate(-50%, -50%);
+            width: 100%; font-family: Arial, sans-serif; font-weight: 900; font-size: 13px;
+            text-align: center; text-transform: uppercase; text-shadow: 2px 2px 3px black;
         }
 
-        #receipt-container {
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 240px;
-            height: 0;
-            overflow: hidden;
-            transition: height 1s ease;
-            z-index: -1;
-            background: url('Assets/scrollreceipt.png') no-repeat;
-            background-size: 100% 100%;
-            padding: 40px 20px;
-            color: #333;
-            font-family: 'Courier New', Courier, monospace;
-            font-weight: bold;
-        }
-
-        #receipt-container.roll {
-            height: 500px;
-        }
-
-        .receipt-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-            font-size: 12px;
-        }
-
-        .outer-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            padding-top: 50px;
-        }
-
+        .outer-wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 50px; }
+        
         #catalogOverlay {
-            position: relative;
-            width: 1000px;
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            visibility: hidden;
-            transition: max-height 1s ease, opacity 1s ease;
-            margin: 0 auto;
+            position: relative; width: 1100px; max-height: 0; opacity: 0; 
+            overflow: hidden; visibility: hidden; transition: max-height 1s, opacity 1s; margin: 0 auto;
         }
+        #catalogOverlay.show { max-height: 1200px; opacity: 1; visibility: visible; margin-bottom: 50px; }
+        
+        .catalog-container { position: relative; width: 1000px; margin-right: 100px; }
+        #catalogBook { width: 1000px; display: block; }
 
-        #catalogOverlay.show {
-            max-height: 1200px;
-            opacity: 1;
-            visibility: visible;
-            margin-bottom: 50px;
-        }
-
-        #catalogBook { width: 100%; display: block; }
-
-        .workspace-wrapper {
-            width: 1350px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 40px;
-        }
-
-        #rooms-cabinet {
-            width: 600px; height: 600px;
-            position: relative;
-            transform: translateX(-50px);
-            transition: all 0.8s ease;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        #rooms-cabinet.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
-
-        .drawer-zone {
-            position: absolute;
-            left: 0; width: 100%; height: 18%;
-            cursor: pointer;
+        .side-tabs {
+            position: absolute; right: -85px; top: 15%;
+            display: flex; flex-direction: column; gap: 5px;
             z-index: 5;
         }
+        .side-tab {
+            width: 100px; height: 45px; 
+            background: #000; color: #d4af37; 
+            font-family: Arial, sans-serif; font-weight: bold; font-size: 12px;
+            border: 2px solid #d4af37; border-left: none; border-radius: 0 10px 10px 0;
+            cursor: pointer; text-transform: uppercase; display: flex;
+            align-items: center; justify-content: center; transition: 0.3s;
+            box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+        }
+        .side-tab:hover { transform: translateX(10px); color: #fff; }
+        .side-tab.active { background: #d4af37; color: #000; width: 110px; transform: translateX(5px); }
 
-        .zone-living { top: 2%; }
-        .zone-dining { top: 22%; }
-        .zone-bedroom { top: 42%; }
-        .zone-spare { top: 62%; }
-        .zone-upload { top: 82%; }
+        .page-btn {
+            position: absolute; top: 45%; width: 40px; height: 60px; 
+            background: rgba(0,0,0,0.8); border: 2px solid #d4af37; color: #d4af37; 
+            font-size: 24px; cursor: pointer; z-index: 20; border-radius: 5px; transition: 0.2s;
+        }
+        .page-btn:hover { background: #d4af37; color: black; }
+        .prev-btn { left: 4%; }
+        .next-btn { right: 14%; }
 
-        #work-area {
-            width: 1000px; height: 650px;
-            background: url('Assets/workstation.jpg') center/cover no-repeat;
-            box-shadow: 0 0 60px rgba(0,0,0,.9);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
+        .page { position: absolute; top: 10%; width: 36%; height: 78%; display: flex; flex-direction: column; z-index: 10; padding: 10px; }
+        .left-page { left: 8.5%; }
+        .right-page { right: 19.5%; }
+
+        .catalog-header {
+            text-align: center; font-size: 22px; color: #d4af37; 
+            margin-bottom: 10px; letter-spacing: 2px; text-shadow: 1px 1px 2px black;
         }
 
-        .placed-item {
-            position: absolute;
-            cursor: move;
-            max-width: 250px;
-            user-select: none;
-            z-index: 100;
-        }
+        .catalog-grid { flex-grow: 1; display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); gap: 15px; }
+        .catalog-item { width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
+        .catalog-item:hover { transform: scale(1.1); }
 
-        .placed-shadow {
-            position: absolute;
-            background: rgba(0,0,0,0.4);
-            filter: blur(8px);
-            border-radius: 50%;
-            pointer-events: none;
-            transform-origin: center center;
-        }
+        .workspace-wrapper { width: 1350px; display: flex; justify-content: center; gap: 40px; }
+        #rooms-cabinet { width: 440px; height: 640px; position: relative; transform: translateX(-50px); transition: 0.8s; opacity: 0; pointer-events: none; }
+        #rooms-cabinet.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
 
-        #itemGizmo {
-            position: absolute;
-            border: 2px dashed #e0ff00;
-            pointer-events: none;
-            display: none;
-            z-index: 200;
-        }
+        .drawer-zone { position: absolute; left: 5%; width: 90%; height: 16%; cursor: pointer; z-index: 5; }
+        .zone-living { top: 2%; } .zone-bedroom { top: 21%; } .zone-dining { top: 41%; } .zone-spare { top: 61%; }
 
+        #work-area { width: 1000px; height: 650px; background: url('Assets/workstation.jpg') center/cover; box-shadow: 0 0 60px black; position: relative; overflow: hidden; border: 4px solid #333; }
+        .placed-item { position: absolute; cursor: move; max-width: 250px; z-index: 100; }
+        .placed-shadow { position: absolute; background: rgba(0,0,0,0.4); filter: blur(8px); border-radius: 50%; pointer-events: none; }
+        
+        #itemGizmo { position: absolute; border: 2px dashed #e0ff00; display: none; z-index: 200; pointer-events: none; }
         #itemGizmo.show { display: block; }
-
-        .gizmo-handle {
-            position: absolute;
-            width: 24px; height: 24px;
-            background: #e0ff00;
-            border-radius: 50%;
-            pointer-events: auto;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        }
-
+        .gizmo-handle { position: absolute; width: 24px; height: 24px; background: #e0ff00; border-radius: 50%; pointer-events: auto; cursor: pointer; }
         .handle-scale { bottom: -12px; right: -12px; }
         .handle-rotate { top: -35px; left: 50%; transform: translateX(-50%); }
         .handle-flip { top: -12px; left: -12px; background: cyan; }
-
-        .page {
-            position: absolute;
-            top: 14%; 
-            width: 35%; 
-            height: 72%;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 15px;
-            padding: 10px;
-            box-sizing: border-box;
-            z-index: 10;
-            overflow: hidden;
-        }
-        .left-page { left: 9%; }
-        .right-page { right: 10%; }
-
-        .catalog-item {
-            width: 100%; 
-            height: 100%;
-            object-fit: contain;
-            cursor: pointer;
-            transition: transform 0.2s;
-            display: block;
-            margin: auto;
-        }
-        .catalog-item:hover { transform: scale(1.08); }
-
-        #decor-popup {
-            position: fixed;
-            top: 20%; right: 5%;
-            width: 400px; height: 550px;
-            background: rgba(0,0,0,0.9);
-            border: 2px solid #fff;
-            display: none;
-            z-index: 10000;
-            padding: 15px;
-            overflow-y: auto;
-        }
-
-        .decor-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .decor-thumb { width: 100%; cursor: pointer; border: 1px solid transparent; }
-        .decor-thumb:hover { border-color: #e0ff00; }
     </style>
 </head>
 <body>
@@ -297,158 +121,193 @@
 </header>
 
 <div class="nav-container">
-    <div class="top-tab" id="roomsTab">
-        <img src="Assets/pulltab.png">
-        <div class="top-tab-text">ROOMS</div>
-    </div>
-    <div class="top-tab" id="catalogTab">
-        <img src="Assets/pulltab.png">
-        <div class="top-tab-text">FURNITURE<br>CATALOG</div>
-    </div>
-    <div class="top-tab" id="decorTab">
-        <img src="Assets/pulltab.png">
-        <div class="top-tab-text">DECOR<br>CLOSET</div>
-    </div>
-    <div class="top-tab" id="galleryTab">
-        <img src="Assets/pulltab.png">
-        <div class="top-tab-text">GALLERY</div>
-    </div>
-    <div class="top-tab" id="saveTab">
-        <img src="Assets/pulltab.png">
-        <div class="top-tab-text">SAVE/<br>CHECKOUT</div>
-        <div id="receipt-container">
-            <div id="receiptLines"></div>
-            <hr>
-            <div id="receiptTotal" style="text-align:right;">TOTAL: $0</div>
-        </div>
-    </div>
+    <div class="top-tab" id="roomsTab"><img src="Assets/pulltab.png"><div class="top-tab-text">ROOMS</div></div>
+    <div class="top-tab" id="catalogTab"><img src="Assets/pulltab.png"><div class="top-tab-text">FURNITURE<br>CATALOG</div></div>
+    <div class="top-tab" id="decorTab"><img src="Assets/pulltab.png"><div class="top-tab-text">DECOR<br>CLOSET</div></div>
+    <div class="top-tab" id="galleryTab"><img src="Assets/pulltab.png"><div class="top-tab-text">GALLERY</div></div>
+    <div class="top-tab" id="saveTab"><img src="Assets/pulltab.png"><div class="top-tab-text">SAVE/<br>CHECKOUT</div></div>
 </div>
 
 <div class="outer-wrapper">
     <div id="catalogOverlay">
-        <img src="Assets/furniturecatalog.png" id="catalogBook">
-        <div class="page left-page" id="catalogLeft"></div>
-        <div class="page right-page" id="catalogRight"></div>
+        <div class="catalog-container">
+            <button class="page-btn prev-btn" id="prevCatPage">◀</button>
+            <button class="page-btn next-btn" id="nextCatPage">▶</button>
+            <img src="Assets/furniturecatalog.png" id="catalogBook">
+            
+            <div class="side-tabs">
+                <div class="side-tab" data-idx="0">Seating</div>
+                <div class="side-tab" data-idx="1">Storage</div>
+                <div class="side-tab" data-idx="2">Tables</div>
+                <div class="side-tab" data-idx="3">Beds</div>
+            </div>
+
+            <div class="page left-page"><div class="catalog-header" id="leftHeader">SEATING</div><div class="catalog-grid" id="catalogLeft"></div></div>
+            <div class="page right-page"><div class="catalog-header" id="rightHeader">SEATING</div><div class="catalog-grid" id="catalogRight"></div></div>
+        </div>
     </div>
 
     <div class="workspace-wrapper" id="cabinetView">
         <div id="rooms-cabinet">
-            <img src="Assets/rooms_cabinet.png" class="cabinet-img" style="width:100%;">
+            <img src="Assets/rooms_cabinet.png" style="width:100%; height:100%;">
             <div class="drawer-zone zone-living" data-room="living"></div>
-            <div class="drawer-zone zone-dining" data-room="dining"></div>
             <div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
+            <div class="drawer-zone zone-dining" data-room="dining"></div>
             <div class="drawer-zone zone-spare" data-room="spare"></div>
-            <div class="drawer-zone zone-upload" id="uploadDrawer"></div>
         </div>
-        <div id="work-area">
-            <div id="placedItemsLayer"></div>
-            <div id="itemGizmo">
-                <div class="gizmo-handle handle-rotate" data-gizmo="rotate"></div>
-                <div class="gizmo-handle handle-scale" data-gizmo="scale"></div>
-                <div class="gizmo-handle handle-flip" data-gizmo="flip"></div>
-            </div>
-        </div>
+        <div id="work-area"><div id="placedItemsLayer"></div><div id="itemGizmo"><div class="gizmo-handle handle-rotate" data-gizmo="rotate"></div><div class="gizmo-handle handle-scale" data-gizmo="scale"></div><div class="gizmo-handle handle-flip" data-gizmo="flip"></div></div></div>
     </div>
-</div>
-
-<div id="decor-popup">
-    <h3 style="text-align:center; color:#e0ff00;">DECOR CLOSET</h3>
-    <div class="decor-grid" id="decorGrid"></div>
 </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const roomImages = {
-            living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg"],
-            dining: ["Assets/ROOMS_dining1.jpg", "Assets/ROOMS_dining2.jpg"],
-            bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg"],
-            spare: ["Assets/ROOMS_office1.jpg", "Assets/ROOMS_kitchen1.jpg", "Assets/ROOMS_bathroom1.jpg"]
-        };
-
-        const catalogAssets = [
-            "Assets/seating_couch1.png", "Assets/seating_couch2.png", "Assets/seating_couch3.png", 
-            "Assets/seating_couch4.png", "Assets/seating_couch5.png", "Assets/seating_couch6.png",
-            "Assets/seating_armchair1.png", "Assets/seating_armchair2.png", "Assets/seating_armchair3.png", 
-            "Assets/seating_armchair4.png", "Assets/seating_armchair5.png", "Assets/seating_armchair6.png"
+        // FULL ASSET DATA COMPILED FROM YOUR FILENAMES
+        const catalogData = [
+            { 
+                category: "SEATING", 
+                assets: [
+                    "Assets/seating_couch1.png", "Assets/seating_couch2.png", "Assets/seating_couch3.png", "Assets/seating_couch4.png", 
+                    "Assets/seating_couch5.png", "Assets/seating_couch6.png", "Assets/seating_couch7.png", "Assets/seating_couch8.png", 
+                    "Assets/seating_couch9.png", "Assets/seating_couch10.png", "Assets/seating_couch11.png", "Assets/seating_couch12.png",
+                    "Assets/seating_armchair1.png", "Assets/seating_armchair2.png", "Assets/seating_armchair3.png", "Assets/seating_armchair4.png", 
+                    "Assets/seating_armchair5.png", "Assets/seating_armchair6.png", "Assets/seating_armchair7.png", "Assets/seating_armchair8.png", 
+                    "Assets/seating_armchair9.png", "Assets/seating_armchair10.png", "Assets/seating_armchair11.png", "Assets/seating_armchair12.png",
+                    "Assets/seating_barstool1.png", "Assets/seating_barstool2.png", "Assets/seating_barstool3.png", "Assets/seating_barstool4.png", 
+                    "Assets/seating_barstool5.png", "Assets/seating_barstool6.png", "Assets/seating_barstool7.png", "Assets/seating_barstool8.png", 
+                    "Assets/seating_barstool9.png", "Assets/seating_barstool10.png", "Assets/seating_barstool11.png", "Assets/seating_barstool12.png",
+                    "Assets/seating_bench1.png", "Assets/seating_bench2.png", "Assets/seating_bench3.png", "Assets/seating_bench4.png", 
+                    "Assets/seating_bench5.png", "Assets/seating_bench6.png", "Assets/seating_bench7.png", "Assets/seating_bench8.png", 
+                    "Assets/seating_bench9.png", "Assets/seating_bench10.png", "Assets/seating_bench11.png", "Assets/seating_bench12.png",
+                    "Assets/seating_dining1.png", "Assets/seating_dining2.png", "Assets/seating_dining3.png", "Assets/seating_dining4.png", 
+                    "Assets/seating_dining5.png", "Assets/seating_dining6.png", "Assets/seating_dining7.png", "Assets/seating_dining8.png", 
+                    "Assets/seating_dining9.png", "Assets/seating_dining10.png", "Assets/seating_dining11.png", "Assets/seating_dining12.png",
+                    "Assets/seating_ottoman1.png", "Assets/seating_ottoman2.png", "Assets/seating_ottoman3.png", "Assets/seating_ottoman4.png", 
+                    "Assets/seating_ottoman5.png", "Assets/seating_ottoman6.png", "Assets/seating_ottoman7.png", "Assets/seating_ottoman8.png", 
+                    "Assets/seating_ottoman9.png", "Assets/seating_ottoman10.png", "Assets/seating_ottoman11.png", "Assets/seating_ottoman12.png"
+                ] 
+            },
+            { 
+                category: "STORAGE", 
+                assets: [
+                    "Assets/storage_cabinet1.png", "Assets/storage_cabinet2.png", "Assets/storage_cabinet3.png", "Assets/storage_cabinet4.png", 
+                    "Assets/storage_cabinet5.png", "Assets/storage_cabinet6.png", "Assets/storage_cabinet7.png", "Assets/storage_cabinet8.png", 
+                    "Assets/storage_cabinet9.png", "Assets/storage_cabinet10.png", "Assets/storage_cabinet11.png", "Assets/storage_cabinet12.png",
+                    "Assets/storage_dresser1.png", "Assets/storage_dresser2.png", "Assets/storage_dresser3.png", "Assets/storage_dresser4.png", 
+                    "Assets/storage_dresser5.png", "Assets/storage_dresser6.png", "Assets/storage_dresser7.png", "Assets/storage_dresser8.png",
+                    "Assets/storage_shelf1.png", "Assets/storage_shelf2.png", "Assets/storage_shelf3.png", "Assets/storage_shelf4.png", 
+                    "Assets/storage_shelf5.png", "Assets/storage_shelf6.png", "Assets/storage_shelf7.png",
+                    "Assets/storage_sideboard1.png", "Assets/storage_sideboard2.png", "Assets/storage_sideboard3.png", "Assets/storage_sideboard4.png", 
+                    "Assets/storage_sideboard5.png", "Assets/storage_sideboard6.png", "Assets/storage_sideboard7.png", "Assets/storage_sideboard8.png", 
+                    "Assets/storage_sideboard9.png", "Assets/storage_sideboard10.png", "Assets/storage_sideboard11.png", "Assets/storage_sideboard12.png",
+                    "Assets/storage_vanity1.png", "Assets/storage_vanity2.png"
+                ] 
+            },
+            { 
+                category: "TABLES", 
+                assets: [
+                    "Assets/tables_sofa1.png", "Assets/tables_sofa2.png", "Assets/tables_sofa3.png", "Assets/tables_sofa4.png", "Assets/tables_sofa5.png",
+                    "Assets/tables_coffee1.png", "Assets/tables_coffee2.png", "Assets/tables_coffee3.png", "Assets/tables_coffee4.png", "Assets/tables_coffee5.png", "Assets/tables_coffee6.png",
+                    "Assets/tables_end1.png", "Assets/tables_end2.png", "Assets/tables_end3.png", "Assets/tables_end4.png", "Assets/tables_end5.png", 
+                    "Assets/tables_end6.png", "Assets/tables_end7.png", "Assets/tables_end8.png", "Assets/tables_end9.png", "Assets/tables_end10.png",
+                    "Assets/tables_dining1.png", "Assets/tables_dining2.png"
+                ] 
+            },
+            { 
+                category: "BEDS", 
+                assets: [
+                    "Assets/bed_1.png", "Assets/bed_2.png", "Assets/bed_3.png", "Assets/bed_4.png", "Assets/bed_5.png", "Assets/bed_6.png",
+                    "Assets/bed_7.png", "Assets/bed_8.png", "Assets/bed_9.png", "Assets/bed_10.png", "Assets/bed_11.png", "Assets/bed_12.png"
+                ] 
+            }
         ];
 
-        const decorItems = [
-            { id: "decor-pillow-1", name: "Pillow 1", src: "Assets/decor_pillow1.png", price: 49 },
-            { id: "decor-pillow-2", name: "Pillow 2", src: "Assets/decor_pillow2.png", price: 52 },
-            { id: "decor-pillow-3", name: "Pillow 3", src: "Assets/decor_pillow3.png", price: 55 }
-        ];
-
-        const workArea = document.getElementById("work-area");
-        const cabinet = document.getElementById("rooms-cabinet");
+        let currentCategoryIndex = 0;
+        let subPageIndex = 0; 
         const catalog = document.getElementById("catalogOverlay");
-        const receipt = document.getElementById("receipt-container");
-        const itemGizmo = document.getElementById("itemGizmo");
         const placedLayer = document.getElementById("placedItemsLayer");
+        const itemGizmo = document.getElementById("itemGizmo");
         let selectedItem = null;
-        let roomChosen = false;
-        const estimate = new Map();
-        let roomIndices = { living: 0, dining: 0, bedroom: 0, spare: 0 };
 
         function renderCatalog() {
-            const left = document.getElementById("catalogLeft");
-            const right = document.getElementById("catalogRight");
-            left.innerHTML = ""; right.innerHTML = "";
-            catalogAssets.forEach((src, index) => {
-                const img = document.createElement("img");
-                img.src = src;
-                img.className = "catalog-item";
-                img.onclick = (e) => {
-                    e.stopPropagation();
-                    placeInRoom({ src, name: "Furniture Item", price: 250, id: src });
-                };
-                if (index < 6) left.appendChild(img);
-                else if (index < 12) right.appendChild(img);
+            const data = catalogData[currentCategoryIndex];
+            document.getElementById("leftHeader").innerText = data.category;
+            document.getElementById("rightHeader").innerText = data.category;
+            
+            const leftGrid = document.getElementById("catalogLeft");
+            const rightGrid = document.getElementById("catalogRight");
+            leftGrid.innerHTML = ""; rightGrid.innerHTML = "";
+
+            if (data.assets.length === 0) {
+                leftGrid.innerHTML = "<div style='grid-column: span 2; text-align:center; padding-top:50px;'>COMING SOON</div>";
+            } else {
+                const start = subPageIndex * 12;
+                const pageAssets = data.assets.slice(start, start + 12);
+                
+                pageAssets.forEach((src, idx) => {
+                    const img = document.createElement("img");
+                    img.src = src; img.className = "catalog-item";
+                    img.onclick = () => placeInRoom(src);
+                    if (idx < 6) leftGrid.appendChild(img);
+                    else rightGrid.appendChild(img);
+                });
+            }
+
+            document.querySelectorAll(".side-tab").forEach((tab, idx) => {
+                tab.classList.toggle("active", idx === currentCategoryIndex);
             });
         }
 
-        function renderDecor() {
-            const grid = document.getElementById("decorGrid");
-            grid.innerHTML = "";
-            decorItems.forEach(item => {
-                const img = document.createElement("img");
-                img.src = item.src;
-                img.className = "decor-thumb";
-                img.onclick = () => placeInRoom(item);
-                grid.appendChild(img);
-            });
-        }
+        document.getElementById("nextCatPage").onclick = () => {
+            const totalSubPages = Math.ceil(catalogData[currentCategoryIndex].assets.length / 12);
+            if (subPageIndex < totalSubPages - 1) {
+                subPageIndex++;
+            } else if (currentCategoryIndex < catalogData.length - 1) {
+                currentCategoryIndex++;
+                subPageIndex = 0;
+            }
+            renderCatalog();
+        };
 
-        function placeInRoom(item) {
+        document.getElementById("prevCatPage").onclick = () => {
+            if (subPageIndex > 0) {
+                subPageIndex--;
+            } else if (currentCategoryIndex > 0) {
+                currentCategoryIndex--;
+                const totalSubPages = Math.ceil(catalogData[currentCategoryIndex].assets.length / 12);
+                subPageIndex = Math.max(0, totalSubPages - 1);
+            }
+            renderCatalog();
+        };
+
+        document.querySelectorAll(".side-tab").forEach(tab => {
+            tab.onclick = () => {
+                currentCategoryIndex = parseInt(tab.dataset.idx);
+                subPageIndex = 0;
+                renderCatalog();
+            };
+        });
+
+        function placeInRoom(src) {
             const piece = document.createElement("img");
-            piece.src = item.src;
-            piece.className = "placed-item";
-            piece.dataset.scale = "1";
-            piece.dataset.rotation = "0";
-            piece.dataset.flip = "1";
-            piece.style.left = "400px";
-            piece.style.top = "200px";
-
+            piece.src = src; piece.className = "placed-item";
+            piece.dataset.scale = "1"; piece.dataset.rotation = "0"; piece.dataset.flip = "1";
+            piece.style.left = "400px"; piece.style.top = "200px";
+            
             const shadow = document.createElement("div");
             shadow.className = "placed-shadow";
             piece._shadowEl = shadow;
 
             piece.onmousedown = (e) => { e.stopPropagation(); selectPiece(piece, e); };
-            piece.ondblclick = () => {
-                shadow.remove(); piece.remove();
-                updateEstimate(item, -1);
-                itemGizmo.classList.remove("show");
-            };
+            piece.ondblclick = () => { shadow.remove(); piece.remove(); itemGizmo.classList.remove("show"); };
 
             placedLayer.appendChild(shadow);
             placedLayer.appendChild(piece);
             updatePieceTransform(piece);
             selectPiece(piece);
-            updateEstimate(item, 1);
         }
 
         function selectPiece(piece, e) {
-            selectedItem = piece;
-            itemGizmo.classList.add("show");
+            selectedItem = piece; itemGizmo.classList.add("show");
             updateGizmoPosition();
             if (e) {
                 let startX = e.clientX - piece.offsetLeft;
@@ -456,100 +315,46 @@
                 document.onmousemove = (me) => {
                     piece.style.left = (me.clientX - startX) + "px";
                     piece.style.top = (me.clientY - startY) + "px";
-                    updatePieceTransform(piece);
-                    updateGizmoPosition();
+                    updatePieceTransform(piece); updateGizmoPosition();
                 };
                 document.onmouseup = () => document.onmousemove = null;
             }
         }
 
         function updatePieceTransform(piece) {
-            const scale = piece.dataset.scale, rot = piece.dataset.rotation, flip = piece.dataset.flip;
-            piece.style.transform = `rotate(${rot}deg) scale(${scale}) scaleX(${flip})`;
-            const shadow = piece._shadowEl, rect = piece.getBoundingClientRect();
-            shadow.style.width = (rect.width * 0.8) + "px";
-            shadow.style.height = "20px";
-            shadow.style.left = (piece.offsetLeft + (rect.width * 0.1)) + "px";
-            shadow.style.top = (piece.offsetTop + rect.height - 10) + "px";
+            const s = piece.dataset.scale, r = piece.dataset.rotation, f = piece.dataset.flip;
+            piece.style.transform = `rotate(${r}deg) scale(${s}) scaleX(${f})`;
+            const sh = piece._shadowEl, rect = piece.getBoundingClientRect();
+            sh.style.width = (rect.width * 0.8) + "px"; sh.style.height = "20px";
+            sh.style.left = (piece.offsetLeft + (rect.width * 0.1)) + "px";
+            sh.style.top = (piece.offsetTop + rect.height - 10) + "px";
         }
 
         function updateGizmoPosition() {
             if (!selectedItem) return;
-            const rect = selectedItem.getBoundingClientRect();
-            itemGizmo.style.width = rect.width + "px";
-            itemGizmo.style.height = rect.height + "px";
-            itemGizmo.style.left = (selectedItem.offsetLeft) + "px";
-            itemGizmo.style.top = (selectedItem.offsetTop) + "px";
+            const r = selectedItem.getBoundingClientRect();
+            itemGizmo.style.width = r.width + "px"; itemGizmo.style.height = r.height + "px";
+            itemGizmo.style.left = selectedItem.offsetLeft + "px"; itemGizmo.style.top = selectedItem.offsetTop + "px";
         }
-
-        function updateEstimate(item, change) {
-            const current = estimate.get(item.id) || { name: item.name, price: item.price, qty: 0 };
-            current.qty += change;
-            if (current.qty <= 0) estimate.delete(item.id);
-            else estimate.set(item.id, current);
-            renderReceipt();
-        }
-
-        function renderReceipt() {
-            const lines = document.getElementById("receiptLines");
-            lines.innerHTML = ""; let total = 0;
-            estimate.forEach(val => {
-                const sub = val.qty * val.price; total += sub;
-                lines.innerHTML += `<div class="receipt-row"><span>${val.name} x${val.qty}</span><span>$${sub}</span></div>`;
-            });
-            document.getElementById("receiptTotal").innerText = `TOTAL: $${total}`;
-        }
-
-        document.getElementById("roomsTab").onclick = () => {
-            cabinet.classList.toggle("show");
-            if(cabinet.classList.contains("show")) {
-                document.getElementById("cabinetView").scrollIntoView({ behavior: 'smooth' });
-            }
-        };
-
-        workArea.onclick = () => {
-            if (roomChosen) {
-                renderCatalog();
-                catalog.classList.add("show");
-                catalog.scrollIntoView({ behavior: 'smooth' });
-            }
-        };
 
         document.getElementById("catalogTab").onclick = () => { renderCatalog(); catalog.classList.toggle("show"); };
-        document.getElementById("decorTab").onclick = () => {
-            renderDecor();
-            const pop = document.getElementById("decor-popup");
-            pop.style.display = pop.style.display === "block" ? "none" : "block";
-        };
-        document.getElementById("saveTab").onclick = () => receipt.classList.toggle("roll");
+        document.getElementById("roomsTab").onclick = () => document.getElementById("rooms-cabinet").classList.toggle("show");
 
-        document.querySelectorAll(".drawer-zone").forEach(zone => {
-            zone.onclick = (e) => {
-                e.stopPropagation();
-                const roomKey = zone.dataset.room;
-                if (roomKey && roomImages[roomKey]) {
-                    const idx = roomIndices[roomKey];
-                    workArea.style.background = `url('${roomImages[roomKey][idx]}') center/cover no-repeat`;
-                    roomIndices[roomKey] = (idx + 1) % roomImages[roomKey].length;
-                    roomChosen = true;
-                }
+        document.querySelectorAll(".drawer-zone").forEach(z => {
+            z.onclick = () => {
+                const r = z.dataset.room;
+                document.getElementById("work-area").style.background = `url('Assets/ROOMS_${r}room1.jpg') center/cover`;
             };
         });
 
         itemGizmo.onmousedown = (e) => {
-            const handle = e.target.dataset.gizmo;
-            if (!handle) return;
-            e.stopPropagation();
-            if (handle === "flip") {
-                selectedItem.dataset.flip = selectedItem.dataset.flip === "1" ? "-1" : "1";
-                updatePieceTransform(selectedItem);
-                updateGizmoPosition();
-            } else {
-                document.onmousemove = (me) => {
-                    if (handle === "scale") selectedItem.dataset.scale = Math.max(0.3, parseFloat(selectedItem.dataset.scale) + (me.movementY * -0.01));
-                    else if (handle === "rotate") selectedItem.dataset.rotation = parseFloat(selectedItem.dataset.rotation) + me.movementX;
-                    updatePieceTransform(selectedItem);
-                    updateGizmoPosition();
+            const h = e.target.dataset.gizmo; if(!h) return; e.stopPropagation();
+            if(h === "flip") { selectedItem.dataset.flip *= -1; updatePieceTransform(selectedItem); }
+            else {
+                document.onmousemove = (m) => {
+                    if(h === "scale") selectedItem.dataset.scale = Math.max(0.3, parseFloat(selectedItem.dataset.scale) + (m.movementY * -0.01));
+                    else selectedItem.dataset.rotation = parseFloat(selectedItem.dataset.rotation) + m.movementX;
+                    updatePieceTransform(selectedItem); updateGizmoPosition();
                 };
                 document.onmouseup = () => document.onmousemove = null;
             }
