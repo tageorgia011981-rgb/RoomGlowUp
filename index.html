@@ -6,9 +6,16 @@
     <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
     <style>
-        html { overflow-y: scroll !important; scroll-behavior: smooth; }
+        html, body { 
+            overflow-x: hidden; 
+            overflow-y: auto !important; 
+            height: auto; 
+            min-height: 100%;
+            scroll-behavior: smooth; 
+        }
+        
         body {
-            margin: 0; padding: 0; width: 100%; min-height: 2500px; 
+            margin: 0; padding: 0; width: 100%;
             font-family: 'Limelight', cursive;
             background: 
                 url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
@@ -16,6 +23,7 @@
                 url('Assets/mainbackground_blue.jpg') center top no-repeat;
             background-size: 33% 100%, 33% 100%, 34% 100%;
             background-attachment: fixed; color: white;
+            padding-bottom: 100px;
         }
 
         header { text-align: center; padding: 50px 20px; }
@@ -44,15 +52,15 @@
             text-align: center; text-transform: uppercase; text-shadow: 2px 2px 3px black;
         }
 
-        .outer-wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 50px; }
+        .outer-wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 30px; }
         
         #catalogOverlay {
             position: relative; width: 1100px; max-height: 0; opacity: 0; 
-            overflow: hidden; visibility: hidden; transition: max-height 1s, opacity 1s; margin: 0 auto;
+            overflow: hidden; visibility: hidden; transition: max-height 0.8s ease-in-out, opacity 0.5s; margin: 0 auto;
         }
-        #catalogOverlay.show { max-height: 1200px; opacity: 1; visibility: visible; margin-bottom: 50px; }
+        #catalogOverlay.show { max-height: 1200px; opacity: 1; visibility: visible; margin-bottom: 30px; }
         
-        .catalog-container { position: relative; width: 1000px; margin-right: 100px; }
+        .catalog-container { position: relative; width: 1000px; margin: 0 auto; }
         #catalogBook { width: 1000px; display: block; }
 
         .side-tabs {
@@ -94,14 +102,46 @@
         .catalog-item { width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
         .catalog-item:hover { transform: scale(1.1); }
 
-        .workspace-wrapper { width: 1350px; display: flex; justify-content: center; gap: 40px; }
-        #rooms-cabinet { width: 440px; height: 640px; position: relative; transform: translateX(-50px); transition: 0.8s; opacity: 0; pointer-events: none; }
-        #rooms-cabinet.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
+        .workspace-wrapper { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            width: 100%; 
+            max-width: 1600px;
+            gap: 0;
+            transition: all 0.8s ease-in-out;
+        }
+
+        #rooms-cabinet { 
+            height: 650px; 
+            width: 0; 
+            overflow: hidden;
+            position: relative; 
+            transition: width 0.8s ease-in-out, opacity 0.6s ease-in-out, margin-right 0.8s ease-in-out; 
+            opacity: 0; 
+            pointer-events: none; 
+        }
+        #rooms-cabinet.show { 
+            width: 450px; 
+            opacity: 1; 
+            pointer-events: auto;
+            margin-right: 30px;
+        }
+        #rooms-cabinet img { height: 100%; width: auto; display: block; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)); }
 
         .drawer-zone { position: absolute; left: 5%; width: 90%; height: 16%; cursor: pointer; z-index: 5; }
         .zone-living { top: 2%; } .zone-bedroom { top: 21%; } .zone-dining { top: 41%; } .zone-spare { top: 61%; }
 
-        #work-area { width: 1000px; height: 650px; background: url('Assets/workstation.jpg') center/cover; box-shadow: 0 0 60px black; position: relative; overflow: hidden; border: 4px solid #333; }
+        #work-area { 
+            width: 1000px; 
+            height: 650px; 
+            background: url('Assets/workstation.jpg') center/cover; 
+            box-shadow: 0 0 60px black; 
+            position: relative; 
+            overflow: hidden; 
+            border: 4px solid #333; 
+            flex-shrink: 0;
+        }
         .placed-item { position: absolute; cursor: move; max-width: 250px; z-index: 100; }
         .placed-shadow { position: absolute; background: rgba(0,0,0,0.4); filter: blur(8px); border-radius: 50%; pointer-events: none; }
         
@@ -147,83 +187,68 @@
         </div>
     </div>
 
-    <div class="workspace-wrapper" id="cabinetView">
+    <div class="workspace-wrapper">
         <div id="rooms-cabinet">
-            <img src="Assets/rooms_cabinet.png" style="width:100%; height:100%;">
+            <img src="Assets/rooms_cabinet.png">
             <div class="drawer-zone zone-living" data-room="living"></div>
             <div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
             <div class="drawer-zone zone-dining" data-room="dining"></div>
             <div class="drawer-zone zone-spare" data-room="spare"></div>
         </div>
-        <div id="work-area"><div id="placedItemsLayer"></div><div id="itemGizmo"><div class="gizmo-handle handle-rotate" data-gizmo="rotate"></div><div class="gizmo-handle handle-scale" data-gizmo="scale"></div><div class="gizmo-handle handle-flip" data-gizmo="flip"></div></div></div>
+        
+        <div id="work-area">
+            <div id="placedItemsLayer"></div>
+            <div id="itemGizmo">
+                <div class="gizmo-handle handle-rotate" data-gizmo="rotate"></div>
+                <div class="gizmo-handle handle-scale" data-gizmo="scale"></div>
+                <div class="gizmo-handle handle-flip" data-gizmo="flip"></div>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // FULL ASSET DATA COMPILED FROM YOUR FILENAMES
         const catalogData = [
             { 
                 category: "SEATING", 
                 assets: [
-                    "Assets/seating_couch1.png", "Assets/seating_couch2.png", "Assets/seating_couch3.png", "Assets/seating_couch4.png", 
-                    "Assets/seating_couch5.png", "Assets/seating_couch6.png", "Assets/seating_couch7.png", "Assets/seating_couch8.png", 
-                    "Assets/seating_couch9.png", "Assets/seating_couch10.png", "Assets/seating_couch11.png", "Assets/seating_couch12.png",
-                    "Assets/seating_armchair1.png", "Assets/seating_armchair2.png", "Assets/seating_armchair3.png", "Assets/seating_armchair4.png", 
-                    "Assets/seating_armchair5.png", "Assets/seating_armchair6.png", "Assets/seating_armchair7.png", "Assets/seating_armchair8.png", 
-                    "Assets/seating_armchair9.png", "Assets/seating_armchair10.png", "Assets/seating_armchair11.png", "Assets/seating_armchair12.png",
-                    "Assets/seating_barstool1.png", "Assets/seating_barstool2.png", "Assets/seating_barstool3.png", "Assets/seating_barstool4.png", 
-                    "Assets/seating_barstool5.png", "Assets/seating_barstool6.png", "Assets/seating_barstool7.png", "Assets/seating_barstool8.png", 
-                    "Assets/seating_barstool9.png", "Assets/seating_barstool10.png", "Assets/seating_barstool11.png", "Assets/seating_barstool12.png",
-                    "Assets/seating_bench1.png", "Assets/seating_bench2.png", "Assets/seating_bench3.png", "Assets/seating_bench4.png", 
-                    "Assets/seating_bench5.png", "Assets/seating_bench6.png", "Assets/seating_bench7.png", "Assets/seating_bench8.png", 
-                    "Assets/seating_bench9.png", "Assets/seating_bench10.png", "Assets/seating_bench11.png", "Assets/seating_bench12.png",
-                    "Assets/seating_dining1.png", "Assets/seating_dining2.png", "Assets/seating_dining3.png", "Assets/seating_dining4.png", 
-                    "Assets/seating_dining5.png", "Assets/seating_dining6.png", "Assets/seating_dining7.png", "Assets/seating_dining8.png", 
-                    "Assets/seating_dining9.png", "Assets/seating_dining10.png", "Assets/seating_dining11.png", "Assets/seating_dining12.png",
-                    "Assets/seating_ottoman1.png", "Assets/seating_ottoman2.png", "Assets/seating_ottoman3.png", "Assets/seating_ottoman4.png", 
-                    "Assets/seating_ottoman5.png", "Assets/seating_ottoman6.png", "Assets/seating_ottoman7.png", "Assets/seating_ottoman8.png", 
-                    "Assets/seating_ottoman9.png", "Assets/seating_ottoman10.png", "Assets/seating_ottoman11.png", "Assets/seating_ottoman12.png"
+                    ...Array.from({length: 12}, (_, i) => `Assets/seating_couch${i+1}.png`),
+                    ...Array.from({length: 12}, (_, i) => `Assets/seating_armchair${i+1}.png`),
+                    ...Array.from({length: 12}, (_, i) => `Assets/seating_barstool${i+1}.png`),
+                    ...Array.from({length: 12}, (_, i) => `Assets/seating_bench${i+1}.png`),
+                    ...Array.from({length: 12}, (_, i) => `Assets/seating_dining${i+1}.png`),
+                    ...Array.from({length: 12}, (_, i) => `Assets/seating_ottoman${i+1}.png`)
                 ] 
             },
             { 
                 category: "STORAGE", 
                 assets: [
-                    "Assets/storage_cabinet1.png", "Assets/storage_cabinet2.png", "Assets/storage_cabinet3.png", "Assets/storage_cabinet4.png", 
-                    "Assets/storage_cabinet5.png", "Assets/storage_cabinet6.png", "Assets/storage_cabinet7.png", "Assets/storage_cabinet8.png", 
-                    "Assets/storage_cabinet9.png", "Assets/storage_cabinet10.png", "Assets/storage_cabinet11.png", "Assets/storage_cabinet12.png",
-                    "Assets/storage_dresser1.png", "Assets/storage_dresser2.png", "Assets/storage_dresser3.png", "Assets/storage_dresser4.png", 
-                    "Assets/storage_dresser5.png", "Assets/storage_dresser6.png", "Assets/storage_dresser7.png", "Assets/storage_dresser8.png",
-                    "Assets/storage_shelf1.png", "Assets/storage_shelf2.png", "Assets/storage_shelf3.png", "Assets/storage_shelf4.png", 
-                    "Assets/storage_shelf5.png", "Assets/storage_shelf6.png", "Assets/storage_shelf7.png",
-                    "Assets/storage_sideboard1.png", "Assets/storage_sideboard2.png", "Assets/storage_sideboard3.png", "Assets/storage_sideboard4.png", 
-                    "Assets/storage_sideboard5.png", "Assets/storage_sideboard6.png", "Assets/storage_sideboard7.png", "Assets/storage_sideboard8.png", 
-                    "Assets/storage_sideboard9.png", "Assets/storage_sideboard10.png", "Assets/storage_sideboard11.png", "Assets/storage_sideboard12.png",
+                    ...Array.from({length: 12}, (_, i) => `Assets/storage_cabinet${i+1}.png`),
+                    ...Array.from({length: 8}, (_, i) => `Assets/storage_dresser${i+1}.png`),
+                    ...Array.from({length: 7}, (_, i) => `Assets/storage_shelf${i+1}.png`),
+                    ...Array.from({length: 12}, (_, i) => `Assets/storage_sideboard${i+1}.png`),
                     "Assets/storage_vanity1.png", "Assets/storage_vanity2.png"
                 ] 
             },
             { 
                 category: "TABLES", 
                 assets: [
-                    "Assets/tables_sofa1.png", "Assets/tables_sofa2.png", "Assets/tables_sofa3.png", "Assets/tables_sofa4.png", "Assets/tables_sofa5.png",
-                    "Assets/tables_coffee1.png", "Assets/tables_coffee2.png", "Assets/tables_coffee3.png", "Assets/tables_coffee4.png", "Assets/tables_coffee5.png", "Assets/tables_coffee6.png",
-                    "Assets/tables_end1.png", "Assets/tables_end2.png", "Assets/tables_end3.png", "Assets/tables_end4.png", "Assets/tables_end5.png", 
-                    "Assets/tables_end6.png", "Assets/tables_end7.png", "Assets/tables_end8.png", "Assets/tables_end9.png", "Assets/tables_end10.png",
+                    ...Array.from({length: 5}, (_, i) => `Assets/tables_sofa${i+1}.png`),
+                    ...Array.from({length: 6}, (_, i) => `Assets/tables_coffee${i+1}.png`),
+                    ...Array.from({length: 10}, (_, i) => `Assets/tables_end${i+1}.png`),
                     "Assets/tables_dining1.png", "Assets/tables_dining2.png"
                 ] 
             },
             { 
                 category: "BEDS", 
-                assets: [
-                    "Assets/bed_1.png", "Assets/bed_2.png", "Assets/bed_3.png", "Assets/bed_4.png", "Assets/bed_5.png", "Assets/bed_6.png",
-                    "Assets/bed_7.png", "Assets/bed_8.png", "Assets/bed_9.png", "Assets/bed_10.png", "Assets/bed_11.png", "Assets/bed_12.png"
-                ] 
+                assets: Array.from({length: 12}, (_, i) => `Assets/bed_${i+1}.png`)
             }
         ];
 
         let currentCategoryIndex = 0;
         let subPageIndex = 0; 
-        const catalog = document.getElementById("catalogOverlay");
+        const catalogOverlay = document.getElementById("catalogOverlay");
         const placedLayer = document.getElementById("placedItemsLayer");
         const itemGizmo = document.getElementById("itemGizmo");
         let selectedItem = null;
@@ -232,50 +257,35 @@
             const data = catalogData[currentCategoryIndex];
             document.getElementById("leftHeader").innerText = data.category;
             document.getElementById("rightHeader").innerText = data.category;
-            
             const leftGrid = document.getElementById("catalogLeft");
             const rightGrid = document.getElementById("catalogRight");
             leftGrid.innerHTML = ""; rightGrid.innerHTML = "";
 
-            if (data.assets.length === 0) {
-                leftGrid.innerHTML = "<div style='grid-column: span 2; text-align:center; padding-top:50px;'>COMING SOON</div>";
-            } else {
-                const start = subPageIndex * 12;
-                const pageAssets = data.assets.slice(start, start + 12);
-                
-                pageAssets.forEach((src, idx) => {
-                    const img = document.createElement("img");
-                    img.src = src; img.className = "catalog-item";
-                    img.onclick = () => placeInRoom(src);
-                    if (idx < 6) leftGrid.appendChild(img);
-                    else rightGrid.appendChild(img);
-                });
-            }
+            const start = subPageIndex * 12;
+            const pageAssets = data.assets.slice(start, start + 12);
+            
+            pageAssets.forEach((src, idx) => {
+                const img = document.createElement("img");
+                img.src = src; img.className = "catalog-item";
+                img.onclick = () => placeInRoom(src);
+                if (idx < 6) leftGrid.appendChild(img);
+                else rightGrid.appendChild(img);
+            });
 
             document.querySelectorAll(".side-tab").forEach((tab, idx) => {
                 tab.classList.toggle("active", idx === currentCategoryIndex);
             });
         }
 
+        // NAVIGATION BUTTONS
         document.getElementById("nextCatPage").onclick = () => {
             const totalSubPages = Math.ceil(catalogData[currentCategoryIndex].assets.length / 12);
-            if (subPageIndex < totalSubPages - 1) {
-                subPageIndex++;
-            } else if (currentCategoryIndex < catalogData.length - 1) {
-                currentCategoryIndex++;
-                subPageIndex = 0;
-            }
+            if (subPageIndex < totalSubPages - 1) subPageIndex++;
             renderCatalog();
         };
 
         document.getElementById("prevCatPage").onclick = () => {
-            if (subPageIndex > 0) {
-                subPageIndex--;
-            } else if (currentCategoryIndex > 0) {
-                currentCategoryIndex--;
-                const totalSubPages = Math.ceil(catalogData[currentCategoryIndex].assets.length / 12);
-                subPageIndex = Math.max(0, totalSubPages - 1);
-            }
+            if (subPageIndex > 0) subPageIndex--;
             renderCatalog();
         };
 
@@ -287,19 +297,17 @@
             };
         });
 
+        // PIECE MANIPULATION
         function placeInRoom(src) {
             const piece = document.createElement("img");
             piece.src = src; piece.className = "placed-item";
             piece.dataset.scale = "1"; piece.dataset.rotation = "0"; piece.dataset.flip = "1";
             piece.style.left = "400px"; piece.style.top = "200px";
-            
             const shadow = document.createElement("div");
             shadow.className = "placed-shadow";
             piece._shadowEl = shadow;
-
             piece.onmousedown = (e) => { e.stopPropagation(); selectPiece(piece, e); };
             piece.ondblclick = () => { shadow.remove(); piece.remove(); itemGizmo.classList.remove("show"); };
-
             placedLayer.appendChild(shadow);
             placedLayer.appendChild(piece);
             updatePieceTransform(piece);
@@ -337,16 +345,32 @@
             itemGizmo.style.left = selectedItem.offsetLeft + "px"; itemGizmo.style.top = selectedItem.offsetTop + "px";
         }
 
-        document.getElementById("catalogTab").onclick = () => { renderCatalog(); catalog.classList.toggle("show"); };
-        document.getElementById("roomsTab").onclick = () => document.getElementById("rooms-cabinet").classList.toggle("show");
+        // TAB CLICKS
+        document.getElementById("catalogTab").onclick = () => { 
+            renderCatalog(); 
+            catalogOverlay.classList.toggle("show"); 
+        };
+        document.getElementById("roomsTab").onclick = () => {
+            document.getElementById("rooms-cabinet").classList.toggle("show");
+        };
 
+        // ROOM SELECTION -> AUTO-OPEN CATALOG
         document.querySelectorAll(".drawer-zone").forEach(z => {
             z.onclick = () => {
+                // 1. Change the Room
                 const r = z.dataset.room;
                 document.getElementById("work-area").style.background = `url('Assets/ROOMS_${r}room1.jpg') center/cover`;
+                
+                // 2. Open the Catalog automatically
+                renderCatalog();
+                catalogOverlay.classList.add("show");
+                
+                // Optional: Scroll back to top so catalog is clearly visible
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             };
         });
 
+        // GIZMO LOGIC
         itemGizmo.onmousedown = (e) => {
             const h = e.target.dataset.gizmo; if(!h) return; e.stopPropagation();
             if(h === "flip") { selectedItem.dataset.flip *= -1; updatePieceTransform(selectedItem); }
