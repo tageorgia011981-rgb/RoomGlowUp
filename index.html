@@ -171,15 +171,16 @@
 
         .drawer-zone {
             position: absolute;
-            left: 0; width: 100%; height: 20%;
+            left: 0; width: 100%; height: 18%;
             cursor: pointer;
+            z-index: 5;
         }
 
-        .zone-living { top: 0%; }
-        .zone-dining { top: 20%; }
-        .zone-bedroom { top: 40%; }
-        .zone-spare { top: 60%; }
-        .zone-upload { top: 80%; }
+        .zone-living { top: 2%; }
+        .zone-dining { top: 22%; }
+        .zone-bedroom { top: 42%; }
+        .zone-spare { top: 62%; }
+        .zone-upload { top: 82%; }
 
         #work-area {
             width: 1000px; height: 650px;
@@ -231,20 +232,23 @@
         .handle-rotate { top: -35px; left: 50%; transform: translateX(-50%); }
         .handle-flip { top: -12px; left: -12px; background: cyan; }
 
+        /* FIXED CATALOG GRID FOR 6 IMAGES PER PAGE */
         .page {
             position: absolute;
-            top: 10%; width: 38%; height: 80%;
+            top: 12%; 
+            width: 36%; 
+            height: 76%;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-template-rows: repeat(3, 1fr);
-            gap: 15px;
-            padding: 20px;
+            gap: 10px;
+            padding: 10px;
             box-sizing: border-box;
             z-index: 10;
             overflow: hidden;
         }
-        .left-page { left: 8%; }
-        .right-page { right: 8%; }
+        .left-page { left: 9%; }
+        .right-page { right: 9%; }
 
         .catalog-item {
             width: 100%; 
@@ -252,8 +256,10 @@
             object-fit: contain;
             cursor: pointer;
             transition: transform 0.2s;
+            display: block;
+            margin: auto;
         }
-        .catalog-item:hover { transform: scale(1.1); }
+        .catalog-item:hover { transform: scale(1.05); }
 
         #decor-popup {
             position: fixed;
@@ -348,22 +354,24 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const catalogConfig = {
-            seating: [
-                "Assets/seating_couch1.png", "Assets/seating_couch2.png", "Assets/seating_couch3.png", 
-                "Assets/seating_couch4.png", "Assets/seating_couch5.png", "Assets/seating_couch6.png",
-                "Assets/seating_armchair1.png", "Assets/seating_armchair2.png", "Assets/seating_armchair3.png", 
-                "Assets/seating_armchair4.png", "Assets/seating_armchair5.png", "Assets/seating_armchair6.png"
-            ]
+        const roomImages = {
+            living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg"],
+            dining: ["Assets/ROOMS_dining1.jpg", "Assets/ROOMS_dining2.jpg"],
+            bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg"],
+            spare: ["Assets/ROOMS_spare1.jpg", "Assets/ROOMS_spare2.jpg"]
         };
+
+        const catalogAssets = [
+            "Assets/seating_couch1.png", "Assets/seating_couch2.png", "Assets/seating_couch3.png", 
+            "Assets/seating_couch4.png", "Assets/seating_couch5.png", "Assets/seating_couch6.png",
+            "Assets/seating_armchair1.png", "Assets/seating_armchair2.png", "Assets/seating_armchair3.png", 
+            "Assets/seating_armchair4.png", "Assets/seating_armchair5.png", "Assets/seating_armchair6.png"
+        ];
 
         const decorItems = [
             { id: "decor-pillow-1", name: "Pillow 1", src: "Assets/decor_pillow1.png", price: 49 },
             { id: "decor-pillow-2", name: "Pillow 2", src: "Assets/decor_pillow2.png", price: 52 },
-            { id: "decor-pillow-3", name: "Pillow 3", src: "Assets/decor_pillow3.png", price: 55 },
-            { id: "decor-pillow-4", name: "Pillow 4", src: "Assets/decor_pillow4.png", price: 58 },
-            { id: "decor-pillow-5", name: "Pillow 5", src: "Assets/decor_pillow5.png", price: 61 },
-            { id: "decor-pillow-6", name: "Pillow 6", src: "Assets/decor_pillow6.png", price: 64 }
+            { id: "decor-pillow-3", name: "Pillow 3", src: "Assets/decor_pillow3.png", price: 55 }
         ];
 
         const workArea = document.getElementById("work-area");
@@ -373,15 +381,15 @@
         const itemGizmo = document.getElementById("itemGizmo");
         const placedLayer = document.getElementById("placedItemsLayer");
         let selectedItem = null;
+        let roomChosen = false;
         const estimate = new Map();
+        let roomIndices = { living: 0, dining: 0, bedroom: 0, spare: 0 };
 
         function renderCatalog() {
             const left = document.getElementById("catalogLeft");
             const right = document.getElementById("catalogRight");
-            left.innerHTML = "";
-            right.innerHTML = "";
-            
-            catalogConfig.seating.forEach((src, index) => {
+            left.innerHTML = ""; right.innerHTML = "";
+            catalogAssets.forEach((src, index) => {
                 const img = document.createElement("img");
                 img.src = src;
                 img.className = "catalog-item";
@@ -389,7 +397,6 @@
                     e.stopPropagation();
                     placeInRoom({ src, name: "Furniture Item", price: 250, id: src });
                 };
-                
                 if (index < 6) left.appendChild(img);
                 else if (index < 12) right.appendChild(img);
             });
@@ -421,14 +428,9 @@
             shadow.className = "placed-shadow";
             piece._shadowEl = shadow;
 
-            piece.onmousedown = (e) => {
-                e.stopPropagation();
-                selectPiece(piece, e);
-            };
-            
+            piece.onmousedown = (e) => { e.stopPropagation(); selectPiece(piece, e); };
             piece.ondblclick = () => {
-                shadow.remove();
-                piece.remove();
+                shadow.remove(); piece.remove();
                 updateEstimate(item, -1);
                 itemGizmo.classList.remove("show");
             };
@@ -444,31 +446,23 @@
             selectedItem = piece;
             itemGizmo.classList.add("show");
             updateGizmoPosition();
-            
             if (e) {
                 let startX = e.clientX - piece.offsetLeft;
                 let startY = e.clientY - piece.offsetTop;
-                
-                function move(me) {
+                document.onmousemove = (me) => {
                     piece.style.left = (me.clientX - startX) + "px";
                     piece.style.top = (me.clientY - startY) + "px";
                     updatePieceTransform(piece);
                     updateGizmoPosition();
-                }
-                
-                document.onmousemove = move;
+                };
                 document.onmouseup = () => document.onmousemove = null;
             }
         }
 
         function updatePieceTransform(piece) {
-            const scale = piece.dataset.scale;
-            const rot = piece.dataset.rotation;
-            const flip = piece.dataset.flip;
+            const scale = piece.dataset.scale, rot = piece.dataset.rotation, flip = piece.dataset.flip;
             piece.style.transform = `rotate(${rot}deg) scale(${scale}) scaleX(${flip})`;
-            
-            const shadow = piece._shadowEl;
-            const rect = piece.getBoundingClientRect();
+            const shadow = piece._shadowEl, rect = piece.getBoundingClientRect();
             shadow.style.width = (rect.width * 0.8) + "px";
             shadow.style.height = "20px";
             shadow.style.left = (piece.offsetLeft + (rect.width * 0.1)) + "px";
@@ -494,11 +488,9 @@
 
         function renderReceipt() {
             const lines = document.getElementById("receiptLines");
-            lines.innerHTML = "";
-            let total = 0;
+            lines.innerHTML = ""; let total = 0;
             estimate.forEach(val => {
-                const sub = val.qty * val.price;
-                total += sub;
+                const sub = val.qty * val.price; total += sub;
                 lines.innerHTML += `<div class="receipt-row"><span>${val.name} x${val.qty}</span><span>$${sub}</span></div>`;
             });
             document.getElementById("receiptTotal").innerText = `TOTAL: $${total}`;
@@ -512,57 +504,20 @@
         };
 
         workArea.onclick = () => {
-            renderCatalog();
-            catalog.classList.add("show");
-            catalog.scrollIntoView({ behavior: 'smooth' });
+            if (roomChosen) {
+                renderCatalog();
+                catalog.classList.add("show");
+                catalog.scrollIntoView({ behavior: 'smooth' });
+            }
         };
 
-        document.getElementById("catalogTab").onclick = () => {
-            renderCatalog();
-            catalog.classList.toggle("show");
-        };
-
+        document.getElementById("catalogTab").onclick = () => { renderCatalog(); catalog.classList.toggle("show"); };
         document.getElementById("decorTab").onclick = () => {
             renderDecor();
             const pop = document.getElementById("decor-popup");
             pop.style.display = pop.style.display === "block" ? "none" : "block";
         };
-
         document.getElementById("saveTab").onclick = () => receipt.classList.toggle("roll");
-
-        itemGizmo.onmousedown = (e) => {
-            const handle = e.target.dataset.gizmo;
-            if (!handle) return;
-            e.stopPropagation();
-
-            function handleMove(me) {
-                if (handle === "scale") {
-                    selectedItem.dataset.scale = Math.max(0.3, parseFloat(selectedItem.dataset.scale) + (me.movementY * -0.01));
-                } else if (handle === "rotate") {
-                    selectedItem.dataset.rotation = parseFloat(selectedItem.dataset.rotation) + me.movementX;
-                }
-                updatePieceTransform(selectedItem);
-                updateGizmoPosition();
-            }
-
-            if (handle === "flip") {
-                selectedItem.dataset.flip = selectedItem.dataset.flip === "1" ? "-1" : "1";
-                updatePieceTransform(selectedItem);
-                updateGizmoPosition();
-            } else {
-                document.onmousemove = handleMove;
-                document.onmouseup = () => document.onmousemove = null;
-            }
-        };
-
-        const roomImages = {
-            living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg"],
-            bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg"],
-            dining: ["Assets/ROOMS_dining1.jpg"],
-            spare: ["Assets/ROOMS_spare1.jpg"]
-        };
-
-        let roomIndices = { living: 0, bedroom: 0, dining: 0, spare: 0 };
 
         document.querySelectorAll(".drawer-zone").forEach(zone => {
             zone.onclick = (e) => {
@@ -572,9 +527,29 @@
                     const idx = roomIndices[room];
                     workArea.style.background = `url('${roomImages[room][idx]}') center/cover no-repeat`;
                     roomIndices[room] = (idx + 1) % roomImages[room].length;
+                    roomChosen = true;
                 }
             };
         });
+
+        itemGizmo.onmousedown = (e) => {
+            const handle = e.target.dataset.gizmo;
+            if (!handle) return;
+            e.stopPropagation();
+            if (handle === "flip") {
+                selectedItem.dataset.flip = selectedItem.dataset.flip === "1" ? "-1" : "1";
+                updatePieceTransform(selectedItem);
+                updateGizmoPosition();
+            } else {
+                document.onmousemove = (me) => {
+                    if (handle === "scale") selectedItem.dataset.scale = Math.max(0.3, parseFloat(selectedItem.dataset.scale) + (me.movementY * -0.01));
+                    else if (handle === "rotate") selectedItem.dataset.rotation = parseFloat(selectedItem.dataset.rotation) + me.movementX;
+                    updatePieceTransform(selectedItem);
+                    updateGizmoPosition();
+                };
+                document.onmouseup = () => document.onmousemove = null;
+            }
+        };
     });
 </script>
 </body>
