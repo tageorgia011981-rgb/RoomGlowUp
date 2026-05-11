@@ -26,7 +26,7 @@
             padding-bottom: 300px; 
         }
 
-        header { text-align: center; padding: 50px 20px; }
+        header { text-align: center; padding: 20px 20px 10px 20px; } /* Tightened header padding */
         h1 {
             font-family: 'Limelight', cursive;
             font-size: 110px; margin: 0; line-height: 1; text-transform: uppercase;
@@ -37,14 +37,15 @@
         }
         h2 {
             font-family: 'Limelight', cursive;
-            font-size: 34px; margin-top: 15px;
+            font-size: 34px; margin-top: 10px;
             background: linear-gradient(to bottom, #ffffff 0%, #a1a1a1 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             filter: drop-shadow(3px 3px 0px rgba(0,0,0,1));
             letter-spacing: 1px;
         }
 
-        .nav-container { display: flex; justify-content: center; gap: 15px; margin-top: 20px; position: relative; z-index: 9999; }
+        /* Tabs moved higher up */
+        .nav-container { display: flex; justify-content: center; gap: 15px; margin-top: -15px; position: relative; z-index: 9999; }
         .top-tab { position: relative; width: 165px; height: 120px; cursor: pointer; transition: transform 0.4s; }
         .top-tab:hover { transform: translateY(18px); }
         .top-tab img { width: 100%; height: auto; display: block; pointer-events: none; }
@@ -54,7 +55,7 @@
             text-align: center; text-transform: uppercase; text-shadow: 2px 2px 3px black;
         }
 
-        .outer-wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 30px; }
+        .outer-wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 20px; }
         
         #catalogOverlay {
             position: relative; width: 1100px; max-height: 0; opacity: 0; 
@@ -109,7 +110,7 @@
 
         .workspace-wrapper { 
             display: flex; flex-direction: row; justify-content: center; align-items: center; 
-            width: 100%; margin-top: 400px; transition: all 0.8s ease-in-out; gap: 0;
+            width: 100%; margin-top: 300px; transition: all 0.8s ease-in-out; gap: 0;
         }
 
         #rooms-cabinet { 
@@ -120,6 +121,14 @@
         #rooms-cabinet.show { width: 450px; opacity: 1; pointer-events: auto; }
         #rooms-cabinet img { height: 100%; width: auto; display: block; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)); }
 
+        /* REVISED DRAWER HITBOXES - Shifted Down */
+        .drawer-zone { position: absolute; left: 10%; width: 80%; height: 11%; cursor: pointer; z-index: 5; }
+        .zone-living { top: 9%; } 
+        .zone-bedroom { top: 21%; } 
+        .zone-dining { top: 34%; } 
+        .zone-spare { top: 46%; }
+        .zone-upload { top: 58%; }
+
         #work-area { 
             width: 1000px; height: 650px; background: url('Assets/workstation.jpg') center/cover; 
             box-shadow: 0 0 60px black; position: relative; overflow: hidden; 
@@ -127,13 +136,6 @@
         }
         #rooms-cabinet.show + #work-area { margin-left: 30px; }
 
-        .drawer-zone { position: absolute; left: 5%; width: 90%; height: 13%; cursor: pointer; z-index: 5; }
-        .zone-living { top: 2%; } 
-        .zone-dining { top: 16%; } 
-        .zone-bedroom { top: 31%; } 
-        .zone-spare { top: 46%; }
-        .zone-upload { top: 61%; }
-        
         .placed-item { position: absolute; cursor: move; max-width: 250px; z-index: 100; }
         .placed-shadow { position: absolute; background: rgba(0,0,0,0.4); filter: blur(8px); border-radius: 50%; pointer-events: none; }
         
@@ -183,8 +185,8 @@
         <div id="rooms-cabinet">
             <img src="Assets/rooms_cabinet.png">
             <div class="drawer-zone zone-living" data-room="living"></div>
-            <div class="drawer-zone zone-dining" data-room="dining"></div>
             <div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
+            <div class="drawer-zone zone-dining" data-room="dining"></div>
             <div class="drawer-zone zone-spare" data-room="spare"></div>
             <div class="drawer-zone zone-upload" data-room="upload"></div>
         </div>
@@ -200,7 +202,6 @@
     </div>
 </div>
 
-<!-- Hidden File Input for Upload Drawer -->
 <input type="file" id="roomUploader" accept="image/*" style="display:none;">
 
 <script>
@@ -310,7 +311,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("catalogTab").onclick = () => { 
         renderCatalog(); 
         catalogOverlay.classList.toggle("show"); 
-        if(catalogOverlay.classList.contains("show")) window.scrollTo({ top: 0, behavior: 'smooth' });
+        if(catalogOverlay.classList.contains("show")) catalogOverlay.scrollIntoView({ behavior: 'smooth' });
     };
 
     document.getElementById("roomsTab").onclick = () => {
@@ -319,7 +320,6 @@ document.addEventListener("DOMContentLoaded", function() {
         if(cab.classList.contains("show")) document.getElementById("mainWorkspace").scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
 
-    // --- REVISED ROOM CABINET LOGIC ---
     const roomImages = {
         living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg", "Assets/ROOMS_livingroom3.jpg", "Assets/ROOMS_livingroom4.jpg"],
         bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg", "Assets/ROOMS_bedroom3.jpg"],
@@ -327,21 +327,17 @@ document.addEventListener("DOMContentLoaded", function() {
         spare: ["Assets/ROOMS_office.jpg", "Assets/ROOMS_bathroom1.jpg", "Assets/ROOMS_kitchen1.jpg"]
     };
     const roomIndices = { living: 0, bedroom: 0, dining: 0, spare: 0 };
-    let currentRoomType = null;
 
     document.querySelectorAll(".drawer-zone").forEach(zone => {
         zone.onclick = () => {
             const type = zone.dataset.room;
             const workArea = document.getElementById("work-area");
-
             if (type === "upload") {
                 roomUploader.click();
             } else {
-                currentRoomType = type;
                 const imgs = roomImages[type];
-                const newRoom = imgs[roomIndices[type]];
+                workArea.style.background = `url('${imgs[roomIndices[type]]}') center/cover no-repeat`;
                 roomIndices[type] = (roomIndices[type] + 1) % imgs.length;
-                workArea.style.background = `url('${newRoom}') center/cover no-repeat`;
             }
         };
     });
@@ -357,14 +353,15 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     };
 
+    /* UPDATED SCROLL LOGIC: Scroll to catalog while it opens */
     document.getElementById("work-area").onclick = () => {
         const cab = document.getElementById("rooms-cabinet");
         cab.classList.remove("show");
-        setTimeout(() => {
-            catalogOverlay.classList.add("show");
-            renderCatalog();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 700);
+        
+        // Simultanously show catalog and scroll to it
+        catalogOverlay.classList.add("show");
+        renderCatalog();
+        catalogOverlay.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
     itemGizmo.onmousedown = (e) => {
