@@ -120,13 +120,13 @@
         #rooms-cabinet.show { width: 450px; opacity: 1; pointer-events: auto; }
         #rooms-cabinet img { height: 100%; width: auto; display: block; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)); }
 
-        /* RECALIBRATED DRAWER HITBOXES - Shifted Down Further to prevent overlaps */
-        .drawer-zone { position: absolute; left: 10%; width: 80%; height: 10%; cursor: pointer; z-index: 5; }
-        .zone-living { top: 12%; } 
-        .zone-bedroom { top: 25%; } 
-        .zone-dining { top: 38%; } 
-        .zone-spare { top: 51%; }
-        .zone-upload { top: 64%; }
+        /* PRECISE DRAWER CALIBRATION BASED ON USER IMAGE */
+        .drawer-zone { position: absolute; left: 15%; width: 70%; height: 12%; cursor: pointer; z-index: 5; }
+        .zone-living { top: 7%; }    /* Drawer No. 1 */
+        .zone-dining { top: 24%; }   /* Drawer No. 2 */
+        .zone-bedroom { top: 41%; }  /* Drawer No. 3 */
+        .zone-spare { top: 58%; }    /* Drawer No. 4 */
+        .zone-upload { top: 75%; }   /* Drawer No. 5 */
 
         #work-area { 
             width: 1000px; height: 650px; background: url('Assets/workstation.jpg') center/cover; 
@@ -184,8 +184,8 @@
         <div id="rooms-cabinet">
             <img src="Assets/rooms_cabinet.png">
             <div class="drawer-zone zone-living" data-room="living"></div>
-            <div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
             <div class="drawer-zone zone-dining" data-room="dining"></div>
+            <div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
             <div class="drawer-zone zone-spare" data-room="spare"></div>
             <div class="drawer-zone zone-upload" data-room="upload"></div>
         </div>
@@ -328,7 +328,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const roomIndices = { living: 0, bedroom: 0, dining: 0, spare: 0 };
 
     document.querySelectorAll(".drawer-zone").forEach(zone => {
-        zone.onclick = () => {
+        zone.onclick = (e) => {
+            e.stopPropagation(); // Stop from clicking through to the work area
             const type = zone.dataset.room;
             const workArea = document.getElementById("work-area");
             if (type === "upload") {
