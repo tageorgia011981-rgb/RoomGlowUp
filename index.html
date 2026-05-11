@@ -26,7 +26,7 @@
             padding-bottom: 300px; 
         }
 
-        header { text-align: center; padding: 20px 20px 10px 20px; } /* Tightened header padding */
+        header { text-align: center; padding: 20px 20px 10px 20px; }
         h1 {
             font-family: 'Limelight', cursive;
             font-size: 110px; margin: 0; line-height: 1; text-transform: uppercase;
@@ -44,8 +44,7 @@
             letter-spacing: 1px;
         }
 
-        /* Tabs moved higher up */
-        .nav-container { display: flex; justify-content: center; gap: 15px; margin-top: -15px; position: relative; z-index: 9999; }
+        .nav-container { display: flex; justify-content: center; gap: 15px; margin-top: -25px; position: relative; z-index: 9999; }
         .top-tab { position: relative; width: 165px; height: 120px; cursor: pointer; transition: transform 0.4s; }
         .top-tab:hover { transform: translateY(18px); }
         .top-tab img { width: 100%; height: auto; display: block; pointer-events: none; }
@@ -121,13 +120,13 @@
         #rooms-cabinet.show { width: 450px; opacity: 1; pointer-events: auto; }
         #rooms-cabinet img { height: 100%; width: auto; display: block; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)); }
 
-        /* REVISED DRAWER HITBOXES - Shifted Down */
-        .drawer-zone { position: absolute; left: 10%; width: 80%; height: 11%; cursor: pointer; z-index: 5; }
-        .zone-living { top: 9%; } 
-        .zone-bedroom { top: 21%; } 
-        .zone-dining { top: 34%; } 
-        .zone-spare { top: 46%; }
-        .zone-upload { top: 58%; }
+        /* RECALIBRATED DRAWER HITBOXES - Shifted Down Further to prevent overlaps */
+        .drawer-zone { position: absolute; left: 10%; width: 80%; height: 10%; cursor: pointer; z-index: 5; }
+        .zone-living { top: 12%; } 
+        .zone-bedroom { top: 25%; } 
+        .zone-dining { top: 38%; } 
+        .zone-spare { top: 51%; }
+        .zone-upload { top: 64%; }
 
         #work-area { 
             width: 1000px; height: 650px; background: url('Assets/workstation.jpg') center/cover; 
@@ -353,12 +352,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     };
 
-    /* UPDATED SCROLL LOGIC: Scroll to catalog while it opens */
     document.getElementById("work-area").onclick = () => {
         const cab = document.getElementById("rooms-cabinet");
         cab.classList.remove("show");
-        
-        // Simultanously show catalog and scroll to it
         catalogOverlay.classList.add("show");
         renderCatalog();
         catalogOverlay.scrollIntoView({ behavior: 'smooth', block: 'start' });
