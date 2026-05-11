@@ -56,7 +56,6 @@
 
         .outer-wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 30px; }
         
-        /* FURNITURE CATALOG STYLING */
         #catalogOverlay {
             position: relative; width: 1100px; max-height: 0; opacity: 0; 
             overflow: hidden; visibility: hidden; transition: max-height 0.8s ease-in-out, opacity 0.5s; margin: 0 auto;
@@ -128,8 +127,12 @@
         }
         #rooms-cabinet.show + #work-area { margin-left: 30px; }
 
-        .drawer-zone { position: absolute; left: 5%; width: 90%; height: 16%; cursor: pointer; z-index: 5; }
-        .zone-living { top: 2%; } .zone-bedroom { top: 21%; } .zone-dining { top: 41%; } .zone-spare { top: 61%; }
+        .drawer-zone { position: absolute; left: 5%; width: 90%; height: 13%; cursor: pointer; z-index: 5; }
+        .zone-living { top: 2%; } 
+        .zone-dining { top: 16%; } 
+        .zone-bedroom { top: 31%; } 
+        .zone-spare { top: 46%; }
+        .zone-upload { top: 61%; }
         
         .placed-item { position: absolute; cursor: move; max-width: 250px; z-index: 100; }
         .placed-shadow { position: absolute; background: rgba(0,0,0,0.4); filter: blur(8px); border-radius: 50%; pointer-events: none; }
@@ -180,9 +183,10 @@
         <div id="rooms-cabinet">
             <img src="Assets/rooms_cabinet.png">
             <div class="drawer-zone zone-living" data-room="living"></div>
-            <div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
             <div class="drawer-zone zone-dining" data-room="dining"></div>
+            <div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
             <div class="drawer-zone zone-spare" data-room="spare"></div>
+            <div class="drawer-zone zone-upload" data-room="upload"></div>
         </div>
 
         <div id="work-area">
@@ -195,6 +199,9 @@
         </div>
     </div>
 </div>
+
+<!-- Hidden File Input for Upload Drawer -->
+<input type="file" id="roomUploader" accept="image/*" style="display:none;">
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -210,6 +217,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const catalogOverlay = document.getElementById("catalogOverlay");
     const placedLayer = document.getElementById("placedItemsLayer");
     const itemGizmo = document.getElementById("itemGizmo");
+    const roomUploader = document.getElementById("roomUploader");
     let selectedItem = null;
 
     function renderCatalog() {
@@ -311,12 +319,12 @@ document.addEventListener("DOMContentLoaded", function() {
         if(cab.classList.contains("show")) document.getElementById("mainWorkspace").scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
 
-    // --- REVISED ROOM CABINET BEHAVIOR ---
+    // --- REVISED ROOM CABINET LOGIC ---
     const roomImages = {
-        living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg", "Assets/ROOMS_livingroom3.jpg"],
+        living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg", "Assets/ROOMS_livingroom3.jpg", "Assets/ROOMS_livingroom4.jpg"],
         bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg", "Assets/ROOMS_bedroom3.jpg"],
         dining: ["Assets/ROOMS_diningroom1.jpg", "Assets/ROOMS_diningroom2.jpg"],
-        spare: ["Assets/ROOM_bathroom.jpg", "Assets/ROOMS_kitchen1.jpg", "Assets/ROOMS_office.jpg"]
+        spare: ["Assets/ROOMS_office.jpg", "Assets/ROOMS_bathroom1.jpg", "Assets/ROOMS_kitchen1.jpg"]
     };
     const roomIndices = { living: 0, bedroom: 0, dining: 0, spare: 0 };
     let currentRoomType = null;
@@ -324,18 +332,32 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll(".drawer-zone").forEach(zone => {
         zone.onclick = () => {
             const type = zone.dataset.room;
-            currentRoomType = type;
-            const imgs = roomImages[type];
-            roomIndices[type] = (roomIndices[type] + 1) % imgs.length;
-            const newRoom = imgs[roomIndices[type]];
             const workArea = document.getElementById("work-area");
-            workArea.style.background = `url('${newRoom}') center/cover no-repeat`;
-            workArea.dataset.selectedRoom = newRoom;
+
+            if (type === "upload") {
+                roomUploader.click();
+            } else {
+                currentRoomType = type;
+                const imgs = roomImages[type];
+                const newRoom = imgs[roomIndices[type]];
+                roomIndices[type] = (roomIndices[type] + 1) % imgs.length;
+                workArea.style.background = `url('${newRoom}') center/cover no-repeat`;
+            }
         };
     });
 
+    roomUploader.onchange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                document.getElementById("work-area").style.background = `url('${event.target.result}') center/cover no-repeat`;
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     document.getElementById("work-area").onclick = () => {
-        if (!currentRoomType) return;
         const cab = document.getElementById("rooms-cabinet");
         cab.classList.remove("show");
         setTimeout(() => {
