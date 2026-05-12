@@ -67,7 +67,6 @@
         .catalog-container { position: relative; width: 1000px; margin: 0 auto; }
         #catalogBook { width: 1000px; display: block; }
 
-        /* REVISED BLACK AND GOLD SIDE TABS */
         .side-tabs {
             position: absolute; right: 105px; top: 12%;
             display: flex; flex-direction: column; gap: 8px;
@@ -82,8 +81,8 @@
             align-items: center; justify-content: center; transition: 0.3s;
             box-shadow: 3px 3px 6px rgba(0,0,0,0.6);
         }
-        .side-tab:hover { transform: translateX(10px); background: #222; }
-        .side-tab.active { width: 115px; transform: translateX(5px); box-shadow: 1px 1px 10px #d4af37; background: #111; }
+        .side-tab:hover { transform: translateX(10px); background: #111; }
+        .side-tab.active { width: 115px; transform: translateX(5px); box-shadow: 1px 1px 10px #d4af37; background: #000; }
 
         .page-btn {
             position: absolute; top: 45%; width: 40px; height: 60px; 
@@ -98,7 +97,6 @@
         .left-page { left: 8.5%; }
         .right-page { right: 23.5%; }
 
-        /* FANCY GOLD WRITING FOR SUBHEADERS */
         .catalog-header {
             text-align: center; font-family: 'Brush Script MT', cursive; font-size: 32px; font-weight: 900;
             background: linear-gradient(to bottom, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
@@ -107,15 +105,23 @@
             filter: drop-shadow(2px 2px 2px black);
         }
 
-        /* STRICT 2x3 GRID CLEANUP */
+        /* GRID LOCKDOWN - FORCE THE 2x3 SPREAD */
         .catalog-grid { 
             flex-grow: 1; 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
             grid-template-rows: repeat(3, 1fr); 
-            gap: 15px; 
+            gap: 20px; 
             align-items: center;
             justify-items: center;
+        }
+        /* ITEM WRAPPER - PREVENTS JUMBLING */
+        .item-wrapper {
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .catalog-item { 
             max-width: 100%; 
@@ -223,7 +229,6 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // UPDATED DATA MAPPING TO FOLLOW 1-12 RULE FOR ALL SUB-SECTIONS
     const catalogData = {
         seating: [
             { title: "Couches:", prefix: "Assets/seating_couch" },
@@ -271,16 +276,19 @@ document.addEventListener("DOMContentLoaded", function() {
         const rightGrid = document.getElementById("catalogRight");
         leftGrid.innerHTML = ""; rightGrid.innerHTML = "";
 
-        // STRICT 1-12 ASSET LOADING
         for (let i = 1; i <= 12; i++) {
+            const wrapper = document.createElement("div");
+            wrapper.className = "item-wrapper";
+            
             const img = document.createElement("img");
             img.src = `${currentSet.prefix}${i}.png`;
             img.className = "catalog-item";
             img.onclick = () => placeInRoom(img.src);
-            img.onerror = function() { this.style.display = 'none'; }; // Hide if missing
+            img.onerror = function() { this.style.visibility = 'hidden'; }; 
 
-            if (i <= 6) leftGrid.appendChild(img);
-            else rightGrid.appendChild(img);
+            wrapper.appendChild(img);
+            if (i <= 6) leftGrid.appendChild(wrapper);
+            else rightGrid.appendChild(wrapper);
         }
 
         document.querySelectorAll(".side-tab").forEach((tab, idx) => {
