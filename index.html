@@ -29,26 +29,43 @@
         .catalog-container { position: relative; width: 1000px; margin: 0 auto; }
         #catalogBook { width: 1000px; display: block; }
 
-        /* MANUAL POSITIONING SYSTEM */
         .page { position: absolute; top: 10%; width: 36%; height: 78%; z-index: 10; }
         .left-page { left: 8.5%; }
         .right-page { right: 23.5%; }
 
         .catalog-header { text-align: center; font-family: 'Brush Script MT', cursive; font-size: 32px; background: linear-gradient(to bottom, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 15px; filter: drop-shadow(2px 2px 2px black); }
 
-        .item-slot { position: absolute; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; }
-        .catalog-item { max-width: 100%; max-height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
+        /* MANUAL POSITIONING SLOTS - COUCH UPDATES */
+        .item-slot { position: absolute; display: flex; align-items: center; justify-content: center; }
+        .catalog-item { cursor: pointer; transition: transform 0.2s; }
         .catalog-item:hover { transform: scale(1.1); }
 
-        /* ADJUST THESE PIXELS TO LINE THEM UP MANUALLY */
-        /* Left Page Slots */
-        .slot-1 { top: 60px;  left: 10px; }  .slot-2 { top: 60px;  left: 170px; }
-        .slot-3 { top: 220px; left: 10px; }  .slot-4 { top: 220px; left: 170px; }
-        .slot-5 { top: 380px; left: 10px; }  .slot-6 { top: 380px; left: 170px; }
-        /* Right Page Slots */
-        .slot-7 { top: 60px;  left: 10px; }  .slot-8 { top: 60px;  left: 170px; }
-        .slot-9 { top: 220px; left: 10px; }  .slot-10 { top: 220px; left: 170px; }
-        .slot-11 { top: 380px; left: 10px; } .slot-12 { top: 380px; left: 170px; }
+        /* Left Page Slots (Couches 1-6) */
+        .slot-1 { top: 60px; left: 10px; width: 320px; height: 208px; }
+        .slot-1 img { max-width: 69%; max-height: 86%; }
+
+        .slot-2 { top: 30px; left: 170px; width: 320px; height: 208px; }
+        .slot-2 img { max-width: 69%; max-height: 86%; }
+
+        .slot-3 { top: 220px; left: 10px; width: 140px; height: 140px; }
+        .slot-3 img { max-width: 69%; max-height: 86%; }
+
+        .slot-4 { top: 220px; left: 175px; width: 140px; height: 140px; }
+        .slot-4 img { max-width: 69%; max-height: 86%; }
+
+        .slot-5 { top: 335px; left: -30px; width: 320px; height: 208px; }
+        .slot-5 img { max-width: 69%; max-height: 86%; }
+
+        .slot-6 { top: 311px; left: 170px; width: 320px; height: 208px; }
+        .slot-6 img { max-width: 69%; max-height: 86%; }
+
+        /* Right Page Slots (Default positions for now) */
+        .slot-7 { top: 60px;  left: 10px; width: 140px; height: 140px; }  
+        .slot-8 { top: 60px;  left: 175px; width: 140px; height: 140px; }
+        .slot-9 { top: 220px; left: 10px; width: 140px; height: 140px; }  
+        .slot-10 { top: 220px; left: 175px; width: 140px; height: 140px; }
+        .slot-11 { top: 380px; left: 10px; width: 140px; height: 140px; } 
+        .slot-12 { top: 380px; left: 175px; width: 140px; height: 140px; }
 
         .side-tabs { position: absolute; right: 105px; top: 12%; display: flex; flex-direction: column; gap: 8px; z-index: 15; }
         .side-tab { width: 100px; height: 45px; background: #000; color: #d4af37; font-family: Arial, sans-serif; font-weight: 900; font-size: 11px; border: 1px solid #d4af37; border-radius: 0 8px 8px 0; cursor: pointer; text-transform: uppercase; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
@@ -119,10 +136,30 @@
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const catalogData = {
-        seating: [{ title: "Couches:", prefix: "Assets/seating_couch" }, { title: "Armchairs:", prefix: "Assets/seating_armchair" }, { title: "Dining Chairs:", prefix: "Assets/seating_dining" }, { title: "Ottomans:", prefix: "Assets/seating_ottoman" }, { title: "Benches:", prefix: "Assets/seating_bench" }, { title: "Barstools:", prefix: "Assets/seating_barstool" }],
-        storage: [{ title: "Cabinets:", prefix: "Assets/storage_cabinet" }, { title: "Dressers:", prefix: "Assets/storage_dresser" }, { title: "Shelves:", prefix: "Assets/storage_shelf" }, { title: "Sideboards:", prefix: "Assets/storage_sideboard" }, { title: "Vanities:", prefix: "Assets/storage_vanity" }],
-        tables: [{ title: "Coffee Tables:", prefix: "Assets/table_coffee" }, { title: "End Tables:", prefix: "Assets/table_end" }, { title: "Dining Tables:", prefix: "Assets/table_dining" }, { title: "Sofa Tables:", prefix: "Assets/table_sofa" }],
-        beds: [{ title: "Beds:", prefix: "Assets/beds" }]
+        seating: [
+            { title: "Couches:", prefix: "Assets/seating_couch" }, 
+            { title: "Armchairs:", prefix: "Assets/seating_armchair" }, 
+            { title: "Dining Chairs:", prefix: "Assets/seating_dining" }, 
+            { title: "Ottomans:", prefix: "Assets/seating_ottoman" }, 
+            { title: "Benches:", prefix: "Assets/seating_bench" }, 
+            { title: "Barstools:", prefix: "Assets/seating_barstool" }
+        ],
+        storage: [
+            { title: "Cabinets:", prefix: "Assets/storage_cabinet" }, 
+            { title: "Dressers:", prefix: "Assets/storage_dresser" }, 
+            { title: "Shelves:", prefix: "Assets/storage_shelf" }, 
+            { title: "Sideboards:", prefix: "Assets/storage_sideboard" }, 
+            { title: "Vanities:", prefix: "Assets/storage_vanity" }
+        ],
+        tables: [
+            { title: "Coffee Tables:", prefix: "Assets/table_coffee" }, 
+            { title: "End Tables:", prefix: "Assets/table_end" }, 
+            { title: "Dining Tables:", prefix: "Assets/table_dining" }, 
+            { title: "Sofa Tables:", prefix: "Assets/table_sofa" }
+        ],
+        beds: [
+            { title: "Beds:", prefix: "Assets/bed" } 
+        ]
     };
 
     let currentTab = 'seating', subIdx = 0, selectedItem = null;
