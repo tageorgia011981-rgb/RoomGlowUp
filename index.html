@@ -2,377 +2,204 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Room Glow Up</title>
-    <link rel="icon" href="data:,">
-    <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Furniture Catalog - Sofas</title>
     <style>
-        html, body { 
-            overflow-x: hidden; 
-            overflow-y: auto !important; 
-            height: auto; 
-            min-height: 100%;
-            scroll-behavior: smooth; 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        
+
         body {
-            margin: 0; padding: 0; width: 100%;
-            font-family: 'Limelight', cursive;
-            background: 
-                url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
-                url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
-                url('Assets/mainbackground_blue.jpg') center top no-repeat;
-            background-size: 33% 100%, 33% 100%, 34% 100%;
-            background-attachment: fixed; color: white;
-            padding-bottom: 300px; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
         }
 
-        header { text-align: center; padding: 20px 20px 10px 20px; }
-        h1 {
-            font-family: 'Limelight', cursive;
-            font-size: 110px; margin: 0; line-height: 1; text-transform: uppercase;
-            background: linear-gradient(to bottom, #555 0%, #bbb 20%, #ffffff 45%, #888 50%, #ffffff 55%, #bbb 80%, #555 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(6px 6px 0px rgba(0,0,0,1)) drop-shadow(0px 0px 20px rgba(0,0,0,0.5));
-            letter-spacing: 3px;
-        }
-        h2 {
-            font-family: 'Limelight', cursive;
-            font-size: 34px; margin-top: 10px;
-            background: linear-gradient(to bottom, #ffffff 0%, #a1a1a1 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(3px 3px 0px rgba(0,0,0,1));
-            letter-spacing: 1px;
+        .catalog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        .nav-container { display: flex; justify-content: center; gap: 15px; margin-top: -25px; position: relative; z-index: 9999; }
-        .top-tab { position: relative; width: 165px; height: 120px; cursor: pointer; transition: transform 0.4s; }
-        .top-tab:hover { transform: translateY(18px); }
-        .top-tab img { width: 100%; height: auto; display: block; pointer-events: none; }
-        .top-tab-text {
-            position: absolute; top: 72%; left: 50%; transform: translate(-50%, -50%);
-            width: 100%; font-family: Arial, sans-serif; font-weight: 900; font-size: 13px;
-            text-align: center; text-transform: uppercase; text-shadow: 2px 2px 3px black;
-        }
-
-        .outer-wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 20px; }
-        
-        #catalogOverlay {
-            position: relative; width: 1100px; max-height: 0; opacity: 0; 
-            overflow: hidden; visibility: hidden; transition: max-height 0.8s ease-in-out, opacity 0.5s; margin: 0 auto;
-        }
-        #catalogOverlay.show { max-height: 1200px; opacity: 1; visibility: visible; margin-bottom: 50px; }
-        
-        .catalog-container { position: relative; width: 1000px; margin: 0 auto; }
-        #catalogBook { width: 1000px; display: block; }
-
-        .side-tabs {
-            position: absolute; right: 105px; top: 12%;
-            display: flex; flex-direction: column; gap: 8px;
-            z-index: 15;
-        }
-        .side-tab {
-            width: 100px; height: 45px; 
-            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-            color: #000; font-family: Arial, sans-serif; font-weight: 900; font-size: 11px;
-            border: 1px solid #555; border-left: none; border-radius: 0 8px 8px 0;
-            cursor: pointer; text-transform: uppercase; display: flex;
-            align-items: center; justify-content: center; transition: 0.3s;
-            box-shadow: 3px 3px 6px rgba(0,0,0,0.6);
-        }
-        .side-tab:hover { transform: translateX(10px); filter: brightness(1.1); }
-        .side-tab.active { width: 115px; transform: translateX(5px); box-shadow: 1px 1px 10px #fcf6ba; }
-
-        .page-btn {
-            position: absolute; top: 45%; width: 40px; height: 60px; 
-            background: rgba(0,0,0,0.8); border: 2px solid #d4af37; color: #d4af37; 
-            font-size: 24px; cursor: pointer; z-index: 20; border-radius: 5px; transition: 0.2s;
-        }
-        .page-btn:hover { background: #d4af37; color: black; }
-        .prev-btn { left: 4%; }
-        .next-btn { right: 19%; }
-
-        .page { position: absolute; top: 10%; width: 36%; height: 78%; display: flex; flex-direction: column; z-index: 10; padding: 10px; }
-        .left-page { left: 8.5%; }
-        .right-page { right: 23.5%; }
-
+        /* Header Style */
         .catalog-header {
-            text-align: center; font-size: 24px; font-weight: 900;
-            background: linear-gradient(to bottom, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 15px; letter-spacing: 3px; text-transform: uppercase;
-            filter: drop-shadow(2px 2px 2px black);
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 20px;
         }
 
-        .catalog-grid { flex-grow: 1; display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); gap: 15px; }
-        .catalog-item { width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
-        .catalog-item:hover { transform: scale(1.1); }
-
-        .workspace-wrapper { 
-            display: flex; flex-direction: row; justify-content: center; align-items: center; 
-            width: 100%; margin-top: 300px; transition: all 0.8s ease-in-out; gap: 0;
+        .catalog-header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #111;
         }
 
-        #rooms-cabinet { 
-            height: 650px; width: 0; overflow: hidden; position: relative; 
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease-in-out; 
-            opacity: 0; pointer-events: none; flex-shrink: 0;
+        /* Strict 6-Item Grid Layout */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
         }
-        #rooms-cabinet.show { width: 450px; opacity: 1; pointer-events: auto; }
-        #rooms-cabinet img { height: 100%; width: auto; display: block; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)); }
 
-        /* RECALIBRATED DRAWER HITBOXES - Shifted Down Further to prevent overlaps */
-        .drawer-zone { position: absolute; left: 10%; width: 80%; height: 10%; cursor: pointer; z-index: 5; }
-        .zone-living { top: 12%; } 
-        .zone-bedroom { top: 25%; } 
-        .zone-dining { top: 38%; } 
-        .zone-spare { top: 51%; }
-        .zone-upload { top: 64%; }
-
-        #work-area { 
-            width: 1000px; height: 650px; background: url('Assets/workstation.jpg') center/cover; 
-            box-shadow: 0 0 60px black; position: relative; overflow: hidden; 
-            border: 4px solid #333; flex-shrink: 0; transition: margin-left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        @media (max-width: 900px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
-        #rooms-cabinet.show + #work-area { margin-left: 30px; }
 
-        .placed-item { position: absolute; cursor: move; max-width: 250px; z-index: 100; }
-        .placed-shadow { position: absolute; background: rgba(0,0,0,0.4); filter: blur(8px); border-radius: 50%; pointer-events: none; }
-        
-        #itemGizmo { position: absolute; border: 2px dashed #e0ff00; display: none; z-index: 200; pointer-events: none; }
-        #itemGizmo.show { display: block; }
-        .gizmo-handle { position: absolute; width: 24px; height: 24px; background: #e0ff00; border-radius: 50%; pointer-events: auto; cursor: pointer; }
-        .handle-scale { bottom: -12px; right: -12px; }
-        .handle-rotate { top: -35px; left: 50%; transform: translateX(-50%); }
-        .handle-flip { top: -12px; left: -12px; background: cyan; }
+        @media (max-width: 600px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Individual Product Item */
+        .product-item {
+            background: #fff;
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 4px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .image-wrapper {
+            width: 100%;
+            height: 220px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .product-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: #222;
+            font-weight: 600;
+        }
+
+        .product-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 12px;
+            flex-grow: 1;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #b12704;
+        }
+
+        /* Simple Pagination layout if you need multiple pages later */
+        .catalog-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #888;
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Room Glow Up</h1>
-    <h2>Where Your Dream Space Comes To Life.</h2>
-</header>
+    <div class="catalog-container">
+        <!-- Top Header Fixed to SOFAS -->
+        <header class="catalog-header">
+            <h1>Sofas</h1>
+        </header>
 
-<div class="nav-container">
-    <div class="top-tab" id="roomsTab"><img src="Assets/pulltab.png"><div class="top-tab-text">ROOMS</div></div>
-    <div class="top-tab" id="catalogTab"><img src="Assets/pulltab.png"><div class="top-tab-text">FURNITURE<br>CATALOG</div></div>
-    <div class="top-tab" id="decorTab"><img src="Assets/pulltab.png"><div class="top-tab-text">DECOR<br>CLOSET</div></div>
-    <div class="top-tab" id="galleryTab"><img src="Assets/pulltab.png"><div class="top-tab-text">GALLERY</div></div>
-    <div class="top-tab" id="saveTab"><img src="Assets/pulltab.png"><div class="top-tab-text">SAVE/<br>CHECKOUT</div></div>
-</div>
-
-<div class="outer-wrapper">
-    <div id="catalogOverlay">
-        <div class="catalog-container">
-            <button class="page-btn prev-btn" id="prevCatPage">◀</button>
-            <button class="page-btn next-btn" id="nextCatPage">▶</button>
-            <img src="Assets/furniturecatalog.png" id="catalogBook">
+        <!-- Product Grid containing exactly 6 items -->
+        <main class="products-grid">
             
-            <div class="side-tabs">
-                <div class="side-tab" data-idx="0">Seating</div>
-                <div class="side-tab" data-idx="1">Storage</div>
-                <div class="side-tab" data-idx="2">Tables</div>
-                <div class="side-tab" data-idx="3">Beds</div>
+            <!-- Item 1 -->
+            <div class="product-item">
+                <div class="image-wrapper">
+                    <!-- Replace src with your actual sofa image link -->
+                    <img src="https://via.placeholder.com/300x220?text=Sofa+1" alt="Classic Velvet Sofa" class="product-image">
+                </div>
+                <h2 class="product-title">Classic Velvet Sofa</h2>
+                <p class="product-description">Deep tufted cushions with elegant velvet upholstery.</p>
+                <span class="product-price">$899.00</span>
             </div>
 
-            <div class="page left-page"><div class="catalog-header" id="leftHeader">SEATING</div><div class="catalog-grid" id="catalogLeft"></div></div>
-            <div class="page right-page"><div class="catalog-header" id="rightHeader">SEATING</div><div class="catalog-grid" id="catalogRight"></div></div>
-        </div>
-    </div>
-
-    <div class="workspace-wrapper" id="mainWorkspace">
-        <div id="rooms-cabinet">
-            <img src="Assets/rooms_cabinet.png">
-            <div class="drawer-zone zone-living" data-room="living"></div>
-            <div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
-            <div class="drawer-zone zone-dining" data-room="dining"></div>
-            <div class="drawer-zone zone-spare" data-room="spare"></div>
-            <div class="drawer-zone zone-upload" data-room="upload"></div>
-        </div>
-
-        <div id="work-area">
-            <div id="placedItemsLayer"></div>
-            <div id="itemGizmo">
-                <div class="gizmo-handle handle-rotate" data-gizmo="rotate"></div>
-                <div class="gizmo-handle handle-scale" data-gizmo="scale"></div>
-                <div class="gizmo-handle handle-flip" data-gizmo="flip"></div>
+            <!-- Item 2 -->
+            <div class="product-item">
+                <div class="image-wrapper">
+                    <img src="https://via.placeholder.com/300x220?text=Sofa+2" alt="Modern Minimalist Sofa" class="product-image">
+                </div>
+                <h2 class="product-title">Modern Minimalist Sofa</h2>
+                <p class="product-description">Clean lines and durable linen fabric ideal for modern spaces.</p>
+                <span class="product-price">$749.00</span>
             </div>
-        </div>
+
+            <!-- Item 3 -->
+            <div class="product-item">
+                <div class="image-wrapper">
+                    <img src="https://via.placeholder.com/300x220?text=Sofa+3" alt="Leather Chesterfield" class="product-image">
+                </div>
+                <h2 class="product-title">Leather Chesterfield</h2>
+                <p class="product-description">Premium top-grain leather with traditional rolled arms.</p>
+                <span class="product-price">$1,299.00</span>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="product-item">
+                <div class="image-wrapper">
+                    <img src="https://via.placeholder.com/300x220?text=Sofa+4" alt="L-Shaped Sectional" class="product-image">
+                </div>
+                <h2 class="product-title">L-Shaped Sectional</h2>
+                <p class="product-description">Spacious family sectional with a reversible chaise lounge.</p>
+                <span class="product-price">$1,450.00</span>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="product-item">
+                <div class="image-wrapper">
+                    <img src="https://via.placeholder.com/300x220?text=Sofa+5" alt="Mid-Century Loveseat" class="product-image">
+                </div>
+                <h2 class="product-title">Mid-Century Loveseat</h2>
+                <p class="product-description">Tapered wooden legs and a compact build for smaller rooms.</p>
+                <span class="product-price">$599.00</span>
+            </div>
+
+            <!-- Item 6 -->
+            <div class="product-item">
+                <div class="image-wrapper">
+                    <img src="https://via.placeholder.com/300x220?text=Sofa+6" alt="Convertible Sleeper Sofa" class="product-image">
+                </div>
+                <h2 class="product-title">Convertible Sleeper Sofa</h2>
+                <p class="product-description">Easily transitions from a comfy sofa to a full-sized bed.</p>
+                <span class="product-price">$680.00</span>
+            </div>
+
+        </main>
+
+        <footer class="catalog-footer">
+            <p>Page 1 of 1</p>
+        </footer>
     </div>
-</div>
 
-<input type="file" id="roomUploader" accept="image/*" style="display:none;">
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const catalogData = [
-        { category: "SEATING", assets: Array.from({length: 12}, (_, i) => `Assets/seating_couch${i+1}.png`) },
-        { category: "STORAGE", assets: Array.from({length: 12}, (_, i) => `Assets/storage_cabinet${i+1}.png`) },
-        { category: "TABLES", assets: Array.from({length: 5}, (_, i) => `Assets/tables_coffee${i+1}.png`) },
-        { category: "BEDS", assets: Array.from({length: 12}, (_, i) => `Assets/bed_${i+1}.png`) }
-    ];
-
-    let currentCategoryIndex = 0;
-    let subPageIndex = 0; 
-    const catalogOverlay = document.getElementById("catalogOverlay");
-    const placedLayer = document.getElementById("placedItemsLayer");
-    const itemGizmo = document.getElementById("itemGizmo");
-    const roomUploader = document.getElementById("roomUploader");
-    let selectedItem = null;
-
-    function renderCatalog() {
-        const data = catalogData[currentCategoryIndex];
-        document.getElementById("leftHeader").innerText = data.category;
-        document.getElementById("rightHeader").innerText = data.category;
-        const leftGrid = document.getElementById("catalogLeft");
-        const rightGrid = document.getElementById("catalogRight");
-        leftGrid.innerHTML = ""; rightGrid.innerHTML = "";
-        const start = subPageIndex * 12;
-        const pageAssets = data.assets.slice(start, start + 12);
-        pageAssets.forEach((src, idx) => {
-            const img = document.createElement("img");
-            img.src = src; img.className = "catalog-item";
-            img.onclick = () => placeInRoom(src);
-            if (idx < 6) leftGrid.appendChild(img);
-            else rightGrid.appendChild(img);
-        });
-        document.querySelectorAll(".side-tab").forEach((tab, idx) => {
-            tab.classList.toggle("active", idx === currentCategoryIndex);
-        });
-    }
-
-    document.getElementById("nextCatPage").onclick = () => {
-        const totalSubPages = Math.ceil(catalogData[currentCategoryIndex].assets.length / 12);
-        if (subPageIndex < totalSubPages - 1) subPageIndex++;
-        renderCatalog();
-    };
-
-    document.getElementById("prevCatPage").onclick = () => {
-        if (subPageIndex > 0) subPageIndex--;
-        renderCatalog();
-    };
-
-    document.querySelectorAll(".side-tab").forEach(tab => {
-        tab.onclick = () => {
-            currentCategoryIndex = parseInt(tab.dataset.idx);
-            subPageIndex = 0;
-            renderCatalog();
-        };
-    });
-
-    function placeInRoom(src) {
-        const piece = document.createElement("img");
-        piece.src = src; piece.className = "placed-item";
-        piece.dataset.scale = "1"; piece.dataset.rotation = "0"; piece.dataset.flip = "1";
-        piece.style.left = "400px"; piece.style.top = "200px";
-        const shadow = document.createElement("div");
-        shadow.className = "placed-shadow";
-        piece._shadowEl = shadow;
-        piece.onmousedown = (e) => { e.stopPropagation(); selectPiece(piece, e); };
-        piece.ondblclick = () => { shadow.remove(); piece.remove(); itemGizmo.classList.remove("show"); };
-        placedLayer.appendChild(shadow);
-        placedLayer.appendChild(piece);
-        updatePieceTransform(piece);
-        selectPiece(piece);
-    }
-
-    function selectPiece(piece, e) {
-        selectedItem = piece; itemGizmo.classList.add("show");
-        updateGizmoPosition();
-        if (e) {
-            let startX = e.clientX - piece.offsetLeft;
-            let startY = e.clientY - piece.offsetTop;
-            document.onmousemove = (me) => {
-                piece.style.left = (me.clientX - startX) + "px";
-                piece.style.top = (me.clientY - startY) + "px";
-                updatePieceTransform(piece); updateGizmoPosition();
-            };
-            document.onmouseup = () => document.onmousemove = null;
-        }
-    }
-
-    function updatePieceTransform(piece) {
-        const s = piece.dataset.scale, r = piece.dataset.rotation, f = piece.dataset.flip;
-        piece.style.transform = `rotate(${r}deg) scale(${s}) scaleX(${f})`;
-        const sh = piece._shadowEl, rect = piece.getBoundingClientRect();
-        sh.style.width = (rect.width * 0.8) + "px"; sh.style.height = "20px";
-        sh.style.left = (piece.offsetLeft + (rect.width * 0.1)) + "px";
-        sh.style.top = (piece.offsetTop + rect.height - 10) + "px";
-    }
-
-    function updateGizmoPosition() {
-        if (!selectedItem) return;
-        const r = selectedItem.getBoundingClientRect();
-        itemGizmo.style.width = r.width + "px"; itemGizmo.style.height = r.height + "px";
-        itemGizmo.style.left = selectedItem.offsetLeft + "px"; itemGizmo.style.top = selectedItem.offsetTop + "px";
-    }
-
-    document.getElementById("catalogTab").onclick = () => { 
-        renderCatalog(); 
-        catalogOverlay.classList.toggle("show"); 
-        if(catalogOverlay.classList.contains("show")) catalogOverlay.scrollIntoView({ behavior: 'smooth' });
-    };
-
-    document.getElementById("roomsTab").onclick = () => {
-        const cab = document.getElementById("rooms-cabinet");
-        cab.classList.toggle("show");
-        if(cab.classList.contains("show")) document.getElementById("mainWorkspace").scrollIntoView({ behavior: 'smooth', block: 'center' });
-    };
-
-    const roomImages = {
-        living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg", "Assets/ROOMS_livingroom3.jpg", "Assets/ROOMS_livingroom4.jpg"],
-        bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg", "Assets/ROOMS_bedroom3.jpg"],
-        dining: ["Assets/ROOMS_diningroom1.jpg", "Assets/ROOMS_diningroom2.jpg"],
-        spare: ["Assets/ROOMS_office.jpg", "Assets/ROOMS_bathroom1.jpg", "Assets/ROOMS_kitchen1.jpg"]
-    };
-    const roomIndices = { living: 0, bedroom: 0, dining: 0, spare: 0 };
-
-    document.querySelectorAll(".drawer-zone").forEach(zone => {
-        zone.onclick = () => {
-            const type = zone.dataset.room;
-            const workArea = document.getElementById("work-area");
-            if (type === "upload") {
-                roomUploader.click();
-            } else {
-                const imgs = roomImages[type];
-                workArea.style.background = `url('${imgs[roomIndices[type]]}') center/cover no-repeat`;
-                roomIndices[type] = (roomIndices[type] + 1) % imgs.length;
-            }
-        };
-    });
-
-    roomUploader.onchange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                document.getElementById("work-area").style.background = `url('${event.target.result}') center/cover no-repeat`;
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
-    document.getElementById("work-area").onclick = () => {
-        const cab = document.getElementById("rooms-cabinet");
-        cab.classList.remove("show");
-        catalogOverlay.classList.add("show");
-        renderCatalog();
-        catalogOverlay.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    };
-
-    itemGizmo.onmousedown = (e) => {
-        const h = e.target.dataset.gizmo; if(!h) return; e.stopPropagation();
-        if(h === "flip") { selectedItem.dataset.flip *= -1; updatePieceTransform(selectedItem); }
-        else {
-            document.onmousemove = (m) => {
-                if(h === "scale") selectedItem.dataset.scale = Math.max(0.3, parseFloat(selectedItem.dataset.scale) + (m.movementY * -0.01));
-                else selectedItem.dataset.rotation = parseFloat(selectedItem.dataset.rotation) + m.movementX;
-                updatePieceTransform(selectedItem); updateGizmoPosition();
-            };
-            document.onmouseup = () => document.onmousemove = null;
-        }
-    };
-});
-</script>
 </body>
 </html>
