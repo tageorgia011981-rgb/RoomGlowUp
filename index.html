@@ -65,9 +65,10 @@
         .catalog-container { position: relative; width: 1000px; margin: 0 auto; }
         #catalogBook { width: 1000px; display: block; }
 
+        /* TAB REPOSITIONING: Fixed strictly on the physical right edge of the book template graphic */
         .side-tabs {
-            position: absolute; right: 105px; top: 12%;
-            display: flex; flex-direction: column; gap: 8px;
+            position: absolute; right: 145px; top: 12%; height: 75%;
+            display: flex; flex-direction: column; justify-content: space-between;
             z-index: 15;
         }
         .side-tab {
@@ -89,17 +90,18 @@
         }
         .page-btn:hover { background: #d4af37; color: black; }
         .prev-btn { left: 4%; }
-        .next-btn { right: 19%; }
+        .next-btn { right: 23%; }
 
-        .page { position: absolute; top: 10%; width: 36%; height: 78%; display: flex; flex-direction: column; z-index: 10; padding: 10px; }
-        .left-page { left: 8.5%; }
-        .right-page { right: 23.5%; }
+        /* FIXED LAYOUT RECALIBRATION: Adjusted alignments to lock grids squarely on top of printed page zones */
+        .page { position: absolute; top: 10%; width: 34%; height: 78%; display: flex; flex-direction: column; z-index: 10; padding: 10px; box-sizing: border-box; }
+        .left-page { left: 10.5%; }
+        .right-page { right: 27.5%; }
 
         .catalog-header {
             text-align: center; font-size: 24px; font-weight: 900;
             background: linear-gradient(to bottom, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 15px; letter-spacing: 3px; text-transform: uppercase;
+            margin-bottom: 25px; letter-spacing: 3px; text-transform: uppercase;
             filter: drop-shadow(2px 2px 2px black);
         }
 
@@ -109,9 +111,11 @@
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
             grid-template-rows: repeat(3, 1fr); 
-            gap: 15px; 
+            gap: 20px; 
+            align-items: center;
+            justify-items: center;
         }
-        .catalog-item { width: 100%; height: 100%; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
+        .catalog-item { width: 100%; height: 100%; max-height: 110px; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
         .catalog-item:hover { transform: scale(1.1); }
 
         .workspace-wrapper { 
@@ -127,7 +131,6 @@
         #rooms-cabinet.show { width: 450px; opacity: 1; pointer-events: auto; }
         #rooms-cabinet img { height: 100%; width: auto; display: block; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)); }
 
-        /* RECALIBRATED DRAWER HITBOXES - Shifted Down Further to prevent overlaps */
         .drawer-zone { position: absolute; left: 10%; width: 80%; height: 10%; cursor: pointer; z-index: 5; }
         .zone-living { top: 12%; } 
         .zone-bedroom { top: 25%; } 
@@ -235,7 +238,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const rightGrid = document.getElementById("catalogRight");
         leftGrid.innerHTML = ""; rightGrid.innerHTML = "";
         
-        // Strictly displays 6 items on the left page and 6 items on the right page
         const start = subPageIndex * 12;
         const pageAssets = data.assets.slice(start, start + 12);
         pageAssets.forEach((src, idx) => {
