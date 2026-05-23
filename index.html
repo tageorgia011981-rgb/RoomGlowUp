@@ -229,15 +229,15 @@ document.addEventListener("DOMContentLoaded", function() {
             assets: [
                 // Sofas (1-12)
                 ...Array.from({length: 12}, (_, i) => `Assets/seating_couch${i+1}.png`),
-                // Armchairs (13-24)
+                // Armchairs (1-12)
                 ...Array.from({length: 12}, (_, i) => `Assets/seating_armchair${i+1}.png`),
-                // Diningroom Chairs (25-31 currently, built to 12)
+                // Diningroom Chairs (1-7 currently, built to 12)
                 ...Array.from({length: 7}, (_, i) => `Assets/seating_dining${i+1}.png`),
-                // Stools (32-43)
+                // Stools (1-12)
                 ...Array.from({length: 12}, (_, i) => `Assets/seating_barstool${i+1}.png`),
-                // Ottomans (44-53 currently, built to 10)
+                // Ottomans (1-10 currently, built to 12)
                 ...Array.from({length: 10}, (_, i) => `Assets/seating_ottoman${i+1}.png`),
-                // Benches (54-65)
+                // Benches (1-12)
                 ...Array.from({length: 12}, (_, i) => `Assets/seating_bench${i+1}.png`)
             ] 
         },
@@ -290,8 +290,8 @@ document.addEventListener("DOMContentLoaded", function() {
             const img = document.createElement("img");
             img.src = src; img.className = "catalog-item";
             
-            // EXPLICIT NUMBERS FOR DEV TOOLS: Assigns a clear 1-based index directly tracking item position
-            img.setAttribute("data-item-num", start + idx + 1);
+            // EXPLICIT NUMBERS FOR DEV TOOLS: Assigns a clear 1-based index tracking item position strictly inside the current view grid
+            img.setAttribute("data-item-num", idx + 1);
             
             img.onclick = () => placeInRoom(src);
             if (idx < 6) leftGrid.appendChild(img);
