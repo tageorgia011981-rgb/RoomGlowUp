@@ -223,10 +223,39 @@
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const catalogData = [
-        { category: "SOFAS", assets: Array.from({length: 12}, (_, i) => `Assets/seating_couch${i+1}.png`) },
-        { category: "STORAGE", assets: Array.from({length: 12}, (_, i) => `Assets/storage_cabinet${i+1}.png`) },
-        { category: "TABLES", assets: Array.from({length: 5}, (_, i) => `Assets/tables_coffee${i+1}.png`) },
-        { category: "BEDS", assets: Array.from({length: 12}, (_, i) => `Assets/bed_${i+1}.png`) }
+        { 
+            category: "SEATING", 
+            subCategories: ["SOFAS", "ARMCHAIRS", "DINING CHAIRS", "STOOLS", "OTTOMANS", "BENCHES"],
+            assets: [
+                // Sofas (1-12)
+                ...Array.from({length: 12}, (_, i) => `Assets/seating_couch${i+1}.png`),
+                // Armchairs (13-24)
+                ...Array.from({length: 12}, (_, i) => `Assets/seating_armchair${i+1}.png`),
+                // Diningroom Chairs (25-31 currently, built to 12)
+                ...Array.from({length: 7}, (_, i) => `Assets/seating_dining${i+1}.png`),
+                // Stools (32-43)
+                ...Array.from({length: 12}, (_, i) => `Assets/seating_barstool${i+1}.png`),
+                // Ottomans (44-53 currently, built to 10)
+                ...Array.from({length: 10}, (_, i) => `Assets/seating_ottoman${i+1}.png`),
+                // Benches (54-65)
+                ...Array.from({length: 12}, (_, i) => `Assets/seating_bench${i+1}.png`)
+            ] 
+        },
+        { 
+            category: "STORAGE", 
+            subCategories: ["STORAGE"],
+            assets: Array.from({length: 12}, (_, i) => `Assets/storage_cabinet${i+1}.png`) 
+        },
+        { 
+            category: "TABLES", 
+            subCategories: ["TABLES"],
+            assets: Array.from({length: 12}, (_, i) => `Assets/tables_coffee${i+1}.png`) 
+        },
+        { 
+            category: "BEDS", 
+            subCategories: ["BEDS"],
+            assets: Array.from({length: 12}, (_, i) => `Assets/bed_${i+1}.png`) 
+        }
     ];
 
     let currentCategoryIndex = 0;
@@ -239,11 +268,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function renderCatalog() {
         const data = catalogData[currentCategoryIndex];
-        document.getElementById("leftHeader").innerText = data.category;
-        document.getElementById("rightHeader").innerText = data.category;
+        const leftHeader = document.getElementById("leftHeader");
+        const rightHeader = document.getElementById("rightHeader");
         const leftGrid = document.getElementById("catalogLeft");
         const rightGrid = document.getElementById("catalogRight");
+        
         leftGrid.innerHTML = ""; rightGrid.innerHTML = "";
+        
+        // Dynamically track page headings based on category and current subpage
+        if (data.category === "SEATING") {
+            leftHeader.innerText = data.subCategories[subPageIndex] || "SEATING";
+            rightHeader.innerText = data.subCategories[subPageIndex] || "SEATING";
+        } else {
+            leftHeader.innerText = data.category;
+            rightHeader.innerText = data.category;
+        }
         
         const start = subPageIndex * 12;
         const pageAssets = data.assets.slice(start, start + 12);
