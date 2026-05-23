@@ -65,7 +65,6 @@
         .catalog-container { position: relative; width: 1000px; margin: 0 auto; }
         #catalogBook { width: 1000px; display: block; }
 
-        /* TABS HANGING OFF THE OUTER EDGE: Shifted strictly to hang completely off the physical right edge of the book graphic */
         .side-tabs {
             position: absolute; right: -5px; top: 12%; height: 75%;
             display: flex; flex-direction: column; justify-content: space-between;
@@ -92,7 +91,6 @@
         .prev-btn { left: -5%; }
         .next-btn { right: 11%; }
 
-        /* LAYOUT STABILIZATION: Centered squarely inside the left and right pages now that side tabs are out of the way */
         .page { position: absolute; top: 10%; width: 38%; height: 78%; display: flex; flex-direction: column; z-index: 10; padding: 10px; box-sizing: border-box; }
         .left-page { left: 8.5%; }
         .right-page { right: 13.5%; }
@@ -117,7 +115,6 @@
         .catalog-item { width: 100%; height: 100%; max-height: 110px; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
         .catalog-item:hover { transform: scale(1.1); }
         
-        /* ADJUSTS TOP BLACK SOFA MANUALLY TO STOP IT FROM BEING TOO FAR LEFT */
         .catalog-item[data-item-num="1"] {
             transform: translateX(25px);
         }
@@ -227,24 +224,24 @@ document.addEventListener("DOMContentLoaded", function() {
             category: "SEATING", 
             subCategories: ["SOFAS", "ARMCHAIRS", "DINING CHAIRS", "STOOLS", "OTTOMANS", "BENCHES"],
             assets: [
-                // Sofas (0-11) -> 12 items
                 Array.from({length: 12}, (_, i) => `Assets/seating_couch${i+1}.png`),
-                // Armchairs (0-11) -> 12 items
                 Array.from({length: 12}, (_, i) => `Assets/seating_armchair${i+1}.png`),
-                // Diningroom Chairs (0-6) -> 7 items currently
                 Array.from({length: 7}, (_, i) => `Assets/seating_dining${i+1}.png`),
-                // Stools (0-11) -> 12 items
                 Array.from({length: 12}, (_, i) => `Assets/seating_barstool${i+1}.png`),
-                // Ottomans (0-9) -> 10 items currently
                 Array.from({length: 10}, (_, i) => `Assets/seating_ottoman${i+1}.png`),
-                // Benches (0-11) -> 12 items
                 Array.from({length: 12}, (_, i) => `Assets/seating_bench${i+1}.png`)
             ] 
         },
         { 
             category: "STORAGE", 
-            subCategories: ["STORAGE"],
-            assets: [Array.from({length: 12}, (_, i) => `Assets/storage_cabinet${i+1}.png`)]
+            subCategories: ["STORAGE CABINETS", "DRESSERS", "SHELVES", "SIDEBOARDS", "VANITIES"],
+            assets: [
+                Array.from({length: 12}, (_, i) => `Assets/storage_cabinet${i+1}.png`),
+                Array.from({length: 8}, (_, i) => `Assets/dresser${i+1}.png`),
+                Array.from({length: 7}, (_, i) => `Assets/shelf${i+1}.png`),
+                Array.from({length: 12}, (_, i) => `Assets/sideboard${i+1}.png`),
+                Array.from({length: 2}, (_, i) => `Assets/vanity${i+1}.png`)
+            ]
         },
         { 
             category: "TABLES", 
@@ -275,22 +272,15 @@ document.addEventListener("DOMContentLoaded", function() {
         
         leftGrid.innerHTML = ""; rightGrid.innerHTML = "";
         
-        if (data.category === "SEATING") {
-            leftHeader.innerText = data.subCategories[subPageIndex] || "SEATING";
-            rightHeader.innerText = data.subCategories[subPageIndex] || "SEATING";
-        } else {
-            leftHeader.innerText = data.category;
-            rightHeader.innerText = data.category;
-        }
+        leftHeader.innerText = data.subCategories[subPageIndex] || data.category;
+        rightHeader.innerText = data.subCategories[subPageIndex] || data.category;
         
-        // Grab the precise array of assets dedicated only to this subpage to prevent mixed type bleed
         const pageAssets = data.assets[subPageIndex] || [];
         
         pageAssets.forEach((src, idx) => {
             const img = document.createElement("img");
             img.src = src; img.className = "catalog-item";
             
-            // EXPLICIT NUMBERS FOR DEV TOOLS: Assigns a clear 1-based index directly tracking item position strictly inside the current view grid
             img.setAttribute("data-item-num", idx + 1);
             
             img.onclick = () => placeInRoom(src);
@@ -316,7 +306,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll(".side-tab").forEach(tab => {
         tab.onclick = () => {
             currentCategoryIndex = parseInt(tab.dataset.idx);
-            subPageIndex = 0;
+            subPageIndex = 0; 
             renderCatalog();
         };
     });
