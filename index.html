@@ -60,7 +60,7 @@
             position: relative; width: 1100px; max-height: 0; opacity: 0; 
             overflow: hidden; visibility: hidden; transition: max-height 0.8s ease-in-out, opacity 0.5s; margin: 0 auto;
         }
-        #catalogOverlay.show { max-height: 1200px; opacity: 1; visibility: visible; margin-bottom: 50px; }
+        #catalogOverlay.show { max-height: 1200px; opacity: 1; visibility: visible; margin-bottom: 20px; }
         
         .catalog-container { position: relative; width: 1000px; margin: 0 auto; }
         #catalogBook { width: 1000px; display: block; }
@@ -126,7 +126,7 @@
 
         .workspace-wrapper { 
             display: flex; flex-direction: row; justify-content: center; align-items: center; 
-            width: 100%; margin-top: 300px; transition: all 0.8s ease-in-out; gap: 0;
+            width: 100%; margin-top: 20px; transition: all 0.8s ease-in-out; gap: 0;
         }
 
         #rooms-cabinet { 
@@ -259,7 +259,7 @@ document.addEventListener("DOMContentLoaded", function() {
             category: "BEDS", 
             subCategories: ["BEDS"],
             assets: [
-                Array.from({length: 12}, (_, i) => `Assets/beds${i+1}.png`)
+                Array.from({length: 12}, (_, i) => `Assets/bed${i+1}.png`)
             ]
         }
     ];
@@ -412,9 +412,6 @@ document.addEventListener("DOMContentLoaded", function() {
             reader.readAsDataURL(file);
         }
     };
-
-    // FIXED: Removed the snippet that closed the cabinet and intercepted clicks on the workstation background layer
-    // Now items can be selected/manipulated properly, and background interactions aren't broken.
 
     itemGizmo.onmousedown = (e) => {
         const h = e.target.dataset.gizmo; if(!h) return; e.stopPropagation();
