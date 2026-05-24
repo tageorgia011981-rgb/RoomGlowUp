@@ -148,6 +148,7 @@
             width: 1000px; height: 650px; background: url('Assets/workstation.jpg') center/cover; 
             box-shadow: 0 0 60px black; position: relative; overflow: hidden; 
             border: 4px solid #333; flex-shrink: 0; transition: margin-left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
         }
         #rooms-cabinet.show + #work-area { margin-left: 30px; }
 
@@ -294,7 +295,7 @@ document.addEventListener("DOMContentLoaded", function() {
             
             img.setAttribute("data-item-num", idx + 1);
             
-            img.onclick = () => placeInRoom(src);
+            img.onclick = (e) => { e.stopPropagation(); placeInRoom(src); };
             if (idx < 6) leftGrid.appendChild(img);
             else rightGrid.appendChild(img);
         });
@@ -333,11 +334,7 @@ document.addEventListener("DOMContentLoaded", function() {
         piece.onmousedown = (e) => { e.stopPropagation(); selectPiece(piece, e); };
         
         piece.onclick = (e) => {
-            if (!isDragging) {
-                renderCatalog();
-                catalogOverlay.classList.add("show");
-                catalogOverlay.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            e.stopPropagation();
         };
 
         piece.ondblclick = () => { shadow.remove(); piece.remove(); itemGizmo.classList.remove("show"); };
@@ -403,8 +400,15 @@ document.addEventListener("DOMContentLoaded", function() {
     };
     const roomIndices = { living: 0, bedroom: 0, dining: 0, spare: 0 };
 
+    document.getElementById("work-area").onclick = () => {
+        renderCatalog();
+        catalogOverlay.classList.add("show");
+        catalogOverlay.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
     document.querySelectorAll(".drawer-zone").forEach(zone => {
-        zone.onclick = () => {
+        zone.onclick = (e) => {
+            e.stopPropagation();
             const type = zone.dataset.room;
             const workArea = document.getElementById("work-area");
             if (type === "upload") {
