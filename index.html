@@ -126,7 +126,7 @@
 
         .workspace-wrapper { 
             display: flex; flex-direction: row; justify-content: center; align-items: center; 
-            width: 100%; margin-top: 20px; transition: all 0.8s ease-in-out; gap: 0;
+            width: 100%; margin-top: 140px; transition: all 0.8s ease-in-out; gap: 0;
         }
 
         #rooms-cabinet { 
@@ -249,7 +249,7 @@ document.addEventListener("DOMContentLoaded", function() {
             category: "TABLES", 
             subCategories: ["COFFEE TABLES", "END TABLES", "DINING TABLES", "SOFA TABLES"],
             assets: [
-                Array.from({length: 5}, (_, i) => `Assets/tables_${i+1}.png`),
+                Array.from({length: 12}, (_, i) => `Assets/tables_coffee${i+1}.png`),
                 Array.from({length: 12}, (_, i) => `Assets/end${i+1}.png`),
                 Array.from({length: 2}, (_, i) => `Assets/dining${i+1}.png`),
                 Array.from({length: 5}, (_, i) => `Assets/sofa table ${i+1}.png`)
@@ -384,7 +384,7 @@ document.addEventListener("DOMContentLoaded", function() {
         living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg", "Assets/ROOMS_livingroom3.jpg", "Assets/ROOMS_livingroom4.jpg"],
         bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg", "Assets/ROOMS_bedroom3.jpg"],
         dining: ["Assets/ROOMS_diningroom1.jpg", "Assets/ROOMS_diningroom2.jpg"],
-        spare: ["Assets/ROOMS_office.jpg", "Assets/ROOMS_bathroom1.jpg", "Assets/ROOMS_kitchen1.jpg"]
+        spare: ["Assets/ROOMS_office.jpg", "Assets/ROOMS_bathroom1.jpg", "Assets/kitchen1.jpg"]
     };
     const roomIndices = { living: 0, bedroom: 0, dining: 0, spare: 0 };
 
@@ -410,6 +410,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById("work-area").style.background = `url('${event.target.result}') center/cover no-repeat`;
             };
             reader.readAsDataURL(file);
+        }
+    };
+
+    document.getElementById("placedItemsLayer").onclick = (e) => {
+        if (e.target.classList.contains("placed-item")) {
+            renderCatalog();
+            catalogOverlay.classList.add("show");
+            catalogOverlay.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     };
 
