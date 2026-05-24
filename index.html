@@ -272,6 +272,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const itemGizmo = document.getElementById("itemGizmo");
     const roomUploader = document.getElementById("roomUploader");
     let selectedItem = null;
+    let isDragging = false;
 
     function renderCatalog() {
         const data = catalogData[currentCategoryIndex];
@@ -330,6 +331,15 @@ document.addEventListener("DOMContentLoaded", function() {
         shadow.className = "placed-shadow";
         piece._shadowEl = shadow;
         piece.onmousedown = (e) => { e.stopPropagation(); selectPiece(piece, e); };
+        
+        piece.onclick = (e) => {
+            if (!isDragging) {
+                renderCatalog();
+                catalogOverlay.classList.add("show");
+                catalogOverlay.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        };
+
         piece.ondblclick = () => { shadow.remove(); piece.remove(); itemGizmo.classList.remove("show"); };
         placedLayer.appendChild(shadow);
         placedLayer.appendChild(piece);
@@ -341,14 +351,19 @@ document.addEventListener("DOMContentLoaded", function() {
         selectedItem = piece; itemGizmo.classList.add("show");
         updateGizmoPosition();
         if (e) {
+            isDragging = false;
             let startX = e.clientX - piece.offsetLeft;
             let startY = e.clientY - piece.offsetTop;
             document.onmousemove = (me) => {
+                isDragging = true;
                 piece.style.left = (me.clientX - startX) + "px";
                 piece.style.top = (me.clientY - startY) + "px";
                 updatePieceTransform(piece); updateGizmoPosition();
             };
-            document.onmouseup = () => document.onmouseup = null;
+            document.onmouseup = () => {
+                document.onmousemove = null;
+                setTimeout(() => { isDragging = false; }, 50);
+            };
         }
     }
 
@@ -410,14 +425,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById("work-area").style.background = `url('${event.target.result}') center/cover no-repeat`;
             };
             reader.readAsDataURL(file);
-        }
-    };
-
-    document.getElementById("placedItemsLayer").onclick = (e) => {
-        if (e.target.classList.contains("placed-item")) {
-            renderCatalog();
-            catalogOverlay.classList.add("show");
-            catalogOverlay.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     };
 
