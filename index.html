@@ -56,14 +56,23 @@
 
         .outer-wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 20px; }
         
-        #catalogOverlay, #decorOverlay {
+        #catalogOverlay {
             position: relative; width: 1100px; max-height: 0; opacity: 0; 
             overflow: hidden; visibility: hidden; transition: max-height 0.8s ease-in-out, opacity 0.5s; margin: 0 auto;
         }
-        #catalogOverlay.show, #decorOverlay.show { max-height: 1200px; opacity: 1; visibility: visible; margin-bottom: 20px; }
+        #catalogOverlay.show { max-height: 1200px; opacity: 1; visibility: visible; margin-bottom: 20px; }
         
-        .catalog-container, .decor-container { position: relative; width: 1000px; margin: 0 auto; }
-        #catalogBook, #decorBook { width: 1000px; display: block; }
+        .catalog-container { position: relative; width: 1000px; margin: 0 auto; }
+        #catalogBook { width: 1000px; display: block; }
+
+        #decorOverlay {
+            position: relative; width: 1100px; max-height: 0; opacity: 0; 
+            overflow: hidden; visibility: hidden; transition: max-height 0.8s ease-in-out, opacity 0.5s; margin: 20px auto 0 auto;
+        }
+        #decorOverlay.show { max-height: 1200px; opacity: 1; visibility: visible; }
+        
+        .decor-container { position: relative; width: 1000px; margin: 0 auto; }
+        #decorBook { width: 1000px; display: block; }
 
         .side-tabs {
             position: absolute; right: -5px; top: 12%; height: 75%;
@@ -197,24 +206,6 @@
         </div>
     </div>
 
-    <div id="decorOverlay">
-        <div class="decor-container">
-            <button class="page-btn prev-btn" id="prevDecorPage">◀</button>
-            <button class="page-btn next-btn" id="nextDecorPage">▶</button>
-            <img src="Assets/decorcloset_entryway.jpg" id="decorBook">
-            
-            <div class="side-tabs">
-                <div class="side-tab" data-idx="0">Artwork</div>
-                <div class="side-tab" data-idx="1">Lighting</div>
-                <div class="side-tab" data-idx="2">Rugs</div>
-                <div class="side-tab" data-idx="3">Pillows</div>
-            </div>
-
-            <div class="page left-page"><div class="catalog-header" id="decorLeftHeader">DECOR</div><div class="catalog-grid" id="decorLeft"></div></div>
-            <div class="page right-page"><div class="catalog-header" id="decorRightHeader">DECOR</div><div class="catalog-grid" id="decorRight"></div></div>
-        </div>
-    </div>
-
     <div class="workspace-wrapper" id="mainWorkspace">
         <div id="rooms-cabinet">
             <img src="Assets/rooms_cabinet.png">
@@ -232,6 +223,24 @@
                 <div class="gizmo-handle handle-scale" data-gizmo="scale"></div>
                 <div class="gizmo-handle handle-flip" data-gizmo="flip"></div>
             </div>
+        </div>
+    </div>
+
+    <div id="decorOverlay">
+        <div class="decor-container">
+            <button class="page-btn prev-btn" id="prevDecorPage">◀</button>
+            <button class="page-btn next-btn" id="nextDecorPage">▶</button>
+            <img src="Assets/decorcloset_entryway.jpg" id="decorBook">
+            
+            <div class="side-tabs">
+                <div class="side-tab" data-idx="0">Artwork</div>
+                <div class="side-tab" data-idx="1">Lighting</div>
+                <div class="side-tab" data-idx="2">Rugs</div>
+                <div class="side-tab" data-idx="3">Pillows</div>
+            </div>
+
+            <div class="page left-page"><div class="catalog-header" id="decorLeftHeader">DECOR</div><div class="catalog-grid" id="decorLeft"></div></div>
+            <div class="page right-page"><div class="catalog-header" id="decorRightHeader">DECOR</div><div class="catalog-grid" id="decorRight"></div></div>
         </div>
     </div>
 </div>
@@ -409,7 +418,9 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("decorTab").onclick = () => {
         catalogOverlay.classList.remove("show");
         decorOverlay.classList.toggle("show");
-        if(decorOverlay.classList.contains("show")) decorOverlay.scrollIntoView({ behavior: 'smooth' });
+        if(decorOverlay.classList.contains("show")) {
+            decorOverlay.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     };
 
     document.getElementById("roomsTab").onclick = () => {
