@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,14 +57,14 @@
 
         .outer-wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 20px; }
         
-        #catalogOverlay, #decorOverlay {
+        #catalogOverlay {
             position: relative; width: 1100px; max-height: 0; opacity: 0; 
             overflow: hidden; visibility: hidden; transition: max-height 0.8s ease-in-out, opacity 0.5s; margin: 0 auto;
         }
-        #catalogOverlay.show, #decorOverlay.show { max-height: 1200px; opacity: 1; visibility: visible; margin-bottom: 20px; }
+        #catalogOverlay.show { max-height: 1200px; opacity: 1; visibility: visible; margin-bottom: 20px; }
         
-        .catalog-container, .decor-container { position: relative; width: 1000px; margin: 0 auto; }
-        #catalogBook, #decorBook { width: 1000px; display: block; }
+        .catalog-container { position: relative; width: 1000px; margin: 0 auto; }
+        #catalogBook { width: 1000px; display: block; }
 
         .side-tabs {
             position: absolute; right: -5px; top: 12%; height: 75%;
@@ -127,7 +128,6 @@
         .workspace-wrapper { 
             display: flex; flex-direction: row; justify-content: center; align-items: center; 
             width: 100%; margin-top: 140px; transition: all 0.8s ease-in-out; gap: 0;
-            margin-bottom: 40px;
         }
 
         #rooms-cabinet { 
@@ -180,26 +180,6 @@
 </div>
 
 <div class="outer-wrapper">
-    <div class="workspace-wrapper" id="mainWorkspace">
-        <div id="rooms-cabinet">
-            <img src="Assets/rooms_cabinet.png">
-            <div class="drawer-zone zone-living" data-room="living"></div>
-            <div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
-            <div class="drawer-zone zone-dining" data-room="dining"></div>
-            <div class="drawer-zone zone-spare" data-room="spare"></div>
-            <div class="drawer-zone zone-upload" data-room="upload"></div>
-        </div>
-
-        <div id="work-area">
-            <div id="placedItemsLayer"></div>
-            <div id="itemGizmo">
-                <div class="gizmo-handle handle-rotate" data-gizmo="rotate"></div>
-                <div class="gizmo-handle handle-scale" data-gizmo="scale"></div>
-                <div class="gizmo-handle handle-flip" data-gizmo="flip"></div>
-            </div>
-        </div>
-    </div>
-
     <div id="catalogOverlay">
         <div class="catalog-container">
             <button class="page-btn prev-btn" id="prevCatPage">◀</button>
@@ -218,21 +198,23 @@
         </div>
     </div>
 
-    <div id="decorOverlay">
-        <div class="decor-container">
-            <button class="page-btn prev-btn" id="prevDecorPage">◀</button>
-            <button class="page-btn next-btn" id="nextDecorPage">▶</button>
-            <img src="Assets/decorcloset_entryway.jpg" id="decorBook">
-            
-            <div class="side-tabs">
-                <div class="side-tab" data-idx="0">Artwork</div>
-                <div class="side-tab" data-idx="1">Lighting</div>
-                <div class="side-tab" data-idx="2">Rugs</div>
-                <div class="side-tab" data-idx="3">Pillows</div>
-            </div>
+    <div class="workspace-wrapper" id="mainWorkspace">
+        <div id="rooms-cabinet">
+            <img src="Assets/rooms_cabinet.png">
+            <div class="drawer-zone zone-living" data-room="living"></div>
+            <div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
+            <div class="drawer-zone zone-dining" data-room="dining"></div>
+            <div class="drawer-zone zone-spare" data-room="spare"></div>
+            <div class="drawer-zone zone-upload" data-room="upload"></div>
+        </div>
 
-            <div class="page left-page"><div class="catalog-header" id="decorLeftHeader">DECOR</div><div class="catalog-grid" id="decorLeft"></div></div>
-            <div class="page right-page"><div class="catalog-header" id="decorRightHeader">DECOR</div><div class="catalog-grid" id="decorRight"></div></div>
+        <div id="work-area">
+            <div id="placedItemsLayer"></div>
+            <div id="itemGizmo">
+                <div class="gizmo-handle handle-rotate" data-gizmo="rotate"></div>
+                <div class="gizmo-handle handle-scale" data-gizmo="scale"></div>
+                <div class="gizmo-handle handle-flip" data-gizmo="flip"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -287,7 +269,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let currentCategoryIndex = 0;
     let subPageIndex = 0; 
     const catalogOverlay = document.getElementById("catalogOverlay");
-    const decorOverlay = document.getElementById("decorOverlay");
     const Math_max = Math.max;
     const placedLayer = document.getElementById("placedItemsLayer");
     const itemGizmo = document.getElementById("itemGizmo");
@@ -319,7 +300,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (idx < 6) leftGrid.appendChild(img);
             else rightGrid.appendChild(img);
         });
-        document.querySelectorAll("#catalogOverlay .side-tab").forEach((tab, idx) => {
+        document.querySelectorAll(".side-tab").forEach((tab, idx) => {
             tab.classList.toggle("active", idx === currentCategoryIndex);
         });
     }
@@ -335,7 +316,7 @@ document.addEventListener("DOMContentLoaded", function() {
         renderCatalog();
     };
 
-    document.querySelectorAll("#catalogOverlay .side-tab").forEach(tab => {
+    document.querySelectorAll(".side-tab").forEach(tab => {
         tab.onclick = () => {
             currentCategoryIndex = parseInt(tab.dataset.idx);
             subPageIndex = 0; 
@@ -401,16 +382,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     document.getElementById("catalogTab").onclick = () => { 
-        decorOverlay.classList.remove("show");
         renderCatalog(); 
         catalogOverlay.classList.toggle("show"); 
         if(catalogOverlay.classList.contains("show")) catalogOverlay.scrollIntoView({ behavior: 'smooth' });
-    };
-
-    document.getElementById("decorTab").onclick = () => {
-        catalogOverlay.classList.remove("show");
-        decorOverlay.classList.toggle("show");
-        if(decorOverlay.classList.contains("show")) decorOverlay.scrollIntoView({ behavior: 'smooth' });
     };
 
     document.getElementById("roomsTab").onclick = () => {
@@ -428,7 +402,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const roomIndices = { living: 0, bedroom: 0, dining: 0, spare: 0 };
 
     document.getElementById("work-area").onclick = () => {
-        decorOverlay.classList.remove("show");
         renderCatalog();
         catalogOverlay.classList.add("show");
         catalogOverlay.scrollIntoView({ behavior: 'smooth', block: 'start' });
