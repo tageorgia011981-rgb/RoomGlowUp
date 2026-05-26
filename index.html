@@ -66,20 +66,20 @@
         #catalogBook { width: 1000px; display: block; }
 
         #decorOverlay {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.7);
-            width: 1000px; height: auto; z-index: 10000; display: none;
-            filter: drop-shadow(0px 0px 30px rgba(0,0,0,0.8));
+            height: 650px; width: 0; overflow: hidden; position: relative;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease-in-out;
+            opacity: 0; pointer-events: none; flex-shrink: 0;
         }
-        #decorOverlay.show { display: block; }
+        #decorOverlay.show { width: 450px; opacity: 1; pointer-events: auto; }
         
-        .decor-container { position: relative; width: 1000px; margin: 0 auto; }
-        #decorBook { width: 1000px; display: block; }
+        .decor-container { position: relative; width: 450px; height: 100%; }
+        #decorBook { height: 100%; width: auto; display: block; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.6)); }
 
-        .decor-closet-zone { position: absolute; left: 35%; width: 30%; height: 6%; cursor: pointer; z-index: 25; }
-        .zone-artwork { top: 22.5%; }
-        .zone-lighting { top: 31%; }
-        .zone-rugs { top: 39%; }
-        .zone-pillows { top: 47%; }
+        .decor-closet-zone { position: absolute; left: 10%; width: 80%; height: 8%; cursor: pointer; z-index: 25; }
+        .zone-artwork { top: 12%; }
+        .zone-lighting { top: 23%; }
+        .zone-rugs { top: 34%; }
+        .zone-pillows { top: 45%; }
 
         .side-tabs {
             position: absolute; right: -5px; top: 12%; height: 75%;
@@ -171,10 +171,11 @@
         #work-area { 
             width: 1000px; height: 650px; background: url('Assets/workstation.jpg') center/cover; 
             box-shadow: 0 0 60px black; position: relative; overflow: hidden; 
-            border: 4px solid #333; flex-shrink: 0; transition: margin-left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 4px solid #333; flex-shrink: 0; transition: margin-left 0.8s cubic-bezier(0.4, 0, 0.2, 1), margin-right 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
         }
         #rooms-cabinet.show + #work-area { margin-left: 30px; }
+        #work-area.shift-right { margin-right: 30px; }
 
         .placed-item { position: absolute; cursor: move; max-width: 250px; z-index: 100; }
         .placed-shadow { position: absolute; background: rgba(0,0,0,0.4); filter: blur(8px); border-radius: 50%; pointer-events: none; }
@@ -239,22 +240,16 @@
                 <div class="gizmo-handle handle-flip" data-gizmo="flip"></div>
             </div>
         </div>
-    </div>
 
-    <div id="decorOverlay">
-        <div class="decor-container">
-            <button class="decor-close-btn" id="closeDecorBtn">X</button>
-            <button class="page-btn prev-btn" id="prevDecorPage">◀</button>
-            <button class="page-btn next-btn" id="nextDecorPage">▶</button>
-            <img src="Assets/decorcloset_entryway.jpg" id="decorBook">
-            
-            <div class="decor-closet-zone zone-artwork" data-closet="artwork"></div>
-            <div class="decor-closet-zone zone-lighting" data-closet="lighting"></div>
-            <div class="decor-closet-zone zone-rugs" data-closet="rugs"></div>
-            <div class="decor-closet-zone zone-pillows" data-closet="pillows"></div>
-
-            <div class="page left-page"><div class="catalog-header" id="decorLeftHeader">DECOR</div><div class="catalog-grid" id="decorLeft"></div></div>
-            <div class="page right-page"><div class="catalog-header" id="decorRightHeader">DECOR</div><div class="catalog-grid" id="decorRight"></div></div>
+        <div id="decorOverlay">
+            <div class="decor-container">
+                <img src="Assets/rooms_cabinet.png" id="decorBook" style="transform: scaleX(-1);">
+                
+                <div class="decor-closet-zone zone-artwork" data-closet="artwork"></div>
+                <div class="decor-closet-zone zone-lighting" data-closet="lighting"></div>
+                <div class="decor-closet-zone zone-rugs" data-closet="rugs"></div>
+                <div class="decor-closet-zone zone-pillows" data-closet="pillows"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -434,6 +429,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("catalogTab").onclick = () => { 
         decorOverlay.classList.remove("show");
+        document.getElementById("work-area").classList.remove("shift-right");
         renderCatalog(); 
         catalogOverlay.classList.toggle("show"); 
         if(catalogOverlay.classList.contains("show")) catalogOverlay.scrollIntoView({ behavior: 'smooth' });
@@ -442,10 +438,14 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("decorTab").onclick = () => {
         catalogOverlay.classList.remove("show");
         decorOverlay.classList.toggle("show");
-    };
-
-    document.getElementById("closeDecorBtn").onclick = () => {
-        decorOverlay.classList.remove("show");
+        
+        const workArea = document.getElementById("work-area");
+        if (decorOverlay.classList.contains("show")) {
+            workArea.classList.add("shift-right");
+            document.getElementById("mainWorkspace").scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+            workArea.classList.remove("shift-right");
+        }
     };
 
     document.getElementById("roomsTab").onclick = () => {
@@ -464,6 +464,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("work-area").onclick = () => {
         decorOverlay.classList.remove("show");
+        this.classList.remove("shift-right");
         renderCatalog();
         catalogOverlay.classList.add("show");
         catalogOverlay.scrollIntoView({ behavior: 'smooth', block: 'start' });
