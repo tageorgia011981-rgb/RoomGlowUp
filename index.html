@@ -70,9 +70,9 @@
             transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease-in-out;
             opacity: 0; pointer-events: none; flex-shrink: 0;
         }
-        #decorOverlay.show { width: 346px; opacity: 1; pointer-events: auto; }
+        #decorOverlay.show { width: 380px; opacity: 1; pointer-events: auto; }
         
-        .decor-container { position: relative; width: 346px; height: 100%; }
+        .decor-container { position: relative; width: 380px; height: 100%; }
         #decorBook { height: 100%; width: auto; display: block; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.6)); }
 
         .decor-closet-zone { position: absolute; left: 10%; width: 80%; height: 8%; cursor: pointer; z-index: 25; }
@@ -169,13 +169,13 @@
         .zone-upload { top: 64%; }
 
         #work-area { 
-            width: 769px; height: 500px; background: url('Assets/workstation.jpg') center/cover; 
+            width: 735px; height: 478px; background: url('Assets/workstation.jpg') center/cover; 
             box-shadow: 0 0 60px black; position: relative; overflow: hidden; 
             border: 4px solid #333; flex-shrink: 0; transition: margin-left 0.8s cubic-bezier(0.4, 0, 0.2, 1), margin-right 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
         }
-        #rooms-cabinet.show + #work-area { margin-left: 20px; }
-        #work-area.shift-right { margin-right: 20px; }
+        #rooms-cabinet.show + #work-area { margin-left: 5px; }
+        #work-area.shift-right { margin-right: 5px; }
 
         .placed-item { position: absolute; cursor: move; max-width: 190px; z-index: 100; }
         .placed-shadow { position: absolute; background: rgba(0,0,0,0.4); filter: blur(8px); border-radius: 50%; pointer-events: none; }
@@ -432,7 +432,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("work-area").classList.remove("shift-right");
         renderCatalog(); 
         catalogOverlay.classList.toggle("show"); 
-        if(catalogOverlay.classList.contains("show")) catalogOverlay.scrollIntoView({ behavior: 'smooth' });
+        if(catalogOverlay.classList.contains("show")) catalogOverlay.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
     document.getElementById("decorTab").onclick = () => {
@@ -443,7 +443,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const workArea = document.getElementById("work-area");
         if (decorOverlay.classList.contains("show")) {
             workArea.classList.add("shift-right");
-            document.getElementById("mainWorkspace").scrollIntoView({ behavior: 'smooth', block: 'center' });
+            document.getElementById("work-area").scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else {
             workArea.classList.remove("shift-right");
         }
@@ -454,7 +454,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("work-area").classList.remove("shift-right");
         const cab = document.getElementById("rooms-cabinet");
         cab.classList.toggle("show");
-        if(cab.classList.contains("show")) document.getElementById("mainWorkspace").scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if(cab.classList.contains("show")) document.getElementById("work-area").scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
 
     const roomImages = {
