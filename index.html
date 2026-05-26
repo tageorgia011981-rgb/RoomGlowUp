@@ -318,7 +318,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let isDragging = false;
 
     function renderCatalog() {
-        const data = catalogData[currentCategoryIndex];
         const leftHeader = document.getElementById("leftHeader");
         const rightHeader = document.getElementById("rightHeader");
         const leftGrid = document.getElementById("catalogLeft");
@@ -326,21 +325,32 @@ document.addEventListener("DOMContentLoaded", function() {
         
         leftGrid.innerHTML = ""; rightGrid.innerHTML = "";
         
+        const data = catalogData[currentCategoryIndex];
         leftHeader.innerText = data.subCategories[subPageIndex] || data.category;
         rightHeader.innerText = data.subCategories[subPageIndex] || data.category;
         
-        const pageAssets = data.assets[subPageIndex] || [];
-        
-        pageAssets.forEach((src, idx) => {
-            const img = document.createElement("img");
-            img.src = src; img.className = "catalog-item";
-            
-            img.setAttribute("data-item-num", idx + 1);
-            
-            img.onclick = (e) => { e.stopPropagation(); placeInRoom(src); };
-            if (idx < 6) leftGrid.appendChild(img);
-            else rightGrid.appendChild(img);
-        });
+        if (currentCategoryIndex === 1 && subPageIndex === 1) {
+            for (let i = 1; i <= 12; i++) {
+                const src = `Assets/storage_shelf${i}.png`;
+                const img = document.createElement("img");
+                img.src = src; img.className = "catalog-item";
+                img.setAttribute("data-item-num", i);
+                img.onclick = (e) => { e.stopPropagation(); placeInRoom(src); };
+                if (i <= 6) leftGrid.appendChild(img);
+                else rightGrid.appendChild(img);
+            }
+        } else {
+            const pageAssets = data.assets[subPageIndex] || [];
+            pageAssets.forEach((src, idx) => {
+                const img = document.createElement("img");
+                img.src = src; img.className = "catalog-item";
+                img.setAttribute("data-item-num", idx + 1);
+                img.onclick = (e) => { e.stopPropagation(); placeInRoom(src); };
+                if (idx < 6) leftGrid.appendChild(img);
+                else rightGrid.appendChild(img);
+            });
+        }
+
         document.querySelectorAll("#catalogOverlay .side-tab").forEach((tab, idx) => {
             tab.classList.toggle("active", idx === currentCategoryIndex);
         });
