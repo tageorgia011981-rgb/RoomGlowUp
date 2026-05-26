@@ -44,7 +44,7 @@
             letter-spacing: 1px;
         }
 
-        .nav-container { display: flex; justify-content: center; gap: 15px; margin-top: -25px; position: relative; z-index: 9999; }
+        .nav-container { display: flex; justify(content: center; gap: 15px; margin-top: -25px; position: relative; z-index: 9999; }
         .top-tab { position: relative; width: 165px; height: 120px; cursor: pointer; transition: transform 0.4s; }
         .top-tab:hover { transform: translateY(18px); }
         .top-tab img { width: 100%; height: auto; display: block; pointer-events: none; }
@@ -65,15 +65,44 @@
         .catalog-container { position: relative; width: 1000px; margin: 0 auto; }
         #catalogBook { width: 1000px; display: block; }
 
+        .workspace-wrapper { 
+            display: flex; flex-direction: row; justify-content: center; align-items: center; 
+            width: 100%; margin-top: 140px; transition: all 0.8s ease-in-out; gap: 0;
+        }
+
+        #rooms-cabinet { 
+            height: 500px; width: 0; overflow: hidden; position: relative; 
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease-in-out; 
+            opacity: 0; pointer-events: none; flex-shrink: 0;
+        }
+        #rooms-cabinet.show { width: 346px; opacity: 1; pointer-events: auto; }
+        #rooms-cabinet img { height: 100%; width: auto; display: block; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)); }
+
+        .drawer-zone { position: absolute; left: 10%; width: 80%; height: 10%; cursor: pointer; z-index: 5; }
+        .zone-living { top: 12%; } 
+        .zone-bedroom { top: 25%; } 
+        .zone-dining { top: 38%; } 
+        .zone-spare { top: 51%; }
+        .zone-upload { top: 64%; }
+
+        #work-area { 
+            width: 769px; height: 500px; background: url('Assets/workstation.jpg') center/cover; 
+            box-shadow: 0 0 60px black; position: relative; overflow: hidden; 
+            border: 4px solid #333; flex-shrink: 0; transition: margin-left 0.8s cubic-bezier(0.4, 0, 0.2, 1), margin-right 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        #rooms-cabinet.show + #work-area { margin-left: 20px; }
+        #work-area.shift-right { margin-right: 20px; }
+
         #decorOverlay {
             height: 500px; width: 0; overflow: hidden; position: relative;
             transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease-in-out;
             opacity: 0; pointer-events: none; flex-shrink: 0;
         }
-        #decorOverlay.show { width: 346px; opacity: 1; pointer-events: auto; }
+        #decorOverlay.show { width: 384px; opacity: 1; pointer-events: auto; }
         
-        .decor-container { position: relative; width: 346px; height: 100%; }
-        #decorBook { height: 100%; width: auto; display: block; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.6)); }
+        .decor-container { position: relative; width: 384px; height: 100%; }
+        #decorBook { height: 100%; width: 100%; display: block; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.6)); object-fit: fill; }
 
         .decor-closet-zone { position: absolute; left: 10%; width: 80%; height: 8%; cursor: pointer; z-index: 25; }
         .zone-artwork { top: 22.5%; }
@@ -107,14 +136,6 @@
         .prev-btn { left: -5%; }
         .next-btn { right: 11%; }
 
-        .decor-close-btn {
-            position: absolute; top: 2%; right: 13%; width: 35px; height: 35px;
-            background: #d4af37; border: 2px solid black; color: black; font-weight: bold;
-            font-size: 20px; cursor: pointer; z-index: 30; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; transition: 0.2s;
-        }
-        .decor-close-btn:hover { background: black; color: #d4af37; border-color: #d4af37; }
-
         .page { position: absolute; top: 10%; width: 38%; height: 78%; display: flex; flex-direction: column; z-index: 10; padding: 10px; box-sizing: border-box; }
         .left-page { left: 8.5%; }
         .right-page { right: 13.5%; }
@@ -147,35 +168,6 @@
             z-index: 50;
             position: relative;
         }
-
-        .workspace-wrapper { 
-            display: flex; flex-direction: row; justify-content: center; align-items: center; 
-            width: 100%; margin-top: 140px; transition: all 0.8s ease-in-out; gap: 0;
-        }
-
-        #rooms-cabinet { 
-            height: 500px; width: 0; overflow: hidden; position: relative; 
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease-in-out; 
-            opacity: 0; pointer-events: none; flex-shrink: 0;
-        }
-        #rooms-cabinet.show { width: 346px; opacity: 1; pointer-events: auto; }
-        #rooms-cabinet img { height: 100%; width: auto; display: block; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)); }
-
-        .drawer-zone { position: absolute; left: 10%; width: 80%; height: 10%; cursor: pointer; z-index: 5; }
-        .zone-living { top: 12%; } 
-        .zone-bedroom { top: 25%; } 
-        .zone-dining { top: 38%; } 
-        .zone-spare { top: 51%; }
-        .zone-upload { top: 64%; }
-
-        #work-area { 
-            width: 769px; height: 500px; background: url('Assets/workstation.jpg') center/cover; 
-            box-shadow: 0 0 60px black; position: relative; overflow: hidden; 
-            border: 4px solid #333; flex-shrink: 0; transition: margin-left 0.8s cubic-bezier(0.4, 0, 0.2, 1), margin-right 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-        }
-        #rooms-cabinet.show + #work-area { margin-left: 20px; }
-        #work-area.shift-right { margin-right: 20px; }
 
         .placed-item { position: absolute; cursor: move; max-width: 190px; z-index: 100; }
         .placed-shadow { position: absolute; background: rgba(0,0,0,0.4); filter: blur(8px); border-radius: 50%; pointer-events: none; }
