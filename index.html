@@ -267,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function() {
             subCategories: ["STORAGE CABINETS", "STORAGE SHELVES", "STORAGE DRESSERS", "STORAGE SIDEBOARDS", "STORAGE VANITIES"],
             assets: [
                 Array.from({length: 12}, (_, i) => `Assets/storage_cabinet${i+1}.png`),
-                Array.from({length: 7}, (_, i) => `Assets/storage_shelf${i+1}.png`),
+                Array.from({length: 12}, (_, i) => `Assets/storage_shelf${i+1}.png`),
                 Array.from({length: 8}, (_, i) => `Assets/storage_dresser${i+1}.png`),
                 Array.from({length: 12}, (_, i) => `Assets/storage_sideboard${i+1}.png`),
                 Array.from({length: 2}, (_, i) => `Assets/storage_vanity${i+1}.png`)
@@ -432,57 +432,3 @@ document.addEventListener("DOMContentLoaded", function() {
     const roomImages = {
         living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg", "Assets/ROOMS_livingroom3.jpg", "Assets/ROOMS_livingroom4.jpg"],
         bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg", "Assets/ROOMS_bedroom3.jpg"],
-        dining: ["Assets/ROOMS_diningroom1.jpg", "Assets/ROOMS_diningroom2.jpg"],
-        spare: ["Assets/ROOMS_office.jpg", "Assets/ROOMS_bathroom1.jpg", "Assets/kitchen1.jpg"]
-    };
-    const roomIndices = { living: 0, bedroom: 0, dining: 0, spare: 0 };
-
-    document.getElementById("work-area").onclick = () => {
-        decorOverlay.classList.remove("show");
-        renderCatalog();
-        catalogOverlay.classList.add("show");
-        catalogOverlay.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    };
-
-    document.querySelectorAll(".drawer-zone").forEach(zone => {
-        zone.onclick = (e) => {
-            e.stopPropagation();
-            const type = zone.dataset.room;
-            const workArea = document.getElementById("work-area");
-            if (type === "upload") {
-                roomUploader.click();
-            } else {
-                const imgs = roomImages[type];
-                workArea.style.background = `url('${imgs[roomIndices[type]]}') center/cover no-repeat`;
-                roomIndices[type] = (roomIndices[type] + 1) % imgs.length;
-            }
-        };
-    });
-
-    roomUploader.onchange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                document.getElementById("work-area").style.background = `url('${event.target.result}') center/cover no-repeat`;
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
-    itemGizmo.onmousedown = (e) => {
-        const h = e.target.dataset.gizmo; if(!h) return; e.stopPropagation();
-        if(h === "flip") { selectedItem.dataset.flip *= -1; updatePieceTransform(selectedItem); }
-        else {
-            document.onmousemove = (m) => {
-                if(h === "scale") selectedItem.dataset.scale = Math_max(0.3, parseFloat(selectedItem.dataset.scale) + (m.movementY * -0.01));
-                else selectedItem.dataset.rotation = parseFloat(selectedItem.dataset.rotation) + m.movementX;
-                updatePieceTransform(selectedItem); updateGizmoPosition();
-            };
-            document.onmouseup = () => document.onmousemove = null;
-        }
-    };
-});
-</script>
-</body>
-</html>
