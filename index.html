@@ -66,13 +66,13 @@
         #catalogBook { width: 1000px; display: block; }
 
         #decorOverlay {
-            height: 650px; width: 0; overflow: hidden; position: relative;
+            height: 500px; width: 0; overflow: hidden; position: relative;
             transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease-in-out;
             opacity: 0; pointer-events: none; flex-shrink: 0;
         }
-        #decorOverlay.show { width: 450px; opacity: 1; pointer-events: auto; }
+        #decorOverlay.show { width: 346px; opacity: 1; pointer-events: auto; }
         
-        .decor-container { position: relative; width: 450px; height: 100%; }
+        .decor-container { position: relative; width: 346px; height: 100%; }
         #decorBook { height: 100%; width: auto; display: block; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.6)); }
 
         .decor-closet-zone { position: absolute; left: 10%; width: 80%; height: 8%; cursor: pointer; z-index: 25; }
@@ -154,11 +154,11 @@
         }
 
         #rooms-cabinet { 
-            height: 650px; width: 0; overflow: hidden; position: relative; 
+            height: 500px; width: 0; overflow: hidden; position: relative; 
             transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease-in-out; 
             opacity: 0; pointer-events: none; flex-shrink: 0;
         }
-        #rooms-cabinet.show { width: 450px; opacity: 1; pointer-events: auto; }
+        #rooms-cabinet.show { width: 346px; opacity: 1; pointer-events: auto; }
         #rooms-cabinet img { height: 100%; width: auto; display: block; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)); }
 
         .drawer-zone { position: absolute; left: 10%; width: 80%; height: 10%; cursor: pointer; z-index: 5; }
@@ -169,15 +169,15 @@
         .zone-upload { top: 64%; }
 
         #work-area { 
-            width: 1000px; height: 650px; background: url('Assets/workstation.jpg') center/cover; 
+            width: 769px; height: 500px; background: url('Assets/workstation.jpg') center/cover; 
             box-shadow: 0 0 60px black; position: relative; overflow: hidden; 
             border: 4px solid #333; flex-shrink: 0; transition: margin-left 0.8s cubic-bezier(0.4, 0, 0.2, 1), margin-right 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
         }
-        #rooms-cabinet.show + #work-area { margin-left: 30px; }
-        #work-area.shift-right { margin-right: 30px; }
+        #rooms-cabinet.show + #work-area { margin-left: 20px; }
+        #work-area.shift-right { margin-right: 20px; }
 
-        .placed-item { position: absolute; cursor: move; max-width: 250px; z-index: 100; }
+        .placed-item { position: absolute; cursor: move; max-width: 190px; z-index: 100; }
         .placed-shadow { position: absolute; background: rgba(0,0,0,0.4); filter: blur(8px); border-radius: 50%; pointer-events: none; }
         
         #itemGizmo { position: absolute; border: 2px dashed #e0ff00; display: none; z-index: 200; pointer-events: none; }
@@ -374,7 +374,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const piece = document.createElement("img");
         piece.src = src; piece.className = "placed-item";
         piece.dataset.scale = "1"; piece.dataset.rotation = "0"; piece.dataset.flip = "1";
-        piece.style.left = "400px"; piece.style.top = "200px";
+        piece.style.left = "300px"; piece.style.top = "150px";
         const shadow = document.createElement("div");
         shadow.className = "placed-shadow";
         piece._shadowEl = shadow;
