@@ -98,6 +98,23 @@
         .side-tab:hover { transform: translateX(10px); filter: brightness(1.1); }
         .side-tab.active { width: 115px; transform: translateX(5px); box-shadow: 1px 1px 10px #fcf6ba; }
 
+        .decor-side-tabs {
+            position: absolute; right: -5px; top: 12%; height: 75%;
+            display: flex; flex-direction: column; justify-content: space-between;
+            z-index: 15;
+        }
+        .decor-side-tab {
+            width: 100px; height: 45px; 
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            color: #000; font-family: Arial, sans-serif; font-weight: 900; font-size: 11px;
+            border: 1px solid #555; border-left: none; border-radius: 0 8px 8px 0;
+            cursor: pointer; text-transform: uppercase; display: flex;
+            align-items: center; justify-content: center; transition: 0.3s;
+            box-shadow: 3px 3px 6px rgba(0,0,0,0.6);
+        }
+        .decor-side-tab:hover { transform: translateX(10px); filter: brightness(1.1); }
+        .decor-side-tab.active { width: 115px; transform: translateX(5px); box-shadow: 1px 1px 10px #fcf6ba; }
+
         .page-btn {
             position: absolute; top: 45%; width: 40px; height: 60px; 
             background: rgba(0,0,0,0.8); border: 2px solid #d4af37; color: #d4af37; 
@@ -106,6 +123,15 @@
         .page-btn:hover { background: #d4af37; color: black; }
         .prev-btn { left: -5%; }
         .next-btn { right: 11%; }
+
+        .decor-page-btn {
+            position: absolute; top: 45%; width: 30px; height: 45px; 
+            background: rgba(0,0,0,0.8); border: 2px solid #d4af37; color: #d4af37; 
+            font-size: 18px; cursor: pointer; z-index: 20; border-radius: 5px; transition: 0.2s;
+        }
+        .decor-page-btn:hover { background: #d4af37; color: black; }
+        .decor-prev-btn { left: -3%; }
+        .decor-next-btn { right: 12%; }
 
         .decor-close-btn {
             position: absolute; top: 2%; right: 13%; width: 35px; height: 35px;
@@ -119,11 +145,23 @@
         .left-page { left: 8.5%; }
         .right-page { right: 13.5%; }
 
+        .decor-page { position: absolute; top: 10%; width: 36%; height: 78%; display: flex; flex-direction: column; z-index: 10; padding: 5px; box-sizing: border-box; }
+        .decor-left-page { left: 8.5%; }
+        .decor-right-page { right: 14.5%; }
+
         .catalog-header {
             text-align: center; font-size: 24px; font-weight: 900;
             background: linear-gradient(to bottom, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             margin-bottom: 25px; letter-spacing: 3px; text-transform: uppercase;
+            filter: drop-shadow(2px 2px 2px black);
+        }
+
+        .decor-catalog-header {
+            text-align: center; font-size: 14px; font-weight: 900;
+            background: linear-gradient(to bottom, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 15px; letter-spacing: 1px; text-transform: uppercase;
             filter: drop-shadow(2px 2px 2px black);
         }
 
@@ -136,6 +174,17 @@
             align-items: center;
             justify-items: center;
         }
+
+        .decor-catalog-grid { 
+            flex-grow: 1; 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            grid-template-rows: repeat(3, 1fr); 
+            gap: 10px; 
+            align-items: center;
+            justify-items: center;
+        }
+
         .catalog-item { width: 100%; height: 100%; max-height: 110px; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
         .catalog-item:hover { transform: scale(1.4); z-index: 50; position: relative; }
         
@@ -243,12 +292,19 @@
 
         <div id="decorOverlay">
             <div class="decor-container">
+                <button class="decor-page-btn decor-prev-btn" id="prevDecPage" style="display: none;">◀</button>
+                <button class="decor-page-btn decor-next-btn" id="nextDecPage" style="display: none;">▶</button>
+                <button class="decor-close-btn" id="closeDecorView" style="display: none;">✕</button>
+                
                 <img src="Assets/decorcloset_entryway.jpg" id="decorBook">
                 
                 <div class="decor-closet-zone zone-artwork" data-closet="artwork"></div>
                 <div class="decor-closet-zone zone-lighting" data-closet="lighting"></div>
                 <div class="decor-closet-zone zone-rugs" data-closet="rugs"></div>
                 <div class="decor-closet-zone zone-pillows" data-closet="pillows"></div>
+
+                <div class="decor-page decor-left-page" style="display: none;"><div class="decor-catalog-header" id="decorLeftHeader"></div><div class="decor-catalog-grid" id="decorCatalogLeft"></div></div>
+                <div class="decor-page decor-right-page" style="display: none;"><div class="decor-catalog-header" id="decorRightHeader"></div><div class="decor-catalog-grid" id="decorCatalogRight"></div></div>
             </div>
         </div>
     </div>
@@ -301,8 +357,41 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     ];
 
+    const decorClosetData = {
+        artwork: {
+            bg: "Assets/decorcloset_entryway.jpg",
+            title: "ARTWORK",
+            pages: [[]]
+        },
+        lighting: {
+            bg: "Assets/decorcloset_lamps.jpg",
+            title: "LIGHTING",
+            pages: [
+                [
+                    ...Array.from({length: 12}, (_, i) => `Assets/decor_lamp${i+1}.png`),
+                    ...Array.from({length: 4}, (_, i) => `Assets/decor_hanginglight${i+1}.png`)
+                ]
+            ]
+        },
+        rugs: {
+            bg: "Assets/decorcloset_entryway.jpg",
+            title: "RUGS",
+            pages: [[]]
+        },
+        pillows: {
+            bg: "Assets/decorcloset_pillows.jpg",
+            title: "PILLOWS",
+            pages: [
+                Array.from({length: 12}, (_, i) => `Assets/decor_pillow${i+1}.png`)
+            ]
+        }
+    };
+
     let currentCategoryIndex = 0;
     let subPageIndex = 0; 
+    let activeClosetSection = null;
+    let decorPageIndex = 0;
+
     const catalogOverlay = document.getElementById("catalogOverlay");
     const decorOverlay = document.getElementById("decorOverlay");
     const Math_max = Math.max;
@@ -350,6 +439,74 @@ document.addEventListener("DOMContentLoaded", function() {
             tab.classList.toggle("active", idx === currentCategoryIndex);
         });
     }
+
+    function renderDecorClosetSection() {
+        const decorBook = document.getElementById("decorBook");
+        const leftHeader = document.getElementById("decorLeftHeader");
+        const rightHeader = document.getElementById("decorRightHeader");
+        const leftGrid = document.getElementById("decorCatalogLeft");
+        const rightGrid = document.getElementById("decorCatalogRight");
+        const zones = document.querySelectorAll(".decor-closet-zone");
+        const prevBtn = document.getElementById("prevDecPage");
+        const nextBtn = document.getElementById("nextDecPage");
+        const closeBtn = document.getElementById("closeDecorView");
+        const pagesEls = document.querySelectorAll(".decor-page");
+
+        if (!activeClosetSection) {
+            decorBook.src = "Assets/decorcloset_entryway.jpg";
+            zones.forEach(z => z.style.display = "block");
+            pagesEls.forEach(p => p.style.display = "none");
+            prevBtn.style.display = "none";
+            nextBtn.style.display = "none";
+            closeBtn.style.display = "none";
+            return;
+        }
+
+        zones.forEach(z => z.style.display = "none");
+        pagesEls.forEach(p => p.style.display = "flex");
+        closeBtn.style.display = "flex";
+
+        const data = decorClosetData[activeClosetSection];
+        decorBook.src = data.bg;
+        
+        leftHeader.innerText = data.title;
+        rightHeader.innerText = data.title;
+        leftGrid.innerHTML = ""; 
+        rightGrid.innerHTML = "";
+
+        const items = data.pages[decorPageIndex] || [];
+        items.forEach((src, idx) => {
+            const img = document.createElement("img");
+            img.src = src;
+            img.className = "catalog-item";
+            img.onclick = (e) => { e.stopPropagation(); placeInRoom(src); };
+            if (idx < 6) leftGrid.appendChild(img);
+            else if (idx < 12) rightGrid.appendChild(img);
+        });
+
+        prevBtn.style.display = data.pages.length > 1 ? "block" : "none";
+        nextBtn.style.display = data.pages.length > 1 ? "block" : "none";
+    }
+
+    document.getElementById("closeDecorView").onclick = (e) => {
+        e.stopPropagation();
+        activeClosetSection = null;
+        decorPageIndex = 0;
+        renderDecorClosetSection();
+    };
+
+    document.getElementById("nextDecPage").onclick = (e) => {
+        e.stopPropagation();
+        const data = decorClosetData[activeClosetSection];
+        if (decorPageIndex < data.pages.length - 1) decorPageIndex++;
+        renderDecorClosetSection();
+    };
+
+    document.getElementById("prevDecPage").onclick = (e) => {
+        e.stopPropagation();
+        if (decorPageIndex > 0) decorPageIndex--;
+        renderDecorClosetSection();
+    };
 
     document.getElementById("nextCatPage").onclick = () => {
         const totalSubPages = catalogData[currentCategoryIndex].assets.length;
@@ -440,6 +597,10 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("rooms-cabinet").classList.remove("show");
         decorOverlay.classList.toggle("show");
         
+        activeClosetSection = null;
+        decorPageIndex = 0;
+        renderDecorClosetSection();
+
         const workArea = document.getElementById("work-area");
         if (decorOverlay.classList.contains("show")) {
             workArea.classList.add("shift-right");
@@ -491,8 +652,9 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll(".decor-closet-zone").forEach(zone => {
         zone.onclick = (e) => {
             e.stopPropagation();
-            const closetType = zone.dataset.closet;
-            console.log("Selected decor closet section:", closetType);
+            activeClosetSection = zone.dataset.closet;
+            decorPageIndex = 0;
+            renderDecorClosetSection();
         };
     });
 
