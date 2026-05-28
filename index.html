@@ -187,16 +187,19 @@
 
         .workspace-wrapper { 
             display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            width: 100%; margin-top: 140px; transition: all 0.8s ease-in-out; gap: 0;
+            width: 100%; margin-top: 140px; transition: transform 1.8s cubic-bezier(0.4, 0, 0.2, 1); gap: 0;
+        }
+        .workspace-wrapper.shift-right {
+            transform: translateX(255px);
         }
 
         #rooms-cabinet { 
-            height: 500px; width: 346px; overflow: hidden; 
-            position: fixed; left: -346px; top: 50%; transform: translateY(-50%);
-            transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease-in-out; 
+            height: 672px; width: 465px; overflow: hidden; 
+            position: absolute; left: -510px; top: 50%; transform: translateY(-50%);
+            transition: left 1.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.8s ease-in-out; 
             opacity: 0; pointer-events: none; flex-shrink: 0; z-index: 99999;
         }
-        #rooms-cabinet.show { left: 0; opacity: 1; pointer-events: auto; }
+        #rooms-cabinet.show { left: -480px; opacity: 1; pointer-events: auto; }
         #rooms-cabinet img { height: 100%; width: auto; display: block; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)); }
 
         .drawer-zone { position: absolute; left: 10%; width: 80%; height: 10%; cursor: pointer; z-index: 5; }
@@ -583,6 +586,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("decorTab").onclick = () => {
         catalogOverlay.classList.remove("show");
         document.getElementById("rooms-cabinet").classList.remove("show");
+        document.getElementById("mainWorkspace").classList.remove("shift-right");
         decorOverlay.classList.toggle("show");
         
         activeClosetSection = null;
@@ -599,11 +603,10 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("roomsTab").onclick = () => {
         decorOverlay.classList.remove("show");
         const cab = document.getElementById("rooms-cabinet");
-        cab.classList.toggle("show");
+        const workspace = document.getElementById("mainWorkspace");
         
-        setTimeout(() => {
-            document.getElementById("workspaceRow").scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 100);
+        cab.classList.toggle("show");
+        workspace.classList.toggle("shift-right");
     };
 
     const roomImages = {
