@@ -191,11 +191,12 @@
         }
 
         #rooms-cabinet { 
-            height: 500px; width: 0; overflow: hidden; position: relative; 
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease-in-out, margin-right 0.8s cubic-bezier(0.4, 0, 0.2, 1); 
-            opacity: 0; pointer-events: none; flex-shrink: 0; margin-right: 0;
+            height: 500px; width: 346px; overflow: hidden; 
+            position: fixed; left: -346px; top: 50%; transform: translateY(-50%);
+            transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease-in-out; 
+            opacity: 0; pointer-events: none; flex-shrink: 0; z-index: 99999;
         }
-        #rooms-cabinet.show { width: 346px; opacity: 1; pointer-events: auto; margin-right: 5px; }
+        #rooms-cabinet.show { left: 0; opacity: 1; pointer-events: auto; }
         #rooms-cabinet img { height: 100%; width: auto; display: block; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)); }
 
         .drawer-zone { position: absolute; left: 10%; width: 80%; height: 10%; cursor: pointer; z-index: 5; }
