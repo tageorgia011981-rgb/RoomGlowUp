@@ -187,19 +187,16 @@
 
         .workspace-wrapper { 
             display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            width: 100%; margin-top: 140px; transition: transform 1.8s cubic-bezier(0.4, 0, 0.2, 1); gap: 0;
-        }
-        .workspace-wrapper.shift-right {
-            transform: translateX(255px);
+            width: 100%; margin-top: 140px; gap: 0;
         }
 
         #rooms-cabinet { 
             height: 672px; width: 465px; overflow: hidden; 
-            position: absolute; left: -510px; top: 50%; transform: translateY(-50%);
+            position: absolute; left: -465px; top: 50%; transform: translateY(-50%);
             transition: left 1.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.8s ease-in-out; 
             opacity: 0; pointer-events: none; flex-shrink: 0; z-index: 99999;
         }
-        #rooms-cabinet.show { left: -480px; opacity: 1; pointer-events: auto; }
+        #rooms-cabinet.show { left: -255px; opacity: 1; pointer-events: auto; }
         #rooms-cabinet img { height: 100%; width: auto; display: block; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)); }
 
         .drawer-zone { position: absolute; left: 10%; width: 80%; height: 10%; cursor: pointer; z-index: 5; }
@@ -214,6 +211,10 @@
             box-shadow: 0 0 60px black; position: relative; overflow: hidden; 
             border: 4px solid #333; flex-shrink: 0;
             cursor: pointer;
+            transition: transform 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #work-area.shift-right {
+            transform: translateX(255px);
         }
 
         .placed-item { position: absolute; cursor: move; max-width: 190px; z-index: 100; }
@@ -586,7 +587,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("decorTab").onclick = () => {
         catalogOverlay.classList.remove("show");
         document.getElementById("rooms-cabinet").classList.remove("show");
-        document.getElementById("mainWorkspace").classList.remove("shift-right");
+        document.getElementById("work-area").classList.remove("shift-right");
         decorOverlay.classList.toggle("show");
         
         activeClosetSection = null;
@@ -603,10 +604,10 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("roomsTab").onclick = () => {
         decorOverlay.classList.remove("show");
         const cab = document.getElementById("rooms-cabinet");
-        const workspace = document.getElementById("mainWorkspace");
+        const workArea = document.getElementById("work-area");
         
         cab.classList.toggle("show");
-        workspace.classList.toggle("shift-right");
+        workArea.classList.toggle("shift-right");
     };
 
     const roomImages = {
