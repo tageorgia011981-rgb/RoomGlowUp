@@ -128,19 +128,23 @@
 
         /* ROOMS CABINET — NEW BEHAVIOR */
         #rooms-cabinet { 
-            height: 500px; width: 346px;
-            overflow: hidden; position: relative; 
-            transform: translateX(-400px);
-            opacity: 0;
-            pointer-events: none;
-            transition: transform 1.2s ease, opacity 1s ease;
-            flex-shrink: 0;
-        }
-        #rooms-cabinet.show { 
-            transform: translateX(0);
-            opacity: 1;
-            pointer-events: auto;
-        }
+    height: 500px; 
+    width: 420px; /* bigger, more proportional */
+    overflow: hidden;
+    position: relative;
+    transform: translateX(-250px); /* starts just off-screen, not too far */
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 1.2s ease, opacity 1s ease;
+    flex-shrink: 0;
+}
+
+#rooms-cabinet.show { 
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
 
         #rooms-cabinet img { height: 100%; width: auto; display: block; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)); }
 
