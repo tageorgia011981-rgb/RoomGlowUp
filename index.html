@@ -22,7 +22,9 @@
                 url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
                 url('Assets/mainbackground_blue.jpg') center top no-repeat;
             background-size: 33% 100%, 33% 100%, 34% 100%;
-            background-attachment: fixed; color: white;
+            background-attachment: fixed; 
+            background-color: #4A154B;
+            color: white;
             padding-bottom: 300px; 
         }
 
@@ -66,13 +68,14 @@
         #catalogBook { width: 1000px; display: block; }
 
         #decorOverlay {
-            position: relative; width: 923px; max-height: 0; opacity: 0; 
-            overflow: hidden; visibility: hidden; transition: max-height 0.8s ease-in-out, opacity 0.5s; margin: 20px auto 0 auto;
+            max-height: 0; width: 622px; overflow: hidden; position: relative;
+            transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease-in-out;
+            opacity: 0; pointer-events: none; margin: 20px auto 0 auto;
         }
-        #decorOverlay.show { max-height: 1200px; opacity: 1; visibility: visible; }
+        #decorOverlay.show { max-height: 900px; opacity: 1; pointer-events: auto; }
         
-        .decor-container { position: relative; width: 923px; margin: 0 auto; }
-        #decorBook { width: 100%; height: auto; display: block; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.6)); }
+        .decor-container { position: relative; width: 622px; height: 900px; }
+        #decorBook { width: 100%; height: 100%; object-fit: fill; display: block; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.6)); }
 
         .decor-closet-zone { position: absolute; left: 10%; width: 80%; height: 8%; cursor: pointer; z-index: 25; }
         .zone-artwork { top: 22.5%; }
@@ -484,6 +487,9 @@ document.addEventListener("DOMContentLoaded", function() {
         zone.onclick = (e) => {
             e.stopPropagation();
             const closetType = zone.dataset.closet;
+            if (closetType === "lighting") {
+                document.getElementById("decorBook").src = "Assets/decorcloset_lighting.png";
+            }
             console.log("Selected decor closet section:", closetType);
         };
     });
