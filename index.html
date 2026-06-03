@@ -78,10 +78,12 @@
         #decorBook { width: 100%; height: 100%; object-fit: fill; display: block; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.6)); }
 
         .decor-closet-zone { position: absolute; left: 10%; width: 80%; height: 8%; cursor: pointer; z-index: 25; }
-        .zone-artwork { top: 22.5%; }
-        .zone-lighting { top: 31%; }
-        .zone-rugs { top: 39%; }
+        .zone-lighting { top: 22.5%; }
+        .zone-plants { top: 31%; }
+        .zone-mirrors { top: 39%; }
         .zone-pillows { top: 47%; }
+        .zone-curtains { top: 55%; }
+        .zone-rugs { top: 63%; }
 
         .side-tabs {
             position: absolute; right: -5px; top: 12%; height: 75%;
@@ -248,10 +250,12 @@
         <div class="decor-container">
             <img src="Assets/decorcloset_entryway.jpg" id="decorBook">
             
-            <div class="decor-closet-zone zone-artwork" data-closet="artwork"></div>
             <div class="decor-closet-zone zone-lighting" data-closet="lighting"></div>
-            <div class="decor-closet-zone zone-rugs" data-closet="rugs"></div>
+            <div class="decor-closet-zone zone-plants" data-closet="plants"></div>
+            <div class="decor-closet-zone zone-mirrors" data-closet="mirrors"></div>
             <div class="decor-closet-zone zone-pillows" data-closet="pillows"></div>
+            <div class="decor-closet-zone zone-curtains" data-closet="curtains"></div>
+            <div class="decor-closet-zone zone-rugs" data-closet="rugs"></div>
         </div>
     </div>
 </div>
@@ -487,9 +491,21 @@ document.addEventListener("DOMContentLoaded", function() {
         zone.onclick = (e) => {
             e.stopPropagation();
             const closetType = zone.dataset.closet;
+            
             if (closetType === "lighting") {
                 document.getElementById("decorBook").src = "Assets/decorcloset_lighting.png";
+            } else if (closetType === "plants") {
+                document.getElementById("decorBook").src = "Assets/plants.png";
+            } else if (closetType === "mirrors") {
+                document.getElementById("decorBook").src = "Assets/mirors.png";
+            } else if (closetType === "pillows") {
+                document.getElementById("decorBook").src = "Assets/pillows.png";
+            } else if (closetType === "curtains") {
+                document.getElementById("decorBook").src = "Assets/curtains.png";
+            } else if (closetType === "rugs") {
+                document.getElementById("decorBook").src = "Assets/rugs.png";
             }
+            
             console.log("Selected decor closet section:", closetType);
         };
     });
