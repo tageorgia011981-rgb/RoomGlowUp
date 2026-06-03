@@ -77,7 +77,7 @@
         .decor-container { position: relative; width: 622px; height: 900px; }
         #decorBook { width: 100%; height: 100%; object-fit: fill; display: block; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.6)); }
 
-        .decor-closet-zone { position: absolute; left: 10%; width: 80%; height: 8%; cursor: pointer; z-index: 25; }
+        .decor-closet-zone { position: absolute; left: 10%; width: 80%; height: 8%; cursor: pointer; z-index: 25; background: rgba(0,0,0,0); }
         .zone-lighting { top: 22.5%; }
         .zone-plants { top: 31%; }
         .zone-mirrors { top: 39%; }
@@ -533,7 +533,7 @@ document.addEventListener("DOMContentLoaded", function() {
             itemsLayer.innerHTML = "";
             
             if (closetType === "lighting") {
-                decorBook.src = "Assets/decorcloset_lighting.png";
+                decorBook.src = "Assets/decorcloset_lighting.png.jpg";
                 
                 for (let i = 1; i <= 12; i++) {
                     const lSrc = `Assets/decor_lamp${i}.png`;
@@ -548,11 +548,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
                 itemsLayer.classList.add("show");
             } else if (closetType === "plants") {
-                decorBook.src = "Assets/decorcloset_plants.png";
+                decorBook.src = "Assets/decorcloset_plants.jpg";
             } else if (closetType === "mirrors") {
-                decorBook.src = "Assets/decorcloset_mirors.png";
+                decorBook.src = "Assets/decorcloset_mirors.jpg";
             } else if (closetType === "pillows") {
-                decorBook.src = "Assets/decorcloset_pillows.png";
+                decorBook.src = "Assets/decorcloset_pillows.png.jpg";
                 
                 for (let i = 1; i <= 12; i++) {
                     const pSrc = `Assets/decor_pillow${i}.png`;
@@ -567,9 +567,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
                 itemsLayer.classList.add("show");
             } else if (closetType === "curtains") {
-                decorBook.src = "Assets/decorcloset_curtains.png";
+                decorBook.src = "Assets/decorcloset_curtains.jpg";
             } else if (closetType === "rugs") {
-                decorBook.src = "Assets/decorcloset_rugs.png";
+                decorBook.src = "Assets/decorcloset_rugs.jpg";
             }
             
             console.log("Selected decor closet section:", closetType);
