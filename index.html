@@ -248,7 +248,7 @@
 
     <div id="decorOverlay">
         <div class="decor-container">
-            <img src="Assets/decorcloset_entryway.png" id="decorBook">
+            <img src="Assets/decorcloset_entryway.jpg" id="decorBook">
             
             <div class="decor-closet-zone zone-lighting" data-closet="lighting"></div>
             <div class="decor-closet-zone zone-plants" data-closet="plants"></div>
@@ -443,10 +443,17 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("decorTab").onclick = () => {
         catalogOverlay.classList.remove("show");
         document.getElementById("rooms-cabinet").classList.remove("show");
+        
+        document.getElementById("decorBook").src = "Assets/decorcloset_entryway.jpg";
         decorOverlay.classList.toggle("show");
         
         if (decorOverlay.classList.contains("show")) {
-            decorOverlay.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => {
+                window.scrollTo({
+                    top: document.body.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }, 50);
         }
     };
 
@@ -497,7 +504,7 @@ document.addEventListener("DOMContentLoaded", function() {
             } else if (closetType === "plants") {
                 document.getElementById("decorBook").src = "Assets/decorcloset_plants.png";
             } else if (closetType === "mirrors") {
-                document.getElementById("decorBook").src = "Assets/decorcloset_mirrors.png";
+                document.getElementById("decorBook").src = "Assets/decorcloset_mirors.png";
             } else if (closetType === "pillows") {
                 document.getElementById("decorBook").src = "Assets/decorcloset_pillows.png";
             } else if (closetType === "curtains") {
