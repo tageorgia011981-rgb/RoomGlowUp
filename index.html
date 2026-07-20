@@ -54,7 +54,6 @@
             text-align: center; text-transform: uppercase; text-shadow: 2px 2px 3px black;
         }
 
-        /* ROLLOUT RECEIPT FROM SAVE TAB */
         #receiptOverlay {
             position: absolute; top: 100px; left: 50%; transform: translateX(-50%);
             width: 320px; max-height: 0; overflow: hidden; opacity: 0;
@@ -171,6 +170,28 @@
         .decor-container { position: relative; width: 769px; height: 500px; margin: 0 auto; text-align: center; }
         #decorBook { height: 100%; width: 100%; object-fit: contain; display: block; filter: drop-shadow(0px 10px 20px rgba(0,0,0,0.6)); cursor: pointer; }
 
+        /* DECOR CLOSET HOTSPOT ZONES FOR DIRECTORY SIGN */
+        .decor-hotspot {
+            position: absolute;
+            left: 38%;
+            width: 25%;
+            height: 5.5%;
+            cursor: pointer;
+            z-index: 30;
+            display: none;
+        }
+        .decor-hotspot.active { display: block; }
+        .decor-hotspot:hover {
+            background: rgba(255, 255, 255, 0.15);
+            outline: 2px dashed #fcf6ba;
+        }
+        .decor-hotspot-lighting { top: 26.5%; }
+        .decor-hotspot-plants   { top: 32%; }
+        .decor-hotspot-mirrors  { top: 37.5%; }
+        .decor-hotspot-pillows  { top: 43%; }
+        .decor-hotspot-curtains { top: 48.5%; }
+        .decor-hotspot-rugs     { top: 54%; }
+
         .placed-item { position: absolute; cursor: move; max-width: 190px; z-index: 100; }
         .placed-shadow { position: absolute; background: rgba(0,0,0,0.4); filter: blur(8px); border-radius: 50%; pointer-events: none; }
         
@@ -243,6 +264,14 @@
     <div id="decorOverlay">
         <div class="decor-container">
             <img src="Assets/decorcloset_entryway.jpg" id="decorBook" alt="Decor Closet Directory">
+            
+            <!-- Directory Sign Hotspots -->
+            <div class="decor-hotspot decor-hotspot-lighting active" data-img="Assets/lightingcloset.jpg"></div>
+            <div class="decor-hotspot decor-hotspot-plants active" data-img="Assets/plant_pillowcloset.jpg"></div>
+            <div class="decor-hotspot decor-hotspot-mirrors active" data-img="Assets/plant_pillowcloset.jpg"></div>
+            <div class="decor-hotspot decor-hotspot-pillows active" data-img="Assets/plant_pillowcloset.jpg"></div>
+            <div class="decor-hotspot decor-hotspot-curtains active" data-img="Assets/curtaincloset.jpg"></div>
+            <div class="decor-hotspot decor-hotspot-rugs active" data-img="Assets/ruggallery.jpg"></div>
         </div>
     </div>
 </div>
@@ -280,7 +309,7 @@ document.addEventListener("DOMContentLoaded", function() {
             subCategories: ["COFFEE TABLES", "END TABLES", "DINING TABLES", "SOFA TABLES"],
             assets: [
                 Array.from({length: 12}, (_, i) => `Assets/tables_coffee${i+1}.png`),
-                Array.from({length: 12}, collection => `Assets/tables_end${i+1}.png`),
+                Array.from({length: 12}, (_, i) => `Assets/tables_end${i+1}.png`),
                 Array.from({length: 2}, (_, i) => `Assets/dining${i+1}.png`),
                 Array.from({length: 12}, (_, i) => `Assets/tables_sofa${i+1}.png`)
             ]
@@ -484,19 +513,25 @@ document.addEventListener("DOMContentLoaded", function() {
         };
     });
 
-    const decorClosetImages = [
-        "Assets/decorcloset_entryway.jpg",
-        "Assets/plant_pillowcloset.jpg",
-        "Assets/lightingcloset.jpg",
-        "Assets/curtaincloset.jpg",
-        "Assets/ruggallery.jpg"
-    ];
-    let currentDecorIndex = 0;
     const decorBookImg = document.getElementById("decorBook");
+    const decorHotspots = document.querySelectorAll(".decor-hotspot");
 
+    // Click hotspot on entry sign to go directly to that specific closet
+    decorHotspots.forEach(spot => {
+        spot.onclick = (e) => {
+            e.stopPropagation();
+            const targetImg = spot.dataset.img;
+            decorBookImg.src = targetImg;
+            decorHotspots.forEach(h => h.classList.remove("active"));
+        };
+    });
+
+    // Clicking the closet image resets or steps back to entryway if clicked inside a room closet
     decorBookImg.onclick = () => {
-        currentDecorIndex = (currentDecorIndex + 1) % decorClosetImages.length;
-        decorBookImg.src = decorClosetImages[currentDecorIndex];
+        if (!decorBookImg.src.includes("decorcloset_entryway.jpg")) {
+            decorBookImg.src = "Assets/decorcloset_entryway.jpg";
+            decorHotspots.forEach(h => h.classList.add("active"));
+        }
     };
 
     roomUploader.onchange = (e) => {
