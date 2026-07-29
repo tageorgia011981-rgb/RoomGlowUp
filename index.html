@@ -18,11 +18,10 @@
             margin: 0; padding: 0; width: 100%;
             font-family: 'Limelight', cursive;
             background: 
-                url('Assets/mainbackground_curtainl.jpg') left top no-repeat,
-                url('Assets/mainbackground_curtainr.jpg') right top no-repeat,
-                url('Assets/mainbackground_blue.jpg') center top no-repeat;
-            background-size: 33% 100%, 33% 100%, 34% 100%;
-            background-attachment: fixed; 
+                url('Assets/mainbackground_curtainl.jpg') left top repeat-y,
+                url('Assets/mainbackground_curtainr.jpg') right top repeat-y,
+                url('Assets/mainbackground_blue.jpg') center top repeat;
+            background-size: 25% auto, 25% auto, auto auto;
             background-color: #4A154B;
             color: white;
             padding-bottom: 700px; 
@@ -77,7 +76,6 @@
         .decor-container { position: relative; width: 622px; height: 900px; }
         #decorBook { width: 100%; height: 100%; object-fit: fill; display: block; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.6)); }
 
-        /* TEMPORARILY VISIBLE RED ZONES FOR EASY ALIGNMENT */
         .decor-closet-zone { 
             position: absolute; 
             left: 10%; 
@@ -167,7 +165,7 @@
         }
 
         .workspace-wrapper { 
-            display: flex; flex-direction: row; justify-content: center; align-items: center; 
+            display: flex; flex-direction: row; justify-content: center; align-items: flex-end; 
             width: 100%; margin-top: 140px; transition: all 0.8s ease-in-out; gap: 0;
         }
 
@@ -484,7 +482,10 @@ document.addEventListener("DOMContentLoaded", function() {
         decorOverlay.classList.remove("show");
         const cab = document.getElementById("rooms-cabinet");
         cab.classList.toggle("show");
-        if(cab.classList.contains("show")) document.getElementById("mainWorkspace").scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        setTimeout(() => {
+            document.getElementById("mainWorkspace").scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
     };
 
     const roomImages = {
@@ -540,7 +541,6 @@ document.addEventListener("DOMContentLoaded", function() {
             
             if (closetType === "lighting") {
                 decorBook.src = "Assets/decorcloset_lighting.png.jpg";
-                
                 for (let i = 1; i <= 12; i++) {
                     const lSrc = `Assets/decor_lamp${i}.png`;
                     const img = document.createElement("img");
@@ -555,11 +555,34 @@ document.addEventListener("DOMContentLoaded", function() {
                 itemsLayer.classList.add("show");
             } else if (closetType === "plants") {
                 decorBook.src = "Assets/decorcloset_plants.jpg";
+                for (let i = 1; i <= 12; i++) {
+                    const pSrc = `Assets/decor_plant${i}.png`;
+                    const img = document.createElement("img");
+                    img.src = pSrc;
+                    img.className = "decor-item";
+                    img.onclick = (itemEvent) => {
+                        itemEvent.stopPropagation();
+                        placeInRoom(pSrc);
+                    };
+                    itemsLayer.appendChild(img);
+                }
+                itemsLayer.classList.add("show");
             } else if (closetType === "mirrors") {
                 decorBook.src = "Assets/decorcloset_mirors.jpg";
+                for (let i = 1; i <= 12; i++) {
+                    const mSrc = `Assets/decor_mirror${i}.png`;
+                    const img = document.createElement("img");
+                    img.src = mSrc;
+                    img.className = "decor-item";
+                    img.onclick = (itemEvent) => {
+                        itemEvent.stopPropagation();
+                        placeInRoom(mSrc);
+                    };
+                    itemsLayer.appendChild(img);
+                }
+                itemsLayer.classList.add("show");
             } else if (closetType === "pillows") {
                 decorBook.src = "Assets/decorcloset_pillows.png.jpg";
-                
                 for (let i = 1; i <= 12; i++) {
                     const pSrc = `Assets/decor_pillow${i}.png`;
                     const img = document.createElement("img");
@@ -574,8 +597,32 @@ document.addEventListener("DOMContentLoaded", function() {
                 itemsLayer.classList.add("show");
             } else if (closetType === "curtains") {
                 decorBook.src = "Assets/decorcloset_curtains.jpg";
+                for (let i = 1; i <= 12; i++) {
+                    const cSrc = `Assets/decor_curtain${i}.png`;
+                    const img = document.createElement("img");
+                    img.src = cSrc;
+                    img.className = "decor-item";
+                    img.onclick = (itemEvent) => {
+                        itemEvent.stopPropagation();
+                        placeInRoom(cSrc);
+                    };
+                    itemsLayer.appendChild(img);
+                }
+                itemsLayer.classList.add("show");
             } else if (closetType === "rugs") {
                 decorBook.src = "Assets/decorcloset_rugs.jpg";
+                for (let i = 1; i <= 12; i++) {
+                    const rSrc = `Assets/decor_rug${i}.png`;
+                    const img = document.createElement("img");
+                    img.src = rSrc;
+                    img.className = "decor-item";
+                    img.onclick = (itemEvent) => {
+                        itemEvent.stopPropagation();
+                        placeInRoom(rSrc);
+                    };
+                    itemsLayer.appendChild(img);
+                }
+                itemsLayer.classList.add("show");
             }
             
             console.log("Selected decor closet section:", closetType);
