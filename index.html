@@ -90,11 +90,10 @@
         #decorItemsLayer {
             position: absolute; top: 20%; left: 10%; width: 80%; height: 72%;
             display: none; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr);
-            gap: 10px; z-index: 40; align-items: end; justify-items: center;
+            gap: 10px; z-index: 40; align-items: center; justify-items: center;
         }
         #decorItemsLayer.show { display: grid; }
-        .decor-item { max-width: 100%; max-height: 100px; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
-        .decor-item:hover { transform: scale(1.4); z-index: 50; position: relative; }
+        .decor-item { max-width: 100%; max-height: 110px; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
 
         .side-tabs {
             position: absolute; right: -5px; top: 12%; height: 75%;
@@ -152,16 +151,47 @@
             align-items: center;
             justify-items: center;
         }
-        .catalog-item { width: 100%; height: 100%; max-height: 110px; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
-        .catalog-item:hover { transform: scale(1.4); z-index: 50; position: relative; }
+        .catalog-item { width: 100%; height: 100%; max-height: 110px; object-fit: contain; cursor: pointer; }
         
         .catalog-item[data-item-num="1"] {
             transform: translateX(25px);
         }
-        .catalog-item[data-item-num="1"]:hover {
-            transform: translateX(25px) scale(1.4);
-            z-index: 50;
-            position: relative;
+
+        /* Hover Popup Box */
+        #itemHoverPopup {
+            position: fixed;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(20, 10, 25, 0.92);
+            border: 3px solid #d4af37;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(212,175,55,0.4);
+            z-index: 99999;
+            pointer-events: none;
+            padding: 15px;
+            transition: opacity 0.15s ease-in-out;
+            opacity: 0;
+        }
+        #itemHoverPopup.show {
+            display: flex;
+            opacity: 1;
+        }
+        #itemHoverPopup img {
+            max-width: 240px;
+            max-height: 240px;
+            object-fit: contain;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
+        }
+        .popup-hint {
+            margin-top: 8px;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            color: #d4af37;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .workspace-wrapper { 
@@ -275,6 +305,12 @@
     </div>
 </div>
 
+<!-- Hover Popup Window -->
+<div id="itemHoverPopup">
+    <img id="hoverPopupImg" src="" alt="Preview">
+    <div class="popup-hint">Click to Place</div>
+</div>
+
 <input type="file" id="roomUploader" accept="image/*" style="display:none;">
 
 <script>
@@ -330,8 +366,37 @@ document.addEventListener("DOMContentLoaded", function() {
     const placedLayer = document.getElementById("placedItemsLayer");
     const itemGizmo = document.getElementById("itemGizmo");
     const roomUploader = document.getElementById("roomUploader");
+    const hoverPopup = document.getElementById("itemHoverPopup");
+    const hoverPopupImg = document.getElementById("hoverPopupImg");
     let selectedItem = null;
     let isDragging = false;
+
+    function setupHoverPopup(imgEl, src) {
+        imgEl.addEventListener("mouseenter", (e) => {
+            hoverPopupImg.src = src;
+            hoverPopup.classList.add("show");
+            positionPopup(e);
+        });
+        imgEl.addEventListener("mousemove", (e) => {
+            positionPopup(e);
+        });
+        imgEl.addEventListener("mouseleave", () => {
+            hoverPopup.classList.remove("show");
+        });
+    }
+
+    function positionPopup(e) {
+        let x = e.clientX + 20;
+        let y = e.clientY - 140;
+        if (x + 270 > window.innerWidth) {
+            x = e.clientX - 280;
+        }
+        if (y < 10) {
+            y = 10;
+        }
+        hoverPopup.style.left = x + "px";
+        hoverPopup.style.top = y + "px";
+    }
 
     function renderCatalog() {
         const leftHeader = document.getElementById("leftHeader");
@@ -351,7 +416,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 const img = document.createElement("img");
                 img.src = src; img.className = "catalog-item";
                 img.setAttribute("data-item-num", i);
-                img.onclick = (e) => { e.stopPropagation(); placeInRoom(src); };
+                img.onclick = (e) => { e.stopPropagation(); hoverPopup.classList.remove("show"); placeInRoom(src); };
+                setupHoverPopup(img, src);
                 if (i <= 6) leftGrid.appendChild(img);
                 else rightGrid.appendChild(img);
             }
@@ -361,7 +427,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 const img = document.createElement("img");
                 img.src = src; img.className = "catalog-item";
                 img.setAttribute("data-item-num", idx + 1);
-                img.onclick = (e) => { e.stopPropagation(); placeInRoom(src); };
+                img.onclick = (e) => { e.stopPropagation(); hoverPopup.classList.remove("show"); placeInRoom(src); };
+                setupHoverPopup(img, src);
                 if (idx < 6) leftGrid.appendChild(img);
                 else rightGrid.appendChild(img);
             });
@@ -373,18 +440,21 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     document.getElementById("nextCatPage").onclick = () => {
+        hoverPopup.classList.remove("show");
         const totalSubPages = catalogData[currentCategoryIndex].assets.length;
         if (subPageIndex < totalSubPages - 1) subPageIndex++;
         renderCatalog();
     };
 
     document.getElementById("prevCatPage").onclick = () => {
+        hoverPopup.classList.remove("show");
         if (subPageIndex > 0) subPageIndex--;
         renderCatalog();
     };
 
     document.querySelectorAll("#catalogOverlay .side-tab").forEach(tab => {
         tab.onclick = () => {
+            hoverPopup.classList.remove("show");
             currentCategoryIndex = parseInt(tab.dataset.idx);
             subPageIndex = 0; 
             renderCatalog();
@@ -540,7 +610,7 @@ document.addEventListener("DOMContentLoaded", function() {
             itemsLayer.innerHTML = "";
             
             if (closetType === "lighting") {
-                decorBook.src = "Assets/sitestuff_roombackground1.png";
+                decorBook.src = "Assets/decorcloset_lighting.png.jpg";
                 for (let i = 1; i <= 12; i++) {
                     const lSrc = `Assets/decor_lamp${i}.png`;
                     const img = document.createElement("img");
@@ -548,8 +618,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     img.className = "decor-item";
                     img.onclick = (itemEvent) => {
                         itemEvent.stopPropagation();
+                        hoverPopup.classList.remove("show");
                         placeInRoom(lSrc);
                     };
+                    setupHoverPopup(img, lSrc);
                     itemsLayer.appendChild(img);
                 }
                 itemsLayer.classList.add("show");
@@ -562,8 +634,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     img.className = "decor-item";
                     img.onclick = (itemEvent) => {
                         itemEvent.stopPropagation();
+                        hoverPopup.classList.remove("show");
                         placeInRoom(pSrc);
                     };
+                    setupHoverPopup(img, pSrc);
                     itemsLayer.appendChild(img);
                 }
                 itemsLayer.classList.add("show");
@@ -576,8 +650,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     img.className = "decor-item";
                     img.onclick = (itemEvent) => {
                         itemEvent.stopPropagation();
+                        hoverPopup.classList.remove("show");
                         placeInRoom(mSrc);
                     };
+                    setupHoverPopup(img, mSrc);
                     itemsLayer.appendChild(img);
                 }
                 itemsLayer.classList.add("show");
@@ -590,8 +666,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     img.className = "decor-item";
                     img.onclick = (itemEvent) => {
                         itemEvent.stopPropagation();
+                        hoverPopup.classList.remove("show");
                         placeInRoom(pSrc);
                     };
+                    setupHoverPopup(img, pSrc);
                     itemsLayer.appendChild(img);
                 }
                 itemsLayer.classList.add("show");
@@ -604,8 +682,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     img.className = "decor-item";
                     img.onclick = (itemEvent) => {
                         itemEvent.stopPropagation();
+                        hoverPopup.classList.remove("show");
                         placeInRoom(cSrc);
                     };
+                    setupHoverPopup(img, cSrc);
                     itemsLayer.appendChild(img);
                 }
                 itemsLayer.classList.add("show");
@@ -618,14 +698,14 @@ document.addEventListener("DOMContentLoaded", function() {
                     img.className = "decor-item";
                     img.onclick = (itemEvent) => {
                         itemEvent.stopPropagation();
+                        hoverPopup.classList.remove("show");
                         placeInRoom(rSrc);
                     };
+                    setupHoverPopup(img, rSrc);
                     itemsLayer.appendChild(img);
                 }
                 itemsLayer.classList.add("show");
             }
-            
-            console.log("Selected decor closet section:", closetType);
         };
     });
 
