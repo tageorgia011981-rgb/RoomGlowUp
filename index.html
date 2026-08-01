@@ -83,7 +83,7 @@
             height: 7%;
             cursor: pointer; 
             z-index: 25; 
-            background: rgba(255, 0, 0, 0.3); /* Temporary highlight to check alignment */
+            background: transparent;
             border: none;
             box-sizing: border-box;
         }
@@ -296,12 +296,12 @@
             
             <div id="decorItemsLayer"></div>
 
-            <div class="decor-closet-zone" data-closet="lighting" style="top: 14%; left: 24%; width: 52%;"></div>
-            <div class="decor-closet-zone" data-closet="plants" style="top: 27%; left: 24%; width: 52%;"></div>
-            <div class="decor-closet-zone" data-closet="mirrors" style="top: 40%; left: 24%; width: 52%;"></div>
-            <div class="decor-closet-zone" data-closet="pillows" style="top: 53%; left: 24%; width: 52%;"></div>
-            <div class="decor-closet-zone" data-closet="curtains" style="top: 66%; left: 24%; width: 52%;"></div>
-            <div class="decor-closet-zone" data-closet="rugs" style="top: 79%; left: 24%; width: 52%;"></div>
+            <div class="decor-closet-zone" data-closet="lighting" style="top: 25.5%; left: 32%; width: 36%; height: 5.5%;"></div>
+            <div class="decor-closet-zone" data-closet="plants" style="top: 34.5%; left: 32%; width: 36%; height: 5.5%;"></div>
+            <div class="decor-closet-zone" data-closet="mirrors" style="top: 43.5%; left: 32%; width: 36%; height: 5.5%;"></div>
+            <div class="decor-closet-zone" data-closet="pillows" style="top: 52.5%; left: 32%; width: 36%; height: 5.5%;"></div>
+            <div class="decor-closet-zone" data-closet="curtains" style="top: 61.5%; left: 32%; width: 36%; height: 5.5%;"></div>
+            <div class="decor-closet-zone" data-closet="rugs" style="top: 70.5%; left: 32%; width: 36%; height: 5.5%;"></div>
         </div>
     </div>
 </div>
@@ -611,7 +611,7 @@ document.addEventListener("DOMContentLoaded", function() {
             itemsLayer.innerHTML = "";
             
             if (closetType === "lighting") {
-                decorBook.src = "Assets/decorcloset_lighting.png.jpg";
+                decorBook.src = "Assets/sitestuff_roombackground1.png";
                 for (let i = 1; i <= 12; i++) {
                     const lSrc = `Assets/decor_lamp${i}.png`;
                     const img = document.createElement("img");
@@ -643,7 +643,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
                 itemsLayer.classList.add("show");
             } else if (closetType === "mirrors") {
-                decorBook.src = "Assets/decorcloset_mirors.jpg";
+                decorBook.src = "Assets/decorcloset_mirrors.jpg";
                 for (let i = 1; i <= 12; i++) {
                     const mSrc = `Assets/decor_mirror${i}.png`;
                     const img = document.createElement("img");
@@ -659,7 +659,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
                 itemsLayer.classList.add("show");
             } else if (closetType === "pillows") {
-                decorBook.src = "Assets/decorcloset_pillows.png.jpg";
+                decorBook.src = "Assets/decorcloset_pillows.jpg";
                 for (let i = 1; i <= 12; i++) {
                     const pSrc = `Assets/decor_pillow${i}.png`;
                     const img = document.createElement("img");
@@ -680,7 +680,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     const cSrc = `Assets/decor_curtain${i}.png`;
                     const img = document.createElement("img");
                     img.src = cSrc;
-                    img.className, "decor-item";
+                    img.className = "decor-item";
                     img.onclick = (itemEvent) => {
                         itemEvent.stopPropagation();
                         hoverPopup.classList.remove("show");
