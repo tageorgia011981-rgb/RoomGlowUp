@@ -224,11 +224,11 @@
         #rooms-cabinet img { height: 100%; width: auto; display: block; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)); }
 
         .drawer-zone { position: absolute; left: 10%; width: 80%; height: 10%; cursor: pointer; z-index: 5; }
-        .zone-living { top: 3.5%; } 
-        .zone-dining { top: 16%; } 
-        .zone-bedroom { top: 28.5%; } 
-        .zone-spare { top: 41%; }
-        .zone-upload { top: 53.5%; }
+        .zone-living { top: 12%; }
+        .zone-dining { top: 25%; }
+        .zone-bedroom { top: 38%; }
+        .zone-spare { top: 51%; }
+        .zone-upload { top: 64%; }
 
         #work-area { 
             width: 1150px; height: 680px; background: url('Assets/workstation.jpg') center/cover; 
@@ -576,10 +576,25 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     const roomImages = {
-        living: ["Assets/ROOMS_livingroom1.jpg", "Assets/ROOMS_livingroom2.jpg", "Assets/ROOMS_livingroom3.jpg", "Assets/ROOMS_livingroom4.jpg"],
-        bedroom: ["Assets/ROOMS_bedroom1.jpg", "Assets/ROOMS_bedroom2.jpg", "Assets/ROOMS_bedroom3.jpg"],
-        dining: ["Assets/ROOMS_diningroom1.jpg", "Assets/ROOMS_diningroom2.jpg"],
-        spare: ["Assets/ROOMS_office.jpg", "Assets/ROOMS_bathroom1.jpg", "Assets/kitchen1.jpg"]
+        living: [
+            "Assets/ROOMS_livingroom1.jpg",
+            "Assets/ROOMS_livingroom2.jpg",
+            "Assets/ROOMS_livingroom3.jpg"
+        ],
+        dining: [
+            "Assets/ROOMS_diningroom1.jpg",
+            "Assets/ROOMS_diningroom2.jpg"
+        ],
+        bedroom: [
+            "Assets/ROOMS_bedroom1.jpg",
+            "Assets/ROOMS_bedroom2.jpg",
+            "Assets/ROOMS_bedroom3.jpg"
+        ],
+        spare: [
+            "Assets/ROOMS_kitchen1.jpg",
+            "Assets/ROOMS_bathroom1.jpg",
+            "Assets/ROOMS_office1.jpg"
+        ]
     };
     const roomIndices = { living: 0, bedroom: 0, dining: 0, spare: 0 };
 
