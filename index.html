@@ -44,6 +44,7 @@
             55% { background-position: 0% 0; }
             100% { background-position: 0% 0; }
         }
+
         h2 {
             font-family: 'Limelight', cursive;
             font-size: 43px; margin-top: 18px; margin-bottom: 6px;
@@ -63,6 +64,7 @@
         .top-tab { position: relative; width: 195px; height: 142px; cursor: pointer; transition: transform 0.4s, filter 0.4s; filter: drop-shadow(0 7px 8px rgba(0,0,0,0.55)); }
         .top-tab:hover { transform: translateY(18px) scale(1.035); filter: drop-shadow(0 10px 12px rgba(0,0,0,0.72)) drop-shadow(0 0 14px rgba(255,255,255,0.30)); }
         .top-tab img { width: 100%; height: auto; display: block; pointer-events: none; }
+
         .top-tab-text {
             position: absolute; top: 72%; left: 50%; transform: translate(-50%, -50%);
             width: 100%; font-family: Arial, sans-serif; font-weight: 900; font-size: 15px;
@@ -75,6 +77,7 @@
             position: relative; width: 1100px; max-height: 0; opacity: 0; 
             overflow: hidden; visibility: hidden; transition: max-height 0.8s ease-in-out, opacity 0.5s; margin: 0 auto;
         }
+
         #catalogOverlay.show { max-height: 1200px; opacity: 1; visibility: visible; margin-bottom: 20px; }
         
         .catalog-container { position: relative; width: 1000px; margin: 0 auto; }
@@ -85,6 +88,7 @@
             transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease-in-out;
             opacity: 0; pointer-events: none; margin: 20px auto 0 auto;
         }
+
         #decorOverlay.show { max-height: 900px; opacity: 1; pointer-events: auto; }
         
         .decor-container { position: relative; width: 622px; height: 900px; }
@@ -107,7 +111,9 @@
             display: none; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr);
             gap: 10px; z-index: 40; align-items: center; justify-items: center;
         }
+
         #decorItemsLayer.show { display: grid; }
+
         .decor-item { max-width: 100%; max-height: 110px; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
 
         .side-tabs {
@@ -115,6 +121,7 @@
             display: flex; flex-direction: column; justify-content: space-between;
             z-index: 15;
         }
+
         .side-tab {
             width: 100px; height: 45px; 
             background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
@@ -124,6 +131,7 @@
             align-items: center; justify-content: center; transition: 0.3s;
             box-shadow: 3px 3px 6px rgba(0,0,0,0.6);
         }
+
         .side-tab:hover { transform: translateX(10px); filter: brightness(1.1); }
         .side-tab.active { width: 115px; transform: translateX(5px); box-shadow: 1px 1px 10px #fcf6ba; }
 
@@ -132,6 +140,7 @@
             background: rgba(0,0,0,0.8); border: 2px solid #d4af37; color: #d4af37; 
             font-size: 24px; cursor: pointer; z-index: 20; border-radius: 5px; transition: 0.2s;
         }
+
         .page-btn:hover { background: #d4af37; color: black; }
         .prev-btn { left: -5%; }
         .next-btn { right: 11%; }
@@ -143,9 +152,21 @@
             display: flex; align-items: center; justify-content: center; transition: 0.2s;
             box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
         }
+
         .decor-close-btn:hover { background: black; color: #d4af37; border-color: #d4af37; }
 
-        .page { position: absolute; top: 10%; width: 38%; height: 78%; display: flex; flex-direction: column; z-index: 10; padding: 10px; box-sizing: border-box; }
+        .page {
+            position: absolute;
+            top: 10%;
+            width: 38%;
+            height: 78%;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
         .left-page { left: 8.5%; }
         .right-page { right: 13.5%; }
 
@@ -166,7 +187,14 @@
             align-items: center;
             justify-items: center;
         }
-        .catalog-item { width: 100%; height: 100%; max-height: 110px; object-fit: contain; cursor: pointer; }
+
+        .catalog-item {
+            width: 100%;
+            height: 100%;
+            max-height: 110px;
+            object-fit: contain;
+            cursor: pointer;
+        }
         
         .catalog-item[data-item-num="1"] {
             transform: translateX(25px);
@@ -189,16 +217,19 @@
             transition: opacity 0.15s ease-in-out;
             opacity: 0;
         }
+
         #itemHoverPopup.show {
             display: flex;
             opacity: 1;
         }
+
         #itemHoverPopup img {
             max-width: 240px;
             max-height: 240px;
             object-fit: contain;
             filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
         }
+
         .popup-hint {
             margin-top: 8px;
             font-family: Arial, sans-serif;
@@ -210,20 +241,51 @@
         }
 
         .workspace-wrapper { 
-            display: flex; flex-direction: row; justify-content: center; align-items: flex-end; 
-            width: 100%; margin-top: calc(100vh - 430px); min-height: 680px; transition: all 0.8s ease-in-out; gap: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-end; 
+            width: 100%;
+            margin-top: calc(100vh - 430px);
+            min-height: 680px;
+            transition: all 0.8s ease-in-out;
+            gap: 0;
         }
 
         #rooms-cabinet { 
-            height: 650px; width: 450px; overflow: hidden; position: relative; 
+            height: 650px;
+            width: 450px;
+            overflow: hidden;
+            position: relative; 
             margin-left: -450px;
             transition: margin-left 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease-in-out; 
-            opacity: 0; pointer-events: none; flex-shrink: 0;
+            opacity: 0;
+            pointer-events: none;
+            flex-shrink: 0;
         }
-        #rooms-cabinet.show { margin-left: 0; opacity: 1; pointer-events: auto; }
-        #rooms-cabinet img { height: 100%; width: auto; display: block; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)); }
 
-        .drawer-zone { position: absolute; left: 10%; width: 80%; height: 10%; cursor: pointer; z-index: 5; }
+        #rooms-cabinet.show {
+            margin-left: 0;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #rooms-cabinet img {
+            height: 100%;
+            width: auto;
+            display: block;
+            filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6));
+        }
+
+        .drawer-zone {
+            position: absolute;
+            left: 10%;
+            width: 80%;
+            height: 10%;
+            cursor: pointer;
+            z-index: 5;
+        }
+
         .zone-living { top: 19%; }
         .zone-dining { top: 32%; }
         .zone-bedroom { top: 45%; }
@@ -231,24 +293,78 @@
         .zone-upload { top: 71%; }
 
         #work-area { 
-            width: 1150px; height: 680px; background: url('Assets/workstation.jpg') center/cover; 
-            box-shadow: 0 0 60px black; position: relative; overflow: hidden; 
-            border: 4px solid #333; flex-shrink: 0; transition: margin-left 0.8s cubic-bezier(0.4, 0, 0.2, 1), margin-right 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 1150px;
+            height: 680px;
+            background: url('Assets/workstation.jpg') center/cover; 
+            box-shadow: 0 0 60px black;
+            position: relative;
+            overflow: hidden; 
+            border: 4px solid #333;
+            flex-shrink: 0;
+            transition: margin-left 0.8s cubic-bezier(0.4, 0, 0.2, 1), margin-right 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
         }
-        #rooms-cabinet.show + #work-area { margin-left: 20px; }
 
-        .placed-item { position: absolute; cursor: move; max-width: 190px; z-index: 100; }
-        .placed-shadow { position: absolute; background: rgba(0,0,0,0.4); filter: blur(8px); border-radius: 50%; pointer-events: none; }
+        #rooms-cabinet.show + #work-area {
+            margin-left: 20px;
+        }
+
+        .placed-item {
+            position: absolute;
+            cursor: move;
+            max-width: 190px;
+            z-index: 100;
+        }
+
+        .placed-shadow {
+            position: absolute;
+            background: rgba(0,0,0,0.4);
+            filter: blur(8px);
+            border-radius: 50%;
+            pointer-events: none;
+        }
         
-        #itemGizmo { position: absolute; border: 2px dashed #e0ff00; display: none; z-index: 200; pointer-events: none; }
-        #itemGizmo.show { display: block; }
-        .gizmo-handle { position: absolute; width: 24px; height: 24px; background: #e0ff00; border-radius: 50%; pointer-events: auto; cursor: pointer; }
-        .handle-scale { bottom: -12px; right: -12px; }
-        .handle-rotate { top: -35px; left: 50%; transform: translateX(-50%); }
-        .handle-flip { top: -12px; left: -12px; background: cyan; }
+        #itemGizmo {
+            position: absolute;
+            border: 2px dashed #e0ff00;
+            display: none;
+            z-index: 200;
+            pointer-events: none;
+        }
+
+        #itemGizmo.show {
+            display: block;
+        }
+
+        .gizmo-handle {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: #e0ff00;
+            border-radius: 50%;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .handle-scale {
+            bottom: -12px;
+            right: -12px;
+        }
+
+        .handle-rotate {
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .handle-flip {
+            top: -12px;
+            left: -12px;
+            background: cyan;
+        }
     </style>
 </head>
+
 <body>
 
 <header>
@@ -257,18 +373,40 @@
 </header>
 
 <div class="nav-container">
-    <div class="top-tab" id="roomsTab"><img src="Assets/pulltab.png"><div class="top-tab-text">ROOMS</div></div>
-    <div class="top-tab" id="catalogTab"><img src="Assets/pulltab.png"><div class="top-tab-text">FURNITURE<br>CATALOG</div></div>
-    <div class="top-tab" id="decorTab"><img src="Assets/pulltab.png"><div class="top-tab-text">DECOR<br>CLOSET</div></div>
-    <div class="top-tab" id="galleryTab"><img src="Assets/pulltab.png"><div class="top-tab-text">GALLERY</div></div>
-    <div class="top-tab" id="saveTab"><img src="Assets/pulltab.png"><div class="top-tab-text">SAVE/<br>CHECKOUT</div></div>
+    <div class="top-tab" id="roomsTab">
+        <img src="Assets/pulltab.png">
+        <div class="top-tab-text">ROOMS</div>
+    </div>
+
+    <div class="top-tab" id="catalogTab">
+        <img src="Assets/pulltab.png">
+        <div class="top-tab-text">FURNITURE<br>CATALOG</div>
+    </div>
+
+    <div class="top-tab" id="decorTab">
+        <img src="Assets/pulltab.png">
+        <div class="top-tab-text">DECOR<br>CLOSET</div>
+    </div>
+
+    <div class="top-tab" id="galleryTab">
+        <img src="Assets/pulltab.png">
+        <div class="top-tab-text">GALLERY</div>
+    </div>
+
+    <div class="top-tab" id="saveTab">
+        <img src="Assets/pulltab.png">
+        <div class="top-tab-text">SAVE/<br>CHECKOUT</div>
+    </div>
 </div>
 
 <div class="outer-wrapper">
+
     <div id="catalogOverlay">
         <div class="catalog-container">
+
             <button class="page-btn prev-btn" id="prevCatPage">◀</button>
             <button class="page-btn next-btn" id="nextCatPage">▶</button>
+
             <img src="Assets/furniturecatalog.png" id="catalogBook">
             
             <div class="side-tabs">
@@ -278,14 +416,24 @@
                 <div class="side-tab" data-idx="3">Beds</div>
             </div>
 
-            <div class="page left-page"><div class="catalog-header" id="leftHeader">SOFAS</div><div class="catalog-grid" id="catalogLeft"></div></div>
-            <div class="page right-page"><div class="catalog-header" id="rightHeader">SOFAS</div><div class="catalog-grid" id="catalogRight"></div></div>
+            <div class="page left-page">
+                <div class="catalog-header" id="leftHeader">SOFAS</div>
+                <div class="catalog-grid" id="catalogLeft"></div>
+            </div>
+
+            <div class="page right-page">
+                <div class="catalog-header" id="rightHeader">SOFAS</div>
+                <div class="catalog-grid" id="catalogRight"></div>
+            </div>
+
         </div>
     </div>
 
     <div class="workspace-wrapper" id="mainWorkspace">
+
         <div id="rooms-cabinet">
             <img src="Assets/rooms_cabinet.png">
+
             <div class="drawer-zone zone-living" data-room="living"></div>
             <div class="drawer-zone zone-dining" data-room="dining"></div>
             <div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
@@ -294,30 +442,43 @@
         </div>
 
         <div id="work-area">
+
             <div id="placedItemsLayer"></div>
+
             <div id="itemGizmo">
                 <div class="gizmo-handle handle-rotate" data-gizmo="rotate"></div>
                 <div class="gizmo-handle handle-scale" data-gizmo="scale"></div>
                 <div class="gizmo-handle handle-flip" data-gizmo="flip"></div>
             </div>
+
         </div>
     </div>
 
     <div id="decorOverlay">
+
         <div class="decor-container">
+
             <button class="decor-close-btn" id="backClosetBtn" style="display: none;">◀</button>
+
             <img src="Assets/decorcloset_entryway.jpg" id="decorBook">
             
             <div id="decorItemsLayer"></div>
 
             <div class="decor-closet-zone" data-closet="lighting" style="top: 25.5%; left: 32%; width: 36%; height: 5.5%;"></div>
+
             <div class="decor-closet-zone" data-closet="plants" style="top: 34.5%; left: 32%; width: 36%; height: 5.5%;"></div>
+
             <div class="decor-closet-zone" data-closet="mirrors" style="top: 43.5%; left: 32%; width: 36%; height: 5.5%;"></div>
+
             <div class="decor-closet-zone" data-closet="pillows" style="top: 52.5%; left: 32%; width: 36%; height: 5.5%;"></div>
+
             <div class="decor-closet-zone" data-closet="curtains" style="top: 61.5%; left: 32%; width: 36%; height: 5.5%;"></div>
+
             <div class="decor-closet-zone" data-closet="rugs" style="top: 70.5%; left: 32%; width: 36%; height: 5.5%;"></div>
+
         </div>
     </div>
+
 </div>
 
 <!-- Hover Popup Window -->
@@ -330,12 +491,14 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+
     window.scrollTo({ top: 0, behavior: 'instant' });
 
     const catalogData = [
         { 
             category: "SEATING", 
             subCategories: ["SOFAS", "ARMCHAIRS", "DINING CHAIRS", "BENCHES", "OTTOMANS", "STOOLS"],
+
             assets: [
                 Array.from({length: 12}, (_, i) => `Assets/seating_couch${i+1}.png`),
                 Array.from({length: 12}, (_, i) => `Assets/seating_armchair${i+1}.png`),
@@ -345,9 +508,18 @@ document.addEventListener("DOMContentLoaded", function() {
                 Array.from({length: 12}, (_, i) => `Assets/seating_barstool${i+1}.png`)
             ] 
         },
+
         { 
             category: "STORAGE", 
-            subCategories: ["STORAGE CABINETS", "STORAGE SHELVES", "STORAGE DRESSERS", "STORAGE SIDEBOARDS", "STORAGE VANITIES"],
+
+            subCategories: [
+                "STORAGE CABINETS",
+                "STORAGE SHELVES",
+                "STORAGE DRESSERS",
+                "STORAGE SIDEBOARDS",
+                "STORAGE VANITIES"
+            ],
+
             assets: [
                 Array.from({length: 12}, (_, i) => `Assets/storage_cabinet${i+1}.png`),
                 Array.from({length: 12}, (_, i) => `Assets/storage_shelf${i+1}.png`),
@@ -356,9 +528,17 @@ document.addEventListener("DOMContentLoaded", function() {
                 Array.from({length: 2}, (_, i) => `Assets/storage_vanity${i+1}.png`)
             ]
         },
+
         { 
             category: "TABLES", 
-            subCategories: ["COFFEE TABLES", "END TABLES", "DINING TABLES", "SOFA TABLES"],
+
+            subCategories: [
+                "COFFEE TABLES",
+                "END TABLES",
+                "DINING TABLES",
+                "SOFA TABLES"
+            ],
+
             assets: [
                 Array.from({length: 12}, (_, i) => `Assets/tables_coffee${i+1}.png`),
                 Array.from({length: 12}, (_, i) => `Assets/tables_end${i+1}.png`),
@@ -366,9 +546,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 Array.from({length: 12}, (_, i) => `Assets/tables_sofa${i+1}.png`)
             ]
         },
+
         { 
             category: "BEDS", 
+
             subCategories: ["BEDS"],
+
             assets: [
                 Array.from({length: 12}, (_, i) => `Assets/bed${i+1}.png`)
             ]
@@ -377,394 +560,1149 @@ document.addEventListener("DOMContentLoaded", function() {
 
     let currentCategoryIndex = 0;
     let subPageIndex = 0; 
+
     const catalogOverlay = document.getElementById("catalogOverlay");
     const decorOverlay = document.getElementById("decorOverlay");
+
     const Math_max = Math.max;
+
     const placedLayer = document.getElementById("placedItemsLayer");
+
     const itemGizmo = document.getElementById("itemGizmo");
+
     const roomUploader = document.getElementById("roomUploader");
+
     const hoverPopup = document.getElementById("itemHoverPopup");
+
     const hoverPopupImg = document.getElementById("hoverPopupImg");
+
     let selectedItem = null;
     let isDragging = false;
 
+
     function setupHoverPopup(imgEl, src) {
-        imgEl.addEventListener("mouseenter", (e) => {
+
+        imgEl.addEventListener("mouseenter", () => {
+
             hoverPopupImg.src = src;
+
             hoverPopup.classList.add("show");
-            positionPopup(e);
+
+            requestAnimationFrame(() => {
+                positionPopup(imgEl);
+            });
+
         });
-        imgEl.addEventListener("mousemove", (e) => {
-            positionPopup(e);
-        });
+
+
         imgEl.addEventListener("mouseleave", () => {
+
             hoverPopup.classList.remove("show");
+
         });
+
     }
 
-    function positionPopup(e) {
-        let x = e.clientX + 20;
-        let y = e.clientY - 140;
-        if (x + 270 > window.innerWidth) {
-            x = e.clientX - 280;
+
+    function positionPopup(imgEl) {
+
+        const itemRect = imgEl.getBoundingClientRect();
+
+        const popupWidth = hoverPopup.offsetWidth || 270;
+
+        const popupHeight = hoverPopup.offsetHeight || 300;
+
+        let x = itemRect.right + 20;
+
+        let y = itemRect.top + (itemRect.height / 2) - (popupHeight / 2);
+
+
+        if (x + popupWidth > window.innerWidth - 10) {
+
+            x = itemRect.left - popupWidth - 20;
+
         }
+
+
+        if (x < 10) {
+
+            x = 10;
+
+        }
+
+
         if (y < 10) {
+
             y = 10;
+
         }
+
+
+        if (y + popupHeight > window.innerHeight - 10) {
+
+            y = window.innerHeight - popupHeight - 10;
+
+        }
+
+
         hoverPopup.style.left = x + "px";
+
         hoverPopup.style.top = y + "px";
+
     }
+
 
     function renderCatalog() {
+
         const leftHeader = document.getElementById("leftHeader");
+
         const rightHeader = document.getElementById("rightHeader");
+
         const leftGrid = document.getElementById("catalogLeft");
+
         const rightGrid = document.getElementById("catalogRight");
         
-        leftGrid.innerHTML = ""; rightGrid.innerHTML = "";
+
+        leftGrid.innerHTML = "";
+
+        rightGrid.innerHTML = "";
         
+
         const data = catalogData[currentCategoryIndex];
-        leftHeader.innerText = data.subCategories[subPageIndex] || data.category;
-        rightHeader.innerText = data.subCategories[subPageIndex] || data.category;
+
+
+        leftHeader.innerText =
+            data.subCategories[subPageIndex] || data.category;
+
+
+        rightHeader.innerText =
+            data.subCategories[subPageIndex] || data.category;
         
+
         if (currentCategoryIndex === 1 && subPageIndex === 1) {
+
             for (let i = 1; i <= 12; i++) {
+
                 const src = `Assets/storage_shelf${i}.png`;
+
                 const img = document.createElement("img");
-                img.src = src; img.className = "catalog-item";
+
+                img.src = src;
+
+                img.className = "catalog-item";
+
                 img.setAttribute("data-item-num", i);
-                img.onclick = (e) => { e.stopPropagation(); hoverPopup.classList.remove("show"); placeInRoom(src); };
+
+
+                img.onclick = (e) => {
+
+                    e.stopPropagation();
+
+                    hoverPopup.classList.remove("show");
+
+                    placeInRoom(src);
+
+                };
+
+
                 setupHoverPopup(img, src);
-                if (i <= 6) leftGrid.appendChild(img);
-                else rightGrid.appendChild(img);
+
+
+                if (i <= 6) {
+
+                    leftGrid.appendChild(img);
+
+                } else {
+
+                    rightGrid.appendChild(img);
+
+                }
+
             }
+
         } else {
-            const pageAssets = data.assets[subPageIndex] || [];
+
+            const pageAssets =
+                data.assets[subPageIndex] || [];
+
+
             pageAssets.forEach((src, idx) => {
-                const img = document.createElement("img");
-                img.src = src; img.className = "catalog-item";
-                img.setAttribute("data-item-num", idx + 1);
-                img.onclick = (e) => { e.stopPropagation(); hoverPopup.classList.remove("show"); placeInRoom(src); };
+
+                const img =
+                    document.createElement("img");
+
+
+                img.src = src;
+
+                img.className = "catalog-item";
+
+                img.setAttribute(
+                    "data-item-num",
+                    idx + 1
+                );
+
+
+                img.onclick = (e) => {
+
+                    e.stopPropagation();
+
+                    hoverPopup.classList.remove("show");
+
+                    placeInRoom(src);
+
+                };
+
+
                 setupHoverPopup(img, src);
-                if (idx < 6) leftGrid.appendChild(img);
-                else rightGrid.appendChild(img);
+
+
+                if (idx < 6) {
+
+                    leftGrid.appendChild(img);
+
+                } else {
+
+                    rightGrid.appendChild(img);
+
+                }
+
             });
+
         }
 
-        document.querySelectorAll("#catalogOverlay .side-tab").forEach((tab, idx) => {
-            tab.classList.toggle("active", idx === currentCategoryIndex);
+
+        document.querySelectorAll(
+            "#catalogOverlay .side-tab"
+        ).forEach((tab, idx) => {
+
+            tab.classList.toggle(
+                "active",
+                idx === currentCategoryIndex
+            );
+
         });
+
     }
+
 
     document.getElementById("nextCatPage").onclick = () => {
+
         hoverPopup.classList.remove("show");
-        const totalSubPages = catalogData[currentCategoryIndex].assets.length;
-        if (subPageIndex < totalSubPages - 1) subPageIndex++;
+
+        const totalSubPages =
+            catalogData[currentCategoryIndex].assets.length;
+
+
+        if (subPageIndex < totalSubPages - 1) {
+
+            subPageIndex++;
+
+        }
+
+
         renderCatalog();
+
     };
+
 
     document.getElementById("prevCatPage").onclick = () => {
+
         hoverPopup.classList.remove("show");
-        if (subPageIndex > 0) subPageIndex--;
+
+
+        if (subPageIndex > 0) {
+
+            subPageIndex--;
+
+        }
+
+
         renderCatalog();
+
     };
 
-    document.querySelectorAll("#catalogOverlay .side-tab").forEach(tab => {
+
+    document.querySelectorAll(
+        "#catalogOverlay .side-tab"
+    ).forEach(tab => {
+
         tab.onclick = () => {
+
             hoverPopup.classList.remove("show");
-            currentCategoryIndex = parseInt(tab.dataset.idx);
+
+            currentCategoryIndex =
+                parseInt(tab.dataset.idx);
+
             subPageIndex = 0; 
+
             renderCatalog();
+
         };
+
     });
 
+
     function placeInRoom(src) {
-        const piece = document.createElement("img");
-        piece.src = src; piece.className = "placed-item";
-        piece.dataset.scale = "1"; piece.dataset.rotation = "0"; piece.dataset.flip = "1";
-        piece.style.left = "350px"; piece.style.top = "180px";
-        const shadow = document.createElement("div");
+
+        const piece =
+            document.createElement("img");
+
+
+        piece.src = src;
+
+        piece.className = "placed-item";
+
+        piece.dataset.scale = "1";
+
+        piece.dataset.rotation = "0";
+
+        piece.dataset.flip = "1";
+
+        piece.style.left = "350px";
+
+        piece.style.top = "180px";
+
+
+        const shadow =
+            document.createElement("div");
+
+
         shadow.className = "placed-shadow";
+
         piece._shadowEl = shadow;
-        piece.onmousedown = (e) => { e.stopPropagation(); selectPiece(piece, e); };
-        
-        piece.onclick = (e) => {
+
+
+        piece.onmousedown = (e) => {
+
             e.stopPropagation();
+
+            selectPiece(piece, e);
+
+        };
+        
+
+        piece.onclick = (e) => {
+
+            e.stopPropagation();
+
         };
 
-        piece.ondblclick = () => { shadow.remove(); piece.remove(); itemGizmo.classList.remove("show"); };
+
+        piece.ondblclick = () => {
+
+            shadow.remove();
+
+            piece.remove();
+
+            itemGizmo.classList.remove("show");
+
+        };
+
+
         placedLayer.appendChild(shadow);
+
         placedLayer.appendChild(piece);
+
+
         updatePieceTransform(piece);
+
         selectPiece(piece);
+
     }
+
 
     function selectPiece(piece, e) {
-        selectedItem = piece; itemGizmo.classList.add("show");
+
+        selectedItem = piece;
+
+        itemGizmo.classList.add("show");
+
         updateGizmoPosition();
+
+
         if (e) {
+
             isDragging = false;
-            let startX = e.clientX - piece.offsetLeft;
-            let startY = e.clientY - piece.offsetTop;
+
+
+            let startX =
+                e.clientX - piece.offsetLeft;
+
+
+            let startY =
+                e.clientY - piece.offsetTop;
+
+
             document.onmousemove = (me) => {
+
                 isDragging = true;
-                piece.style.left = (me.clientX - startX) + "px";
-                piece.style.top = (me.clientY - startY) + "px";
-                updatePieceTransform(piece); updateGizmoPosition();
+
+
+                piece.style.left =
+                    (me.clientX - startX) + "px";
+
+
+                piece.style.top =
+                    (me.clientY - startY) + "px";
+
+
+                updatePieceTransform(piece);
+
+                updateGizmoPosition();
+
             };
+
+
             document.onmouseup = () => {
+
                 document.onmousemove = null;
-                setTimeout(() => { isDragging = false; }, 50);
+
+
+                setTimeout(() => {
+
+                    isDragging = false;
+
+                }, 50);
+
             };
+
         }
+
     }
+
 
     function updatePieceTransform(piece) {
-        const s = piece.dataset.scale, r = piece.dataset.rotation, f = piece.dataset.flip;
-        piece.style.transform = `rotate(${r}deg) scale(${s}) scaleX(${f})`;
-        const sh = piece._shadowEl, rect = piece.getBoundingClientRect();
-        sh.style.width = (rect.width * 0.8) + "px"; sh.style.height = "20px";
-        sh.style.left = (piece.offsetLeft + (rect.width * 0.1)) + "px";
-        sh.style.top = (piece.offsetTop + rect.height - 10) + "px";
+
+        const s = piece.dataset.scale;
+
+        const r = piece.dataset.rotation;
+
+        const f = piece.dataset.flip;
+
+
+        piece.style.transform =
+            `rotate(${r}deg) scale(${s}) scaleX(${f})`;
+
+
+        const sh = piece._shadowEl;
+
+        const rect =
+            piece.getBoundingClientRect();
+
+
+        sh.style.width =
+            (rect.width * 0.8) + "px";
+
+
+        sh.style.height =
+            "20px";
+
+
+        sh.style.left =
+            (piece.offsetLeft +
+            (rect.width * 0.1)) + "px";
+
+
+        sh.style.top =
+            (piece.offsetTop +
+            rect.height -
+            10) + "px";
+
     }
+
 
     function updateGizmoPosition() {
+
         if (!selectedItem) return;
-        itemGizmo.style.width = selectedItem.offsetWidth + "px";
-        itemGizmo.style.height = selectedItem.offsetHeight + "px";
-        itemGizmo.style.left = selectedItem.offsetLeft + "px";
-        itemGizmo.style.top = selectedItem.offsetTop + "px";
-        itemGizmo.style.transform = selectedItem.style.transform;
+
+
+        itemGizmo.style.width =
+            selectedItem.offsetWidth + "px";
+
+
+        itemGizmo.style.height =
+            selectedItem.offsetHeight + "px";
+
+
+        itemGizmo.style.left =
+            selectedItem.offsetLeft + "px";
+
+
+        itemGizmo.style.top =
+            selectedItem.offsetTop + "px";
+
+
+        itemGizmo.style.transform =
+            selectedItem.style.transform;
+
     }
 
+
     document.getElementById("catalogTab").onclick = () => { 
+
         decorOverlay.classList.remove("show");
+
         renderCatalog(); 
+
         catalogOverlay.classList.toggle("show"); 
-        if(catalogOverlay.classList.contains("show")) catalogOverlay.scrollIntoView({ behavior: 'smooth' });
+
+
+        if (catalogOverlay.classList.contains("show")) {
+
+            catalogOverlay.scrollIntoView({
+                behavior: 'smooth'
+            });
+
+        }
+
     };
+
 
     document.getElementById("decorTab").onclick = () => {
+
         catalogOverlay.classList.remove("show");
-        document.getElementById("rooms-cabinet").classList.remove("show");
+
+        document.getElementById(
+            "rooms-cabinet"
+        ).classList.remove("show");
         
-        document.getElementById("decorBook").src = "Assets/decorcloset_entryway.jpg";
-        document.getElementById("decorItemsLayer").classList.remove("show");
-        document.getElementById("backClosetBtn").style.display = "none";
-        document.querySelectorAll(".decor-closet-zone").forEach(z => z.style.pointerEvents = "auto");
+
+        document.getElementById(
+            "decorBook"
+        ).src =
+            "Assets/decorcloset_entryway.jpg";
+
+
+        document.getElementById(
+            "decorItemsLayer"
+        ).classList.remove("show");
+
+
+        document.getElementById(
+            "backClosetBtn"
+        ).style.display =
+            "none";
+
+
+        document.querySelectorAll(
+            ".decor-closet-zone"
+        ).forEach(z =>
+            z.style.pointerEvents = "auto"
+        );
         
+
         decorOverlay.classList.toggle("show");
         
+
         if (decorOverlay.classList.contains("show")) {
+
             setTimeout(() => {
+
                 window.scrollTo({
-                    top: document.body.scrollHeight,
-                    behavior: 'smooth'
+
+                    top:
+                        document.body.scrollHeight,
+
+                    behavior:
+                        'smooth'
+
                 });
+
             }, 50);
+
         }
+
     };
+
 
     document.getElementById("roomsTab").onclick = () => {
+
         decorOverlay.classList.remove("show");
-        const cab = document.getElementById("rooms-cabinet");
+
+
+        const cab =
+            document.getElementById(
+                "rooms-cabinet"
+            );
+
+
         cab.classList.toggle("show");
         
+
         setTimeout(() => {
-            document.getElementById("mainWorkspace").scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            document.getElementById(
+                "mainWorkspace"
+            ).scrollIntoView({
+
+                behavior: 'smooth',
+
+                block: 'center'
+
+            });
+
         }, 100);
+
     };
 
+
     const roomImages = {
+
         living: [
             "Assets/ROOMS_livingroom1.jpg",
             "Assets/ROOMS_livingroom2.jpg",
             "Assets/ROOMS_livingroom3.jpg"
         ],
+
         dining: [
             "Assets/ROOMS_diningroom1.jpg",
             "Assets/ROOMS_diningroom2.jpg"
         ],
+
         bedroom: [
             "Assets/ROOMS_bedroom1.jpg",
             "Assets/ROOMS_bedroom2.jpg",
             "Assets/ROOMS_bedroom3.jpg"
         ],
+
         spare: [
-            "Assets/ROOMS_kitchen1.jpg",
-            "Assets/ROOMS_bathroom1.jpg",
-            "Assets/ROOMS_office1.jpg"
+            "Assets/rooms_spareroom1.png",
+            "Assets/rooms_spareroom2.png",
+            "Assets/rooms_spareroom3.png"
         ]
+
     };
-    const roomIndices = { living: 0, bedroom: 0, dining: 0, spare: 0 };
+
+
+    const roomIndices = {
+
+        living: 0,
+
+        bedroom: 0,
+
+        dining: 0,
+
+        spare: 0
+
+    };
+
 
     document.getElementById("work-area").onclick = () => {
+
         decorOverlay.classList.remove("show");
+
+
         renderCatalog();
+
+
         catalogOverlay.classList.add("show");
-        catalogOverlay.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+
+        catalogOverlay.scrollIntoView({
+
+            behavior: 'smooth',
+
+            block: 'start'
+
+        });
+
     };
 
-    document.querySelectorAll(".drawer-zone").forEach(zone => {
+
+    document.querySelectorAll(
+        ".drawer-zone"
+    ).forEach(zone => {
+
         zone.onclick = (e) => {
+
             e.stopPropagation();
-            const type = zone.dataset.room;
-            const workArea = document.getElementById("work-area");
+
+
+            const type =
+                zone.dataset.room;
+
+
+            const workArea =
+                document.getElementById(
+                    "work-area"
+                );
+
+
             if (type === "upload") {
+
                 roomUploader.click();
+
             } else {
-                const imgs = roomImages[type];
-                workArea.style.background = `url('${imgs[roomIndices[type]]}') center/cover no-repeat`;
-                roomIndices[type] = (roomIndices[type] + 1) % imgs.length;
+
+                const imgs =
+                    roomImages[type];
+
+
+                workArea.style.background =
+                    `url('${imgs[roomIndices[type]]}') center/cover no-repeat`;
+
+
+                roomIndices[type] =
+                    (roomIndices[type] + 1)
+                    % imgs.length;
+
             }
+
         };
+
     });
 
-    document.getElementById("backClosetBtn").onclick = (e) => {
+
+    document.getElementById(
+        "backClosetBtn"
+    ).onclick = (e) => {
+
         e.stopPropagation();
-        document.getElementById("decorBook").src = "Assets/decorcloset_entryway.jpg";
-        document.getElementById("decorItemsLayer").classList.remove("show");
-        document.getElementById("backClosetBtn").style.display = "none";
-        document.querySelectorAll(".decor-closet-zone").forEach(z => z.style.pointerEvents = "auto");
+
+
+        document.getElementById(
+            "decorBook"
+        ).src =
+            "Assets/decorcloset_entryway.jpg";
+
+
+        document.getElementById(
+            "decorItemsLayer"
+        ).classList.remove("show");
+
+
+        document.getElementById(
+            "backClosetBtn"
+        ).style.display =
+            "none";
+
+
+        document.querySelectorAll(
+            ".decor-closet-zone"
+        ).forEach(z =>
+            z.style.pointerEvents = "auto"
+        );
+
     };
 
-    document.querySelectorAll(".decor-closet-zone").forEach(zone => {
-        zone.onclick = (e) => {
-            e.stopPropagation();
-            const closetType = zone.dataset.closet;
-            const decorBook = document.getElementById("decorBook");
-            const itemsLayer = document.getElementById("decorItemsLayer");
-            const backBtn = document.getElementById("backClosetBtn");
 
-            document.querySelectorAll(".decor-closet-zone").forEach(z => z.style.pointerEvents = "none");
+    document.querySelectorAll(
+        ".decor-closet-zone"
+    ).forEach(zone => {
+
+        zone.onclick = (e) => {
+
+            e.stopPropagation();
+
+
+            const closetType =
+                zone.dataset.closet;
+
+
+            const decorBook =
+                document.getElementById(
+                    "decorBook"
+                );
+
+
+            const itemsLayer =
+                document.getElementById(
+                    "decorItemsLayer"
+                );
+
+
+            const backBtn =
+                document.getElementById(
+                    "backClosetBtn"
+                );
+
+
+            document.querySelectorAll(
+                ".decor-closet-zone"
+            ).forEach(z =>
+                z.style.pointerEvents =
+                    "none"
+            );
+
+
             backBtn.style.display = "flex";
+
             itemsLayer.classList.remove("show");
+
             itemsLayer.innerHTML = "";
             
+
             if (closetType === "lighting") {
-                decorBook.src = "Assets/sitestuff_roombackground1.png";
+
+                decorBook.src =
+                    "Assets/sitestuff_roombackground1.png";
+
+
                 for (let i = 1; i <= 12; i++) {
-                    const lSrc = `Assets/decor_lamp${i}.png`;
-                    const img = document.createElement("img");
+
+                    const lSrc =
+                        `Assets/decor_lamp${i}.png`;
+
+
+                    const img =
+                        document.createElement(
+                            "img"
+                        );
+
+
                     img.src = lSrc;
-                    img.className = "decor-item";
-                    img.onclick = (itemEvent) => {
-                        itemEvent.stopPropagation();
-                        hoverPopup.classList.remove("show");
-                        placeInRoom(lSrc);
-                    };
+
+                    img.className =
+                        "decor-item";
+
+
+                    img.onclick =
+                        (itemEvent) => {
+
+                            itemEvent.stopPropagation();
+
+                            hoverPopup.classList.remove("show");
+
+                            placeInRoom(lSrc);
+
+                        };
+
+
                     setupHoverPopup(img, lSrc);
+
                     itemsLayer.appendChild(img);
+
                 }
+
+
                 itemsLayer.classList.add("show");
-            } else if (closetType === "plants") {
-                decorBook.src = "Assets/decorcloset_plants.jpg";
-                for (let i = 1; i <= 12; i++) {
-                    const pSrc = `Assets/decor_plant${i}.png`;
-                    const img = document.createElement("img");
-                    img.src = pSrc;
-                    img.className = "decor-item";
-                    img.onclick = (itemEvent) => {
-                        itemEvent.stopPropagation();
-                        hoverPopup.classList.remove("show");
-                        placeInRoom(pSrc);
-                    };
-                    setupHoverPopup(img, pSrc);
-                    itemsLayer.appendChild(img);
-                }
-                itemsLayer.classList.add("show");
-            } else if (closetType === "mirrors") {
-                decorBook.src = "Assets/decorcloset_mirrors.jpg";
-                for (let i = 1; i <= 12; i++) {
-                    const mSrc = `Assets/decor_mirror${i}.png`;
-                    const img = document.createElement("img");
-                    img.src = mSrc;
-                    img.className = "decor-item";
-                    img.onclick = (itemEvent) => {
-                        itemEvent.stopPropagation();
-                        hoverPopup.classList.remove("show");
-                        placeInRoom(mSrc);
-                    };
-                    setupHoverPopup(img, mSrc);
-                    itemsLayer.appendChild(img);
-                }
-                itemsLayer.classList.add("show");
-            } else if (closetType === "pillows") {
-                decorBook.src = "Assets/decorcloset_pillows.jpg";
-                for (let i = 1; i <= 12; i++) {
-                    const pSrc = `Assets/decor_pillow${i}.png`;
-                    const img = document.createElement("img");
-                    img.src = pSrc;
-                    img.className = "decor-item";
-                    img.onclick = (itemEvent) => {
-                        itemEvent.stopPropagation();
-                        hoverPopup.classList.remove("show");
-                        placeInRoom(pSrc);
-                    };
-                    setupHoverPopup(img, pSrc);
-                    itemsLayer.appendChild(img);
-                }
-                itemsLayer.classList.add("show");
-            } else if (closetType === "curtains") {
-                decorBook.src = "Assets/decorcloset_curtains.jpg";
-                for (let i = 1; i <= 12; i++) {
-                    const cSrc = `Assets/decor_curtain${i}.png`;
-                    const img = document.createElement("img");
-                    img.src = cSrc;
-                    img.className = "decor-item";
-                    img.onclick = (itemEvent) => {
-                        itemEvent.stopPropagation();
-                        hoverPopup.classList.remove("show");
-                        placeInRoom(cSrc);
-                    };
-                    setupHoverPopup(img, cSrc);
-                    itemsLayer.appendChild(img);
-                }
-                itemsLayer.classList.add("show");
-            } else if (closetType === "rugs") {
-                decorBook.src = "Assets/decorcloset_rugs.jpg";
-                for (let i = 1; i <= 12; i++) {
-                    const rSrc = `Assets/decor_rug${i}.png`;
-                    const img = document.createElement("img");
-                    img.src = rSrc;
-                    img.className = "decor-item";
-                    img.onclick = (itemEvent) => {
-                        itemEvent.stopPropagation();
-                        hoverPopup.classList.remove("show");
-                        placeInRoom(rSrc);
-                    };
-                    setupHoverPopup(img, rSrc);
-                    itemsLayer.appendChild(img);
-                }
-                itemsLayer.classList.add("show");
+
             }
+
+
+            else if (closetType === "plants") {
+
+                decorBook.src =
+                    "Assets/decorcloset_plants.jpg";
+
+
+                for (let i = 1; i <= 12; i++) {
+
+                    const pSrc =
+                        `Assets/decor_plant${i}.png`;
+
+
+                    const img =
+                        document.createElement("img");
+
+
+                    img.src = pSrc;
+
+                    img.className = "decor-item";
+
+
+                    img.onclick =
+                        (itemEvent) => {
+
+                            itemEvent.stopPropagation();
+
+                            hoverPopup.classList.remove("show");
+
+                            placeInRoom(pSrc);
+
+                        };
+
+
+                    setupHoverPopup(img, pSrc);
+
+                    itemsLayer.appendChild(img);
+
+                }
+
+
+                itemsLayer.classList.add("show");
+
+            }
+
+
+            else if (closetType === "mirrors") {
+
+                decorBook.src =
+                    "Assets/decorcloset_mirrors.jpg";
+
+
+                for (let i = 1; i <= 12; i++) {
+
+                    const mSrc =
+                        `Assets/decor_mirror${i}.png`;
+
+
+                    const img =
+                        document.createElement("img");
+
+
+                    img.src = mSrc;
+
+                    img.className = "decor-item";
+
+
+                    img.onclick =
+                        (itemEvent) => {
+
+                            itemEvent.stopPropagation();
+
+                            hoverPopup.classList.remove("show");
+
+                            placeInRoom(mSrc);
+
+                        };
+
+
+                    setupHoverPopup(img, mSrc);
+
+                    itemsLayer.appendChild(img);
+
+                }
+
+
+                itemsLayer.classList.add("show");
+
+            }
+
+
+            else if (closetType === "pillows") {
+
+                decorBook.src =
+                    "Assets/decorcloset_pillows.jpg";
+
+
+                for (let i = 1; i <= 12; i++) {
+
+                    const pSrc =
+                        `Assets/decor_pillow${i}.png`;
+
+
+                    const img =
+                        document.createElement("img");
+
+
+                    img.src = pSrc;
+
+                    img.className = "decor-item";
+
+
+                    img.onclick =
+                        (itemEvent) => {
+
+                            itemEvent.stopPropagation();
+
+                            hoverPopup.classList.remove("show");
+
+                            placeInRoom(pSrc);
+
+                        };
+
+
+                    setupHoverPopup(img, pSrc);
+
+                    itemsLayer.appendChild(img);
+
+                }
+
+
+                itemsLayer.classList.add("show");
+
+            }
+
+
+            else if (closetType === "curtains") {
+
+                decorBook.src =
+                    "Assets/decorcloset_curtains.jpg";
+
+
+                for (let i = 1; i <= 12; i++) {
+
+                    const cSrc =
+                        `Assets/decor_curtain${i}.png`;
+
+
+                    const img =
+                        document.createElement("img");
+
+
+                    img.src = cSrc;
+
+                    img.className = "decor-item";
+
+
+                    img.onclick =
+                        (itemEvent) => {
+
+                            itemEvent.stopPropagation();
+
+                            hoverPopup.classList.remove("show");
+
+                            placeInRoom(cSrc);
+
+                        };
+
+
+                    setupHoverPopup(img, cSrc);
+
+                    itemsLayer.appendChild(img);
+
+                }
+
+
+                itemsLayer.classList.add("show");
+
+            }
+
+
+            else if (closetType === "rugs") {
+
+                decorBook.src =
+                    "Assets/decorcloset_rugs.jpg";
+
+
+                for (let i = 1; i <= 12; i++) {
+
+                    const rSrc =
+                        `Assets/decor_rug${i}.png`;
+
+
+                    const img =
+                        document.createElement("img");
+
+
+                    img.src = rSrc;
+
+                    img.className =
+                        "decor-item";
+
+
+                    img.onclick =
+                        (itemEvent) => {
+
+                            itemEvent.stopPropagation();
+
+                            hoverPopup.classList.remove("show");
+
+                            placeInRoom(rSrc);
+
+                        };
+
+
+                    setupHoverPopup(img, rSrc);
+
+                    itemsLayer.appendChild(img);
+
+                }
+
+
+                itemsLayer.classList.add("show");
+
+            }
+
         };
+
     });
 
+
     roomUploader.onchange = (e) => {
-        const file = e.target.files[0];
+
+        const file =
+            e.target.files[0];
+
+
         if (file) {
-            const reader = new FileReader();
+
+            const reader =
+                new FileReader();
+
+
             reader.onload = (event) => {
-                document.getElementById("work-area").style.background = `url('${event.target.result}') center/cover no-repeat`;
+
+                document.getElementById(
+                    "work-area"
+                ).style.background =
+                    `url('${event.target.result}') center/cover no-repeat`;
+
             };
+
+
             reader.readAsDataURL(file);
+
         }
+
     };
 
+
     itemGizmo.onmousedown = (e) => {
-        const h = e.target.dataset.gizmo; if(!h) return; e.stopPropagation();
-        if(h === "flip") { selectedItem.dataset.flip *= -1; updatePieceTransform(selectedItem); }
-        else {
-            document.onmousemove = (m) => {
-                if(h === "scale") selectedItem.dataset.scale = Math_max(0.3, parseFloat(selectedItem.dataset.scale) + (m.movementY * -0.01));
-                else selectedItem.dataset.rotation = parseFloat(selectedItem.dataset.rotation) + m.movementX;
-                updatePieceTransform(selectedItem); updateGizmoPosition();
-            };
-            document.onmouseup = () => document.onmousemove = null;
+
+        const h =
+            e.target.dataset.gizmo;
+
+
+        if (!h) return;
+
+
+        e.stopPropagation();
+
+
+        if (h === "flip") {
+
+            selectedItem.dataset.flip *= -1;
+
+            updatePieceTransform(selectedItem);
+
         }
+
+        else {
+
+            document.onmousemove = (m) => {
+
+                if (h === "scale") {
+
+                    selectedItem.dataset.scale =
+                        Math_max(
+                            0.3,
+                            parseFloat(
+                                selectedItem.dataset.scale
+                            ) +
+                            (m.movementY * -0.01)
+                        );
+
+                }
+
+                else {
+
+                    selectedItem.dataset.rotation =
+                        parseFloat(
+                            selectedItem.dataset.rotation
+                        ) +
+                        m.movementX;
+
+                }
+
+
+                updatePieceTransform(selectedItem);
+
+                updateGizmoPosition();
+
+            };
+
+
+            document.onmouseup = () =>
+                document.onmousemove = null;
+
+        }
+
     };
+
 });
 </script>
+
 </body>
 </html>
