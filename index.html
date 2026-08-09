@@ -16,460 +16,417 @@
         }
         
         body {
-            margin: 0; 
-            padding: 0; 
+            margin: 0;
+            padding: 0;
             width: 100%;
             font-family: 'Limelight', cursive;
-
             background: 
                 url('Assets/mainbackground_curtainl.jpg') left top repeat-y,
                 url('Assets/mainbackground_curtainr.jpg') right top repeat-y,
                 url('Assets/mainbackground_blue.jpg') center top repeat;
-
             background-size: 25% auto, 25% auto, auto auto;
             background-color: #4A154B;
             color: white;
             padding-bottom: 700px; 
         }
 
-        header { 
-            text-align: center; 
-            padding: 36px 20px 18px 20px; 
-            position: relative; 
-            z-index: 2; 
+        header {
+            text-align: center;
+            padding: 36px 20px 18px 20px;
+            position: relative;
+            z-index: 2;
         }
 
         h1 {
             font-family: 'Limelight', cursive;
-            font-size: 138px; 
-            margin: 0; 
-            line-height: 0.95; 
+            font-size: 138px;
+            margin: 0;
+            line-height: 0.95;
             text-transform: uppercase;
-
             background: linear-gradient(
-                105deg, 
-                #4c4c4c 0%, 
-                #a9a9a9 18%, 
-                #ffffff 30%, 
-                #7d7d7d 43%, 
-                #ffffff 52%, 
-                #bcbcbc 67%, 
+                105deg,
+                #4c4c4c 0%,
+                #a9a9a9 18%,
+                #ffffff 30%,
+                #7d7d7d 43%,
+                #ffffff 52%,
+                #bcbcbc 67%,
                 #4f4f4f 100%
             );
-
             background-size: 250% 100%;
             animation: titleShine 4.8s ease-in-out infinite;
-
-            -webkit-background-clip: text; 
+            -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-
-            filter: 
-                drop-shadow(7px 7px 0px rgba(0,0,0,1)) 
-                drop-shadow(0px 0px 26px rgba(255,255,255,0.20)) 
+            filter:
+                drop-shadow(7px 7px 0px rgba(0,0,0,1))
+                drop-shadow(0px 0px 26px rgba(255,255,255,0.20))
                 drop-shadow(0px 0px 38px rgba(0,0,0,0.65));
-
             letter-spacing: 4px;
         }
 
         @keyframes titleShine {
-            0%, 20% { background-position: 100% 0; }
-            55% { background-position: 0% 0; }
-            100% { background-position: 0% 0; }
+            0%, 20% {
+                background-position: 100% 0;
+            }
+            55% {
+                background-position: 0% 0;
+            }
+            100% {
+                background-position: 0% 0;
+            }
         }
 
         h2 {
             font-family: 'Limelight', cursive;
-            font-size: 43px; 
-            margin-top: 18px; 
+            font-size: 43px;
+            margin-top: 18px;
             margin-bottom: 6px;
-
             background: linear-gradient(
-                to bottom, 
-                #ffffff 0%, 
+                to bottom,
+                #ffffff 0%,
                 #a1a1a1 100%
             );
-
-            -webkit-background-clip: text; 
+            -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-
-            filter: 
-                drop-shadow(3px 3px 0px rgba(0,0,0,1)) 
+            filter:
+                drop-shadow(3px 3px 0px rgba(0,0,0,1))
                 drop-shadow(0 0 12px rgba(255,255,255,0.18));
-
             animation: subtitleGlow 4.8s ease-in-out infinite;
             letter-spacing: 1.5px;
         }
 
         @keyframes subtitleGlow {
-            0%, 100% { 
-                filter: 
-                    drop-shadow(3px 3px 0px rgba(0,0,0,1)) 
-                    drop-shadow(0 0 8px rgba(255,255,255,0.12)); 
+            0%, 100% {
+                filter:
+                    drop-shadow(3px 3px 0px rgba(0,0,0,1))
+                    drop-shadow(0 0 8px rgba(255,255,255,0.12));
             }
-
-            50% { 
-                filter: 
-                    drop-shadow(3px 3px 0px rgba(0,0,0,1)) 
-                    drop-shadow(0 0 18px rgba(255,255,255,0.35)); 
+            50% {
+                filter:
+                    drop-shadow(3px 3px 0px rgba(0,0,0,1))
+                    drop-shadow(0 0 18px rgba(255,255,255,0.35));
             }
         }
 
-        .nav-container { 
-            display: flex; 
-            justify-content: center; 
-            gap: 20px; 
-            margin-top: -8px; 
-            position: relative; 
-            z-index: 9999; 
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: -8px;
+            position: relative;
+            z-index: 9999;
         }
 
-        .top-tab { 
-            position: relative; 
-            width: 195px; 
-            height: 142px; 
-            cursor: pointer; 
-            transition: transform 0.4s, filter 0.4s; 
-            filter: drop-shadow(0 7px 8px rgba(0,0,0,0.55)); 
+        .top-tab {
+            position: relative;
+            width: 195px;
+            height: 142px;
+            cursor: pointer;
+            transition: transform 0.4s, filter 0.4s;
+            filter: drop-shadow(0 7px 8px rgba(0,0,0,0.55));
         }
 
-        .top-tab:hover { 
-            transform: translateY(18px) scale(1.035); 
-
-            filter: 
-                drop-shadow(0 10px 12px rgba(0,0,0,0.72)) 
-                drop-shadow(0 0 14px rgba(255,255,255,0.30)); 
+        .top-tab:hover {
+            transform: translateY(18px) scale(1.035);
+            filter:
+                drop-shadow(0 10px 12px rgba(0,0,0,0.72))
+                drop-shadow(0 0 14px rgba(255,255,255,0.30));
         }
 
-        .top-tab img { 
-            width: 100%; 
-            height: auto; 
-            display: block; 
-            pointer-events: none; 
+        .top-tab img {
+            width: 100%;
+            height: auto;
+            display: block;
+            pointer-events: none;
         }
 
         .top-tab-text {
-            position: absolute; 
-            top: 72%; 
-            left: 50%; 
+            position: absolute;
+            top: 72%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            width: 100%; 
-
-            font-family: Arial, sans-serif; 
-            font-weight: 900; 
+            width: 100%;
+            font-family: Arial, sans-serif;
+            font-weight: 900;
             font-size: 15px;
-
-            text-align: center; 
-            text-transform: uppercase; 
+            text-align: center;
+            text-transform: uppercase;
             text-shadow: 2px 2px 3px black;
         }
 
-        .outer-wrapper { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            width: 100%; 
-            padding-top: 20px; 
+        .outer-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding-top: 20px;
         }
-        
+
         #catalogOverlay {
-            position: relative; 
-            width: 1240px; 
-            max-height: 0; 
-            opacity: 0; 
-            overflow: hidden; 
-            visibility: hidden; 
-
-            transition: 
-                max-height 0.8s ease-in-out, 
-                opacity 0.5s; 
-
+            position: relative;
+            width: 1200px;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            visibility: hidden;
+            transition:
+                max-height 0.8s ease-in-out,
+                opacity 0.5s;
             margin: 0 auto;
         }
 
-        #catalogOverlay.show { 
-            max-height: 1350px; 
-            opacity: 1; 
-            visibility: visible; 
-            margin-bottom: 20px; 
-        }
-        
-        .catalog-container { 
-            position: relative; 
-            width: 1160px; 
-            margin: 0 auto; 
+        #catalogOverlay.show {
+            max-height: 1300px;
+            opacity: 1;
+            visibility: visible;
+            margin-bottom: 20px;
         }
 
-        #catalogBook { 
-            width: 1160px; 
-            display: block; 
+        .catalog-container {
+            position: relative;
+            width: 1120px;
+            margin: 0 auto;
+        }
+
+        #catalogBook {
+            width: 1120px;
+            display: block;
         }
 
         #decorOverlay {
-            max-height: 0; 
-            width: 622px; 
-            overflow: hidden; 
+            max-height: 0;
+            width: 622px;
+            overflow: hidden;
             position: relative;
-
-            transition: 
-                max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+            transition:
+                max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1),
                 opacity 0.8s ease-in-out;
-
-            opacity: 0; 
-            pointer-events: none; 
+            opacity: 0;
+            pointer-events: none;
             margin: 20px auto 0 auto;
         }
 
-        #decorOverlay.show { 
-            max-height: 900px; 
-            opacity: 1; 
-            pointer-events: auto; 
-        }
-        
-        .decor-container { 
-            position: relative; 
-            width: 622px; 
-            height: 900px; 
+        #decorOverlay.show {
+            max-height: 900px;
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        #decorBook { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: fill; 
-            display: block; 
-
-            filter: drop-shadow(
-                -10px 10px 20px rgba(0,0,0,0.6)
-            ); 
+        .decor-container {
+            position: relative;
+            width: 622px;
+            height: 900px;
         }
 
-        .decor-closet-zone { 
-            position: absolute; 
-            left: 20%; 
-            width: 60%; 
+        #decorBook {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            display: block;
+            filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.6));
+        }
+
+        .decor-closet-zone {
+            position: absolute;
+            left: 20%;
+            width: 60%;
             height: 7%;
-            cursor: pointer; 
-            z-index: 25; 
+            cursor: pointer;
+            z-index: 25;
             background: transparent;
             border: none;
             box-sizing: border-box;
         }
 
         #decorItemsLayer {
-            position: absolute; 
-            top: 20%; 
-            left: 10%; 
-            width: 80%; 
+            position: absolute;
+            top: 20%;
+            left: 10%;
+            width: 80%;
             height: 72%;
-
-            display: none; 
-            grid-template-columns: repeat(3, 1fr); 
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(4, 1fr);
-
-            gap: 10px; 
-            z-index: 40; 
-            align-items: center; 
-            justify-items: center;
-        }
-
-        #decorItemsLayer.show { 
-            display: grid; 
-        }
-
-        .decor-item { 
-            max-width: 100%; 
-            max-height: 110px; 
-            object-fit: contain; 
-            cursor: pointer; 
-            transition: transform 0.2s; 
-        }
-
-        .side-tabs {
-            position: absolute; 
-            right: -5px; 
-            top: 12%; 
-            height: 75%;
-
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between;
-
-            z-index: 15;
-        }
-
-        .side-tab {
-            width: 110px; 
-            height: 50px; 
-
-            background: linear-gradient(
-                to right, 
-                #bf953f, 
-                #fcf6ba, 
-                #b38728, 
-                #fbf5b7, 
-                #aa771c
-            );
-
-            color: #000; 
-            font-family: Arial, sans-serif; 
-            font-weight: 900; 
-            font-size: 11px;
-
-            border: 1px solid #555; 
-            border-left: none; 
-            border-radius: 0 8px 8px 0;
-
-            cursor: pointer; 
-            text-transform: uppercase;
-
-            display: flex;
-            align-items: center; 
-            justify-content: center; 
-
-            transition: 0.3s;
-
-            box-shadow: 3px 3px 6px rgba(0,0,0,0.6);
-        }
-
-        .side-tab:hover { 
-            transform: translateX(10px); 
-            filter: brightness(1.1); 
-        }
-
-        .side-tab.active { 
-            width: 125px; 
-            transform: translateX(5px); 
-            box-shadow: 1px 1px 10px #fcf6ba; 
-        }
-
-        .page-btn {
-            position: absolute; 
-            top: 45%; 
-            width: 40px; 
-            height: 60px; 
-
-            background: rgba(0,0,0,0.8); 
-            border: 2px solid #d4af37; 
-            color: #d4af37; 
-
-            font-size: 24px; 
-            cursor: pointer; 
-            z-index: 20; 
-            border-radius: 5px; 
-            transition: 0.2s;
-        }
-
-        .page-btn:hover { 
-            background: #d4af37; 
-            color: black; 
-        }
-
-        .prev-btn { 
-            left: -4%; 
-        }
-
-        .next-btn { 
-            right: 10%; 
-        }
-
-        .decor-close-btn {
-            position: absolute; 
-            top: 2%; 
-            left: 2%; 
-            width: 35px; 
-            height: 35px;
-
-            background: #d4af37; 
-            border: 2px solid black; 
-            color: black; 
-            font-weight: bold;
-
-            font-size: 20px; 
-            cursor: pointer; 
-            z-index: 60; 
-            border-radius: 50%;
-
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-
-            transition: 0.2s;
-
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-        }
-
-        .decor-close-btn:hover { 
-            background: black; 
-            color: #d4af37; 
-            border-color: #d4af37; 
-        }
-
-        .page { 
-            position: absolute; 
-            top: 9%; 
-            width: 39%; 
-            height: 80%; 
-
-            display: flex; 
-            flex-direction: column; 
-
-            z-index: 10; 
-            padding: 10px; 
-            box-sizing: border-box; 
-        }
-
-        .left-page { 
-            left: 7.8%; 
-        }
-
-        .right-page { 
-            right: 12.5%; 
-        }
-
-        .catalog-header {
-            text-align: center; 
-            font-size: 26px; 
-            font-weight: 900;
-
-            background: linear-gradient(
-                to bottom, 
-                #bf953f, 
-                #fcf6ba, 
-                #b38728, 
-                #fbf5b7, 
-                #aa771c
-            );
-
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent;
-
-            margin-bottom: 18px; 
-            letter-spacing: 3px; 
-            text-transform: uppercase;
-
-            filter: drop-shadow(2px 2px 2px black);
-        }
-
-        .catalog-grid { 
-            flex-grow: 1; 
-
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            grid-template-rows: repeat(3, 1fr); 
-
-            gap: 12px; 
-
+            gap: 10px;
+            z-index: 40;
             align-items: center;
             justify-items: center;
         }
 
-        .catalog-item { 
-            width: 100%; 
-            height: 100%; 
-            max-height: 135px; 
-            object-fit: contain; 
-            cursor: pointer; 
+        #decorItemsLayer.show {
+            display: grid;
         }
-        
+
+        .decor-item {
+            max-width: 100%;
+            max-height: 110px;
+            object-fit: contain;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .side-tabs {
+            position: absolute;
+            right: -5px;
+            top: 12%;
+            height: 75%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 15;
+        }
+
+        .side-tab {
+            width: 105px;
+            height: 48px;
+            background: linear-gradient(
+                to right,
+                #bf953f,
+                #fcf6ba,
+                #b38728,
+                #fbf5b7,
+                #aa771c
+            );
+            color: #000;
+            font-family: Arial, sans-serif;
+            font-weight: 900;
+            font-size: 11px;
+            border: 1px solid #555;
+            border-left: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            box-shadow: 3px 3px 6px rgba(0,0,0,0.6);
+        }
+
+        .side-tab:hover {
+            transform: translateX(10px);
+            filter: brightness(1.1);
+        }
+
+        .side-tab.active {
+            width: 120px;
+            transform: translateX(5px);
+            box-shadow: 1px 1px 10px #fcf6ba;
+        }
+
+        .page-btn {
+            position: absolute;
+            top: 45%;
+            width: 40px;
+            height: 60px;
+            background: rgba(0,0,0,0.8);
+            border: 2px solid #d4af37;
+            color: #d4af37;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 20;
+            border-radius: 5px;
+            transition: 0.2s;
+        }
+
+        .page-btn:hover {
+            background: #d4af37;
+            color: black;
+        }
+
+        .prev-btn {
+            left: -4%;
+        }
+
+        .next-btn {
+            right: 10%;
+        }
+
+        .decor-close-btn {
+            position: absolute;
+            top: 2%;
+            left: 2%;
+            width: 35px;
+            height: 35px;
+            background: #d4af37;
+            border: 2px solid black;
+            color: black;
+            font-weight: bold;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 60;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .decor-close-btn:hover {
+            background: black;
+            color: #d4af37;
+            border-color: #d4af37;
+        }
+
+        .page {
+            position: absolute;
+            top: 8.5%;
+            width: 39%;
+            height: 82%;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+            padding: 6px;
+            box-sizing: border-box;
+        }
+
+        .left-page {
+            left: 7.5%;
+        }
+
+        .right-page {
+            right: 12%;
+        }
+
+        .catalog-header {
+            text-align: center;
+            font-size: 25px;
+            font-weight: 900;
+            background: linear-gradient(
+                to bottom,
+                #bf953f,
+                #fcf6ba,
+                #b38728,
+                #fbf5b7,
+                #aa771c
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            filter: drop-shadow(2px 2px 2px black);
+        }
+
+        .catalog-grid {
+            flex-grow: 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 7px;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .catalog-item {
+            width: 100%;
+            height: 100%;
+            max-height: 150px;
+            object-fit: contain;
+            cursor: pointer;
+        }
+
         .catalog-item[data-item-num="1"] {
             transform: translateX(25px);
         }
@@ -480,21 +437,16 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-
             background: rgba(20, 10, 25, 0.92);
             border: 3px solid #d4af37;
             border-radius: 12px;
-
-            box-shadow: 
-                0 10px 30px rgba(0,0,0,0.8), 
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.8),
                 0 0 20px rgba(212,175,55,0.4);
-
             z-index: 99999;
             pointer-events: none;
             padding: 15px;
-
             transition: opacity 0.15s ease-in-out;
-
             opacity: 0;
         }
 
@@ -507,222 +459,230 @@
             max-width: 240px;
             max-height: 240px;
             object-fit: contain;
-
-            filter: drop-shadow(
-                0 5px 10px rgba(0,0,0,0.5)
-            );
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
         }
 
         .popup-hint {
             margin-top: 8px;
-
             font-family: Arial, sans-serif;
             font-size: 11px;
             font-weight: bold;
-
             color: #d4af37;
-
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .workspace-wrapper { 
-            display: flex; 
-            flex-direction: row; 
-            justify-content: center; 
-            align-items: flex-end; 
-
-            width: 100%; 
-            margin-top: calc(100vh - 430px); 
-            min-height: 680px; 
-
-            transition: all 0.8s ease-in-out; 
+        .workspace-wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-end;
+            width: 100%;
+            margin-top: calc(100vh - 430px);
+            min-height: 680px;
+            transition: all 0.8s ease-in-out;
             gap: 0;
         }
 
-        #rooms-cabinet { 
-            height: 650px; 
-            width: 450px; 
-            overflow: hidden; 
-            position: relative; 
-
+        #rooms-cabinet {
+            height: 650px;
+            width: 450px;
+            overflow: hidden;
+            position: relative;
             margin-left: -450px;
-
-            transition: 
-                margin-left 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 0.6s ease-in-out; 
-
-            opacity: 0; 
-            pointer-events: none; 
+            transition:
+                margin-left 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.6s ease-in-out;
+            opacity: 0;
+            pointer-events: none;
             flex-shrink: 0;
         }
 
-        #rooms-cabinet.show { 
-            margin-left: 0; 
-            opacity: 1; 
-            pointer-events: auto; 
-        }
-
-        #rooms-cabinet img { 
-            height: 100%; 
-            width: auto; 
-            display: block; 
-
-            filter: drop-shadow(
-                10px 10px 20px rgba(0,0,0,0.6)
-            ); 
-        }
-
-        .drawer-zone { 
-            position: absolute; 
-            left: 10%; 
-            width: 80%; 
-            height: 10%; 
-            cursor: pointer; 
-            z-index: 5; 
-        }
-
-        .zone-living { top: 19%; }
-        .zone-dining { top: 32%; }
-        .zone-bedroom { top: 45%; }
-        .zone-spare { top: 58%; }
-        .zone-upload { top: 71%; }
-
-        #work-area { 
-            width: 1150px; 
-            height: 680px; 
-
-            background: url('Assets/workstation.jpg') center/cover; 
-
-            box-shadow: 0 0 60px black; 
-
-            position: relative; 
-            overflow: hidden; 
-
-            border: 4px solid #333; 
-            flex-shrink: 0; 
-
-            transition: 
-                margin-left 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
-                margin-right 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-
-            cursor: pointer;
-        }
-
-        #rooms-cabinet.show + #work-area { 
-            margin-left: 20px; 
-        }
-
-        .placed-item { 
-            position: absolute; 
-            cursor: move; 
-            max-width: 190px; 
-            z-index: 100; 
-            transform-origin: center center;
-        }
-
-        .placed-shadow { 
-            position: absolute; 
-            background: rgba(0,0,0,0.4); 
-            filter: blur(8px); 
-            border-radius: 50%; 
-            pointer-events: none; 
-        }
-
-        #itemGizmo {
-            position: absolute;
-            display: none;
-            z-index: 300;
+        #rooms-cabinet.show {
+            margin-left: 0;
+            opacity: 1;
             pointer-events: auto;
         }
 
-        #itemGizmo.show {
+        #rooms-cabinet img {
+            height: 100%;
+            width: auto;
             display: block;
+            filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6));
         }
 
-        .furniture-control-bar {
+        .drawer-zone {
             position: absolute;
-
-            left: 50%;
-            top: -58px;
-
-            transform: translateX(-50%);
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            gap: 5px;
-
-            padding: 6px 7px;
-
-            background: rgba(15,15,15,0.95);
-
-            border: 2px solid #d4af37;
-            border-radius: 9px;
-
-            box-shadow:
-                0 5px 15px rgba(0,0,0,0.75),
-                0 0 10px rgba(212,175,55,0.35);
-
-            white-space: nowrap;
-
-            pointer-events: auto;
-        }
-
-        .furniture-control-btn {
-            min-width: 40px;
-            height: 32px;
-
-            padding: 0 8px;
-
-            border: 1px solid #d4af37;
-            border-radius: 5px;
-
-            background: #191919;
-            color: #f2d26b;
-
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-            font-weight: 900;
-
+            left: 10%;
+            width: 80%;
+            height: 10%;
             cursor: pointer;
+            z-index: 5;
+        }
 
+        .zone-living {
+            top: 19%;
+        }
+
+        .zone-dining {
+            top: 32%;
+        }
+
+        .zone-bedroom {
+            top: 45%;
+        }
+
+        .zone-spare {
+            top: 58%;
+        }
+
+        .zone-upload {
+            top: 71%;
+        }
+
+        #work-area {
+            width: 1150px;
+            height: 680px;
+            background: url('Assets/workstation.jpg') center/cover;
+            box-shadow: 0 0 60px black;
+            position: relative;
+            overflow: hidden;
+            border: 4px solid #333;
+            flex-shrink: 0;
             transition:
-                transform 0.15s,
-                background 0.15s,
-                color 0.15s;
+                margin-left 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                margin-right 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
         }
 
-        .furniture-control-btn:hover {
-            background: #d4af37;
-            color: black;
-            transform: translateY(-1px);
+        #rooms-cabinet.show + #work-area {
+            margin-left: 20px;
         }
 
-        .furniture-delete-btn {
-            color: #ffffff;
-            border-color: #c95454;
-            background: #681d1d;
-        }
-
-        .furniture-delete-btn:hover {
-            background: #a42a2a;
-            color: #ffffff;
-        }
-
-        .selected-outline {
+        #placedItemsLayer {
             position: absolute;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-
-            border: 2px dashed #f4d65e;
-
-            box-sizing: border-box;
-
             pointer-events: none;
+            z-index: 80;
+        }
+
+        .placed-item {
+            position: absolute;
+            cursor: move;
+            max-width: 190px;
+            z-index: 100;
+            pointer-events: auto;
+            transform-origin: center center;
+        }
+
+        .placed-shadow {
+            position: absolute;
+            background: rgba(0,0,0,0.4);
+            filter: blur(8px);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 90;
+        }
+
+        #itemControls {
+            position: absolute;
+            display: none;
+            z-index: 500;
+            pointer-events: auto;
+            transform: translateX(-50%);
+        }
+
+        #itemControls.show {
+            display: block;
+        }
+
+        .furniture-control-panel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(32,32,32,0.98),
+                    rgba(5,5,5,0.98)
+                );
+            border: 3px solid #d4af37;
+            border-radius: 12px;
+            padding: 7px;
+            box-shadow:
+                0 6px 18px rgba(0,0,0,0.85),
+                0 0 14px rgba(212,175,55,0.45);
+            white-space: nowrap;
+        }
+
+        .furniture-control-btn {
+            height: 38px;
+            min-width: 56px;
+            padding: 0 10px;
+            background:
+                linear-gradient(
+                    to bottom,
+                    #3e3e3e,
+                    #111111
+                );
+            color: #ffffff;
+            border: 1px solid #d4af37;
+            border-radius: 7px;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow:
+                inset 0 1px 1px rgba(255,255,255,0.15),
+                0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .furniture-control-btn:hover {
+            background:
+                linear-gradient(
+                    to bottom,
+                    #f3d47a,
+                    #b68821
+                );
+            color: #000000;
+        }
+
+        .furniture-delete-btn {
+            border-color: #ff7474;
+            background:
+                linear-gradient(
+                    to bottom,
+                    #8c2929,
+                    #3d0d0d
+                );
+        }
+
+        .furniture-delete-btn:hover {
+            background:
+                linear-gradient(
+                    to bottom,
+                    #d64a4a,
+                    #861c1c
+                );
+            color: white;
+        }
+
+        #selectionBox {
+            position: absolute;
+            display: none;
+            z-index: 450;
+            border: 3px dashed #f6d65d;
+            pointer-events: none;
+            box-sizing: border-box;
+        }
+
+        #selectionBox.show {
+            display: block;
         }
     </style>
 </head>
@@ -743,16 +703,12 @@
 
     <div class="top-tab" id="catalogTab">
         <img src="Assets/pulltab.png">
-        <div class="top-tab-text">
-            FURNITURE<br>CATALOG
-        </div>
+        <div class="top-tab-text">FURNITURE<br>CATALOG</div>
     </div>
 
     <div class="top-tab" id="decorTab">
         <img src="Assets/pulltab.png">
-        <div class="top-tab-text">
-            DECOR<br>CLOSET
-        </div>
+        <div class="top-tab-text">DECOR<br>CLOSET</div>
     </div>
 
     <div class="top-tab" id="galleryTab">
@@ -762,9 +718,7 @@
 
     <div class="top-tab" id="saveTab">
         <img src="Assets/pulltab.png">
-        <div class="top-tab-text">
-            SAVE/<br>CHECKOUT
-        </div>
+        <div class="top-tab-text">SAVE/<br>CHECKOUT</div>
     </div>
 
 </div>
@@ -775,18 +729,11 @@
 
         <div class="catalog-container">
 
-            <button class="page-btn prev-btn" id="prevCatPage">
-                ◀
-            </button>
+            <button class="page-btn prev-btn" id="prevCatPage">◀</button>
 
-            <button class="page-btn next-btn" id="nextCatPage">
-                ▶
-            </button>
+            <button class="page-btn next-btn" id="nextCatPage">▶</button>
 
-            <img 
-                src="Assets/furniturecatalog.png" 
-                id="catalogBook"
-            >
+            <img src="Assets/furniturecatalog.png" id="catalogBook">
 
             <div class="side-tabs">
 
@@ -810,33 +757,21 @@
 
             <div class="page left-page">
 
-                <div 
-                    class="catalog-header" 
-                    id="leftHeader"
-                >
+                <div class="catalog-header" id="leftHeader">
                     SOFAS
                 </div>
 
-                <div 
-                    class="catalog-grid" 
-                    id="catalogLeft"
-                ></div>
+                <div class="catalog-grid" id="catalogLeft"></div>
 
             </div>
 
             <div class="page right-page">
 
-                <div 
-                    class="catalog-header" 
-                    id="rightHeader"
-                >
+                <div class="catalog-header" id="rightHeader">
                     SOFAS
                 </div>
 
-                <div 
-                    class="catalog-grid" 
-                    id="catalogRight"
-                ></div>
+                <div class="catalog-grid" id="catalogRight"></div>
 
             </div>
 
@@ -850,30 +785,15 @@
 
             <img src="Assets/rooms_cabinet.png">
 
-            <div 
-                class="drawer-zone zone-living" 
-                data-room="living"
-            ></div>
+            <div class="drawer-zone zone-living" data-room="living"></div>
 
-            <div 
-                class="drawer-zone zone-dining" 
-                data-room="dining"
-            ></div>
+            <div class="drawer-zone zone-dining" data-room="dining"></div>
 
-            <div 
-                class="drawer-zone zone-bedroom" 
-                data-room="bedroom"
-            ></div>
+            <div class="drawer-zone zone-bedroom" data-room="bedroom"></div>
 
-            <div 
-                class="drawer-zone zone-spare" 
-                data-room="spare"
-            ></div>
+            <div class="drawer-zone zone-spare" data-room="spare"></div>
 
-            <div 
-                class="drawer-zone zone-upload" 
-                data-room="upload"
-            ></div>
+            <div class="drawer-zone zone-upload" data-room="upload"></div>
 
         </div>
 
@@ -881,58 +801,52 @@
 
             <div id="placedItemsLayer"></div>
 
-            <div id="itemGizmo">
+            <div id="selectionBox"></div>
 
-                <div class="selected-outline"></div>
+            <div id="itemControls">
 
-                <div class="furniture-control-bar">
+                <div class="furniture-control-panel">
 
-                    <button 
-                        class="furniture-control-btn" 
+                    <button
+                        class="furniture-control-btn"
                         data-control="smaller"
-                        title="Make Smaller"
                     >
-                        −
+                        Smaller
                     </button>
 
-                    <button 
-                        class="furniture-control-btn" 
+                    <button
+                        class="furniture-control-btn"
                         data-control="larger"
-                        title="Make Larger"
                     >
-                        +
+                        Larger
                     </button>
 
-                    <button 
-                        class="furniture-control-btn" 
+                    <button
+                        class="furniture-control-btn"
                         data-control="rotate-left"
-                        title="Rotate Left"
                     >
-                        ↶
+                        ↶ Left
                     </button>
 
-                    <button 
-                        class="furniture-control-btn" 
+                    <button
+                        class="furniture-control-btn"
                         data-control="rotate-right"
-                        title="Rotate Right"
                     >
-                        ↷
+                        Right ↷
                     </button>
 
-                    <button 
-                        class="furniture-control-btn" 
+                    <button
+                        class="furniture-control-btn"
                         data-control="flip"
-                        title="Flip"
                     >
-                        ⇄
+                        Flip
                     </button>
 
-                    <button 
-                        class="furniture-control-btn furniture-delete-btn" 
+                    <button
+                        class="furniture-control-btn furniture-delete-btn"
                         data-control="delete"
-                        title="Delete"
                     >
-                        ✕
+                        Delete
                     </button>
 
                 </div>
@@ -947,83 +861,83 @@
 
         <div class="decor-container">
 
-            <button 
-                class="decor-close-btn" 
-                id="backClosetBtn" 
+            <button
+                class="decor-close-btn"
+                id="backClosetBtn"
                 style="display: none;"
             >
                 ◀
             </button>
 
-            <img 
-                src="Assets/decorcloset_entryway.jpg" 
+            <img
+                src="Assets/decorcloset_entryway.jpg"
                 id="decorBook"
             >
-            
+
             <div id="decorItemsLayer"></div>
 
-            <div 
-                class="decor-closet-zone" 
-                data-closet="lighting" 
+            <div
+                class="decor-closet-zone"
+                data-closet="lighting"
                 style="
-                    top: 25.5%; 
-                    left: 32%; 
-                    width: 36%; 
+                    top: 25.5%;
+                    left: 32%;
+                    width: 36%;
                     height: 5.5%;
                 "
             ></div>
 
-            <div 
-                class="decor-closet-zone" 
-                data-closet="plants" 
+            <div
+                class="decor-closet-zone"
+                data-closet="plants"
                 style="
-                    top: 34.5%; 
-                    left: 32%; 
-                    width: 36%; 
+                    top: 34.5%;
+                    left: 32%;
+                    width: 36%;
                     height: 5.5%;
                 "
             ></div>
 
-            <div 
-                class="decor-closet-zone" 
-                data-closet="mirrors" 
+            <div
+                class="decor-closet-zone"
+                data-closet="mirrors"
                 style="
-                    top: 43.5%; 
-                    left: 32%; 
-                    width: 36%; 
+                    top: 43.5%;
+                    left: 32%;
+                    width: 36%;
                     height: 5.5%;
                 "
             ></div>
 
-            <div 
-                class="decor-closet-zone" 
-                data-closet="pillows" 
+            <div
+                class="decor-closet-zone"
+                data-closet="pillows"
                 style="
-                    top: 52.5%; 
-                    left: 32%; 
-                    width: 36%; 
+                    top: 52.5%;
+                    left: 32%;
+                    width: 36%;
                     height: 5.5%;
                 "
             ></div>
 
-            <div 
-                class="decor-closet-zone" 
-                data-closet="curtains" 
+            <div
+                class="decor-closet-zone"
+                data-closet="curtains"
                 style="
-                    top: 61.5%; 
-                    left: 32%; 
-                    width: 36%; 
+                    top: 61.5%;
+                    left: 32%;
+                    width: 36%;
                     height: 5.5%;
                 "
             ></div>
 
-            <div 
-                class="decor-closet-zone" 
-                data-closet="rugs" 
+            <div
+                class="decor-closet-zone"
+                data-closet="rugs"
                 style="
-                    top: 70.5%; 
-                    left: 32%; 
-                    width: 36%; 
+                    top: 70.5%;
+                    left: 32%;
+                    width: 36%;
                     height: 5.5%;
                 "
             ></div>
@@ -1036,9 +950,9 @@
 
 <div id="itemHoverPopup">
 
-    <img 
-        id="hoverPopupImg" 
-        src="" 
+    <img
+        id="hoverPopupImg"
+        src=""
         alt="Preview"
     >
 
@@ -1048,10 +962,10 @@
 
 </div>
 
-<input 
-    type="file" 
-    id="roomUploader" 
-    accept="image/*" 
+<input
+    type="file"
+    id="roomUploader"
+    accept="image/*"
     style="display:none;"
 >
 
@@ -1062,6 +976,7 @@ document.addEventListener("DOMContentLoaded", function() {
         top: 0,
         behavior: "instant"
     });
+
 
     const catalogData = [
 
@@ -1223,48 +1138,97 @@ document.addEventListener("DOMContentLoaded", function() {
 
     ];
 
+
     let currentCategoryIndex = 0;
+
     let subPageIndex = 0;
-
-    const catalogOverlay =
-        document.getElementById("catalogOverlay");
-
-    const decorOverlay =
-        document.getElementById("decorOverlay");
-
-    const placedLayer =
-        document.getElementById("placedItemsLayer");
-
-    const itemGizmo =
-        document.getElementById("itemGizmo");
-
-    const roomUploader =
-        document.getElementById("roomUploader");
-
-    const hoverPopup =
-        document.getElementById("itemHoverPopup");
-
-    const hoverPopupImg =
-        document.getElementById("hoverPopupImg");
 
     let selectedItem = null;
 
     let isDragging = false;
 
 
-    function setupHoverPopup(imgEl, src) {
+    const catalogOverlay =
+        document.getElementById(
+            "catalogOverlay"
+        );
+
+
+    const decorOverlay =
+        document.getElementById(
+            "decorOverlay"
+        );
+
+
+    const workArea =
+        document.getElementById(
+            "work-area"
+        );
+
+
+    const placedLayer =
+        document.getElementById(
+            "placedItemsLayer"
+        );
+
+
+    const itemControls =
+        document.getElementById(
+            "itemControls"
+        );
+
+
+    const selectionBox =
+        document.getElementById(
+            "selectionBox"
+        );
+
+
+    const roomUploader =
+        document.getElementById(
+            "roomUploader"
+        );
+
+
+    const hoverPopup =
+        document.getElementById(
+            "itemHoverPopup"
+        );
+
+
+    const hoverPopupImg =
+        document.getElementById(
+            "hoverPopupImg"
+        );
+
+
+    function setupHoverPopup(
+        imgEl,
+        src
+    ) {
 
         imgEl.addEventListener(
             "mouseenter",
             () => {
 
-                hoverPopupImg.src = src;
+                hoverPopupImg.src =
+                    src;
 
-                hoverPopup.classList.add("show");
 
-                requestAnimationFrame(() => {
-                    positionPopup(imgEl);
-                });
+                hoverPopup.classList.add(
+                    "show"
+                );
+
+
+                requestAnimationFrame(
+                    () => {
+
+                        positionPopup(
+                            imgEl
+                        );
+
+                    }
+                );
 
             }
         );
@@ -1274,7 +1238,9 @@ document.addEventListener("DOMContentLoaded", function() {
             "mouseleave",
             () => {
 
-                hoverPopup.classList.remove("show");
+                hoverPopup.classList.remove(
+                    "show"
+                );
 
             }
         );
@@ -1282,13 +1248,17 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 
-    function positionPopup(imgEl) {
+    function positionPopup(
+        imgEl
+    ) {
 
         const itemRect =
             imgEl.getBoundingClientRect();
 
+
         const popupWidth =
             hoverPopup.offsetWidth || 270;
+
 
         const popupHeight =
             hoverPopup.offsetHeight || 300;
@@ -1361,15 +1331,18 @@ document.addEventListener("DOMContentLoaded", function() {
                 "leftHeader"
             );
 
+
         const rightHeader =
             document.getElementById(
                 "rightHeader"
             );
 
+
         const leftGrid =
             document.getElementById(
                 "catalogLeft"
             );
+
 
         const rightGrid =
             document.getElementById(
@@ -1377,9 +1350,12 @@ document.addEventListener("DOMContentLoaded", function() {
             );
 
 
-        leftGrid.innerHTML = "";
+        leftGrid.innerHTML =
+            "";
 
-        rightGrid.innerHTML = "";
+
+        rightGrid.innerHTML =
+            "";
 
 
         const data =
@@ -1421,10 +1397,13 @@ document.addEventListener("DOMContentLoaded", function() {
                     );
 
 
-                img.src = src;
+                img.src =
+                    src;
+
 
                 img.className =
                     "catalog-item";
+
 
                 img.setAttribute(
                     "data-item-num",
@@ -1432,17 +1411,22 @@ document.addEventListener("DOMContentLoaded", function() {
                 );
 
 
-                img.onclick = (e) => {
+                img.onclick =
+                    (e) => {
 
-                    e.stopPropagation();
+                        e.stopPropagation();
 
-                    hoverPopup.classList.remove(
-                        "show"
-                    );
 
-                    placeInRoom(src);
+                        hoverPopup.classList.remove(
+                            "show"
+                        );
 
-                };
+
+                        placeInRoom(
+                            src
+                        );
+
+                    };
 
 
                 setupHoverPopup(
@@ -1451,7 +1435,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 );
 
 
-                if (i <= 6) {
+                if (
+                    i <= 6
+                ) {
 
                     leftGrid.appendChild(
                         img
@@ -1484,10 +1470,13 @@ document.addEventListener("DOMContentLoaded", function() {
                         );
 
 
-                    img.src = src;
+                    img.src =
+                        src;
+
 
                     img.className =
                         "catalog-item";
+
 
                     img.setAttribute(
                         "data-item-num",
@@ -1495,17 +1484,22 @@ document.addEventListener("DOMContentLoaded", function() {
                     );
 
 
-                    img.onclick = (e) => {
+                    img.onclick =
+                        (e) => {
 
-                        e.stopPropagation();
+                            e.stopPropagation();
 
-                        hoverPopup.classList.remove(
-                            "show"
-                        );
 
-                        placeInRoom(src);
+                            hoverPopup.classList.remove(
+                                "show"
+                            );
 
-                    };
+
+                            placeInRoom(
+                                src
+                            );
+
+                        };
 
 
                     setupHoverPopup(
@@ -1514,7 +1508,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     );
 
 
-                    if (idx < 6) {
+                    if (
+                        idx < 6
+                    ) {
 
                         leftGrid.appendChild(
                             img
@@ -1555,53 +1551,57 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById(
         "nextCatPage"
-    ).onclick = () => {
+    ).onclick =
+        () => {
 
-        hoverPopup.classList.remove(
-            "show"
-        );
-
-
-        const totalSubPages =
-            catalogData[
-                currentCategoryIndex
-            ].assets.length;
+            hoverPopup.classList.remove(
+                "show"
+            );
 
 
-        if (
-            subPageIndex <
-            totalSubPages - 1
-        ) {
-
-            subPageIndex++;
-
-        }
+            const totalSubPages =
+                catalogData[
+                    currentCategoryIndex
+                ].assets.length;
 
 
-        renderCatalog();
+            if (
+                subPageIndex <
+                totalSubPages - 1
+            ) {
 
-    };
+                subPageIndex++;
+
+            }
+
+
+            renderCatalog();
+
+        };
 
 
     document.getElementById(
         "prevCatPage"
-    ).onclick = () => {
+    ).onclick =
+        () => {
 
-        hoverPopup.classList.remove(
-            "show"
-        );
-
-
-        if (subPageIndex > 0) {
-
-            subPageIndex--;
-
-        }
+            hoverPopup.classList.remove(
+                "show"
+            );
 
 
-        renderCatalog();
+            if (
+                subPageIndex > 0
+            ) {
 
-    };
+                subPageIndex--;
+
+            }
+
+
+            renderCatalog();
+
+        };
 
 
     document
@@ -1611,28 +1611,35 @@ document.addEventListener("DOMContentLoaded", function() {
         .forEach(
             tab => {
 
-                tab.onclick = () => {
+                tab.onclick =
+                    () => {
 
-                    hoverPopup.classList.remove(
-                        "show"
-                    );
-
-                    currentCategoryIndex =
-                        parseInt(
-                            tab.dataset.idx
+                        hoverPopup.classList.remove(
+                            "show"
                         );
 
-                    subPageIndex = 0;
 
-                    renderCatalog();
+                        currentCategoryIndex =
+                            parseInt(
+                                tab.dataset.idx
+                            );
 
-                };
+
+                        subPageIndex =
+                            0;
+
+
+                        renderCatalog();
+
+                    };
 
             }
         );
 
 
-    function placeInRoom(src) {
+    function placeInRoom(
+        src
+    ) {
 
         const piece =
             document.createElement(
@@ -1640,7 +1647,9 @@ document.addEventListener("DOMContentLoaded", function() {
             );
 
 
-        piece.src = src;
+        piece.src =
+            src;
+
 
         piece.className =
             "placed-item";
@@ -1649,8 +1658,10 @@ document.addEventListener("DOMContentLoaded", function() {
         piece.dataset.scale =
             "1";
 
+
         piece.dataset.rotation =
             "0";
+
 
         piece.dataset.flip =
             "1";
@@ -1658,6 +1669,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         piece.style.left =
             "350px";
+
 
         piece.style.top =
             "180px";
@@ -1677,40 +1689,62 @@ document.addEventListener("DOMContentLoaded", function() {
             shadow;
 
 
-        piece.onmousedown =
+        piece.addEventListener(
+            "mousedown",
             (e) => {
+
+                e.preventDefault();
 
                 e.stopPropagation();
 
+
                 selectPiece(
+                    piece
+                );
+
+
+                startDragging(
                     piece,
                     e
                 );
 
-            };
+            }
+        );
 
 
-        piece.onclick =
+        piece.addEventListener(
+            "click",
             (e) => {
+
+                e.preventDefault();
 
                 e.stopPropagation();
 
-                selectPiece(piece);
 
-            };
+                selectPiece(
+                    piece
+                );
+
+            }
+        );
 
 
-        piece.ondblclick =
+        piece.addEventListener(
+            "dblclick",
             (e) => {
+
+                e.preventDefault();
 
                 e.stopPropagation();
 
-            };
+            }
+        );
 
 
         placedLayer.appendChild(
             shadow
         );
+
 
         placedLayer.appendChild(
             piece
@@ -1721,6 +1755,7 @@ document.addEventListener("DOMContentLoaded", function() {
             piece
         );
 
+
         selectPiece(
             piece
         );
@@ -1729,89 +1764,154 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     function selectPiece(
-        piece,
-        e
+        piece
     ) {
 
         selectedItem =
             piece;
 
 
-        itemGizmo.classList.add(
+        itemControls.classList.add(
             "show"
         );
 
 
-        updateGizmoPosition();
+        selectionBox.classList.add(
+            "show"
+        );
 
 
-        if (e) {
+        updateSelectionPosition();
 
-            isDragging = false;
-
-
-            const startX =
-                e.clientX -
-                piece.offsetLeft;
+    }
 
 
-            const startY =
-                e.clientY -
-                piece.offsetTop;
+    function startDragging(
+        piece,
+        e
+    ) {
+
+        isDragging =
+            true;
 
 
-            document.onmousemove =
-                (me) => {
-
-                    isDragging =
-                        true;
+        const workRect =
+            workArea.getBoundingClientRect();
 
 
-                    piece.style.left =
-                        (
-                            me.clientX -
-                            startX
-                        ) +
-                        "px";
+        const startLeft =
+            piece.offsetLeft;
 
 
-                    piece.style.top =
-                        (
-                            me.clientY -
-                            startY
-                        ) +
-                        "px";
+        const startTop =
+            piece.offsetTop;
 
 
-                    updatePieceTransform(
-                        piece
-                    );
-
-                    updateGizmoPosition();
-
-                };
+        const startMouseX =
+            e.clientX;
 
 
-            document.onmouseup =
-                () => {
-
-                    document.onmousemove =
-                        null;
+        const startMouseY =
+            e.clientY;
 
 
-                    setTimeout(
-                        () => {
+        function movePiece(
+            moveEvent
+        ) {
 
-                            isDragging =
-                                false;
+            moveEvent.preventDefault();
 
-                        },
-                        50
-                    );
 
-                };
+            const deltaX =
+                moveEvent.clientX -
+                startMouseX;
+
+
+            const deltaY =
+                moveEvent.clientY -
+                startMouseY;
+
+
+            let newLeft =
+                startLeft +
+                deltaX;
+
+
+            let newTop =
+                startTop +
+                deltaY;
+
+
+            newLeft =
+                Math.max(
+                    -piece.offsetWidth / 2,
+                    Math.min(
+                        workRect.width -
+                        piece.offsetWidth / 2,
+                        newLeft
+                    )
+                );
+
+
+            newTop =
+                Math.max(
+                    -piece.offsetHeight / 2,
+                    Math.min(
+                        workRect.height -
+                        piece.offsetHeight / 2,
+                        newTop
+                    )
+                );
+
+
+            piece.style.left =
+                newLeft + "px";
+
+
+            piece.style.top =
+                newTop + "px";
+
+
+            updatePieceTransform(
+                piece
+            );
+
+
+            updateSelectionPosition();
 
         }
+
+
+        function stopDragging() {
+
+            isDragging =
+                false;
+
+
+            document.removeEventListener(
+                "mousemove",
+                movePiece
+            );
+
+
+            document.removeEventListener(
+                "mouseup",
+                stopDragging
+            );
+
+        }
+
+
+        document.addEventListener(
+            "mousemove",
+            movePiece
+        );
+
+
+        document.addEventListener(
+            "mouseup",
+            stopDragging
+        );
 
     }
 
@@ -1825,10 +1925,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 piece.dataset.scale
             );
 
+
         const rotation =
             parseFloat(
                 piece.dataset.rotation
             );
+
 
         const flip =
             parseFloat(
@@ -1844,13 +1946,28 @@ document.addEventListener("DOMContentLoaded", function() {
             piece._shadowEl;
 
 
-        const rect =
-            piece.getBoundingClientRect();
+        if (
+            !shadow
+        ) {
+
+            return;
+
+        }
+
+
+        const scaledWidth =
+            piece.offsetWidth *
+            scale;
+
+
+        const scaledHeight =
+            piece.offsetHeight *
+            scale;
 
 
         shadow.style.width =
             (
-                rect.width *
+                scaledWidth *
                 0.8
             ) +
             "px";
@@ -1864,7 +1981,12 @@ document.addEventListener("DOMContentLoaded", function() {
             (
                 piece.offsetLeft +
                 (
-                    rect.width *
+                    piece.offsetWidth -
+                    scaledWidth
+                ) /
+                2 +
+                (
+                    scaledWidth *
                     0.1
                 )
             ) +
@@ -1874,7 +1996,12 @@ document.addEventListener("DOMContentLoaded", function() {
         shadow.style.top =
             (
                 piece.offsetTop +
-                rect.height -
+                (
+                    piece.offsetHeight -
+                    scaledHeight
+                ) /
+                2 +
+                scaledHeight -
                 10
             ) +
             "px";
@@ -1882,9 +2009,11 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 
-    function updateGizmoPosition() {
+    function updateSelectionPosition() {
 
-        if (!selectedItem) {
+        if (
+            !selectedItem
+        ) {
 
             return;
 
@@ -1897,49 +2026,95 @@ document.addEventListener("DOMContentLoaded", function() {
             );
 
 
-        itemGizmo.style.width =
+        const scaledWidth =
+            selectedItem.offsetWidth *
+            scale;
+
+
+        const scaledHeight =
+            selectedItem.offsetHeight *
+            scale;
+
+
+        const left =
+            selectedItem.offsetLeft +
             (
-                selectedItem.offsetWidth *
-                scale
-            ) +
+                selectedItem.offsetWidth -
+                scaledWidth
+            ) /
+            2;
+
+
+        const top =
+            selectedItem.offsetTop +
+            (
+                selectedItem.offsetHeight -
+                scaledHeight
+            ) /
+            2;
+
+
+        selectionBox.style.width =
+            scaledWidth +
             "px";
 
 
-        itemGizmo.style.height =
-            (
-                selectedItem.offsetHeight *
-                scale
-            ) +
+        selectionBox.style.height =
+            scaledHeight +
             "px";
 
 
-        itemGizmo.style.left =
-            (
-                selectedItem.offsetLeft -
-                (
-                    (
-                        selectedItem.offsetWidth *
-                        scale
-                    ) -
-                    selectedItem.offsetWidth
-                ) /
-                2
-            ) +
+        selectionBox.style.left =
+            left +
             "px";
 
 
-        itemGizmo.style.top =
-            (
-                selectedItem.offsetTop -
-                (
-                    (
-                        selectedItem.offsetHeight *
-                        scale
-                    ) -
-                    selectedItem.offsetHeight
-                ) /
-                2
-            ) +
+        selectionBox.style.top =
+            top +
+            "px";
+
+
+        let controlsTop =
+            top -
+            58;
+
+
+        if (
+            controlsTop < 8
+        ) {
+
+            controlsTop =
+                top +
+                scaledHeight +
+                12;
+
+        }
+
+
+        let controlsLeft =
+            left +
+            scaledWidth /
+            2;
+
+
+        controlsLeft =
+            Math.max(
+                220,
+                Math.min(
+                    workArea.clientWidth -
+                    220,
+                    controlsLeft
+                )
+            );
+
+
+        itemControls.style.left =
+            controlsLeft +
+            "px";
+
+
+        itemControls.style.top =
+            controlsTop +
             "px";
 
     }
@@ -1949,34 +2124,39 @@ document.addEventListener("DOMContentLoaded", function() {
         amount
     ) {
 
-        if (!selectedItem) {
+        if (
+            !selectedItem
+        ) {
 
             return;
 
         }
 
 
-        let currentScale =
+        let scale =
             parseFloat(
                 selectedItem.dataset.scale
             );
 
 
-        currentScale += amount;
+        scale +=
+            amount;
 
 
-        currentScale =
+        scale =
             Math.max(
                 0.25,
                 Math.min(
-                    3,
-                    currentScale
+                    4,
+                    scale
                 )
             );
 
 
         selectedItem.dataset.scale =
-            currentScale.toFixed(2);
+            scale.toFixed(
+                2
+            );
 
 
         updatePieceTransform(
@@ -1984,7 +2164,7 @@ document.addEventListener("DOMContentLoaded", function() {
         );
 
 
-        updateGizmoPosition();
+        updateSelectionPosition();
 
     }
 
@@ -1993,25 +2173,27 @@ document.addEventListener("DOMContentLoaded", function() {
         amount
     ) {
 
-        if (!selectedItem) {
+        if (
+            !selectedItem
+        ) {
 
             return;
 
         }
 
 
-        let currentRotation =
+        let rotation =
             parseFloat(
                 selectedItem.dataset.rotation
             );
 
 
-        currentRotation +=
+        rotation +=
             amount;
 
 
         selectedItem.dataset.rotation =
-            currentRotation;
+            rotation;
 
 
         updatePieceTransform(
@@ -2019,14 +2201,16 @@ document.addEventListener("DOMContentLoaded", function() {
         );
 
 
-        updateGizmoPosition();
+        updateSelectionPosition();
 
     }
 
 
     function flipSelected() {
 
-        if (!selectedItem) {
+        if (
+            !selectedItem
+        ) {
 
             return;
 
@@ -2045,14 +2229,16 @@ document.addEventListener("DOMContentLoaded", function() {
         );
 
 
-        updateGizmoPosition();
+        updateSelectionPosition();
 
     }
 
 
     function deleteSelected() {
 
-        if (!selectedItem) {
+        if (
+            !selectedItem
+        ) {
 
             return;
 
@@ -2073,19 +2259,27 @@ document.addEventListener("DOMContentLoaded", function() {
         selectedItem.remove();
 
 
-        selectedItem = null;
+        selectedItem =
+            null;
 
 
-        itemGizmo.classList.remove(
+        itemControls.classList.remove(
+            "show"
+        );
+
+
+        selectionBox.classList.remove(
             "show"
         );
 
     }
 
 
-    itemGizmo.addEventListener(
+    itemControls.addEventListener(
         "mousedown",
         (e) => {
+
+            e.preventDefault();
 
             e.stopPropagation();
 
@@ -2093,9 +2287,23 @@ document.addEventListener("DOMContentLoaded", function() {
     );
 
 
-    itemGizmo.addEventListener(
+    itemControls.addEventListener(
+        "mouseup",
+        (e) => {
+
+            e.preventDefault();
+
+            e.stopPropagation();
+
+        }
+    );
+
+
+    itemControls.addEventListener(
         "click",
         (e) => {
+
+            e.preventDefault();
 
             e.stopPropagation();
 
@@ -2106,7 +2314,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 );
 
 
-            if (!button) {
+            if (
+                !button
+            ) {
 
                 return;
 
@@ -2123,7 +2333,7 @@ document.addEventListener("DOMContentLoaded", function() {
             ) {
 
                 adjustSelectedSize(
-                    -0.1
+                    -0.10
                 );
 
             }
@@ -2135,7 +2345,7 @@ document.addEventListener("DOMContentLoaded", function() {
             ) {
 
                 adjustSelectedSize(
-                    0.1
+                    0.10
                 );
 
             }
@@ -2190,162 +2400,166 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById(
         "catalogTab"
-    ).onclick = () => {
+    ).onclick =
+        () => {
 
-        decorOverlay.classList.remove(
-            "show"
-        );
-
-
-        renderCatalog();
-
-
-        catalogOverlay.classList.toggle(
-            "show"
-        );
-
-
-        if (
-            catalogOverlay.classList.contains(
+            decorOverlay.classList.remove(
                 "show"
-            )
-        ) {
+            );
 
-            catalogOverlay.scrollIntoView({
-                behavior: "smooth"
-            });
 
-        }
+            renderCatalog();
 
-    };
+
+            catalogOverlay.classList.toggle(
+                "show"
+            );
+
+
+            if (
+                catalogOverlay.classList.contains(
+                    "show"
+                )
+            ) {
+
+                catalogOverlay.scrollIntoView({
+                    behavior:
+                        "smooth"
+                });
+
+            }
+
+        };
 
 
     document.getElementById(
         "decorTab"
-    ).onclick = () => {
+    ).onclick =
+        () => {
 
-        catalogOverlay.classList.remove(
-            "show"
-        );
-
-
-        document
-            .getElementById(
-                "rooms-cabinet"
-            )
-            .classList.remove(
+            catalogOverlay.classList.remove(
                 "show"
             );
 
 
-        document.getElementById(
-            "decorBook"
-        ).src =
-            "Assets/decorcloset_entryway.jpg";
+            document
+                .getElementById(
+                    "rooms-cabinet"
+                )
+                .classList.remove(
+                    "show"
+                );
 
 
-        document
-            .getElementById(
-                "decorItemsLayer"
-            )
-            .classList.remove(
+            document.getElementById(
+                "decorBook"
+            ).src =
+                "Assets/decorcloset_entryway.jpg";
+
+
+            document
+                .getElementById(
+                    "decorItemsLayer"
+                )
+                .classList.remove(
+                    "show"
+                );
+
+
+            document.getElementById(
+                "backClosetBtn"
+            ).style.display =
+                "none";
+
+
+            document
+                .querySelectorAll(
+                    ".decor-closet-zone"
+                )
+                .forEach(
+                    z =>
+                        z.style.pointerEvents =
+                            "auto"
+                );
+
+
+            decorOverlay.classList.toggle(
                 "show"
             );
 
 
-        document.getElementById(
-            "backClosetBtn"
-        ).style.display =
-            "none";
+            if (
+                decorOverlay.classList.contains(
+                    "show"
+                )
+            ) {
 
+                setTimeout(
+                    () => {
 
-        document
-            .querySelectorAll(
-                ".decor-closet-zone"
-            )
-            .forEach(
-                z =>
-                    z.style.pointerEvents =
-                        "auto"
-            );
+                        window.scrollTo({
 
+                            top:
+                                document.body
+                                    .scrollHeight,
 
-        decorOverlay.classList.toggle(
-            "show"
-        );
+                            behavior:
+                                "smooth"
 
+                        });
 
-        if (
-            decorOverlay.classList.contains(
-                "show"
-            )
-        ) {
+                    },
+                    50
+                );
 
-            setTimeout(
-                () => {
+            }
 
-                    window.scrollTo({
-
-                        top:
-                            document.body
-                                .scrollHeight,
-
-                        behavior:
-                            "smooth"
-
-                    });
-
-                },
-                50
-            );
-
-        }
-
-    };
+        };
 
 
     document.getElementById(
         "roomsTab"
-    ).onclick = () => {
+    ).onclick =
+        () => {
 
-        decorOverlay.classList.remove(
-            "show"
-        );
-
-
-        const cab =
-            document.getElementById(
-                "rooms-cabinet"
+            decorOverlay.classList.remove(
+                "show"
             );
 
 
-        cab.classList.toggle(
-            "show"
-        );
+            const cab =
+                document.getElementById(
+                    "rooms-cabinet"
+                );
 
 
-        setTimeout(
-            () => {
+            cab.classList.toggle(
+                "show"
+            );
 
-                document
-                    .getElementById(
-                        "mainWorkspace"
-                    )
-                    .scrollIntoView({
 
-                        behavior:
-                            "smooth",
+            setTimeout(
+                () => {
 
-                        block:
-                            "center"
+                    document
+                        .getElementById(
+                            "mainWorkspace"
+                        )
+                        .scrollIntoView({
 
-                    });
+                            behavior:
+                                "smooth",
 
-            },
-            100
-        );
+                            block:
+                                "center"
 
-    };
+                        });
+
+                },
+                100
+            );
+
+        };
 
 
     const roomImages = {
@@ -2404,34 +2618,73 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
 
-    document.getElementById(
-        "work-area"
-    ).onclick = () => {
+    workArea.addEventListener(
+        "click",
+        (e) => {
 
-        decorOverlay.classList.remove(
-            "show"
-        );
+            /*
+                IMPORTANT:
+                Only clicking the actual empty room background
+                is allowed to open the catalog.
+            */
+
+            if (
+                e.target !== workArea
+            ) {
+
+                return;
+
+            }
 
 
-        renderCatalog();
+            if (
+                isDragging
+            ) {
+
+                return;
+
+            }
 
 
-        catalogOverlay.classList.add(
-            "show"
-        );
+            itemControls.classList.remove(
+                "show"
+            );
 
 
-        catalogOverlay.scrollIntoView({
+            selectionBox.classList.remove(
+                "show"
+            );
 
-            behavior:
-                "smooth",
 
-            block:
-                "start"
+            selectedItem =
+                null;
 
-        });
 
-    };
+            decorOverlay.classList.remove(
+                "show"
+            );
+
+
+            renderCatalog();
+
+
+            catalogOverlay.classList.add(
+                "show"
+            );
+
+
+            catalogOverlay.scrollIntoView({
+
+                behavior:
+                    "smooth",
+
+                block:
+                    "start"
+
+            });
+
+        }
+    );
 
 
     document
@@ -2449,12 +2702,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
                         const type =
                             zone.dataset.room;
-
-
-                        const workArea =
-                            document.getElementById(
-                                "work-area"
-                            );
 
 
                         if (
@@ -2493,43 +2740,44 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById(
         "backClosetBtn"
-    ).onclick = (e) => {
+    ).onclick =
+        (e) => {
 
-        e.stopPropagation();
-
-
-        document.getElementById(
-            "decorBook"
-        ).src =
-            "Assets/decorcloset_entryway.jpg";
+            e.stopPropagation();
 
 
-        document
-            .getElementById(
-                "decorItemsLayer"
-            )
-            .classList.remove(
-                "show"
-            );
+            document.getElementById(
+                "decorBook"
+            ).src =
+                "Assets/decorcloset_entryway.jpg";
 
 
-        document.getElementById(
-            "backClosetBtn"
-        ).style.display =
-            "none";
+            document
+                .getElementById(
+                    "decorItemsLayer"
+                )
+                .classList.remove(
+                    "show"
+                );
 
 
-        document
-            .querySelectorAll(
-                ".decor-closet-zone"
-            )
-            .forEach(
-                z =>
-                    z.style.pointerEvents =
-                        "auto"
-            );
+            document.getElementById(
+                "backClosetBtn"
+            ).style.display =
+                "none";
 
-    };
+
+            document
+                .querySelectorAll(
+                    ".decor-closet-zone"
+                )
+                .forEach(
+                    z =>
+                        z.style.pointerEvents =
+                            "auto"
+                );
+
+        };
 
 
     document
@@ -2607,6 +2855,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             backgroundSrc =
                                 "Assets/sitestuff_roombackground1.png";
 
+
                             itemPrefix =
                                 "decor_lamp";
 
@@ -2620,6 +2869,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                             backgroundSrc =
                                 "Assets/decorcloset_plants.jpg";
+
 
                             itemPrefix =
                                 "decor_plant";
@@ -2635,6 +2885,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             backgroundSrc =
                                 "Assets/decorcloset_mirrors.jpg";
 
+
                             itemPrefix =
                                 "decor_mirror";
 
@@ -2648,6 +2899,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                             backgroundSrc =
                                 "Assets/decorcloset_pillows.jpg";
+
 
                             itemPrefix =
                                 "decor_pillow";
@@ -2663,6 +2915,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             backgroundSrc =
                                 "Assets/decorcloset_curtains.jpg";
 
+
                             itemPrefix =
                                 "decor_curtain";
 
@@ -2676,6 +2929,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                             backgroundSrc =
                                 "Assets/decorcloset_rugs.jpg";
+
 
                             itemPrefix =
                                 "decor_rug";
@@ -2761,7 +3015,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 e.target.files[0];
 
 
-            if (file) {
+            if (
+                file
+            ) {
 
                 const reader =
                     new FileReader();
@@ -2770,9 +3026,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 reader.onload =
                     (event) => {
 
-                        document.getElementById(
-                            "work-area"
-                        ).style.background =
+                        workArea.style.background =
                             `url('${event.target.result}') center/cover no-repeat`;
 
                     };
