@@ -86,6 +86,7 @@
             background: transparent;
             border: none;
             box-sizing: border-box;
+            pointer-events: auto !important;
         }
 
         #decorItemsLayer {
@@ -94,7 +95,7 @@
             gap: 10px; z-index: 40; align-items: center; justify-items: center;
         }
         #decorItemsLayer.show { display: grid; }
-        .decor-item { max-width: 100%; max-height: 110px; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
+        .decor-item { max-width: 100%; max-height: 110px; object-fit: contain; cursor: pointer; transition: transform 0.2s; pointer-events: auto !important; }
 
         .side-tabs {
             position: absolute; right: -5px; top: 12%; height: 75%;
@@ -127,7 +128,7 @@
             background: #d4af37; border: 2px solid black; color: black; font-weight: bold;
             font-size: 20px; cursor: pointer; z-index: 60; border-radius: 50%;
             display: flex; align-items: center; justify-content: center; transition: 0.2s;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5); pointer-events: auto !important;
         }
         .decor-close-btn:hover { background: black; color: #d4af37; border-color: #d4af37; }
 
@@ -152,7 +153,7 @@
             align-items: center;
             justify-items: center;
         }
-        .catalog-item { width: 100%; height: 100%; max-height: 110px; object-fit: contain; cursor: pointer; }
+        .catalog-item { width: 100%; height: 100%; max-height: 110px; object-fit: contain; cursor: pointer; pointer-events: auto !important; }
         
         .catalog-item[data-item-num="1"] {
             transform: translateX(25px);
@@ -209,7 +210,7 @@
         #rooms-cabinet.show { margin-left: 0; opacity: 1; pointer-events: auto; }
         #rooms-cabinet img { height: 100%; width: auto; display: block; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.6)); }
 
-        .drawer-zone { position: absolute; left: 10%; width: 80%; height: 10%; cursor: pointer; z-index: 5; }
+        .drawer-zone { position: absolute; left: 10%; width: 80%; height: 10%; cursor: pointer; z-index: 5; pointer-events: auto !important; }
         .zone-living { top: 3.5%; } 
         .zone-dining { top: 16%; } 
         .zone-bedroom { top: 28.5%; } 
@@ -224,7 +225,7 @@
         }
         #rooms-cabinet.show + #work-area { margin-left: 20px; }
 
-        .placed-item { position: absolute; cursor: move; max-width: 190px; z-index: 100; }
+        .placed-item { position: absolute; cursor: move; max-width: 190px; z-index: 100; pointer-events: auto !important; }
         .placed-shadow { position: absolute; background: rgba(0,0,0,0.4); filter: blur(8px); border-radius: 50%; pointer-events: none; }
         
         #itemGizmo { position: absolute; border: 2px dashed #e0ff00; display: none; z-index: 200; pointer-events: none; }
@@ -625,6 +626,19 @@ document.addEventListener("DOMContentLoaded", function() {
                         placeInRoom(lSrc);
                     };
                     setupHoverPopup(img, lSrc);
+                    itemsLayer.appendChild(img);
+                }
+                for (let i = 1; i <= 4; i++) {
+                    const hSrc = `Assets/decor_hanginglight${i}.png`;
+                    const img = document.createElement("img");
+                    img.src = hSrc;
+                    img.className = "decor-item";
+                    img.onclick = (itemEvent) => {
+                        itemEvent.stopPropagation();
+                        hoverPopup.classList.remove("show");
+                        placeInRoom(hSrc);
+                    };
+                    setupHoverPopup(img, hSrc);
                     itemsLayer.appendChild(img);
                 }
                 itemsLayer.classList.add("show");
