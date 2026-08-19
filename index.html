@@ -297,11 +297,13 @@
             
             <div id="decorItemsLayer"></div>
 
-            <div class="decor-closet-zone" data-closet="lighting" style="top: 43.5%;"></div>
-            <div class="decor-closet-zone" data-closet="plants" style="top: 50.5%;"></div>
-            <div class="decor-closet-zone" data-closet="mirrors" style="top: 57.5%;"></div>
-            <div class="decor-closet-zone" data-closet="pillows" style="top: 64.5%;"></div>
-            <div class="decor-closet-zone" data-closet="curtains" style="top: 71.5%;"></div>
+            <div class="decor-closet-zone" data-closet="hanging" style="top: 33.0%;"></div>
+            <div class="decor-closet-zone" data-closet="lighting" style="top: 39.5%;"></div>
+            <div class="decor-closet-zone" data-closet="plants" style="top: 46.0%;"></div>
+            <div class="decor-closet-zone" data-closet="mirrors" style="top: 52.5%;"></div>
+            <div class="decor-closet-zone" data-closet="pillows" style="top: 59.0%;"></div>
+            <div class="decor-closet-zone" data-closet="pillows2" style="top: 65.5%;"></div>
+            <div class="decor-closet-zone" data-closet="curtains" style="top: 72.0%;"></div>
             <div class="decor-closet-zone" data-closet="rugs" style="top: 78.5%;"></div>
         </div>
     </div>
@@ -613,7 +615,23 @@ document.addEventListener("DOMContentLoaded", function() {
             itemsLayer.classList.remove("show");
             itemsLayer.innerHTML = "";
             
-            if (closetType === "lighting") {
+            if (closetType === "hanging") {
+                decorBook.src = "Assets/sitestuff_roombackground1.png";
+                for (let i = 1; i <= 4; i++) {
+                    const hSrc = `Assets/decor_hanginglight${i}.png`;
+                    const img = document.createElement("img");
+                    img.src = hSrc;
+                    img.className = "decor-item";
+                    img.onclick = (itemEvent) => {
+                        itemEvent.stopPropagation();
+                        hoverPopup.classList.remove("show");
+                        placeInRoom(hSrc);
+                    };
+                    setupHoverPopup(img, hSrc);
+                    itemsLayer.appendChild(img);
+                }
+                itemsLayer.classList.add("show");
+            } else if (closetType === "lighting") {
                 decorBook.src = "Assets/sitestuff_roombackground1.png";
                 for (let i = 1; i <= 12; i++) {
                     const lSrc = `Assets/decor_lamp${i}.png`;
@@ -626,19 +644,6 @@ document.addEventListener("DOMContentLoaded", function() {
                         placeInRoom(lSrc);
                     };
                     setupHoverPopup(img, lSrc);
-                    itemsLayer.appendChild(img);
-                }
-                for (let i = 1; i <= 4; i++) {
-                    const hSrc = `Assets/decor_hanginglight${i}.png`;
-                    const img = document.createElement("img");
-                    img.src = hSrc;
-                    img.className = "decor-item";
-                    img.onclick = (itemEvent) => {
-                        itemEvent.stopPropagation();
-                        hoverPopup.classList.remove("show");
-                        placeInRoom(hSrc);
-                    };
-                    setupHoverPopup(img, hSrc);
                     itemsLayer.appendChild(img);
                 }
                 itemsLayer.classList.add("show");
@@ -660,7 +665,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 itemsLayer.classList.add("show");
             } else if (closetType === "mirrors") {
                 decorBook.src = "Assets/decorcloset_mirrors.jpg";
-                for (let i = 1; i <= 12; i++) {
+                for (let i = 1; i <= 8; i++) {
                     const mSrc = `Assets/decor_mirror${i}.png`;
                     const img = document.createElement("img");
                     img.src = mSrc;
@@ -676,7 +681,23 @@ document.addEventListener("DOMContentLoaded", function() {
                 itemsLayer.classList.add("show");
             } else if (closetType === "pillows") {
                 decorBook.src = "Assets/decorcloset_pillows.jpg";
-                for (let i = 1; i <= 12; i++) {
+                for (let i = 1; i <= 6; i++) {
+                    const pSrc = `Assets/decor_pillow${i}.png`;
+                    const img = document.createElement("img");
+                    img.src = pSrc;
+                    img.className = "decor-item";
+                    img.onclick = (itemEvent) => {
+                        itemEvent.stopPropagation();
+                        hoverPopup.classList.remove("show");
+                        placeInRoom(pSrc);
+                    };
+                    setupHoverPopup(img, pSrc);
+                    itemsLayer.appendChild(img);
+                }
+                itemsLayer.classList.add("show");
+            } else if (closetType === "pillows2") {
+                decorBook.src = "Assets/decorcloset_pillows.jpg";
+                for (let i = 7; i <= 12; i++) {
                     const pSrc = `Assets/decor_pillow${i}.png`;
                     const img = document.createElement("img");
                     img.src = pSrc;
