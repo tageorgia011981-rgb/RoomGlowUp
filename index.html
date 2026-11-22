@@ -2652,7 +2652,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         ) {
 
                             backgroundSrc =
-                                "Assets/sitestuff_roombackground1.png";
+                                "Assets/LightingclosetBG.png";
 
                             itemPrefix =
                                 "decor_lamp";
@@ -2727,40 +2727,13 @@ document.addEventListener("DOMContentLoaded", function() {
                         decorBook.src =
                             backgroundSrc;
 
-                        if (closetType === "lighting") {
-
-                            const shelf = document.createElement("img");
-                            shelf.src = "Assets/sitestuff_decorcloset.png";
-                            shelf.className = "decor-showroom-piece";
-                            shelf.style.left = "7%";
-                            shelf.style.top = "7%";
-                            shelf.style.width = "39%";
-                            shelf.style.height = "62%";
-                            itemsLayer.appendChild(shelf);
-
-                            const secondShelf = document.createElement("img");
-                            secondShelf.src = "Assets/sitestuff_decorcloset.png";
-                            secondShelf.className = "decor-showroom-piece";
-                            secondShelf.style.right = "7%";
-                            secondShelf.style.top = "7%";
-                            secondShelf.style.width = "39%";
-                            secondShelf.style.height = "62%";
-                            itemsLayer.appendChild(secondShelf);
-
-                            const table = document.createElement("img");
-                            table.src = "Assets/table_sofa03-removebg-preview.png";
-                            table.className = "decor-showroom-piece";
-                            table.style.left = "19%";
-                            table.style.bottom = "2%";
-                            table.style.width = "62%";
-                            table.style.height = "30%";
-                            itemsLayer.appendChild(table);
-                        }
-
                         const lightingPositions = [
-                            [20, 13], [20, 26], [20, 39], [20, 52],
-                            [60, 13], [60, 26], [60, 39], [60, 52],
-                            [25, 75], [40, 75], [55, 75], [70, 75]
+                            [27, 17], [36, 17],
+                            [15, 44], [25, 44],
+                            [45, 33], [55, 33],
+                            [75, 19], [85, 19],
+                            [72, 43], [82, 43],
+                            [38, 67], [68, 67]
                         ];
 
                         for (
@@ -2785,8 +2758,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
                             if (closetType === "lighting") {
                                 const position = lightingPositions[i - 1];
+                                img.style.position = "absolute";
                                 img.style.left = position[0] + "%";
                                 img.style.top = position[1] + "%";
+                                img.style.transform = "translate(-50%, -100%)";
+                                img.style.maxWidth = "12%";
+                                img.style.maxHeight = "14%";
+                                img.style.width = "auto";
+                                img.style.height = "auto";
                             } else {
                                 img.style.position = "relative";
                                 img.style.width = "auto";
