@@ -257,12 +257,49 @@
             display: grid;
         }
 
+        #decorItemsLayer.lighting-showroom {
+            inset: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            grid-template-columns: none;
+            grid-template-rows: none;
+            gap: 0;
+        }
+
+        #decorItemsLayer.lighting-showroom.show {
+            display: block;
+        }
+
+        .decor-showroom-piece {
+            position: absolute;
+            object-fit: contain;
+            pointer-events: none;
+            user-select: none;
+        }
+
         .decor-item {
             max-width: 100%;
             max-height: 110px;
             object-fit: contain;
             cursor: pointer;
             transition: transform 0.2s;
+        }
+
+        .lighting-showroom .decor-item {
+            position: absolute;
+            width: 9%;
+            height: 12%;
+            max-width: none;
+            max-height: none;
+            z-index: 2;
+        }
+
+        .lighting-showroom .decor-item:hover {
+            transform: scale(1.12);
+            z-index: 5;
         }
 
         .side-tabs {
@@ -456,8 +493,8 @@
         }
 
         #itemHoverPopup img {
-            max-width: 240px;
-            max-height: 240px;
+            max-width: 360px;
+            max-height: 360px;
             object-fit: contain;
             filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
         }
@@ -2592,6 +2629,14 @@ document.addEventListener("DOMContentLoaded", function() {
                             "show"
                         );
 
+                        itemsLayer.classList.remove(
+                            "lighting-showroom"
+                        );
+
+                        if (closetType === "lighting") {
+                            itemsLayer.classList.add("lighting-showroom");
+                        }
+
                         itemsLayer.innerHTML =
                             "";
 
@@ -2682,6 +2727,42 @@ document.addEventListener("DOMContentLoaded", function() {
                         decorBook.src =
                             backgroundSrc;
 
+                        if (closetType === "lighting") {
+
+                            const shelf = document.createElement("img");
+                            shelf.src = "Assets/sitestuff_decorcloset.png";
+                            shelf.className = "decor-showroom-piece";
+                            shelf.style.left = "7%";
+                            shelf.style.top = "7%";
+                            shelf.style.width = "39%";
+                            shelf.style.height = "62%";
+                            itemsLayer.appendChild(shelf);
+
+                            const secondShelf = document.createElement("img");
+                            secondShelf.src = "Assets/sitestuff_decorcloset.png";
+                            secondShelf.className = "decor-showroom-piece";
+                            secondShelf.style.right = "7%";
+                            secondShelf.style.top = "7%";
+                            secondShelf.style.width = "39%";
+                            secondShelf.style.height = "62%";
+                            itemsLayer.appendChild(secondShelf);
+
+                            const table = document.createElement("img");
+                            table.src = "Assets/table_sofa03-removebg-preview.png";
+                            table.className = "decor-showroom-piece";
+                            table.style.left = "19%";
+                            table.style.bottom = "2%";
+                            table.style.width = "62%";
+                            table.style.height = "30%";
+                            itemsLayer.appendChild(table);
+                        }
+
+                        const lightingPositions = [
+                            [20, 13], [20, 26], [20, 39], [20, 52],
+                            [60, 13], [60, 26], [60, 39], [60, 52],
+                            [25, 75], [40, 75], [55, 75], [70, 75]
+                        ];
+
                         for (
                             let i = 1;
                             i <= 12;
@@ -2701,6 +2782,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
                             img.className =
                                 "decor-item";
+
+                            if (closetType === "lighting") {
+                                const position = lightingPositions[i - 1];
+                                img.style.left = position[0] + "%";
+                                img.style.top = position[1] + "%";
+                            } else {
+                                img.style.position = "relative";
+                                img.style.width = "auto";
+                                img.style.height = "auto";
+                                img.style.maxWidth = "100%";
+                                img.style.maxHeight = "110px";
+                            }
 
                             img.onclick =
                                 (
